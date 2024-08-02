@@ -1,0 +1,6 @@
+{
+  "Hello": "Xin chào",
+  "Hello, {{name}}!": "Xin chào, {{name}}!",
+  "Hello, {{name}}! You have {{unreadCount}} unread messages": "Xin chào, {{name}}! Bạn có {{unreadCount}} tin nhắn chưa đọc",
+  "Welcome to React": "Chào mừng đến với React và react-i18next"
+}

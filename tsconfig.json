@@ -1,0 +1,13 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "strict": true,
+    "types": ["babel__generator"],
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "~/*": ["./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}
