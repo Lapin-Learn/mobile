@@ -67,7 +67,10 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
         <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack />
+        <Stack>
+          <Stack.Screen name='auth' options={{ headerShown: false }} />
+          <Stack.Screen name='index' />
+        </Stack>
       </QueryClientProvider>
     </ThemeProvider>
   );
