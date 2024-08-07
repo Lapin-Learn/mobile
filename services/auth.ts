@@ -1,7 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
-
 import { apiAuth } from './httpRequests';
-import { localStorageTokenKey, localStorageUserKey } from './storage';
 
 export type Session = {
   user?: AuthInfo;
@@ -37,13 +34,7 @@ export const signIn = async (params: SignInParams) => {
     token_type: 'mock',
     expires_in: 0,
   };
-  SecureStore.setItem(localStorageTokenKey, JSON.stringify(data));
   return data;
-};
-
-export const signOut = () => {
-  SecureStore.deleteItemAsync(localStorageTokenKey);
-  SecureStore.deleteItemAsync(localStorageUserKey);
 };
 
 export const signUp = async (params: SignUpParams) => {
@@ -100,6 +91,5 @@ export const refreshToken = async (refreshToken: string) => {
   const data = await apiAuth.post<AuthInfo>('auth/refresh', {
     body: { refreshToken },
   });
-  SecureStore.setItem(localStorageTokenKey, JSON.stringify(data));
-  return data.access_token;
+  return data;
 };

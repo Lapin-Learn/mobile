@@ -1,9 +1,9 @@
-import { Redirect, SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
 
-export default function AuthLayout() {
+export default function Layout() {
   const { status } = useAuth();
 
   const hideSplash = useCallback(async () => {
@@ -18,14 +18,13 @@ export default function AuthLayout() {
     }
   }, [hideSplash, status]);
 
-  if (status === 'signIn') {
-    return <Redirect href='/' />;
-  }
+  //   if (status === 'signOut') {
+  //     return <Redirect href='/sign-in' />;
+  //   }
+
   return (
     <Stack>
-      <Stack.Screen name='sign-in' options={{ title: 'Sign In' }} />
-      <Stack.Screen name='(sign-up)' options={{ headerShown: false }} />
-      <Stack.Screen name='(forgot-password)' options={{ headerShown: false }} />
+      <Stack.Screen name='index' options={{ headerShown: false }} />
     </Stack>
   );
 }

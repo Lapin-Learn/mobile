@@ -16,26 +16,9 @@ export const useSignUp = () => {
 export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
-      router.push('/');
-    },
     onError: (error) => {
       console.error(error);
     },
-  });
-};
-
-export const useSignOut = () => {
-  return useMutation({
-    // mutationFn: () => {
-    //   // signOut();
-    // },
-    // onSuccess: () => {
-    //   router.push('/sign-in');
-    // },
-    // onError: (error) => {
-    //   console.error(error);
-    // },
   });
 };
 

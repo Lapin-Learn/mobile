@@ -6,6 +6,7 @@ import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { useSignIn } from '~/hooks/react-query/useAuth';
+import { signIn } from '~/hooks/zustand';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -49,7 +50,8 @@ export default function SignIn() {
   const onSubmit: SubmitHandler<SignInFormField> = async (data) => {
     try {
       // TODO: Call your API here (#1)
-      await signInMutation.mutateAsync(data);
+      const result = await signInMutation.mutateAsync(data);
+      signIn(result);
     } catch {
       setError('email', { message: 'Invalid email or password' });
       setError('password', { message: 'Invalid email or password' });
