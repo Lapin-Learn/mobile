@@ -3,7 +3,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "strict": true,
-    "types": ["babel__generator"],
+    "types": ["babel__generator", "node"],
     "typeRoots": ["node_modules/@types"],
     "paths": {
       "~/*": ["./*"]
