@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 
-import { forgotPassword, resetPassword, signIn, signUp, verify } from '~/services/auth';
+import { forgotPassword, resetPassword, signIn, signUp, verify, signOut } from '~/services/auth';
 
 export const useSignUp = () => {
   return useMutation({
@@ -62,6 +62,21 @@ export const useResetPassword = () => {
   return useMutation({
     mutationFn: resetPassword,
     onSuccess: () => router.navigate('auth/sign-in'),
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+};
+
+export const useSignOut = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      signOut();
+      client.clear();
+      router.navigate('auth/sign-in');
+    },
     onError: (error) => {
       console.error(error);
     },

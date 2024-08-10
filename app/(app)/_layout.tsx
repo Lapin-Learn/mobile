@@ -1,7 +1,10 @@
-import { SplashScreen, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect } from 'react';
 
-import { useAuth } from '~/hooks/zustand';
+import { hydrate, useAuth } from '~/hooks/zustand';
+
+hydrate(); // Hydrate the store when the app starts
 
 export default function Layout() {
   const { status } = useAuth();
@@ -17,10 +20,6 @@ export default function Layout() {
       }, 1000);
     }
   }, [hideSplash, status]);
-
-  //   if (status === 'signOut') {
-  //     return <Redirect href='/sign-in' />;
-  //   }
 
   return (
     <Stack>

@@ -9,8 +9,6 @@ import { hydrate, signOut, useAuth } from '~/hooks/zustand';
 import i18n from '~/i18n';
 import useGameStore from '~/stores/game';
 
-hydrate();
-
 export default function Index() {
   const { isPlay, setIsPlay } = useGameStore();
   const { t } = useTranslation();

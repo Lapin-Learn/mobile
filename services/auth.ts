@@ -81,6 +81,11 @@ export const resetPassword = async (params: ResetPasswordParams) => {
   return data;
 };
 
+export const signOut = async () => {
+  // return await apiAuth.post('auth/sign-out');
+  return;
+}
+
 // export const getAuthUser = async () => {
 //   const data = await api.get<AuthUser>('auth/profile');
 //   SecureStore.setItem(localStorageUserKey, JSON.stringify(data));

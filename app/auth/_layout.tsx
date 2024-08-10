@@ -1,4 +1,5 @@
-import { Redirect, SplashScreen, Stack } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
@@ -21,6 +22,7 @@ export default function AuthLayout() {
   if (status === 'signIn') {
     return <Redirect href='/' />;
   }
+
   return (
     <Stack>
       <Stack.Screen name='sign-in' options={{ title: 'Sign In' }} />

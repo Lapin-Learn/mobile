@@ -3,6 +3,7 @@ import React from 'react';
 import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
+import { RenderInput } from '~/components/molecules/RenderInput';
 
 import { useSignUp } from '~/hooks/react-query/useAuth';
 
@@ -32,25 +33,6 @@ export default function SignUp() {
 
   const signUpMutation = useSignUp();
 
-  const renderInput = (
-    field: ControllerRenderProps<{ username: string; email: string; password: string; confirmPassword: string }>,
-    placeholder: string,
-    secureTextEntry = false
-  ) => {
-    return (
-      <View className='gap-y-1'>
-        <Text>{placeholder}</Text>
-        <TextInput
-          className='w-full h-12 border border-gray-black p-2'
-          secureTextEntry={secureTextEntry}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </View>
-    );
-  };
-
   const onSubmit: SubmitHandler<SignUpFormField> = async (data) => {
     try {
       // TODO: Call your API here (#1)
@@ -66,7 +48,7 @@ export default function SignUp() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Username')}
+              <RenderInput field={field} placeholder='Username' />
               {errors.username && <Text className='text-red-500'>{errors.username.message}</Text>}
             </View>
           )}
@@ -76,7 +58,7 @@ export default function SignUp() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Email')}
+              <RenderInput field={field} placeholder='Email' />
               {errors.email && <Text className='text-red-500'>{errors.email.message}</Text>}
             </View>
           )}
@@ -86,7 +68,7 @@ export default function SignUp() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Password', true)}
+              <RenderInput field={field} placeholder='Password' secureTextEntry={true} />
               {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
             </View>
           )}
@@ -96,7 +78,7 @@ export default function SignUp() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Confirm Password', true)}
+              <RenderInput field={field} placeholder='Confirm Password' secureTextEntry={true} />
               {errors.confirmPassword && <Text className='text-red-500'>{errors.confirmPassword.message}</Text>}
             </View>
           )}

@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 import { useSignIn } from '~/hooks/react-query/useAuth';
 import { signIn } from '~/hooks/zustand';
+import { RenderInput } from '~/components/molecules/RenderInput';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -28,25 +29,6 @@ export default function SignIn() {
 
   const signInMutation = useSignIn();
 
-  const renderInput = (
-    field: ControllerRenderProps<{ email: string; password: string }>,
-    placeholder: string,
-    secureTextEntry = false
-  ) => {
-    return (
-      <View className='gap-y-1'>
-        <Text>{placeholder}</Text>
-        <TextInput
-          className='w-full h-12 border border-gray-black p-2'
-          secureTextEntry={secureTextEntry}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </View>
-    );
-  };
-
   const onSubmit: SubmitHandler<SignInFormField> = async (data) => {
     try {
       // TODO: Call your API here (#1)
@@ -66,7 +48,7 @@ export default function SignIn() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Email')}
+              <RenderInput field={field} placeholder='Email' />
               {errors.email && <Text className='text-red-500'>{errors.email.message}</Text>}
             </View>
           )}
@@ -76,7 +58,7 @@ export default function SignIn() {
           control={control}
           render={({ field }) => (
             <View>
-              {renderInput(field, 'Password', true)}
+              <RenderInput field={field} placeholder='Password' secureTextEntry />
               {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
             </View>
           )}

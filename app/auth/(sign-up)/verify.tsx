@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { useVerifySignUp } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
-  code: z.array(z.string().length(1, 'Invalid code')).length(4, 'Invalid code'),
+  code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
 });
 
 type VerifyFormField = z.infer<typeof schema>;
@@ -33,7 +33,7 @@ export default function Verify() {
   }, []);
 
   const { control, handleSubmit, setError } = useForm<VerifyFormField>({
-    defaultValues: { code: ['', '', '', ''] },
+    defaultValues: { code: ['', '', '', '', '', ''] },
     resolver: zodResolver(schema),
   });
 
@@ -86,7 +86,7 @@ export default function Verify() {
                         newCode[i] = text;
                         field.onChange(newCode);
                         if (text.length === 1) {
-                          if (i < 3) {
+                          if (i < 5) {
                             codeRef.current[i + 1].focus();
                           } else {
                             codeRef.current[i].blur();
