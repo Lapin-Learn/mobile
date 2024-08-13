@@ -1,12 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 
-import { forgotPassword, resetPassword, signIn, signUp, verify, signOut } from '~/services/auth';
+import { signIn as setNewToken } from '~/hooks/zustand';
+import { setTokenAsync } from '~/services';
+import { forgotPassword, resetPassword, signIn, signOut, signUp, verify } from '~/services/auth';
 
 export const useSignUp = () => {
   return useMutation({
     mutationFn: signUp,
-    onSuccess: (data, variables) => router.push(`/auth/(sign-up)/verify?email=${variables.email}`),
+    onSuccess: () => router.back(),
     onError: (error) => {
       console.error(error);
     },
@@ -16,6 +18,9 @@ export const useSignUp = () => {
 export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
+    onSuccess: (data) => {
+      setNewToken(data);
+    },
     onError: (error) => {
       console.error(error);
     },
@@ -48,9 +53,10 @@ export const useVerifySignUp = () => {
 export const useVerifyForgotPassword = () => {
   return useMutation({
     mutationFn: verify,
-    onSuccess: (data, variables) => {
+    onSuccess: (data) => {
       router.dismissAll();
-      router.push(`auth/reset-password?email=${variables.email}`);
+      setTokenAsync(data);
+      router.push(`auth/reset-password`);
     },
     onError: (error) => {
       console.error(error);

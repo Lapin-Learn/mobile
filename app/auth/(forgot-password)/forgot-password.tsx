@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Button, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
-import { RenderInput } from '~/components/molecules/RenderInput';
 
+import { RenderInput } from '~/components/molecules/RenderInput';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -20,16 +20,15 @@ export default function ForgotPassword() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordFormField>({
-    defaultValues: { email: '' },
     resolver: zodResolver(schema),
   });
 
   const forgotPasswordMutation = useForgotPassword();
 
-  const onSubmit: SubmitHandler<ForgotPasswordFormField> = async (data) => {
+  const onSubmit: SubmitHandler<ForgotPasswordFormField> = (data) => {
     try {
       // TODO: Call your API here (#1)
-      await forgotPasswordMutation.mutateAsync(data);
+      forgotPasswordMutation.mutate(data);
     } catch {
       setError('email', { message: 'Invalid email or password' });
     }

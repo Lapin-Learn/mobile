@@ -1,8 +1,10 @@
-import { getAuthValueFromStorage } from './storage';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import { getTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000';
-interface EndpointOptions extends Omit<RequestInit, 'body'> {
-  searchParams?: string;
+interface EndpointOptions extends Omit<AxiosRequestConfig, 'url' | 'method'> {
+  searchParams?: string | Record<string, string>;
   body?: unknown;
 }
 
@@ -12,99 +14,84 @@ type APIResponse<T> = {
   data: T;
 };
 
-class API {
-  private headers: HeadersInit = {
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
     'Content-Type': 'application/json',
-  };
-  private generateRequest: (defaultRequest: RequestInit) => RequestInit;
-  constructor(generateRequest: (defaultRequest: RequestInit) => RequestInit = (req) => req) {
-    this.generateRequest = generateRequest;
-  }
+  },
+});
 
-  private buildURL(endpoint: string, searchParams?: URLSearchParams | string | Record<string, string>): string {
-    const url = new URL(endpoint, BASE_URL);
-    if (searchParams) {
-      if (typeof searchParams === 'string') {
-        url.search = searchParams;
-      } else if (searchParams instanceof URLSearchParams) {
-        url.search = searchParams.toString();
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    const auth = await getTokenAsync();
+    if (auth) {
+      config.headers.Authorization = `Bearer ${auth}`;
+    }
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
+    return Promise.reject(new Error(`HTTP error! status: ${error.response?.status}, message: ${errorMessage}`));
+  }
+);
+
+class API {
+  private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await axiosInstance.request<APIResponse<T>>({
+        url: endpoint,
+        ...options,
+      });
+
+      const json = response.data as APIResponse<T>;
+      return json.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || error.message;
+        throw new Error(`HTTP error! status: ${error.response?.status}, message: ${errorMessage}`);
       } else {
-        Object.entries(searchParams).forEach(([key, value]) => {
-          url.searchParams.append(key, value);
-        });
+        throw new Error(`Unexpected error: ${error}`);
       }
     }
-    return url.toString();
-  }
-
-  private async request<T>(endpoint: string, options: RequestInit): Promise<T> {
-    const response = await fetch(endpoint, options);
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${error}`);
-    }
-    const json = (await response.json()) as APIResponse<T>;
-    return json.data;
   }
 
   async get<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
-    const url = this.buildURL(endpoint, searchParams);
-
-    const initRequest = {
+    return this.request<T>(endpoint, {
       method: 'GET',
-      headers: this.headers,
       ...nextOptions,
-      body: JSON.stringify(nextOptions.body),
-    };
-    const finalRequest = this.generateRequest(initRequest);
-    return this.request<T>(url, finalRequest);
+    });
   }
 
   async post<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
-    const url = this.buildURL(endpoint);
-    const initRequest: RequestInit = {
+    return this.request<T>(endpoint, {
       method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify(body),
+      data: body,
       ...nextOptions,
-    };
-    const finalRequest = this.generateRequest(initRequest);
-    return this.request<T>(url, finalRequest);
+    });
   }
 
   async put<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
-    const url = this.buildURL(endpoint);
-    const initRequest: RequestInit = {
+    return this.request<T>(endpoint, {
       method: 'PUT',
-      headers: this.headers,
-      body: JSON.stringify(body),
+      data: body,
       ...nextOptions,
-    };
-    const finalRequest = this.generateRequest(initRequest);
-    return this.request<T>(url, finalRequest);
+    });
   }
   async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
-    const url = this.buildURL(endpoint, searchParams);
-    const initRequest: RequestInit = {
+    return this.request<T>(endpoint, {
       method: 'DELETE',
-      headers: this.headers,
       ...nextOptions,
-      body: JSON.stringify(nextOptions.body),
-    };
-    const finalRequest = this.generateRequest(initRequest);
-    return this.request<T>(url, finalRequest);
+    });
   }
 }
-
-const api = new API((defaultRequest) => {
-  const auth = getAuthValueFromStorage();
-  return {
-    ...defaultRequest,
-    headers: {
-      ...defaultRequest.headers,
-      Authorization: `Bearer ${auth?.access_token}`,
-    },
-  };
-});
-export const apiAuth = new API();
+const api = new API();
 export default api;

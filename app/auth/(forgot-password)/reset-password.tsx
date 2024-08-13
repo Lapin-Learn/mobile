@@ -1,11 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Button, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
-import { RenderInput } from '~/components/molecules/RenderInput';
 
+import { RenderInput } from '~/components/molecules/RenderInput';
 import { useResetPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -20,24 +19,19 @@ const schema = z
 type ResetPasswordFormField = z.infer<typeof schema>;
 
 export default function ResetPassword() {
-  const { email } = useLocalSearchParams();
-
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ResetPasswordFormField>({
-    defaultValues: { password: '', confirmPassword: '' },
     resolver: zodResolver(schema),
   });
 
   const resetPasswordMutation = useResetPassword();
 
-  const onSubmit: SubmitHandler<ResetPasswordFormField> = async (data) => {
-    try {
-      // TODO: Call your API here (#1)
-      await resetPasswordMutation.mutateAsync({ email: email as string, password: data.password });
-    } catch {}
+  const onSubmit: SubmitHandler<ResetPasswordFormField> = (data) => {
+    // TODO: Call your API here (#1)
+    resetPasswordMutation.mutate({ newPassword: data.password });
   };
 
   return (

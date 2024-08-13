@@ -5,7 +5,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
-import { useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
+import { useForgotPassword, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
@@ -32,27 +32,25 @@ export default function Verify() {
     }
   }, []);
 
-  const { control, handleSubmit, setError } = useForm<VerifyFormField>({
+  const { control, handleSubmit } = useForm<VerifyFormField>({
     defaultValues: { code: ['', '', '', '', '', ''] },
     resolver: zodResolver(schema),
   });
 
+  const resentMutation = useForgotPassword();
   const verifyMutation = useVerifyForgotPassword();
 
-  const onSubmit: SubmitHandler<VerifyFormField> = async (data) => {
-    try {
-      // TODO: Call your API here (#1)
-      const stringCode = data.code.join('');
-      await verifyMutation.mutateAsync({
-        email: email as string,
-        code: stringCode,
-      });
-    } catch {
-      setError('code', { message: 'Invalid code' });
-    }
+  const onSubmit: SubmitHandler<VerifyFormField> = (data) => {
+    // TODO: Call your API here (#1)
+    const stringCode = data.code.join('');
+    verifyMutation.mutate({
+      email: email as string,
+      otp: stringCode,
+    });
   };
 
   const handleResendCode = () => {
+    resentMutation.mutate({ email: email as string });
     setTime(60);
   };
 

@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Button, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
-import { useSignIn } from '~/hooks/react-query/useAuth';
-import { signIn } from '~/hooks/zustand';
 import { RenderInput } from '~/components/molecules/RenderInput';
+import { useSignIn } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -20,24 +19,17 @@ export default function SignIn() {
   const {
     control,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<SignInFormField>({
-    defaultValues: { email: '', password: '' },
     resolver: zodResolver(schema),
   });
 
   const signInMutation = useSignIn();
 
   const onSubmit: SubmitHandler<SignInFormField> = async (data) => {
-    try {
-      // TODO: Call your API here (#1)
-      const result = await signInMutation.mutateAsync(data);
-      signIn(result);
-    } catch {
-      setError('email', { message: 'Invalid email or password' });
-      setError('password', { message: 'Invalid email or password' });
-    }
+    // TODO: Call your API here (#1)
+    signInMutation.mutate(data);
+    // signIn(result);
   };
 
   return (
@@ -67,7 +59,7 @@ export default function SignIn() {
         <Link push href='/auth/(forgot-password)'>
           Forgot password?
         </Link>
-        <Link push href='/auth/(sign-up)'>
+        <Link push href='/auth/sign-up'>
           Sign up
         </Link>
 
