@@ -13,6 +13,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
@@ -33,7 +36,7 @@
       "en": "./assets/locales/en.json",
       "vi": "./assets/locales/vi.json"
     },
-    "plugins": ["expo-router", "expo-localization"],
+    "plugins": ["expo-router", "expo-localization", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
     }
