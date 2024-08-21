@@ -4,13 +4,18 @@ import { router } from 'expo-router';
 import { signIn as setNewToken } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
 import { forgotPassword, resetPassword, signIn, signOut, signUp, verify } from '~/services/auth';
+import { useToast } from '../useToast';
+import Toast from 'react-native-toast-message';
+import { Alert } from 'react-native';
 
 export const useSignUp = () => {
   return useMutation({
     mutationFn: signUp,
-    onSuccess: () => router.back(),
+    onSuccess: () => {
+      router.back();
+    },
     onError: (error) => {
-      console.error(error);
+      Alert.alert('Error', error.message);
     },
   });
 };
@@ -22,7 +27,7 @@ export const useSignIn = () => {
       setNewToken(data);
     },
     onError: (error) => {
-      console.error(error);
+      Alert.alert('Error', error.message);
     },
   });
 };
@@ -30,7 +35,7 @@ export const useSignIn = () => {
 export const useForgotPassword = () => {
   return useMutation({
     mutationFn: forgotPassword,
-    onSuccess: (data, variables) => router.push(`/auth/verify?email=${variables.email}`),
+    onSuccess: (_, variables) => router.push(`/auth/verify?email=${variables.email}`),
     onError: (error) => {
       console.error(error);
     },

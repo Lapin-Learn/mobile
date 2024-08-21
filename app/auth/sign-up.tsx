@@ -77,7 +77,7 @@ export default function SignUp() {
               render={({ field }) => (
                 <View>
                   <RenderInput field={field} placeholder='Confirm your password' secureTextEntry />
-                  {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
+                  {errors.confirmPassword && <Text className='text-red-500'>{errors.confirmPassword.message}</Text>}
                 </View>
               )}
             />

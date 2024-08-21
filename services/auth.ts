@@ -30,7 +30,6 @@ export const signIn = async (params: SignInParams) => {
 };
 
 export const signUp = async (params: SignUpParams) => {
-  console.log(api);
   const data = await api.post<AuthInfo>('auth/signup', { body: params });
   return data;
 };
