@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
+import { Alert } from 'react-native';
 
 import { signIn as setNewToken } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
 import { forgotPassword, resetPassword, signIn, signOut, signUp, verify } from '~/services/auth';
-import { useToast } from '../useToast';
-import Toast from 'react-native-toast-message';
-import { Alert } from 'react-native';
 
 export const useSignUp = () => {
   return useMutation({
