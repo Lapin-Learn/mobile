@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, View } from 'react-native';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { KeyboardAvoidingView, Text, View } from 'react-native';
 import { z } from 'zod';
 
-import { RenderInput } from '~/components/molecules/RenderInput';
+import { ControllerInput } from '~/components/molecules/ControllerInput';
+import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { Button } from '~/components/ui/button';
 import { useResetPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -22,7 +24,7 @@ export default function ResetPassword() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ResetPasswordFormField>({
     resolver: zodResolver(schema),
   });
@@ -30,39 +32,42 @@ export default function ResetPassword() {
   const resetPasswordMutation = useResetPassword();
 
   const onSubmit: SubmitHandler<ResetPasswordFormField> = (data) => {
-    // TODO: Call your API here (#1)
     resetPasswordMutation.mutate({ newPassword: data.password });
   };
 
   return (
-    <SafeAreaView>
-      <View className='gap-y-2'>
-        <Controller
-          name='password'
-          control={control}
-          render={({ field }) => (
-            <View>
-              <RenderInput field={field} placeholder='New Password' secureTextEntry={true} />
-              {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
+    <View className='h-screen'>
+      <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+        <NavigationBar title='Reset Password' headerLeftShown={true} />
+        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+          <View className='gap-y-10 '>
+            <View className='flex-row'>
+              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>... </Text>
             </View>
-          )}
-        />
-        <Controller
-          name='confirmPassword'
-          control={control}
-          render={({ field }) => (
-            <View>
-              <RenderInput field={field} placeholder='Confirm Password' secureTextEntry={true} />
-              {errors.confirmPassword && <Text className='text-red-500'>{errors.confirmPassword.message}</Text>}
-            </View>
-          )}
-        />
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-          title={`${isSubmitting ? 'Loading ...' : 'Reset Password'}`}
-        />
-      </View>
-    </SafeAreaView>
+            <ControllerInput
+              props={{ name: 'password', control }}
+              label='Password'
+              placeholder='at least 8 character'
+              error={errors.password}
+            />
+
+            <ControllerInput
+              props={{ name: 'confirmPassword', control }}
+              label='Confirm Password'
+              placeholder='Confirm your new password'
+              error={errors.confirmPassword}
+            />
+          </View>
+
+          <Button
+            className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+            onPress={handleSubmit(onSubmit)}
+            disabled={resetPasswordMutation.isPending}
+            size={'lg'}>
+            <Text className='text-white text-body font-semibold'>Reset Password</Text>
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
   );
 }

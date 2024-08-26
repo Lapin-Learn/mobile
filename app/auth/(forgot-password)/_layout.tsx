@@ -1,5 +1,4 @@
-import { router, Stack } from 'expo-router';
-import { ChevronLeft } from 'lucide-react-native';
+import { Stack } from 'expo-router';
 
 export default function Layout() {
   return (
@@ -7,30 +6,16 @@ export default function Layout() {
       <Stack.Screen
         name='forgot-password'
         options={{
-          title: 'Forgot Password',
-          headerLeft: () => {
-            return (
-              <ChevronLeft
-                size={24}
-                onPress={() => (router.canGoBack() ? router.back() : router.replace('/auth/sign-in'))}
-              />
-            );
-          },
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name='verify'
         options={{
-          presentation: 'modal',
-          title: 'OTP Verification',
-          headerLeft: () => {
-            return (
-              <ChevronLeft size={24} onPress={() => (router.canGoBack() ? router.back() : router.replace('../'))} />
-            );
-          },
+          headerShown: false,
         }}
       />
-      <Stack.Screen name='reset-password' options={{ title: 'Reset Password' }} />
+      <Stack.Screen name='reset-password' options={{ headerShown: false }} />
     </Stack>
   );
 }

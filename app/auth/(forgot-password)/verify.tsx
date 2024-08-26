@@ -2,10 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
-import { useForgotPassword, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
+import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { Button } from '~/components/ui/button';
+import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
@@ -37,11 +39,16 @@ export default function Verify() {
     resolver: zodResolver(schema),
   });
 
-  const resentMutation = useForgotPassword();
+  const resentMutation = useResendVerify();
   const verifyMutation = useVerifyForgotPassword();
 
+  const maskEmail = (email: string) => {
+    const [localPart, domain] = email.split('@');
+    const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
+    return `${maskedLocalPart}@${domain}`;
+  };
+
   const onSubmit: SubmitHandler<VerifyFormField> = (data) => {
-    // TODO: Call your API here (#1)
     const stringCode = data.code.join('');
     verifyMutation.mutate({
       email: email as string,
@@ -55,24 +62,26 @@ export default function Verify() {
   };
 
   return (
-    <SafeAreaView className='flex-1'>
-      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={10} enabled={true}>
-        <View className='w-full h-full left-[5%] flex flex-col justify-center gap-4'>
-          <View className='flex grow justify-center items-start'>
-            <Text className='font-bold text-4xl'>OTP Verification</Text>
-            <Text>
-              Enter the OTP sent to <Text className='font-bold'>{email}</Text>
-            </Text>
+    <View className='h-screen'>
+      <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+        <NavigationBar title='Verification Code' headerLeftShown={true} />
+        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+          <View className='w-full gap-y-10 '>
+            <View className='flex-row'>
+              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+                Verification code has been sent via email to {maskEmail(email as string)}
+              </Text>
+            </View>
             <Controller
               control={control}
               name='code'
               render={({ field }) => (
-                <View className='w-full flex flex-row gap-x-5 justify-center items-center'>
+                <View className='flex flex-row gap-x-4 justify-center items-center'>
                   {field.value.map((_, i) => (
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
-                      className='w-12 h-14 p-2 border-2 border-gray-300 rounded-md font-bold text-5xl'
+                      className='w-12 h-12 p-3 border border-neutral-200 bg-white rounded-none text-subhead font-medium placeholder:text-neutral-700 placeholder:text-title-2 placeholder:font-semibold'
                       maxLength={1}
                       keyboardType='numeric'
                       value={field.value[i]}
@@ -98,12 +107,25 @@ export default function Verify() {
               )}
             />
           </View>
-          <Pressable onPress={handleResendCode} disabled={time > 0}>
-            <Text
-              className={`text-center text-lg ${time > 0 ? 'text-blue-300' : ''}`}>{`Resend OTP${time > 0 ? ` after ${time} seconds` : ''}`}</Text>
-          </Pressable>
+          <View className='w-full gap-y-4'>
+            <Button
+              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+              onPress={handleSubmit(onSubmit)}
+              disabled={verifyMutation.isPending}
+              size={'lg'}>
+              <Text className='text-white text-body font-semibold'>Check vOTP</Text>
+            </Button>
+            <View className='flex flex-row justify-center items-center gap-x-2.5'>
+              <Text className='text-neutral-900 text-footnote'>Don&apos;t get OTP Code?</Text>
+              <Pressable onPress={handleResendCode} disabled={time > 0}>
+                <Text className={`${time > 0 ? 'text-neutral-300' : 'text-orange-500'} text-footnote font-medium`}>
+                  Resend Code {time > 0 ? `after ${time} seconds` : ''}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
