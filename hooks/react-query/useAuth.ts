@@ -1,46 +1,64 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import { Alert } from 'react-native';
 
 import { signIn as setNewToken } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
 import { forgotPassword, resetPassword, signIn, signOut, signUp, verify } from '~/services/auth';
 
+import { useToast } from '../useToast';
+
 export const useSignUp = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      router.back();
+      toast.show({ type: 'success', text1: 'Sign up success' });
+      router.push('/auth/sign-in');
     },
     onError: (error) => {
-      Alert.alert('Error', error.message);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useSignIn = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
+      toast.show({ type: 'success', text1: 'Welcome back' });
       setNewToken(data);
     },
     onError: (error) => {
-      Alert.alert('Error', error.message);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useForgotPassword = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: forgotPassword,
     onSuccess: (_, variables) => router.push(`/auth/verify?email=${variables.email}`),
     onError: (error) => {
-      console.error(error);
+      toast.show({ type: 'error', text1: error.message });
+    },
+  });
+};
+
+export const useResendVerify = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: () => toast.show({ type: 'success', text1: 'Resend success' }),
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useVerifySignUp = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: verify,
     onSuccess: () => {
@@ -48,12 +66,13 @@ export const useVerifySignUp = () => {
       router.navigate('auth/sign-in');
     },
     onError: (error) => {
-      console.error(error);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useVerifyForgotPassword = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: verify,
     onSuccess: (data) => {
@@ -62,22 +81,24 @@ export const useVerifyForgotPassword = () => {
       router.push(`auth/reset-password`);
     },
     onError: (error) => {
-      console.error(error);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useResetPassword = () => {
+  const toast = useToast();
   return useMutation({
     mutationFn: resetPassword,
     onSuccess: () => router.navigate('auth/sign-in'),
     onError: (error) => {
-      console.error(error);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };
 
 export const useSignOut = () => {
+  const toast = useToast();
   const client = useQueryClient();
   return useMutation({
     mutationFn: signOut,
@@ -87,7 +108,7 @@ export const useSignOut = () => {
       router.navigate('auth/sign-in');
     },
     onError: (error) => {
-      console.error(error);
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };

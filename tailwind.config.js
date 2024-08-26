@@ -10,11 +10,139 @@ module.exports = {
       xl: '1280px',
     },
     extend: {
+      spacing: {
+        1: '4px', // 1 unit = 4px
+        2: '8px', // 2 units = 8px
+        3: '12px', // 3 units = 12px
+        4: '16px', // 4 units = 16px
+        5: '20px', // 5 units = 20px
+        6: '24px', // 6 units = 24px
+        7: '28px', // 7 units = 28px
+        8: '32px', // 8 units = 32px
+        9: '36px', // 9 units = 36px
+        10: '40px', // 10 units = 40px
+        11: '44px', // 11 units = 44px
+        12: '48px', // 12 units = 48px
+        14: '56px', // 14 units = 56px
+        16: '64px', // 16 units = 64px
+        20: '80px', // 20 units = 80px
+        24: '96px', // 24 units = 96px
+        28: '112px', // 28 units = 112px
+        32: '128px', // 32 units = 128px
+        36: '144px', // 36 units = 144px
+        40: '160px', // 40 units = 160px
+        44: '176px', // 44 units = 176px
+      },
+      boxShadow: {
+        button: '2px 2px 0px', // 2px 2px shadow with 4px blur and 25% opacity
+      },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        'large-title': ['34px', { lineHeight: '40px' }],
+        'title-1': ['28px', { lineHeight: '34px' }],
+        'title-2': ['22px', { lineHeight: '28px' }],
+        'title-3': ['20px', { lineHeight: '25px' }],
+        'title-4': ['17px', { lineHeight: '22px' }],
+        headline: ['17px', { lineHeight: '22px' }],
+        body: ['17px', { lineHeight: '22px' }],
+        callout: ['16px', { lineHeight: '21px' }],
+        subhead: ['15px', { lineHeight: '20px' }],
+        footnote: ['13px', { lineHeight: '18px' }],
+        'caption-1': ['12px', { lineHeight: '16px' }],
+        'caption-2': ['11px', { lineHeight: '13px' }],
+      },
       colors: {
+        background: '#F9F7F7',
+        orange: {
+          50: '#fdefea',
+          100: '#facdbc',
+          200: '#f7b49c',
+          300: '#f4926f',
+          400: '#f17d53',
+          500: '#ee5d28',
+          600: '#d95524',
+          700: '#a9421c',
+          800: '#833316',
+          900: '#642711',
+        },
+        green: {
+          50: '#eefae6',
+          100: '#cbefb1',
+          200: '#b2e88b',
+          300: '#8fdd55',
+          400: '#79d635',
+          500: '#58cc02',
+          600: '#50ba02',
+          700: '#3e9101',
+          800: '#307001',
+          900: '#255601',
+        },
+        red: {
+          50: '#ffeded',
+          100: '#ffc7c7',
+          200: '#ffacac',
+          300: '#ff8686',
+          400: '#ff6f6f',
+          500: '#ff4b4b',
+          600: '#e84444',
+          700: '#b53535',
+          800: '#8c2929',
+          900: '#6b2020',
+        },
+        yellow: {
+          50: '#fffced',
+          100: '#fff6c7',
+          200: '#fff2ac',
+          300: '#ffec86',
+          400: '#ffe86f',
+          500: '#ffe24b',
+          600: '#e8ce44',
+          700: '#b5a035',
+          800: '#8c7c29',
+          900: '#6b5f20',
+        },
+        purple: {
+          50: '#f9eeff',
+          100: '#ebcbff',
+          200: '#e1b2ff',
+          300: '#d38eff',
+          400: '#cb79ff',
+          500: '#be57ff',
+          600: '#ad4fe8',
+          700: '#873eb5',
+          800: '#69308c',
+          900: '#50256b',
+        },
+        neutral: {
+          50: '#efefef',
+          100: '#cccccc',
+          200: '#b4b4b4',
+          300: '#929292',
+          400: '#7d7d7d',
+          500: '#5c5c5c',
+          600: '#545454',
+          700: '#414141',
+          800: '#333333',
+          900: '#272727',
+        },
+        blue: {
+          50: '#ebf7ff',
+          100: '#c1e6ff',
+          200: '#a3daff',
+          300: '#79c9ff',
+          400: '#5fbeff',
+          500: '#37aeff',
+          600: '#329ee8',
+          700: '#277cb5',
+          800: '#1e608c',
+          900: '#17496b',
+        },
+        'supporting-text': '#929292',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',

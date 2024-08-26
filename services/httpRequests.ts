@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError) => {
     const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
-    return Promise.reject(new Error(`HTTP error! status: ${error.response?.status}, message: ${errorMessage}`));
+    return Promise.reject(new Error(errorMessage));
   }
 );
 
@@ -57,9 +57,9 @@ class API {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || error.message;
-        throw new Error(`HTTP error! status: ${error.response?.status}, message: ${errorMessage}`);
+        throw new Error(errorMessage);
       } else {
-        throw new Error(`Unexpected error: ${error}`);
+        throw new Error(`${error}`);
       }
     }
   }

@@ -15,12 +15,12 @@ function RenderInput<T extends FieldValues>({ field, placeholder, secureTextEntr
 
   return (
     <View className='w-full flex-col justify-start items-start gap-1 inline-flex'>
-      <Text className='text-[15px] font-medium font-[Inter] leading-snug text-neutral-900'>
+      <Text className='text-subhead font-semibold text-neutral-900'>
         {field.name.charAt(0).toUpperCase() + field.name.slice(1)}
       </Text>
-      <View className='w-full flex flex-row justify-center items-center bg-white'>
+      <View className='flex flex-row justify-center items-center bg-white'>
         <TextInput
-          className='w-full p-3 text-[15px] border-[1px] font-medium font-[Inter] leading-snug placeholder:text-neutral-700'
+          className='w-full p-3 text-subhead border font-medium placeholder:text-neutral-700'
           placeholder={placeholder}
           value={field.value === 0 ? '' : field.value}
           onChangeText={field.onChange}

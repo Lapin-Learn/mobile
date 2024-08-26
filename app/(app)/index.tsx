@@ -1,7 +1,6 @@
 import { getLocales } from 'expo-localization';
 import { Redirect } from 'expo-router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/button';
@@ -11,7 +10,7 @@ import useGameStore from '~/stores/game';
 
 export default function Index() {
   const { isPlay, setIsPlay } = useGameStore();
-  const { t } = useTranslation();
+  const { t } = i18n;
   const { status } = useAuth();
 
   useEffect(() => {
@@ -41,7 +40,7 @@ export default function Index() {
       <Text>
         <Text>{t('Welcome to React')}</Text>
       </Text>
-      <Text>Current locale: {i18n.language}</Text>
+      <Text>Current locale: {i18n.defaultLocale}</Text>
       <Text>Device locale: {getLocales()[0].languageCode}</Text>
       <Text>{status}</Text>
       <Button onPress={signOut} variant='outline'>
