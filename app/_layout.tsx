@@ -1,4 +1,6 @@
 import '~/global.css';
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
@@ -7,6 +9,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Appearance, Platform } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
@@ -71,6 +74,7 @@ export default function RootLayout() {
           <Stack.Screen name='(app)' options={{ headerShown: false }} />
           <Stack.Screen name='auth' options={{ headerShown: false }} />
         </Stack>
+        <Toast />
       </QueryClientProvider>
     </ThemeProvider>
   );

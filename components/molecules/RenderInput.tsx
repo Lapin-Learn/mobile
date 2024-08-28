@@ -14,11 +14,13 @@ function RenderInput<T extends FieldValues>({ field, placeholder, secureTextEntr
   const [isHidden, setIsHidden] = useState(true);
 
   return (
-    <View className='w-full h-fit flex flex-col justify-end items-star gap-y-1 mb-3'>
-      <Text className='font-semibold text-lg'>{field.name.charAt(0).toUpperCase() + field.name.slice(1)}</Text>
-      <View className='w-full flex flex-row justify-center items-center border-2 border-gray-300 rounded-md'>
+    <View className='w-full flex-col justify-start items-start gap-1 inline-flex'>
+      <Text className='text-subhead font-semibold text-neutral-900'>
+        {field.name.charAt(0).toUpperCase() + field.name.slice(1)}
+      </Text>
+      <View className='flex flex-row justify-center items-center bg-white'>
         <TextInput
-          className='w-full h-12 rounded-md border-input border-2 border-blue-500 bg-background px-3 text-base native:leading-[1.25] text-foreground placeholder:text-muted-foreground'
+          className='w-full p-3 text-subhead border font-medium placeholder:text-neutral-700'
           placeholder={placeholder}
           value={field.value === 0 ? '' : field.value}
           onChangeText={field.onChange}

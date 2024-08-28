@@ -18,8 +18,11 @@
       },
       "supportsTablet": true,
       "infoPlist": {
+        "CFBundleDisplayName": "Lapin Learn",
+        "CFBundleName": "Lapin Learn",
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "bundleIdentifier": "com.datn.lapinlearn"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,12 +36,19 @@
       "favicon": "./assets/images/favicon.png"
     },
     "locales": {
-      "en": "./assets/locales/en.json",
-      "vi": "./assets/locales/vi.json"
+      "en": "./locales/en/english.json",
+      "vi": "./locales/vi/vietnamese.json"
     },
-    "plugins": ["expo-router", "expo-localization", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "supportsRTL": false
     }
   }
 }
