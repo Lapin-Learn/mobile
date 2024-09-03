@@ -21,7 +21,7 @@ export default function AuthLayout() {
   }, [hideSplash, status]);
 
   if (status === 'signIn') {
-    return <Redirect href='/' />;
+    return <Redirect href='daily-lesson' />;
   }
 
   return (
