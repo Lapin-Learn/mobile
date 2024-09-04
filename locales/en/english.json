@@ -1,6 +1,8 @@
 {
-  "Hello": "Hello",
-  "Hello, {{name}}!": "Hello, {{name}}!",
-  "Hello, {{name}}! You have {{unreadCount}} unread messages": "Hello, {{name}}! You have {{unreadCount}} unread messages",
-  "Welcome to React": "Welcome to React and react-i18next"
+  "list": {
+    "level": "Level {{level}}",
+    "progress": "{{current}}/{{total}}", 
+    "exerciseButton": "Do exercises +{{xp}} XP",
+    "reviewButton": "Review skills"
+  }
 }

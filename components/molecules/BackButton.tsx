@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { forwardRef, Ref } from 'react';
 import Svg, { Path, SvgProps } from 'react-native-svg';
 const _BackButton = (props: SvgProps, ref: Ref<Svg>) => (
