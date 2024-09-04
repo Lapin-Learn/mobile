@@ -1,16 +1,11 @@
-import { getLocales } from 'expo-localization';
 import { Redirect } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/button';
 import { hydrate, signOut, useAuth } from '~/hooks/zustand';
-import i18n from '~/i18n';
-import useGameStore from '~/stores/game';
 
 export default function Index() {
-  const { isPlay, setIsPlay } = useGameStore();
-  const { t } = i18n;
   const { status } = useAuth();
 
   useEffect(() => {
@@ -32,17 +27,6 @@ export default function Index() {
 
   return (
     <View className='m-auto flex-col justify-around'>
-      <Text className='text-center text-red-500 font-bold'>Hehe, setup xong r ne!</Text>
-      <Button variant='outline' onPress={() => setIsPlay(!isPlay)}>
-        <Text>Simple Button using RNR</Text>
-        <Text>{isPlay ? 'Playing' : 'Not Playing'}</Text>
-      </Button>
-      <Text>
-        <Text>{t('Welcome to React')}</Text>
-      </Text>
-      <Text>Current locale: {i18n.defaultLocale}</Text>
-      <Text>Device locale: {getLocales()[0].languageCode}</Text>
-      <Text>{status}</Text>
       <Button onPress={signOut} variant='outline'>
         <Text>Sign Out</Text>
       </Button>
