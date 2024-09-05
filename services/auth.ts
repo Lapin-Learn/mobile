@@ -6,7 +6,7 @@ export type Session = {
 
 export type AuthInfo = {
   token_type: string;
-  access_token: string;
+  accessToken: string;
   expires_in: number;
   refresh_token: string;
 };
