@@ -18,6 +18,7 @@ const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
   },
 });
 
@@ -25,7 +26,7 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const auth = await getTokenAsync();
     if (auth) {
-      config.headers.Authorization = `Bearer ${auth}`;
+      config.headers.Authorization = `Bearer ${auth.accessToken}`;
     }
     return config;
   },
@@ -67,6 +68,7 @@ class API {
   async get<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'GET',
+      params: searchParams,
       ...nextOptions,
     });
   }

@@ -14,6 +14,9 @@ import { ReadingRegion } from '~/components/molecules/ReadingRegion';
 import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
 import { WritingRegion } from '~/components/molecules/WritingRegion';
 import { Skill } from '~/types';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '~/components/ui/button';
+import { router } from 'expo-router';
 
 export default function Index() {
   return (
@@ -30,6 +33,11 @@ export default function Index() {
         <IconRank width={32} height={32} />
       </View>
       <Map />
+      <View className='flex flex-col items-center justify-center'>
+        <Button variant='outline' className='w-[50%]' onPress={() => router.push('daily-lesson')}>
+          <Text>Go to Lesson</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
