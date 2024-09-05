@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
+import { router } from 'expo-router';
 import { MotiView } from 'moti';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -13,10 +14,8 @@ import { ListeningRegion } from '~/components/molecules/ListeningRegion';
 import { ReadingRegion } from '~/components/molecules/ReadingRegion';
 import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
 import { WritingRegion } from '~/components/molecules/WritingRegion';
-import { Skill } from '~/types';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '~/components/ui/button';
-import { router } from 'expo-router';
+import { Skill } from '~/types';
 
 export default function Index() {
   return (

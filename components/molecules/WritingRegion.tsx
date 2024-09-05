@@ -32,9 +32,9 @@ export function WritingRegion({
           <View className='z-50 absolute top-80 left-24 mt-2'>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill === null ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== Skill.WRITING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
-              {currentSkill !== Skill.WRITING && <WritingText />}
+              <WritingText />
             </MotiView>
           </View>
         </TouchableOpacity>

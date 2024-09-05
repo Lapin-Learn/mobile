@@ -33,9 +33,9 @@ export function ReadingRegion({
           <View className='z-50 absolute top-44 left-20'>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill === null ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== Skill.READING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
-              {currentSkill !== Skill.READING && <ReadingText />}
+              <ReadingText />
             </MotiView>
           </View>
         </TouchableOpacity>

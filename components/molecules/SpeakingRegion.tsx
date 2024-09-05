@@ -32,9 +32,9 @@ export function SpeakingRegion({
           <View className={`z-50 absolute top-60 left-36`}>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill === null ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== Skill.SPEAKING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
-              {currentSkill !== Skill.SPEAKING && <SpeakingText />}
+              <SpeakingText />
             </MotiView>
           </View>
         </TouchableOpacity>

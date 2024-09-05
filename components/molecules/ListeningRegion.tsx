@@ -1,8 +1,8 @@
 import { MotiView } from 'moti';
 import { TouchableOpacity, View } from 'react-native';
 
-import ListeningText from '~/assets/images/listening-text.svg';
 import Listening from '~/assets/images/listening.svg';
+import ListeningText from '~/assets/images/listening-text.svg';
 import { Skill } from '~/types';
 
 import { PopupLesson } from './PopupLession';
@@ -34,9 +34,9 @@ export function ListeningRegion({
           <View className={`z-50 absolute top-48 right-16`}>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill === null ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== Skill.LISTENING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
-              {currentSkill !== Skill.LISTENING && <ListeningText />}
+              <ListeningText />
             </MotiView>
           </View>
         </TouchableOpacity>
