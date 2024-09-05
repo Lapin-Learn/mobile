@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 
 import Speaking from '~/assets/images/speaking.svg';
 import SpeakingText from '~/assets/images/speaking-text.svg';
-import { Skill } from '~/types';
+import { SkillEnum } from '~/enums';
 
 import { PopupLesson } from './PopupLession';
 
@@ -12,12 +12,12 @@ export function SpeakingRegion({
   setCurrentSkill,
   reset,
 }: {
-  currentSkill: Skill | null;
+  currentSkill: SkillEnum | null;
   setCurrentSkill: () => void;
   reset: () => void;
 }) {
   const handlePress = () => {
-    if (currentSkill === Skill.SPEAKING) {
+    if (currentSkill === SkillEnum.SPEAKING) {
       reset();
       return;
     }
@@ -32,7 +32,7 @@ export function SpeakingRegion({
           <View className={`z-50 absolute top-60 left-36`}>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill !== Skill.SPEAKING ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== SkillEnum.SPEAKING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
               <SpeakingText />
             </MotiView>
@@ -40,7 +40,7 @@ export function SpeakingRegion({
         </TouchableOpacity>
       </View>
       <View className='z-50 absolute flex justify-center items-center scale-90 top-64 left-0'>
-        {currentSkill === Skill.SPEAKING ? (
+        {currentSkill === SkillEnum.SPEAKING ? (
           <View className={`absolute top-60 -left-24`}>
             <PopupLesson skill={currentSkill} />
           </View>

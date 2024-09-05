@@ -24,7 +24,9 @@ export default function TabsLayout() {
   }, [hideSplash, status]);
 
   return (
-    <Tabs initialRouteName='(map)' screenOptions={{ tabBarShowLabel: false, headerShown: false, tabBarStyle: { height: 64 } }}>
+    <Tabs
+      initialRouteName='(map)'
+      screenOptions={{ tabBarShowLabel: false, headerShown: false, tabBarStyle: { height: 64 } }}>
       <Tabs.Screen
         name='practice'
         options={{

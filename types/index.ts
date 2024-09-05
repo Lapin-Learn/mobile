@@ -8,10 +8,3 @@ export type TokenType = {
 export type QuestionTypesSearchParams = {
   skill: SkillEnum;
 };
-
-export enum Skill {
-  READING = 'reading',
-  LISTENING = 'listening',
-  SPEAKING = 'speaking',
-  WRITING = 'writing',
-}

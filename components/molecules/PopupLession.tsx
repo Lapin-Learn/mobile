@@ -1,16 +1,18 @@
-import { Skill } from '~/types';
-import { View, Text } from 'moti';
-import { Button } from '../ui/button';
 import { router } from 'expo-router';
+import { Text, View } from 'moti';
 import { useTranslation } from 'react-i18next';
 
-export function PopupLesson({ skill }: { skill: Skill | null }) {
+import { SkillEnum } from '~/enums';
+
+import { Button } from '../ui/button';
+
+export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
   const segmentSkill =
-    skill === Skill.READING
+    skill === SkillEnum.READING
       ? 'reading'
-      : skill === Skill.LISTENING
+      : skill === SkillEnum.LISTENING
         ? 'listening'
-        : skill === Skill.WRITING
+        : skill === SkillEnum.WRITING
           ? 'writing'
           : 'speaking';
 
@@ -22,11 +24,12 @@ export function PopupLesson({ skill }: { skill: Skill | null }) {
     return router.push(`/review/${segmentSkill}`);
   };
   return (
-    <View className='w-[300px] bg-white p-4 rounded-lg'>
+    <View className='w-[300px] bg-white p-4 mt-2 ml-2 rounded-lg items-center justify-center'>
+      <View className='w-4 h-4 absolute bg-white -top-2.5 rotate-45' />
       <View className='relative w-full h-2 bg-orange-200 mt-5'>
         <View className='absolute w-1/3 h-2 bg-orange-500 mt-5 -top-5' />
       </View>
-      <View className='flex flex-row justify-between items-center mb-5 mt-2'>
+      <View className='w-full flex flex-row justify-between items-center mb-5 mt-2'>
         <Text className='text-blue-900 text-subhead font-bold'>{t('list.level')}</Text>
         <Text className='text-blue-900 text-subhead font-bold'>{t('list.progress', { current: 80, total: 2000 })}</Text>
       </View>

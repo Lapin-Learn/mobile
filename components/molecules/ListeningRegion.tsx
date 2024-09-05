@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 
 import Listening from '~/assets/images/listening.svg';
 import ListeningText from '~/assets/images/listening-text.svg';
-import { Skill } from '~/types';
+import { SkillEnum } from '~/enums';
 
 import { PopupLesson } from './PopupLession';
 
@@ -12,12 +12,12 @@ export function ListeningRegion({
   setCurrentSkill,
   reset,
 }: {
-  currentSkill: Skill | null;
+  currentSkill: SkillEnum | null;
   setCurrentSkill: () => void;
   reset: () => void;
 }) {
   const handlePress = () => {
-    if (currentSkill === Skill.LISTENING) {
+    if (currentSkill === SkillEnum.LISTENING) {
       reset();
 
       return;
@@ -34,7 +34,7 @@ export function ListeningRegion({
           <View className={`z-50 absolute top-48 right-16`}>
             <MotiView
               from={{ opacity: 0 }}
-              animate={{ opacity: currentSkill !== Skill.LISTENING ? 1 : 0 }}
+              animate={{ opacity: currentSkill !== SkillEnum.LISTENING ? 1 : 0 }}
               transition={{ type: 'timing', duration: 500 }}>
               <ListeningText />
             </MotiView>
@@ -42,7 +42,7 @@ export function ListeningRegion({
         </TouchableOpacity>
       </View>
       <View className={`z-50 absolute flex justify-center items-center scale-90 top-14 left-16`}>
-        {currentSkill === Skill.LISTENING ? (
+        {currentSkill === SkillEnum.LISTENING ? (
           <View className={`absolute top-48 -left-28`}>
             <PopupLesson skill={currentSkill} />
           </View>

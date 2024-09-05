@@ -15,7 +15,7 @@ import { ReadingRegion } from '~/components/molecules/ReadingRegion';
 import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
 import { WritingRegion } from '~/components/molecules/WritingRegion';
 import { Button } from '~/components/ui/button';
-import { Skill } from '~/types';
+import { SkillEnum } from '~/enums';
 
 export default function Index() {
   return (
@@ -42,16 +42,16 @@ export default function Index() {
 }
 
 function Map() {
-  const [currentSkill, setCurrentSkill] = useState<Skill | null>(null);
-  const getTranslate = (skill: Skill | null) => {
+  const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
+  const getTranslate = (skill: SkillEnum | null) => {
     switch (skill) {
-      case Skill.READING:
+      case SkillEnum.READING:
         return { x: -75, y: -25 };
-      case Skill.LISTENING:
+      case SkillEnum.LISTENING:
         return { x: 100, y: 100 };
-      case Skill.SPEAKING:
+      case SkillEnum.SPEAKING:
         return { x: 150, y: -75 };
-      case Skill.WRITING:
+      case SkillEnum.WRITING:
         return { x: -25, y: -250 };
       default:
         return { x: 0, y: 0 };
@@ -73,22 +73,22 @@ function Map() {
         transition={{ type: 'timing', duration: 1000 }}>
         <SpeakingRegion
           currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(Skill.SPEAKING)}
+          setCurrentSkill={() => setCurrentSkill(SkillEnum.SPEAKING)}
           reset={() => setCurrentSkill(null)}
         />
         <WritingRegion
           currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(Skill.WRITING)}
+          setCurrentSkill={() => setCurrentSkill(SkillEnum.WRITING)}
           reset={() => setCurrentSkill(null)}
         />
         <ReadingRegion
           currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(Skill.READING)}
+          setCurrentSkill={() => setCurrentSkill(SkillEnum.READING)}
           reset={() => setCurrentSkill(null)}
         />
         <ListeningRegion
           currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(Skill.LISTENING)}
+          setCurrentSkill={() => setCurrentSkill(SkillEnum.LISTENING)}
           reset={() => setCurrentSkill(null)}
         />
       </MotiView>
