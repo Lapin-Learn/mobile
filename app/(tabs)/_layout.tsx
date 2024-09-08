@@ -1,11 +1,11 @@
-import { useCallback, useEffect } from 'react';
 import { SplashScreen, Tabs } from 'expo-router';
+import { useCallback, useEffect } from 'react';
 
-import IconPracticeTab from '~/assets/images/tab-practice.svg';
-import IconMissionTab from '~/assets/images/tab-mission.svg';
 import IconMapTab from '~/assets/images/tab-map.svg';
-import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
+import IconMissionTab from '~/assets/images/tab-mission.svg';
+import IconPracticeTab from '~/assets/images/tab-practice.svg';
 import IconProfileTab from '~/assets/images/tab-profile.svg';
+import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
 import { useAuth } from '~/hooks/zustand';
 
 export default function TabsLayout() {
@@ -24,7 +24,9 @@ export default function TabsLayout() {
   }, [hideSplash, status]);
 
   return (
-    <Tabs initialRouteName='(map)' screenOptions={{ tabBarShowLabel: false, headerShown: false, tabBarStyle: { height: 64 } }}>
+    <Tabs
+      initialRouteName='(map)'
+      screenOptions={{ tabBarShowLabel: false, headerShown: false, tabBarStyle: { height: 64 } }}>
       <Tabs.Screen
         name='practice'
         options={{

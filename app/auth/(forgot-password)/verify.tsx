@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
@@ -16,6 +17,7 @@ const schema = z.object({
 type VerifyFormField = z.infer<typeof schema>;
 
 export default function Verify() {
+  const { t } = useTranslation('auth');
   const { email } = useLocalSearchParams();
   const [time, setTime] = useState(5);
   const codeRef = useRef<TextInput[]>([]);
@@ -28,7 +30,6 @@ export default function Verify() {
   });
 
   useEffect(() => {
-    // Focus the first input when the component mounts
     if (codeRef.current[0]) {
       codeRef.current[0].focus();
     }
@@ -64,12 +65,12 @@ export default function Verify() {
   return (
     <View className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
-        <NavigationBar title='Verification Code' headerLeftShown={true} />
+        <NavigationBar title={t('verify.title')} headerLeftShown={true} />
         <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
-          <View className='w-full gap-y-10 '>
+          <View className='w-full gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
-                Verification code has been sent via email to {maskEmail(email as string)}
+                {t('verify.instruction', { email: maskEmail(email as string) })}
               </Text>
             </View>
             <Controller
@@ -113,13 +114,13 @@ export default function Verify() {
               onPress={handleSubmit(onSubmit)}
               disabled={verifyMutation.isPending}
               size={'lg'}>
-              <Text className='text-white text-body font-semibold'>Check vOTP</Text>
+              <Text className='text-white text-body font-semibold'>{t('verify.checkOtpButton')}</Text>
             </Button>
             <View className='flex flex-row justify-center items-center gap-x-2.5'>
-              <Text className='text-neutral-900 text-footnote'>Don&apos;t get OTP Code?</Text>
+              <Text className='text-neutral-900 text-footnote'>{t('verify.noOtp')}</Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
                 <Text className={`${time > 0 ? 'text-neutral-300' : 'text-orange-500'} text-footnote font-medium`}>
-                  Resend Code {time > 0 ? `after ${time} seconds` : ''}
+                  {t('verify.resendCode', { time: time > 0 ? time : '' })}
                 </Text>
               </Pressable>
             </View>

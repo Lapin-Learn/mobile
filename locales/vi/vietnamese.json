@@ -1,7 +1,7 @@
 {
   "list": {
     "level": "Cấp độ {{level}}",
-    "progress": "{{current}}/{{total}}", 
+    "progress": "{{current}}/{{total}}",
     "exerciseButton": "Làm bài tập +{{xp}} XP",
     "reviewButton": "Ôn tập kỹ năng"
   }

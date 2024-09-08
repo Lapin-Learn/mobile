@@ -1,7 +1,7 @@
 {
   "list": {
     "level": "Level {{level}}",
-    "progress": "{{current}}/{{total}}", 
+    "progress": "{{current}}/{{total}}",
     "exerciseButton": "Do exercises +{{xp}} XP",
     "reviewButton": "Review skills"
   }
