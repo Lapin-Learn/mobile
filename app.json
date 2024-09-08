@@ -38,11 +38,7 @@
       "en": "./locales/en/english.json",
       "vi": "./locales/vi/vietnamese.json"
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization",
-      "expo-secure-store"
-    ],
+    "plugins": ["expo-router", "expo-localization", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
     },

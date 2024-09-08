@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Text, View } from 'react-native';
 import { z } from 'zod';
 
@@ -16,6 +16,8 @@ const schema = z.object({
 type ForgotPasswordFormField = z.infer<typeof schema>;
 
 export default function ForgotPassword() {
+  const { t } = useTranslation('auth');
+
   const {
     control,
     handleSubmit,
@@ -31,25 +33,25 @@ export default function ForgotPassword() {
     try {
       forgotPasswordMutation.mutate(data);
     } catch {
-      setError('email', { message: 'Invalid email or password' });
+      setError('email', { message: t('forgotPassword.invalidEmailOrPassword') });
     }
   };
 
   return (
     <View className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
-        <NavigationBar title='Forgot Password' headerLeftShown={true} />
+        <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
         <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
-          <View className='gap-y-10 '>
+          <View className='gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
-                Please enter your email account to send the code verification to reset your password
+                {t('forgotPassword.instruction')}
               </Text>
             </View>
             <ControllerInput
               props={{ name: 'email', control }}
-              label='Email'
-              placeholder='example@gmail.com'
+              label={t('forgotPassword.emailLabel')}
+              placeholder={t('forgotPassword.emailPlaceholder')}
               error={errors.email}
             />
           </View>
@@ -59,7 +61,7 @@ export default function ForgotPassword() {
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>Send OTP</Text>
+            <Text className='text-white text-body font-semibold'>{t('forgotPassword.sendOtpButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

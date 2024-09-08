@@ -1,20 +1,20 @@
-import { getLocales } from 'expo-localization';
-import { I18n } from 'i18n-js';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
-import en from '~/locales/en/english.json';
-import vi from '~/locales/vi/vietnamese.json';
+import * as en from '~/locales/en';
+import * as vi from '~/locales/vi';
 
-const i18n = new I18n(
-  {
-    en: en,
-    vi: vi,
+i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
+  resources: {
+    en: { translation: en.english, auth: en.auth },
+    vi: { translation: vi, auth: vi.auth },
   },
-  {
-    enableFallback: true,
-    defaultLocale: 'vi',
-  }
-);
-
-i18n.locale = getLocales()[0].languageCode ?? 'vi';
+  lng: 'vi',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;
