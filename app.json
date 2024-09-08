@@ -18,7 +18,6 @@
       },
       "supportsTablet": true,
       "infoPlist": {
-        "CFBundleDisplayName": "Lapin Learn",
         "CFBundleName": "Lapin Learn",
         "CFBundleAllowMixedLocalizations": true
       },
