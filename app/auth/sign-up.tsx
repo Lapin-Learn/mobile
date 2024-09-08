@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { z } from 'zod';
 
@@ -26,6 +26,8 @@ const schema = z
 type SignUpFormField = z.infer<typeof schema>;
 
 export default function SignUp() {
+  const { t } = useTranslation('auth');
+
   const {
     control,
     handleSubmit,
@@ -42,29 +44,29 @@ export default function SignUp() {
 
   return (
     <View className='h-screen'>
-      <NavigationBar title='Getting started' />
+      <NavigationBar title={t('signUp.title')} />
       <View className='bg-background grow w-full px-4 pb-8 flex-col justify-between items-center inline-flex'>
-        <Text className='w-full text-neutral-500 font-normal text-callout'>Let&apos;s create your account here</Text>
+        <Text className='w-full text-neutral-500 font-normal text-callout'>{t('signUp.subtitle')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>
             <ControllerInput
               props={{ name: 'email', control }}
-              label='Email'
-              placeholder='example@gmail.com'
+              label={t('signUp.emailLabel')}
+              placeholder={t('signUp.emailPlaceholder')}
               error={errors.email}
             />
 
             <ControllerInput
               props={{ name: 'password', control }}
-              label='Password'
-              placeholder='at least 8 character'
+              label={t('signUp.passwordLabel')}
+              placeholder={t('signUp.passwordPlaceholder')}
               error={errors.password}
             />
 
             <ControllerInput
               props={{ name: 'confirmPassword', control }}
-              label='Confirm Password'
-              placeholder='Confirm your password'
+              label={t('signUp.confirmPasswordLabel')}
+              placeholder={t('signUp.confirmPasswordPlaceholder')}
               error={errors.confirmPassword}
             />
           </View>
@@ -74,18 +76,18 @@ export default function SignUp() {
               onPress={handleSubmit(onSubmit)}
               size='lg'
               disabled={signUpMutation.isPending}>
-              <Text className='text-white text-body font-semibold'>Sign Up</Text>
+              <Text className='text-white text-body font-semibold'>{t('signUp.signUpButton')}</Text>
             </Button>
             <View className='flex flex-col justify-center items-center gap-y-[7px]'>
-              <Text className='text-supporting-text text-subhead font-medium'>Or sign up with</Text>
+              <Text className='text-supporting-text text-subhead font-medium'>{t('signUp.orSignUpWith')}</Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
         <View className='flex flex-row justify-center items-center gap-x-2.5'>
-          <Text className='text-neutral-900 text-footnote'>Already have an account?</Text>
+          <Text className='text-neutral-900 text-footnote'>{t('signUp.alreadyHaveAccount')}</Text>
           <Link push href='/auth/sign-in'>
-            <Text className='text-orange-500 text-footnote font-medium'>Sign In</Text>
+            <Text className='text-orange-500 text-footnote font-medium'>{t('signUp.signIn')}</Text>
           </Link>
         </View>
       </View>

@@ -1,16 +1,16 @@
-import { useCallback, useEffect } from 'react';
 import { SplashScreen, Tabs } from 'expo-router';
-
-import IconPracticeTab from '~/assets/images/tab-practice.svg';
-import IconMissionTab from '~/assets/images/tab-mission.svg';
-import IconMapTab from '~/assets/images/tab-map.svg';
-import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
-import IconProfileTab from '~/assets/images/tab-profile.svg';
-import { useAuth } from '~/hooks/zustand';
+import { useCallback, useEffect } from 'react';
 import { Platform, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
-function ActiveTabIcon({ icon: Icon, focused } : { icon: React.FC<SvgProps>, focused: Boolean }) {
+import IconMapTab from '~/assets/images/tab-map.svg';
+import IconMissionTab from '~/assets/images/tab-mission.svg';
+import IconPracticeTab from '~/assets/images/tab-practice.svg';
+import IconProfileTab from '~/assets/images/tab-profile.svg';
+import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
+import { useAuth } from '~/hooks/zustand';
+
+function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focused: boolean }) {
   return (
     <View className={`${focused ? 'm-4 border border-orange-500 bg-orange-50 rounded' : ''}`}>
       <Icon />
@@ -42,17 +42,16 @@ export default function TabsLayout() {
         tabBarStyle: { height: Platform.OS === 'ios' ? 101 : 80 },
         tabBarIcon: ({ focused }) => {
           const iconMapping: { [key: string]: React.FC<SvgProps> } = {
-            'practice': IconPracticeTab,
-            'mission': IconMissionTab,
+            practice: IconPracticeTab,
+            mission: IconMissionTab,
             '(map)': IconMapTab,
-            'vocabulary': IconVocabularyTab,
-            'profile': IconProfileTab,
-          }
+            vocabulary: IconVocabularyTab,
+            profile: IconProfileTab,
+          };
 
           return <ActiveTabIcon icon={iconMapping[route.name]} focused={focused} />;
         },
-      })}
-    >
+      })}>
       <Tabs.Screen name='practice' />
       <Tabs.Screen name='mission' />
       <Tabs.Screen name='(map)' />

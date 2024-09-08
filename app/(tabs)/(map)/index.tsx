@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native';
+import { router } from 'expo-router';
+import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import IconStreak from '~/assets/images/streak.svg';
 import IconCarrot from '~/assets/images/carrot.svg';
 import IconRank from '~/assets/images/rank.svg';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import IconStreak from '~/assets/images/streak.svg';
 import { Button } from '~/components/ui/button';
-import { router } from 'expo-router';
 
 export default function CustomHeader() {
   return (

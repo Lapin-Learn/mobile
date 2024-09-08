@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Text, View } from 'react-native';
 import { z } from 'zod';
 
@@ -18,9 +18,11 @@ const schema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
+
 type ResetPasswordFormField = z.infer<typeof schema>;
 
 export default function ResetPassword() {
+  const { t } = useTranslation('auth');
   const {
     control,
     handleSubmit,
@@ -38,23 +40,25 @@ export default function ResetPassword() {
   return (
     <View className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
-        <NavigationBar title='Reset Password' headerLeftShown={true} />
+        <NavigationBar title={t('resetPassword.title')} headerLeftShown={true} />
         <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
-          <View className='gap-y-10 '>
+          <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>... </Text>
+              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+                {t('resetPassword.instruction')}
+              </Text>
             </View>
             <ControllerInput
               props={{ name: 'password', control }}
-              label='Password'
-              placeholder='at least 8 character'
+              label={t('resetPassword.passwordLabel')}
+              placeholder={t('resetPassword.passwordPlaceholder')}
               error={errors.password}
             />
 
             <ControllerInput
               props={{ name: 'confirmPassword', control }}
-              label='Confirm Password'
-              placeholder='Confirm your new password'
+              label={t('resetPassword.confirmPasswordLabel')}
+              placeholder={t('resetPassword.confirmPasswordPlaceholder')}
               error={errors.confirmPassword}
             />
           </View>
@@ -64,7 +68,7 @@ export default function ResetPassword() {
             onPress={handleSubmit(onSubmit)}
             disabled={resetPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>Reset Password</Text>
+            <Text className='text-white text-body font-semibold'>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>
