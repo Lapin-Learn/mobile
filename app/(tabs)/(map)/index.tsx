@@ -43,6 +43,7 @@ export default function Index() {
 
 function Map() {
   const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
+
   const getTranslate = (skill: SkillEnum | null) => {
     switch (skill) {
       case SkillEnum.READING:

@@ -7,6 +7,7 @@ import { SkillEnum } from '~/enums';
 import { Button } from '../ui/button';
 
 export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
+
   const segmentSkill =
     skill === SkillEnum.READING
       ? 'reading'
