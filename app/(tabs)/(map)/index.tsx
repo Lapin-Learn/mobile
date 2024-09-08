@@ -1,9 +1,11 @@
+import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IconCarrot from '~/assets/images/carrot.svg';
 import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
+import { Button } from '~/components/ui/button';
 
 export default function CustomHeader() {
   return (
@@ -20,6 +22,11 @@ export default function CustomHeader() {
         <IconRank width={32} height={32} />
       </View>
       <Text>Map Here</Text>
+      <View className='flex flex-col items-center justify-center'>
+        <Button variant='outline' className='w-[50%]' onPress={() => router.push('daily-lesson')}>
+          <Text>Go to Lesson</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
