@@ -7,7 +7,6 @@ import { SkillEnum } from '~/enums';
 import { Button } from '../ui/button';
 
 export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
-
   const segmentSkill =
     skill === SkillEnum.READING
       ? 'reading'
@@ -31,7 +30,7 @@ export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
         <View className='absolute w-1/3 h-2 bg-orange-500 mt-5 -top-5' />
       </View>
       <View className='w-full flex flex-row justify-between items-center mb-5 mt-2'>
-        <Text className='text-blue-900 text-subhead font-bold'>{t('list.level')}</Text>
+        <Text className='text-blue-900 text-subhead font-bold'>{t('list.level', { level: 1 })}</Text>
         <Text className='text-blue-900 text-subhead font-bold'>{t('list.progress', { current: 80, total: 2000 })}</Text>
       </View>
       <Button
