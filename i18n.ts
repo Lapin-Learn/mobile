@@ -8,7 +8,7 @@ i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources: {
     en: { translation: en.english, auth: en.auth },
-    vi: { translation: vi, auth: vi.auth },
+    vi: { translation: vi.vietnamese, auth: vi.auth },
   },
   lng: 'vi',
   fallbackLng: 'en',

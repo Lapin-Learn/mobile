@@ -11,6 +11,7 @@ import IconCarrot from '~/assets/images/carrot.svg';
 import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
 import { ListeningRegion } from '~/components/molecules/ListeningRegion';
+import { Modal } from '~/components/molecules/Modal';
 import { ReadingRegion } from '~/components/molecules/ReadingRegion';
 import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
 import { WritingRegion } from '~/components/molecules/WritingRegion';
@@ -32,11 +33,10 @@ export default function Index() {
         <IconRank width={32} height={32} />
       </View>
       <Map />
-      <View className='flex flex-col items-center justify-center'>
-        <Button variant='outline' className='w-[50%]' onPress={() => router.push('daily-lesson')}>
-          <Text>Go to Lesson</Text>
-        </Button>
-      </View>
+      <Modal>
+        <Text>This is modal content to require a user profile update</Text>
+      </Modal>
+
     </SafeAreaView>
   );
 }

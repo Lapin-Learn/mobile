@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LOGOFB from '~/assets/images/facebook.svg';
@@ -43,7 +43,7 @@ export default function SignUp() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signUp.title')} />
       <View className='bg-background grow w-full px-4 pb-8 flex-col justify-between items-center inline-flex'>
         <Text className='w-full text-neutral-500 font-normal text-callout'>{t('signUp.subtitle')}</Text>
@@ -91,7 +91,7 @@ export default function SignUp() {
           </Link>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

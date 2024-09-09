@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { SkillEnum } from '~/enums';
 import { IQuestionType } from '~/interfaces';
 import { getQuestionTypes } from '~/services/daily-lesson';
@@ -20,6 +21,7 @@ export default function Exercise() {
   }, [slug]);
   return (
     <SafeAreaView>
+      <NavigationBar headerTitle={slug.toString().slice(0, 1).toUpperCase() + slug.slice(1)} headerLeftShown={true} />
       {questionTypes.length === 0 ? (
         <Text>No questions</Text>
       ) : (

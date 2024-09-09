@@ -3,7 +3,7 @@ import { Link } from 'expo-router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LOGOFB from '~/assets/images/facebook.svg';
@@ -37,7 +37,7 @@ export default function SignIn() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signIn.welcomeBack')} />
 
       <View className='bg-background grow w-full px-4 pb-8 flex-col justify-between items-center inline-flex'>
@@ -86,7 +86,7 @@ export default function SignIn() {
           </Link>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

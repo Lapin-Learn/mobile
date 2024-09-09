@@ -16,7 +16,7 @@ export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
           ? 'writing'
           : 'speaking';
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation');
   const handleExercise = () => {
     return router.push(`/exercise/${segmentSkill}`);
   };

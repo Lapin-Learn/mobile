@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -63,7 +63,7 @@ export default function Verify() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
         <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
@@ -127,6 +127,6 @@ export default function Verify() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 }
