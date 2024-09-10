@@ -7,21 +7,12 @@ import { SkillEnum } from '~/enums';
 import { Button } from '../ui/button';
 
 export function PopupLesson({ skill }: { skill: SkillEnum | null }) {
-  const segmentSkill =
-    skill === SkillEnum.READING
-      ? 'reading'
-      : skill === SkillEnum.LISTENING
-        ? 'listening'
-        : skill === SkillEnum.WRITING
-          ? 'writing'
-          : 'speaking';
-
   const { t } = useTranslation();
   const handleExercise = () => {
-    return router.push(`/exercise/${segmentSkill}`);
+    return router.push(`/exercise/${skill}`);
   };
   const handleReview = () => {
-    return router.push(`/review/${segmentSkill}`);
+    return router.push(`/review/${skill}`);
   };
   return (
     <View className='w-[300px] bg-white p-4 mt-2 ml-2 rounded-lg items-center justify-center'>

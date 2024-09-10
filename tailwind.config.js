@@ -34,7 +34,11 @@ module.exports = {
         44: '176px', // 44 units = 176px
       },
       boxShadow: {
-        button: '2px 2px 0px', // 2px 2px shadow with 4px blur and 25% opacity
+        button: '2px 2px 0px',
+        'listening-lesson': '4px 4px 0px 0px rgba(39,124,181,1)',
+        'reading-lesson': '4px 4px 0px 0px rgba(62,145,1,1)',
+        'speaking-lesson': '4px 4px 0px 0px rgba(135,62,181,1)',
+        'writing-lesson': '4px 4px 0px 0px rgba(181,160,53,1)',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
