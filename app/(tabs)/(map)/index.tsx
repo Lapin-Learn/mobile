@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import { SplashScreen } from 'expo-router';
 import { MotiView } from 'moti';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -10,12 +9,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import IconCarrot from '~/assets/images/carrot.svg';
 import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
-import { ListeningRegion } from '~/components/molecules/ListeningRegion';
 import { Modal } from '~/components/molecules/Modal';
-import { ReadingRegion } from '~/components/molecules/ReadingRegion';
-import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
-import { WritingRegion } from '~/components/molecules/WritingRegion';
-import { SkillEnum } from '~/enums';
+import { Region } from '~/components/molecules/region/Region';
+import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
   return (
@@ -42,6 +38,22 @@ export default function Index() {
 function Map() {
   const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
 
+  const handleSelectRegion = (skill: SkillEnum | null) => {
+    if (currentSkill === skill) {
+      setCurrentSkill(null);
+    } else {
+      setCurrentSkill(skill);
+    }
+  };
+
+  const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
+    reading: { x: -75, y: -25 },
+    listening: { x: 100, y: 100 },
+    speaking: { x: 150, y: -75 },
+    writing: { x: -25, y: -250 },
+    null: { x: 0, y: 0 },
+  };
+
   const getTranslate = (skill: SkillEnum | null) => {
     switch (skill) {
       case SkillEnum.READING:
@@ -66,30 +78,20 @@ function Map() {
           translateY: 0,
         }}
         animate={{
-          translateX: getTranslate(currentSkill).x,
-          translateY: getTranslate(currentSkill).y,
+          translateX: translateMap[currentSkill ?? 'null'].x,
+          translateY: translateMap[currentSkill ?? 'null'].y,
         }}
         transition={{ type: 'timing', duration: 1000 }}>
-        <SpeakingRegion
-          currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(SkillEnum.SPEAKING)}
-          reset={() => setCurrentSkill(null)}
-        />
-        <WritingRegion
-          currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(SkillEnum.WRITING)}
-          reset={() => setCurrentSkill(null)}
-        />
-        <ReadingRegion
-          currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(SkillEnum.READING)}
-          reset={() => setCurrentSkill(null)}
-        />
-        <ListeningRegion
-          currentSkill={currentSkill}
-          setCurrentSkill={() => setCurrentSkill(SkillEnum.LISTENING)}
-          reset={() => setCurrentSkill(null)}
-        />
+        {Object.values(SkillEnum).map((skill) => {
+          return (
+            <Region
+              key={skill}
+              name={skill}
+              selected={currentSkill === skill}
+              onSelect={() => handleSelectRegion(skill)}
+            />
+          );
+        })}
       </MotiView>
     </Pressable>
   );

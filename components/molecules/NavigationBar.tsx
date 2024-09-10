@@ -3,27 +3,29 @@ import { Text, View } from 'react-native';
 
 import { BackButton } from './BackButton';
 
+export type NavigationBarProps = {
+  title?: string;
+  headerTitle?: string;
+  headerLeftShown?: boolean;
+  onHeaderLeftPress?: () => JSX.Element;
+  headerRightShown?: boolean;
+  onHeaderRightPress?: () => JSX.Element;
+};
+
 export function NavigationBar({
   title,
   headerTitle,
   headerLeftShown = false,
-  headerLeft,
+  onHeaderLeftPress,
   headerRightShown = false,
-  headerRight,
-}: {
-  title?: string;
-  headerTitle?: string;
-  headerLeftShown?: boolean;
-  headerLeft?: () => JSX.Element;
-  headerRightShown?: boolean;
-  headerRight?: () => JSX.Element;
-}) {
+  onHeaderRightPress,
+}: NavigationBarProps) {
   return (
-    <View className='bg-background'>
-      <View className='h-[54px] flex flex-row justify-between items-center pl-4 '>
+    <View className='bg-background px-4'>
+      <View className='h-[54px] flex flex-row justify-between items-center'>
         {headerLeftShown &&
-          (headerLeft ? (
-            headerLeft()
+          (onHeaderLeftPress ? (
+            onHeaderLeftPress()
           ) : (
             <BackButton
               className='w-6'
@@ -39,7 +41,7 @@ export function NavigationBar({
 
         {headerTitle && <Text className='text-black text-title-1 font-bold'>{headerTitle}</Text>}
 
-        {headerRightShown && headerRight ? headerRight() : <View className='w-6' />}
+        {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
       </View>
       {title && (
         <View className='w-full pl-4 items-start'>

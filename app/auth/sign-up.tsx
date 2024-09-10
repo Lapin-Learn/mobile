@@ -9,7 +9,7 @@ import LOGOFB from '~/assets/images/facebook.svg';
 import LOGOGOOGLE from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useSignUp } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -71,11 +71,7 @@ export default function SignUp() {
             />
           </View>
           <View className='gap-y-6'>
-            <Button
-              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
-              onPress={handleSubmit(onSubmit)}
-              size='lg'
-              disabled={signUpMutation.isPending}>
+            <Button className='shadow-button' onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
               <Text className='text-white text-body font-semibold'>{t('signUp.signUpButton')}</Text>
             </Button>
             <View className='flex flex-col justify-center items-center gap-y-[7px]'>

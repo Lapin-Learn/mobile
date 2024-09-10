@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useResetPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -64,7 +64,7 @@ export default function ResetPassword() {
           </View>
 
           <Button
-            className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+            className='shadow-button'
             onPress={handleSubmit(onSubmit)}
             disabled={resetPasswordMutation.isPending}
             size={'lg'}>

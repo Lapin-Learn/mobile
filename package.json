@@ -11,7 +11,8 @@
     "test": "jest --watchAll",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write . --ext js,.jsx,.ts,.tsx",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "jest": {
     "preset": "jest-expo"

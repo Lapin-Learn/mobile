@@ -2,7 +2,11 @@ import { CircleX } from 'lucide-react-native';
 import { useState } from 'react';
 import { Modal, TouchableOpacity, View } from 'react-native';
 
-function CustomModal({ children }: { children?: React.ReactNode }) {
+type CustomModalProps = {
+  children?: React.ReactNode;
+};
+
+function CustomModal({ children }: CustomModalProps) {
   const [visible, setVisible] = useState(true);
   return (
     <Modal animationType='slide' transparent={true} visible={visible} onRequestClose={() => {}}>

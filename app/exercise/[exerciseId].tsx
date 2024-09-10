@@ -4,24 +4,27 @@ import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { SkillEnum } from '~/enums';
-import { IQuestionType } from '~/interfaces';
+import { SkillEnum } from '~/lib/enums';
+import { IQuestionType } from '~/lib/interfaces';
 import { getQuestionTypes } from '~/services/daily-lesson';
 
 export default function Exercise() {
-  const { slug } = useLocalSearchParams();
+  const { exerciseId } = useLocalSearchParams<{ exerciseId: SkillEnum }>();
   const [questionTypes, setQuestionTypes] = useState<IQuestionType[]>([]);
 
   useEffect(() => {
     const fetchQuestionTypes = async () => {
-      const data = await getQuestionTypes({ skill: slug as SkillEnum });
+      const data = await getQuestionTypes({ skill: exerciseId as SkillEnum });
       setQuestionTypes(data);
     };
     fetchQuestionTypes();
-  }, [slug]);
+  }, [exerciseId]);
   return (
     <SafeAreaView>
-      <NavigationBar headerTitle={slug.toString().slice(0, 1).toUpperCase() + slug.slice(1)} headerLeftShown={true} />
+      <NavigationBar
+        headerTitle={exerciseId.toString().slice(0, 1).toUpperCase() + exerciseId.slice(1)}
+        headerLeftShown={true}
+      />
       {questionTypes.length === 0 ? (
         <Text>No questions</Text>
       ) : (

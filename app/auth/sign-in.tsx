@@ -10,7 +10,7 @@ import LOGOFB from '~/assets/images/facebook.svg';
 import LOGOGOOGLE from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useSignIn } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -67,7 +67,7 @@ export default function SignIn() {
 
           <View className='gap-y-6'>
             <Button
-              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+              className='shadow-button'
               onPress={handleSubmit(onSubmit)}
               size={'lg'}
               disabled={signInMutation.isPending}>

@@ -2,7 +2,7 @@ import { Redirect } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { hydrate, signOut, useAuth } from '~/hooks/zustand';
 
 export default function Index() {

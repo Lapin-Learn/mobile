@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -41,7 +41,7 @@ export default function ForgotPassword() {
     <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
-        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='w-full bg-background grow px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
           <View className='gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
@@ -57,7 +57,7 @@ export default function ForgotPassword() {
           </View>
 
           <Button
-            className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+            className='w-full shadow-button'
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>

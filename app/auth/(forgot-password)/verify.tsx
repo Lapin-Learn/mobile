@@ -7,7 +7,7 @@ import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } 
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -110,7 +110,7 @@ export default function Verify() {
           </View>
           <View className='w-full gap-y-4'>
             <Button
-              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+              className='shadow-button'
               onPress={handleSubmit(onSubmit)}
               disabled={verifyMutation.isPending}
               size={'lg'}>

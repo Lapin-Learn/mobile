@@ -1,4 +1,4 @@
-import { SkillEnum } from '~/enums';
+import { SkillEnum } from './enums';
 
 export interface IQuestionType {
   id: number;

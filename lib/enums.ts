@@ -1,6 +1,6 @@
 export enum SkillEnum {
   SPEAKING = 'speaking',
-  LISTENING = 'listening',
-  READING = 'reading',
   WRITING = 'writing',
+  READING = 'reading',
+  LISTENING = 'listening',
 }

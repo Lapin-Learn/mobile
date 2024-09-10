@@ -19,10 +19,12 @@ module.exports = {
         6: '24px', // 6 units = 24px
         7: '28px', // 7 units = 28px
         8: '32px', // 8 units = 32px
+        8.5: '34px', // 8.5 units = 34px
         9: '36px', // 9 units = 36px
         10: '40px', // 10 units = 40px
         11: '44px', // 11 units = 44px
         12: '48px', // 12 units = 48px
+        12.5: '50px', // 12.5 units = 50px
         14: '56px', // 14 units = 56px
         16: '64px', // 16 units = 64px
         20: '80px', // 20 units = 80px
@@ -34,7 +36,8 @@ module.exports = {
         44: '176px', // 44 units = 176px
       },
       boxShadow: {
-        button: '2px 2px 0px',
+        'auth-button': '2px 2px 0px 0px rgba(169, 66, 28, 1)',
+        button: '4px 4px 0px 0px rgba(169, 66, 28, 1)',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

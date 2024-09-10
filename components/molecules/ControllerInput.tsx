@@ -1,18 +1,13 @@
-import React from 'react';
 import { FieldError, FieldValues, useController, UseControllerProps } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
-export function ControllerInput<T>({
-  props,
-  label,
-  placeholder,
-  error,
-}: {
+export type ControllerInputProps<T = Record<string, string>> = {
   props: UseControllerProps<T & FieldValues>;
   label: string;
   placeholder: string;
   error: FieldError | undefined;
-}) {
+};
+export function ControllerInput<T>({ props, label, placeholder, error }: ControllerInputProps<T>) {
   const { field } = useController(props);
 
   return (
