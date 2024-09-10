@@ -34,7 +34,7 @@ module.exports = {
         44: '176px', // 44 units = 176px
       },
       boxShadow: {
-        button: '2px 2px 0px', // 2px 2px shadow with 4px blur and 25% opacity
+        button: '2px 2px 0px',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

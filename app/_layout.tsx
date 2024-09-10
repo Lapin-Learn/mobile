@@ -3,13 +3,14 @@ import '~/global.css';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Appearance, Platform } from 'react-native';
 import Toast from 'react-native-toast-message';
 
+import { AppStack } from '~/components/navigation/AppStack';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
@@ -62,7 +63,7 @@ export default function RootLayout() {
   }, [colorScheme]);
 
   if (!isColorSchemeLoaded) {
-    return null;
+    // return null; // fallback to whatever the splash screen is doing by default (1)
   }
 
   return (
@@ -70,13 +71,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack>
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            <Stack.Screen name='auth' options={{ headerShown: false }} />
-            <Stack.Screen name='firebaseauth' options={{ headerShown: false }} />
-            <Stack.Screen name='exercise' options={{ headerShown: false }} />
-            <Stack.Screen name='review' options={{ headerShown: false }} />
-          </Stack>
+          <AppStack />
           <Toast />
         </I18nextProvider>
       </QueryClientProvider>

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import { router } from 'expo-router';
+import { SplashScreen } from 'expo-router';
 import { MotiView } from 'moti';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -15,7 +15,6 @@ import { Modal } from '~/components/molecules/Modal';
 import { ReadingRegion } from '~/components/molecules/ReadingRegion';
 import { SpeakingRegion } from '~/components/molecules/SpeakingRegion';
 import { WritingRegion } from '~/components/molecules/WritingRegion';
-import { Button } from '~/components/ui/button';
 import { SkillEnum } from '~/enums';
 
 export default function Index() {
@@ -36,7 +35,6 @@ export default function Index() {
       <Modal>
         <Text>This is modal content to require a user profile update</Text>
       </Modal>
-
     </SafeAreaView>
   );
 }
