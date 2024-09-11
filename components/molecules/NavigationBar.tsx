@@ -1,7 +1,6 @@
 import { router } from 'expo-router';
+import { LucideMoveLeft } from 'lucide-react-native';
 import { Text, View } from 'react-native';
-
-import { BackButton } from './BackButton';
 
 export type NavigationBarProps = {
   title?: string;
@@ -21,14 +20,14 @@ export function NavigationBar({
   onHeaderRightPress,
 }: NavigationBarProps) {
   return (
-    <View className='bg-background px-4'>
-      <View className='flex h-[54px] flex-row items-center justify-between'>
+    <View className='px-4'>
+      <View className='flex h-13.5 flex-row items-center justify-between'>
         {headerLeftShown &&
           (onHeaderLeftPress ? (
             onHeaderLeftPress()
           ) : (
-            <BackButton
-              className='w-6'
+            <LucideMoveLeft
+              color={'black'}
               onPress={() => {
                 if (router.canGoBack()) {
                   router.back();
@@ -44,7 +43,7 @@ export function NavigationBar({
         {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
       </View>
       {title && (
-        <View className='w-full items-start pl-4'>
+        <View className='w-full items-start'>
           <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
         </View>
       )}

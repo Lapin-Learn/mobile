@@ -48,10 +48,10 @@ export function Region({ name, selected, onSelect }: RegionProps) {
   };
 
   const regionClassName: Record<SkillEnum, string> = {
-    reading: 'top-56 right-16',
+    reading: 'top-56 right-18',
     listening: 'top-14 left-16',
     speaking: 'top-64 left-28',
-    writing: 'top-80 right-20',
+    writing: 'top-80 right-24',
   };
 
   const regionTextClassName: Record<SkillEnum, string> = {
@@ -62,10 +62,10 @@ export function Region({ name, selected, onSelect }: RegionProps) {
   };
 
   const regionPopupClassNameLarge: Record<SkillEnum, string> = {
-    reading: 'top-52 right-12 mt-2 mr-2',
-    listening: 'top-14 left-16',
-    speaking: 'top-64 left-0',
-    writing: 'top-80 right-16 mt-2 mr-2',
+    reading: 'top-52 right-14 mt-4',
+    listening: 'top-14 left-18 mt-2',
+    speaking: 'top-64 left-1 mt-2',
+    writing: 'top-80 right-22 mt-4',
   };
 
   const regionPopupClassNameSmall: Record<SkillEnum, string> = {
@@ -90,13 +90,14 @@ export function Region({ name, selected, onSelect }: RegionProps) {
           </View>
         </Pressable>
       </View>
-      <View className={cn('absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
-        {selected ? (
+      {selected && (
+        <View
+          className={cn('absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
           <View className={cn('absolute', regionPopupClassNameSmall[name])}>
             <PopupLesson skill={name} />
           </View>
-        ) : null}
-      </View>
+        </View>
+      )}
     </>
   );
 }

@@ -40,7 +40,7 @@ export default function SignIn() {
     <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signIn.welcomeBack')} />
 
-      <View className='inline-flex w-full grow flex-col items-center justify-between bg-background px-4 pb-8'>
+      <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
         <Text className='w-full text-callout font-normal text-neutral-500'>{t('signIn.enterDetails')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>

@@ -16,7 +16,7 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
   };
 
   return (
-    <View className='ml-2 w-[300px] items-center justify-center rounded-2xl bg-white px-4 pb-3'>
+    <View className='w-[300px] items-center justify-center rounded-2xl bg-white px-4 pb-3'>
       <View className='absolute -top-2.5 h-4 w-4 rotate-45 bg-white' />
       <View className='relative mt-5 h-2 w-full bg-orange-200'>
         <View className='absolute -top-5 mt-5 h-2 w-1/3 bg-orange-500' />

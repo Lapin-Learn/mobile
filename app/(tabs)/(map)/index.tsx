@@ -25,7 +25,7 @@ export default function Index() {
           <IconCarrot width={32} height={32} />
           <Text className='title-4 font-bold text-orange-400'>500</Text>
         </View>
-        <IconRank width={32} height={32} />
+        <IconRank width={48} height={48} />
       </View>
       <Map />
       <Modal>

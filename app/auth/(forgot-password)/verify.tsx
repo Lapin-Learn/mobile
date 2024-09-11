@@ -66,7 +66,7 @@ export default function Verify() {
     <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
-        <View className='inline-flex w-full grow flex-col items-center justify-between bg-background px-4 pb-[21px]'>
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='w-full gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>

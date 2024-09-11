@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-kit",
-    "slug": "react-native-kit",
+    "name": "lapinlearn",
+    "slug": "lapinlearn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleName": "Lapin Learn",
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "ExpoLocalization_supportsRTL": false
       },
       "bundleIdentifier": "com.datn.lapinlearn"
     },
@@ -27,7 +28,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#F9F7F7"
-      }
+      },
+      "package": "com.datn.lapinlearn"
     },
     "web": {
       "bundler": "metro",
@@ -38,12 +40,22 @@
       "en": "./locales/en/english.json",
       "vi": "./locales/vi/vietnamese.json"
     },
-    "plugins": ["expo-router", "expo-localization", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store"
+    ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-      "supportsRTL": false
+      "supportsRTL": false,
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "78d04b86-59b5-4045-b3c7-96ca573b662f"
+      }
     }
   }
 }
