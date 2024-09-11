@@ -12,12 +12,12 @@ export function ControllerInput<T>({ props, label, placeholder, error }: Control
 
   return (
     <>
-      <View className='w-full flex-col justify-start items-start gap-1 inline-flex'>
-        <Text className='font-semibold text-lg text-neutral-900'>{label}</Text>
-        <View className='w-full flex flex-row gap-x-1'>
-          <View className='w-full grow flex flex-row justify-center items-center rounded-md'>
+      <View className='inline-flex w-full flex-col items-start justify-start gap-1'>
+        <Text className='text-lg font-semibold text-neutral-900'>{label}</Text>
+        <View className='flex w-full flex-row gap-x-1'>
+          <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
             <TextInput
-              className='w-full p-3 text-subhead border font-medium placeholder:text-neutral-700 border-neutral-200 bg-white'
+              className='w-full border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-neutral-700'
               placeholder={placeholder}
               value={field.value === 0 ? '' : field.value}
               onChangeText={field.onChange}

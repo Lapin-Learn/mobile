@@ -12,7 +12,7 @@ import { useAuth } from '~/hooks/zustand';
 
 function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focused: boolean }) {
   return (
-    <View className={`${focused ? 'm-4 border border-orange-500 bg-orange-50 rounded' : ''}`}>
+    <View className={`${focused ? 'm-4 rounded border border-orange-500 bg-orange-50' : ''}`}>
       <Icon />
     </View>
   );

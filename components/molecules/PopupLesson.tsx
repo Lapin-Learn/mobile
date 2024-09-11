@@ -16,21 +16,21 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
   };
 
   return (
-    <View className='w-[300px] bg-white px-4 pb-3 ml-2 rounded-2xl items-center justify-center'>
-      <View className='w-4 h-4 absolute bg-white -top-2.5 rotate-45' />
-      <View className='relative w-full h-2 bg-orange-200 mt-5'>
-        <View className='absolute w-1/3 h-2 bg-orange-500 mt-5 -top-5' />
+    <View className='ml-2 w-[300px] items-center justify-center rounded-2xl bg-white px-4 pb-3'>
+      <View className='absolute -top-2.5 h-4 w-4 rotate-45 bg-white' />
+      <View className='relative mt-5 h-2 w-full bg-orange-200'>
+        <View className='absolute -top-5 mt-5 h-2 w-1/3 bg-orange-500' />
       </View>
-      <View className='w-full flex flex-row justify-between items-center mb-5 mt-2'>
-        <Text className='text-blue-900 text-subhead font-bold'>{t('list.level', { level: 1 })}</Text>
-        <Text className='text-blue-900 text-subhead font-bold'>{t('list.progress', { current: 80, total: 2000 })}</Text>
+      <View className='mb-5 mt-2 flex w-full flex-row items-center justify-between'>
+        <Text className='text-subhead font-bold text-blue-900'>{t('list.level', { level: 1 })}</Text>
+        <Text className='text-subhead font-bold text-blue-900'>{t('list.progress', { current: 80, total: 2000 })}</Text>
       </View>
       <View className='w-full gap-y-2'>
         <Button className='shadow-button' onPress={handleExercise}>
-          <Text className='text-white text-subhead font-semibold'>{t('list.exerciseButton', { xp: 25 })}</Text>
+          <Text className='text-subhead font-semibold text-white'>{t('list.exerciseButton', { xp: 25 })}</Text>
         </Button>
         <Button className='bg-orange-50' onPress={handleReview}>
-          <Text className='text-orange-500 text-subhead font-semibold'>{t('list.reviewButton')}</Text>
+          <Text className='text-subhead font-semibold text-orange-500'>{t('list.reviewButton')}</Text>
         </Button>
       </View>
     </View>

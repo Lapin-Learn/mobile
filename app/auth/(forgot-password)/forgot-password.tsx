@@ -41,10 +41,10 @@ export default function ForgotPassword() {
     <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
-        <View className='w-full bg-background grow px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='inline-flex w-full grow flex-col items-center justify-between bg-background px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
                 {t('forgotPassword.instruction')}
               </Text>
             </View>
@@ -61,7 +61,7 @@ export default function ForgotPassword() {
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>{t('forgotPassword.sendOtpButton')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('forgotPassword.sendOtpButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

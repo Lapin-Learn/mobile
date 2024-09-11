@@ -29,7 +29,7 @@ export default function Exercise() {
         <Text>No questions</Text>
       ) : (
         questionTypes.map((questionType: IQuestionType) => (
-          <View key={`${questionType.skill}-${questionType.id}`} className='flex-col justify-center w-full mb-2'>
+          <View key={`${questionType.skill}-${questionType.id}`} className='mb-2 w-full flex-col justify-center'>
             <Text className='text-center'>Image ID: {questionType.imageId}</Text>
             <Text className='text-center'>Name: {questionType.name}</Text>
             <Text className='text-center'>Lessons: {questionType.lessons}</Text>

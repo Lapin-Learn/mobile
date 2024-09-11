@@ -22,7 +22,7 @@ export function NavigationBar({
 }: NavigationBarProps) {
   return (
     <View className='bg-background px-4'>
-      <View className='h-[54px] flex flex-row justify-between items-center'>
+      <View className='flex h-[54px] flex-row items-center justify-between'>
         {headerLeftShown &&
           (onHeaderLeftPress ? (
             onHeaderLeftPress()
@@ -39,13 +39,13 @@ export function NavigationBar({
             />
           ))}
 
-        {headerTitle && <Text className='text-black text-title-1 font-bold'>{headerTitle}</Text>}
+        {headerTitle && <Text className='text-title-1 font-bold text-black'>{headerTitle}</Text>}
 
         {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
       </View>
       {title && (
-        <View className='w-full pl-4 items-start'>
-          <Text className='text-orange-900 text-large-title font-bold'>{title}</Text>
+        <View className='w-full items-start pl-4'>
+          <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
         </View>
       )}
     </View>

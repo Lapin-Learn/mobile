@@ -77,10 +77,10 @@ export function Region({ name, selected, onSelect }: RegionProps) {
 
   return (
     <>
-      <View className={cn('w-0 h-0 absolute flex justify-center items-center scale-90', regionClassName[name])}>
+      <View className={cn('absolute flex h-0 w-0 scale-90 items-center justify-center', regionClassName[name])}>
         <Pressable onPress={handlePress}>
           <ActionSelectRegion region={regionMapping[name]} />
-          <View className={cn('z-50 absolute', regionTextClassName[name])}>
+          <View className={cn('absolute z-50', regionTextClassName[name])}>
             <MotiView
               from={{ opacity: 0 }}
               animate={{ opacity: !selected ? 1 : 0 }}
@@ -90,7 +90,7 @@ export function Region({ name, selected, onSelect }: RegionProps) {
           </View>
         </Pressable>
       </View>
-      <View className={cn('z-50 absolute flex justify-center items-center scale-90', regionPopupClassNameLarge[name])}>
+      <View className={cn('absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
         {selected ? (
           <View className={cn('absolute', regionPopupClassNameSmall[name])}>
             <PopupLesson skill={name} />

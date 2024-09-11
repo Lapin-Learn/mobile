@@ -41,10 +41,10 @@ export default function ResetPassword() {
     <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('resetPassword.title')} headerLeftShown={true} />
-        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='inline-flex w-full grow flex-col items-center justify-between bg-background px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
                 {t('resetPassword.instruction')}
               </Text>
             </View>
@@ -68,7 +68,7 @@ export default function ResetPassword() {
             onPress={handleSubmit(onSubmit)}
             disabled={resetPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>{t('resetPassword.resetButton')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

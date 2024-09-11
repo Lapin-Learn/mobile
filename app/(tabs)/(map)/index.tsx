@@ -16,14 +16,14 @@ import { SkillEnum } from '~/lib/enums';
 export default function Index() {
   return (
     <SafeAreaView>
-      <View className='flex flex-row items-center justify-center gap-10 m-4 z-50'>
+      <View className='z-50 m-4 flex flex-row items-center justify-center gap-10'>
         <View className='flex flex-row items-center justify-center'>
           <IconStreak width={32} height={32} />
-          <Text className='text-orange-500 title-4 font-bold'>1234</Text>
+          <Text className='title-4 font-bold text-orange-500'>1234</Text>
         </View>
         <View className='flex flex-row items-center justify-center'>
           <IconCarrot width={32} height={32} />
-          <Text className='text-orange-400 title-4 font-bold'>500</Text>
+          <Text className='title-4 font-bold text-orange-400'>500</Text>
         </View>
         <IconRank width={32} height={32} />
       </View>
@@ -72,7 +72,7 @@ function Map() {
   return (
     <Pressable className='h-full' onPress={() => setCurrentSkill(null)}>
       <MotiView
-        className='flex justify-center items-center -mt-5'
+        className='-mt-5 flex items-center justify-center'
         from={{
           translateX: 0,
           translateY: 0,

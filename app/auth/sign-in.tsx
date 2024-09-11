@@ -40,8 +40,8 @@ export default function SignIn() {
     <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signIn.welcomeBack')} />
 
-      <View className='bg-background grow w-full px-4 pb-8 flex-col justify-between items-center inline-flex'>
-        <Text className='w-full text-neutral-500 font-normal text-callout'>{t('signIn.enterDetails')}</Text>
+      <View className='inline-flex w-full grow flex-col items-center justify-between bg-background px-4 pb-8'>
+        <Text className='w-full text-callout font-normal text-neutral-500'>{t('signIn.enterDetails')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>
             <ControllerInput
@@ -60,7 +60,7 @@ export default function SignIn() {
 
             <View className='flex flex-row justify-end'>
               <Link push href='/auth/(forgot-password)'>
-                <Text className='text-orange-500 text-subhead font-medium'>{t('signIn.forgotPassword')}</Text>
+                <Text className='text-subhead font-medium text-orange-500'>{t('signIn.forgotPassword')}</Text>
               </Link>
             </View>
           </View>
@@ -71,18 +71,18 @@ export default function SignIn() {
               onPress={handleSubmit(onSubmit)}
               size={'lg'}
               disabled={signInMutation.isPending}>
-              <Text className='text-white text-body font-semibold'>{t('signIn.signIn')}</Text>
+              <Text className='text-body font-semibold text-white'>{t('signIn.signIn')}</Text>
             </Button>
-            <View className='flex flex-col justify-center items-center gap-y-[7px]'>
-              <Text className='text-supporting-text text-subhead font-medium'>{t('signIn.orSignInWith')}</Text>
+            <View className='flex flex-col items-center justify-center gap-y-[7px]'>
+              <Text className='text-subhead font-medium text-supporting-text'>{t('signIn.orSignInWith')}</Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
-        <View className='flex flex-row justify-center items-center gap-x-2.5'>
-          <Text className='text-neutral-900 text-footnote'>{t('signIn.noAccount')}</Text>
+        <View className='flex flex-row items-center justify-center gap-x-2.5'>
+          <Text className='text-footnote text-neutral-900'>{t('signIn.noAccount')}</Text>
           <Link push href='/auth/sign-up'>
-            <Text className='text-orange-500 text-footnote font-medium'>{t('signIn.signUp')}</Text>
+            <Text className='text-footnote font-medium text-orange-500'>{t('signIn.signUp')}</Text>
           </Link>
         </View>
       </View>
@@ -92,7 +92,7 @@ export default function SignIn() {
 
 function OtherSignIn() {
   return (
-    <View className='flex flex-row justify-center items-center gap-x-[35px]'>
+    <View className='flex flex-row items-center justify-center gap-x-[35px]'>
       <LOGOFB onPress={() => {}} width={32} height={32} />
       <LOGOGOOGLE onPress={() => {}} width={32} height={32} />
     </View>
