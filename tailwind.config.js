@@ -19,13 +19,18 @@ module.exports = {
         6: '24px', // 6 units = 24px
         7: '28px', // 7 units = 28px
         8: '32px', // 8 units = 32px
+        8.5: '34px', // 8.5 units = 34px
         9: '36px', // 9 units = 36px
         10: '40px', // 10 units = 40px
         11: '44px', // 11 units = 44px
         12: '48px', // 12 units = 48px
+        12.5: '50px', // 12.5 units = 50px
+        13.5: '54px', // 13.5 units = 54px
         14: '56px', // 14 units = 56px
         16: '64px', // 16 units = 64px
+        18: '72px', // 18 units = 72px
         20: '80px', // 20 units = 80px
+        22: '88px', // 22 units = 88px
         24: '96px', // 24 units = 96px
         28: '112px', // 28 units = 112px
         32: '128px', // 32 units = 128px
@@ -34,7 +39,7 @@ module.exports = {
         44: '176px', // 44 units = 176px
       },
       boxShadow: {
-        button: '2px 2px 0px',
+        button: '4px 4px 0px 0px rgba(169, 66, 28, 1)',
         'listening-lesson': '4px 4px 0px 0px rgba(39,124,181,1)',
         'reading-lesson': '4px 4px 0px 0px rgba(62,145,1,1)',
         'speaking-lesson': '4px 4px 0px 0px rgba(135,62,181,1)',

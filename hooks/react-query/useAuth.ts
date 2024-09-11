@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 
 import { signIn as setNewToken } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
@@ -63,7 +63,7 @@ export const useVerifySignUp = () => {
     mutationFn: verify,
     onSuccess: () => {
       router.dismissAll();
-      router.navigate('auth/sign-in');
+      router.navigate('auth/sign-in' as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -78,7 +78,7 @@ export const useVerifyForgotPassword = () => {
     onSuccess: (data) => {
       router.dismissAll();
       setTokenAsync(data);
-      router.push(`auth/reset-password`);
+      router.push(`auth/reset-password` as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -90,7 +90,7 @@ export const useResetPassword = () => {
   const toast = useToast();
   return useMutation({
     mutationFn: resetPassword,
-    onSuccess: () => router.navigate('auth/sign-in'),
+    onSuccess: () => router.navigate('auth/sign-in' as Href),
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
     },
@@ -105,7 +105,7 @@ export const useSignOut = () => {
     onSuccess: () => {
       signOut();
       client.clear();
-      router.navigate('auth/sign-in');
+      router.navigate('auth/sign-in' as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });

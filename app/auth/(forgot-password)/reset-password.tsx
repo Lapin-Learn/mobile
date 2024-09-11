@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useResetPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -38,13 +38,13 @@ export default function ResetPassword() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('resetPassword.title')} headerLeftShown={true} />
-        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
                 {t('resetPassword.instruction')}
               </Text>
             </View>
@@ -64,14 +64,14 @@ export default function ResetPassword() {
           </View>
 
           <Button
-            className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+            className='shadow-button'
             onPress={handleSubmit(onSubmit)}
             disabled={resetPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>{t('resetPassword.resetButton')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 }

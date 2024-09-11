@@ -48,7 +48,6 @@ export const resetPassword = async (params: { newPassword: string }) => {
 };
 
 export const signOut = async () => {
-  // return await apiAuth.post('auth/sign-out');
   return;
 };
 

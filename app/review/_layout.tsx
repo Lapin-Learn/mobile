@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen
-        name='[slug]'
+        name='[reviewId]'
         options={{
           headerTransparent: true,
           headerTitleAlign: 'center',

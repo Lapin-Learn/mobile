@@ -2,14 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LOGOFB from '~/assets/images/facebook.svg';
 import LOGOGOOGLE from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useSignUp } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -43,10 +43,10 @@ export default function SignUp() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signUp.title')} />
-      <View className='bg-background grow w-full px-4 pb-8 flex-col justify-between items-center inline-flex'>
-        <Text className='w-full text-neutral-500 font-normal text-callout'>{t('signUp.subtitle')}</Text>
+      <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
+        <Text className='w-full text-callout font-normal text-neutral-500'>{t('signUp.subtitle')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>
             <ControllerInput
@@ -71,33 +71,29 @@ export default function SignUp() {
             />
           </View>
           <View className='gap-y-6'>
-            <Button
-              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
-              onPress={handleSubmit(onSubmit)}
-              size='lg'
-              disabled={signUpMutation.isPending}>
-              <Text className='text-white text-body font-semibold'>{t('signUp.signUpButton')}</Text>
+            <Button className='shadow-button' onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
+              <Text className='text-body font-semibold text-white'>{t('signUp.signUpButton')}</Text>
             </Button>
-            <View className='flex flex-col justify-center items-center gap-y-[7px]'>
-              <Text className='text-supporting-text text-subhead font-medium'>{t('signUp.orSignUpWith')}</Text>
+            <View className='flex flex-col items-center justify-center gap-y-[7px]'>
+              <Text className='text-subhead font-medium text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
-        <View className='flex flex-row justify-center items-center gap-x-2.5'>
-          <Text className='text-neutral-900 text-footnote'>{t('signUp.alreadyHaveAccount')}</Text>
+        <View className='flex flex-row items-center justify-center gap-x-2.5'>
+          <Text className='text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
           <Link push href='/auth/sign-in'>
-            <Text className='text-orange-500 text-footnote font-medium'>{t('signUp.signIn')}</Text>
+            <Text className='text-footnote font-medium text-orange-500'>{t('signUp.signIn')}</Text>
           </Link>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 function OtherSignIn() {
   return (
-    <View className='flex flex-row justify-center items-center gap-x-[35px]'>
+    <View className='flex flex-row items-center justify-center gap-x-[35px]'>
       <LOGOFB onPress={() => {}} width={32} height={32} />
       <LOGOGOOGLE onPress={() => {}} width={32} height={32} />
     </View>

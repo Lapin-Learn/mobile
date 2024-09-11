@@ -3,11 +3,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -63,13 +63,13 @@ export default function Verify() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
-        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='w-full gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
                 {t('verify.instruction', { email: maskEmail(email as string) })}
               </Text>
             </View>
@@ -77,12 +77,12 @@ export default function Verify() {
               control={control}
               name='code'
               render={({ field }) => (
-                <View className='flex flex-row gap-x-4 justify-center items-center'>
+                <View className='flex flex-row items-center justify-center gap-x-4'>
                   {field.value.map((_, i) => (
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
-                      className='w-12 h-12 p-3 border border-neutral-200 bg-white rounded-none text-subhead font-medium placeholder:text-neutral-700 placeholder:text-title-2 placeholder:font-semibold'
+                      className='h-12 w-12 rounded-none border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-title-2 placeholder:font-semibold placeholder:text-neutral-700'
                       maxLength={1}
                       keyboardType='numeric'
                       value={field.value[i]}
@@ -110,14 +110,14 @@ export default function Verify() {
           </View>
           <View className='w-full gap-y-4'>
             <Button
-              className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+              className='shadow-button'
               onPress={handleSubmit(onSubmit)}
               disabled={verifyMutation.isPending}
               size={'lg'}>
-              <Text className='text-white text-body font-semibold'>{t('verify.checkOtpButton')}</Text>
+              <Text className='text-body font-semibold text-white'>{t('verify.checkOtpButton')}</Text>
             </Button>
-            <View className='flex flex-row justify-center items-center gap-x-2.5'>
-              <Text className='text-neutral-900 text-footnote'>{t('verify.noOtp')}</Text>
+            <View className='flex flex-row items-center justify-center gap-x-2.5'>
+              <Text className='text-footnote text-neutral-900'>{t('verify.noOtp')}</Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
                 <Text className={`${time > 0 ? 'text-neutral-300' : 'text-orange-500'} text-footnote font-medium`}>
                   {t('verify.resendCode', { time: time > 0 ? time : '' })}
@@ -127,6 +127,6 @@ export default function Verify() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 }

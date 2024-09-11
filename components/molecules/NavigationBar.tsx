@@ -1,27 +1,52 @@
 import { router } from 'expo-router';
+import { LucideMoveLeft } from 'lucide-react-native';
 import { Text, View } from 'react-native';
 
-import { BackButton } from './BackButton';
+export type NavigationBarProps = {
+  title?: string;
+  headerTitle?: string;
+  headerLeftShown?: boolean;
+  onHeaderLeftPress?: () => JSX.Element;
+  headerRightShown?: boolean;
+  onHeaderRightPress?: () => JSX.Element;
+};
 
-export function NavigationBar({ title, headerLeftShown = false }: { title: string; headerLeftShown?: boolean }) {
+export function NavigationBar({
+  title,
+  headerTitle,
+  headerLeftShown = false,
+  onHeaderLeftPress,
+  headerRightShown = false,
+  onHeaderRightPress,
+}: NavigationBarProps) {
   return (
-    <View className='bg-background pt-[54px]'>
-      <View className='h-[54px] flex justify-center items-start pl-4 '>
-        {headerLeftShown && (
-          <BackButton
-            onPress={() => {
-              if (router.canGoBack()) {
-                router.back();
-              } else {
-                router.dismiss();
-              }
-            }}
-          />
-        )}
+    <View className='px-4'>
+      <View className='flex h-13.5 flex-row items-center justify-between'>
+        {headerLeftShown &&
+          (onHeaderLeftPress ? (
+            onHeaderLeftPress()
+          ) : (
+            <LucideMoveLeft
+              color={'black'}
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                } else {
+                  router.dismiss();
+                }
+              }}
+            />
+          ))}
+
+        {headerTitle && <Text className='text-title-1 font-bold text-black'>{headerTitle}</Text>}
+
+        {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
       </View>
-      <View className='w-full pl-4'>
-        <Text className='text-orange-900 text-large-title font-bold'>{title}</Text>
-      </View>
+      {title && (
+        <View className='w-full items-start'>
+          <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
+        </View>
+      )}
     </View>
   );
 }

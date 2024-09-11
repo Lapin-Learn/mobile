@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Button } from '~/components/ui/button';
+import { Button } from '~/components/ui/Button';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -38,13 +38,13 @@ export default function ForgotPassword() {
   };
 
   return (
-    <View className='h-screen'>
+    <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
-        <View className='bg-background grow w-full px-4 pb-[21px] flex-col justify-between items-center inline-flex'>
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-neutral-500 font-normal text-callout'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
                 {t('forgotPassword.instruction')}
               </Text>
             </View>
@@ -57,14 +57,14 @@ export default function ForgotPassword() {
           </View>
 
           <Button
-            className='w-full bg-orange-500 shadow-button shadow-orange-700 py-3.5 px-5 rounded-none'
+            className='w-full shadow-button'
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-white text-body font-semibold'>{t('forgotPassword.sendOtpButton')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('forgotPassword.sendOtpButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 }
