@@ -29,7 +29,7 @@ export default function Index() {
           <IconCarrot width={32} height={32} />
           <Text className='text-orange-400 title-4 font-bold'>500</Text>
         </View>
-        <IconRank width={32} height={32} />
+        <IconRank width={48} height={48} />
       </View>
       <Map />
       <View className='flex flex-col items-center justify-center'>

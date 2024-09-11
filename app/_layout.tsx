@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { Loading } from '~/components/molecules/Loading';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -57,12 +58,13 @@ export default function RootLayout() {
         return;
       }
     })().finally(() => {
+      setIsColorSchemeLoaded(true);
       SplashScreen.hideAsync();
     });
   }, [colorScheme]);
 
   if (!isColorSchemeLoaded) {
-    return null;
+    return <Loading />;
   }
 
   return (
