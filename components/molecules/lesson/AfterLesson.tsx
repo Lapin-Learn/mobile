@@ -5,9 +5,9 @@ import { Text, View } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
 import { SvgProps } from 'react-native-svg';
 
-import Carrot from '~/assets/images/carrot.svg';
-import Flash from '~/assets/images/flash.svg';
-import Timer from '~/assets/images/mingcute_time-line.svg';
+import CarrotIcon from '~/assets/images/carrot.svg';
+import FlashIcon from '~/assets/images/flash.svg';
+import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
 import Confetti from '~/lib/components/confentti';
@@ -23,16 +23,16 @@ type AfterLessonProps = {
 };
 
 const data: AfterLessonProps = {
-  percent: 0.74,
+  percent: 74,
   exp: 20,
   carrot: 20,
   timer: new Date(),
 };
 
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
-  exp: { Component: Flash, label: 'after.Experience' },
-  carrot: { Component: Carrot, label: 'after.Carrot' },
-  timer: { Component: Timer, label: 'after.Timer' },
+  exp: { Component: FlashIcon, label: 'after.Experience' },
+  carrot: { Component: CarrotIcon, label: 'after.Carrot' },
+  timer: { Component: TimerIcon, label: 'after.Timer' },
 };
 
 export function AfterLesson() {
@@ -56,7 +56,7 @@ export function AfterLesson() {
         <View className='h-full w-full'>{showConfetti && <Confetti />}</View>
       </LinearGradient>
       <Modal position='bottom'>
-        <View className='mt-15 flex flex-col items-center justify-start gap-y-14'>
+        <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
           <View className='flex items-center justify-center gap-y-5'>
             <ProgressCircle size={160} progress={data.percent as number} showsText />
             <Text className='text-title-1 font-bold'>{t(`after.encourage.${Math.floor(randomEncourage)}`)}</Text>

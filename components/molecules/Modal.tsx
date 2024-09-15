@@ -21,11 +21,11 @@ function CustomModal({ onRequestClose, children, position = 'center' }: CustomMo
   );
   return (
     <Modal animationType='slide' transparent={true} visible={visible} onRequestClose={onRequestClose}>
-      <View className={`flex-1 ${position === 'center' ? 'items-center justify-center bg-black/50' : 'justify-end'}`}>
+      <View className={cn('flex-1', position === 'center' ? 'items-center justify-center bg-black/50' : 'justify-end')}>
         <View
           className={cn(
             'bg-background p-2 shadow-lg',
-            position === 'center' ? 'mx-3 rounded-2xl' : 'rounded-s-4xl rounded-t-4xl px-4'
+            position === 'center' ? 'mx-3 rounded-2xl' : 'rounded-t-4xl px-4'
           )}>
           {position === 'center' ? exitButton : null}
           <View className='my-2'>{children}</View>
