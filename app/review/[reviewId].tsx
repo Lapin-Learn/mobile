@@ -235,24 +235,24 @@ export default function Review() {
             {selectedQuestionType.state !== 'locked' ? (
               <>
                 <Button
-                  className='shadow-button'
-                  // onPress={handleExercise}
+
+                // onPress={handleExercise}
                 >
-                  <Text className='text-subhead font-semibold text-white'>Learn lesson</Text>
+                  <Text className='text-button text-subhead'>Learn lesson</Text>
                 </Button>
                 <Button
-                  className='bg-orange-50 shadow-button shadow-orange-700'
+                  className='bg-orange-50 shadow-orange-700'
                   // onPress={handleReview}
                 >
-                  <Text className='text-subhead font-semibold text-orange-500'>Start game</Text>
+                  <Text className='text-button text-subhead text-orange-500'>Start game</Text>
                 </Button>
               </>
             ) : (
               <Button
-                className='shadow-button'
-                // onPress={handleExercise}
+
+              // onPress={handleExercise}
               >
-                <Text className='text-subhead font-semibold text-white'>Unlock lesson</Text>
+                <Text className='text-button text-subhead'>Unlock lesson</Text>
               </Button>
             )}
           </View>
