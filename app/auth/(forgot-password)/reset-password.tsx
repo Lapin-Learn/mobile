@@ -63,11 +63,7 @@ export default function ResetPassword() {
             />
           </View>
 
-          <Button
-            className='shadow-button'
-            onPress={handleSubmit(onSubmit)}
-            disabled={resetPasswordMutation.isPending}
-            size={'lg'}>
+          <Button onPress={handleSubmit(onSubmit)} disabled={resetPasswordMutation.isPending} size={'lg'}>
             <Text className='text-body font-semibold text-white'>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>

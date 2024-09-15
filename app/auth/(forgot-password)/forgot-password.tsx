@@ -57,7 +57,7 @@ export default function ForgotPassword() {
           </View>
 
           <Button
-            className='w-full shadow-button'
+            className='w-full'
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>
