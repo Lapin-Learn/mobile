@@ -73,21 +73,6 @@ function Map() {
     null: { x: 0, y: 0 },
   };
 
-  // const getTranslate = (skill: SkillEnum | null) => {
-  //   switch (skill) {
-  //     case SkillEnum.READING:
-  //       return { x: -75, y: -25 };
-  //     case SkillEnum.LISTENING:
-  //       return { x: 100, y: 100 };
-  //     case SkillEnum.SPEAKING:
-  //       return { x: 150, y: -75 };
-  //     case SkillEnum.WRITING:
-  //       return { x: -25, y: -250 };
-  //     default:
-  //       return { x: 0, y: 0 };
-  //   }
-  // };
-
   return (
     <Pressable className='h-full' onPress={() => setCurrentSkill(null)}>
       <MotiView

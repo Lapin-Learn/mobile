@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode';
 import { createStore, useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
@@ -12,7 +13,16 @@ type AuthState = {
   signIn: (data: TokenType) => void;
   signOut: () => void;
   hydrate: () => void;
+  checkTokenExpiration: () => void;
+  scheduleTokenCheck: (token: TokenType) => void;
 };
+
+interface DecodedToken {
+  userId: string;
+  role: string;
+  iat: number;
+  exp: number;
+}
 
 const authStore = createStore<AuthState>()((set, get) => ({
   token: null,
@@ -20,25 +30,43 @@ const authStore = createStore<AuthState>()((set, get) => ({
   signIn: (data) => {
     set({ token: data, status: 'signIn' });
     setTokenAsync(data);
+    get().scheduleTokenCheck(data);
   },
   signOut: () => {
     set({ token: null, status: 'signOut' });
     removeTokenAsync();
   },
-  // TODO: Delete setTimeOut() when the app is ready to be deployed
   hydrate: async () => {
     try {
       const currentToken = await getTokenAsync();
-      setTimeout(() => {
-        if (currentToken !== null) {
-          get().signIn(currentToken);
-        } else {
-          get().signOut();
-        }
-      }, 1000);
+      if (currentToken !== null) {
+        get().signIn(currentToken);
+      } else {
+        get().signOut();
+      }
     } catch (error) {
       console.error('Error hydrating token', error);
     }
+  },
+  checkTokenExpiration: () => {
+    const { token, signOut } = get();
+    if (token) {
+      const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token.accessToken || '');
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        signOut();
+      } else {
+        // Schedule the next check just before the token expires
+        const timeout = (decodedToken.exp - currentTime) * 1000;
+        setTimeout(() => get().checkTokenExpiration(), timeout);
+      }
+    }
+  },
+  scheduleTokenCheck: (token: TokenType) => {
+    const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token.accessToken || '');
+    const currentTime = Date.now() / 1000;
+    const timeout = (decodedToken.exp - currentTime) * 1000;
+    setTimeout(() => get().checkTokenExpiration(), timeout);
   },
 }));
 

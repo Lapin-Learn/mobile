@@ -11,8 +11,8 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
   const handleExercise = () => {
     return router.push(`/exercise/${skill}`);
   };
-  const handleReview = () => {
-    return router.push(`/review/${skill}`);
+  const handleRandom = () => {
+    return router.push(`/random/${skill}`);
   };
 
   return (
@@ -29,8 +29,8 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
         <Button onPress={handleExercise}>
           <Text className='text-button text-subhead'>{t('list.exerciseButton', { xp: 25 })}</Text>
         </Button>
-        <Button className='bg-orange-50' onPress={handleReview}>
-          <Text className='text-button text-subhead text-orange-500'>{t('list.reviewButton')}</Text>
+        <Button className='bg-orange-50' onPress={handleRandom}>
+          <Text className='text-button text-subhead text-orange-500'>{t('list.randomButton')}</Text>
         </Button>
       </View>
     </View>

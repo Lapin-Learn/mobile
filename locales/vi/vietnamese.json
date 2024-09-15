@@ -2,7 +2,7 @@
   "list": {
     "level": "Cấp độ {{level}}",
     "progress": "{{current}}/{{total}}",
-    "exerciseButton": "Làm bài tập +{{xp}} XP",
-    "reviewButton": "Ôn tập kỹ năng"
+    "exerciseButton": "Làm bài tập",
+    "randomButton": "Bài tập ngẫu nhiên"
   }
 }

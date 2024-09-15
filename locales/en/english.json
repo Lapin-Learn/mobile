@@ -2,7 +2,7 @@
   "list": {
     "level": "Level {{level}}",
     "progress": "{{current}}/{{total}}",
-    "exerciseButton": "Do exercises +{{xp}} XP",
-    "reviewButton": "Review skills"
+    "exerciseButton": "Do exercises",
+    "randomButton": "Random exercises"
   }
 }
