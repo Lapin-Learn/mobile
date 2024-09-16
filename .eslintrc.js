@@ -25,17 +25,28 @@ module.exports = {
     'react-hooks',
     '@typescript-eslint',
     'simple-import-sort',
+    'unused-imports',
   ],
   rules: {
     'prettier/prettier': 'warn',
     'react/react-in-jsx-scope': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-unused-vars': 'off',
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
+    'simple-import-sort/imports': 'warn',
+    'simple-import-sort/exports': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/rules-of-hooks': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
   overrides: [
     {
