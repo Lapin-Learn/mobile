@@ -29,7 +29,7 @@ export function ProgressCircle({
 
   return (
     <AnimatedCircularProgress
-      duration={5000}
+      duration={2500}
       size={size}
       width={thickness}
       fill={progressValue}

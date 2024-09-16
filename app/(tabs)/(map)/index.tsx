@@ -14,6 +14,25 @@ import { Region } from '~/components/molecules/region/Region';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
+  // const { status } = useAuth();
+
+  // useEffect(() => {
+  //   hydrate();
+  // }, []);
+
+  // if (status === 'idle') {
+  //   // Display loading indicator while hydrating the auth state
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size={50} color='blue' />
+  //     </View>
+  //   );
+  // }
+
+  // if (status === 'signOut') {
+  //   return <Redirect href='/auth/sign-in' />;
+  // }
+
   return (
     <SafeAreaView>
       <View className='z-50 m-4 flex flex-row items-center justify-center gap-10'>

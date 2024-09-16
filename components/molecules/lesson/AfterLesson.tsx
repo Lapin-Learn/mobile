@@ -59,22 +59,24 @@ export function AfterLesson() {
         <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
           <View className='flex items-center justify-center gap-y-5'>
             <ProgressCircle size={160} progress={data.percent as number} showsText />
-            <Text className='text-title-1 font-bold'>{t(`after.encourage.${Math.floor(randomEncourage)}`)}</Text>
+            <Text className='text-title-2 font-bold'>{t(`after.encourage.${Math.floor(randomEncourage)}`)}</Text>
           </View>
-          <View className='w-full gap-y-4'>
+          <View className='w-full gap-y-6'>
             <View className='flex w-full flex-row items-center justify-start gap-x-4'>
               {Object.keys(tickerComponents).map((key) => {
                 const { Component, label } = tickerComponents[key];
                 return (
-                  <View key={key} className='flex flex-1 items-start rounded bg-neutral-50 p-3'>
+                  <View key={key} className='flex flex-1 items-start gap-y-2 rounded bg-neutral-50 p-3'>
                     <Text>{t(label)}</Text>
                     <View className='flex-row items-center gap-x-1'>
                       <Component width={24} height={24} />
-                      <Text className='text-title-1 font-bold'>
-                        {/* TODO: update timer later */}
-                        {key === 'timer' ? '1:48' : (data[key] as number)}
-                        <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
-                      </Text>
+                      <View>
+                        <Text className='text-title-2 font-bold'>
+                          {/* TODO: update timer later */}
+                          {key === 'timer' ? '1:48' : (data[key] as number)}&nbsp;
+                          <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 );
