@@ -1,0 +1,24 @@
+{
+    "loading": {
+        "tip": [
+            "You can practice to increase your band without having to accumulate enough experience points",
+            "Focus on listening comprehension rather than just answering questions",
+            "Regular practice every day will help you improve quickly",
+            "Practice writing short paragraphs to improve your writing skills"
+          ]
+    },
+    "after":{
+        "encourage": [
+            "Great",
+            "Good job",
+            "Well done",
+            "Keep it up",
+            "You're doing great",
+            "You're on the right track"
+        ],
+        "receive-reward": "Receive reward",
+        "Experience": "Experience",
+        "Timer": "Timer",
+        "Carrot": "Carrot"
+    }
+}

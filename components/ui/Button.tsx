@@ -8,7 +8,7 @@ import { cn } from '~/lib/utils';
 const buttonVariants = cva('group flex items-center justify-center', {
   variants: {
     variant: {
-      default: 'bg-orange-500 py-3.5 px-5 rounded-none active:opacity-90',
+      default: 'bg-orange-500 py-3.5 px-5 rounded active:opacity-90',
       destructive: 'bg-destructive active:opacity-90',
       outline: 'border border-input  active:bg-accent',
       secondary: 'bg-secondary active:opacity-80',

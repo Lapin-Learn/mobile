@@ -49,7 +49,7 @@
 }
 
 @layer components {
-  /* .main {
-    @apply w-[90%] h-[90%] m-auto;
-  } */
+  .text-button {
+    @apply text-body font-semibold text-white;
+  }
 }
