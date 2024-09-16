@@ -11,7 +11,6 @@ import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Region } from '~/components/molecules/region/Region';
-import ConfettiButton from '~/lib/components/confentti';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
