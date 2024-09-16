@@ -1,12 +1,15 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+
+import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
 
 export default function Exercise() {
   const { exerciseId } = useLocalSearchParams<{ exerciseId: string }>();
+
   return (
-    <SafeAreaView>
-      <Text>{exerciseId}</Text>
-    </SafeAreaView>
+    <View>
+      <LoadingLesson />
+      {/* <AfterLesson /> */}
+    </View>
   );
 }

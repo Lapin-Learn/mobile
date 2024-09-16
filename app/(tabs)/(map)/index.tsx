@@ -11,10 +11,24 @@ import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Region } from '~/components/molecules/region/Region';
-import ConfettiButton from '~/lib/components/confentti';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
+  // const { status } = useAuth();
+
+  // useEffect(() => {
+  //   hydrate();
+  // }, []);
+
+  // if (status === 'idle') {
+  //   // Display loading indicator while hydrating the auth state
+  //   return <Loading />;
+  // }
+
+  // if (status === 'signOut') {
+  //   return <Redirect href='/auth/sign-in' />;
+  // }
+
   return (
     <SafeAreaView>
       <View className='z-50 m-4 flex flex-row items-center justify-center gap-10'>
