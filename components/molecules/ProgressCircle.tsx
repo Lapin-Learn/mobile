@@ -18,23 +18,30 @@ export function ProgressCircle({
   progress = 10,
   size = 160,
   thickness = 15,
-  color = 'rgba(36, 112, 99, 1)',
+  color = '#247063',
   textStyle = {
     fontSize: 36,
-    color: 'rgba(36, 112, 99, 1)',
+    color: '#247063',
   },
   lineCap = 'round',
 }: ProgressCircleProps) {
+  const progressValue = progress > 100 ? 100 : progress;
+
   return (
     <AnimatedCircularProgress
+      duration={5000}
       size={size}
       width={thickness}
-      fill={progress}
-      tintColor='#247063'
+      fill={progressValue}
+      tintColor={color}
       backgroundColor='#CCCCCC'
       lineCap={lineCap}
       rotation={0}>
-      {() => <Text style={{ color: color, fontSize: textStyle.fontSize, fontWeight: 'bold' }}>{progress}%</Text>}
+      {(currentFill: number) => (
+        <Text style={{ color: textStyle.color, fontSize: textStyle.fontSize, fontWeight: 'bold' }}>
+          {Math.round(currentFill)}%
+        </Text>
+      )}
     </AnimatedCircularProgress>
   );
 }

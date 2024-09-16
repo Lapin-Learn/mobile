@@ -51,7 +51,7 @@ export function AfterLesson() {
   };
 
   return (
-    <View className='w-screen'>
+    <View className='w-full'>
       <LinearGradient start={{ x: 0.5, y: 1 }} end={{ x: 0.5, y: 0 }} colors={['#3A8A7D', '#20534D']}>
         <View className='h-full w-full'>{showConfetti && <Confetti />}</View>
       </LinearGradient>
