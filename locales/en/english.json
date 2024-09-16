@@ -4,5 +4,17 @@
     "progress": "{{current}}/{{total}}",
     "exerciseButton": "Do exercises",
     "randomButton": "Random exercises"
+  },
+  "questionTypes": {
+    "experience": "Progress",
+    "xp": "XP"
+  },
+  "questionType": {
+    "totalLearnedTime": "Total",
+    "hour": "hour",
+    "min": "minute",
+    "theoryPractice": "Pratice theory",
+    "practiceBtn": "Start now",
+    "jumpNextBtn": "Jump to next band"
   }
 }

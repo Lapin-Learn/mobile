@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Image, Pressable, Text, View } from 'react-native';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,8 +16,10 @@ const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function QuestionTypeCard({ name, progress }: Pick<IQuestionType, 'name' | 'progress' | 'imageId'>) {
+function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name' | 'progress' | 'imageId'>) {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
+  const { t } = useTranslation('translation');
+
   return (
     <View className='flex flex-col gap-2 rounded-lg border-2 border-neutral-100 p-4'>
       <View className='flex w-full flex-row items-start justify-between'>
@@ -30,8 +33,10 @@ function QuestionTypeCard({ name, progress }: Pick<IQuestionType, 'name' | 'prog
       <Text className='text-title-2 font-semibold text-neutral-900'>{name}</Text>
       <View className='flex gap-2'>
         <View className='flex flex-row justify-between'>
-          <Text className='text-subhead font-medium text-supporting-text'>Kinh nghiệm</Text>
-          <Text className='text-subhead font-medium text-supporting-text'>XP {totalLearningXP}/500</Text>
+          <Text className='text-subhead font-medium text-supporting-text'>{t('questionTypes.experience')}</Text>
+          <Text className='text-subhead font-medium text-supporting-text'>
+            {t('questionTypes.xp')} {totalLearningXP}/500
+          </Text>
         </View>
         <Progress value={totalLearningXP / 500} />
       </View>

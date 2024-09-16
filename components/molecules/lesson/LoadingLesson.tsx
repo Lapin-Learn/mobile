@@ -5,7 +5,6 @@ import { Text, View } from 'react-native';
 import Spinner from '~/assets/images/spinner.svg';
 
 export function LoadingLesson() {
-  const loadingProgress = 45;
   const { t } = useTranslation('lesson');
   const randomTip = Math.random() * Number(t('loading.tip.length'));
   return (

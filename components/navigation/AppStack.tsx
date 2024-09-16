@@ -8,6 +8,7 @@ export function AppStack() {
       <Stack.Screen name='firebaseauth' options={{ headerShown: false }} />
       <Stack.Screen name='exercise' options={{ headerShown: false }} />
       <Stack.Screen name='random' options={{ headerShown: false }} />
+      <Stack.Screen name='lesson' options={{ headerShown: false }} />
     </Stack>
   );
 }
