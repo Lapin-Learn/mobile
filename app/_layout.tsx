@@ -2,7 +2,6 @@ import '~/global.css';
 
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { I18nextProvider } from 'react-i18next';
 import Toast from 'react-native-toast-message';
@@ -17,9 +16,6 @@ const LIGHT_THEME: Theme = {
 };
 
 export { ErrorBoundary } from 'expo-router';
-
-// Prevent the splash screen from auto-hiding before getting the color scheme.
-SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 

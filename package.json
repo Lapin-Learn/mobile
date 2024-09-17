@@ -43,6 +43,7 @@
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
     "i18n-js": "^4.4.3",
+    "lightningcss-win32-x64-msvc": "^1.27.0",
     "lucide-react-native": "^0.414.0",
     "moti": "^0.29.0",
     "nativewind": "^4.0.1",
