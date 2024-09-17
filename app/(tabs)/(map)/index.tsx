@@ -1,39 +1,20 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import { Redirect } from 'expo-router';
 import { MotiView } from 'moti';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IconCarrot from '~/assets/images/carrot.svg';
 import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
-import { Modal } from '~/components/molecules/Modal';
 import { Region } from '~/components/molecules/region/Region';
-import { hydrate, useAuth } from '~/hooks/zustand';
+import { useUserProfile } from '~/hooks/react-query/useUser';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
-  const { status } = useAuth();
-
-  useEffect(() => {
-    hydrate();
-  }, []);
-
-  // if (status === 'idle') {
-  //   // Display loading indicator while hydrating the auth state
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size={50} color='blue' />
-  //     </View>
-  //   );
-  // }
-
-  if (status === 'signOut') {
-    return <Redirect href='/auth/sign-in' />;
-  }
+  useUserProfile();
 
   return (
     <SafeAreaView>
@@ -49,9 +30,6 @@ export default function Index() {
         <IconRank width={48} height={48} />
       </View>
       <Map />
-      <Modal>
-        <Text>This is modal content to require a user profile update</Text>
-      </Modal>
     </SafeAreaView>
   );
 }
