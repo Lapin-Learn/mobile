@@ -19,9 +19,6 @@ const LIGHT_THEME: Theme = {
 
 export { ErrorBoundary } from 'expo-router';
 
-// Prevent the splash screen from auto-hiding before getting the color scheme.
-SplashScreen.preventAutoHideAsync();
-
 const queryClient = new QueryClient();
 
 export default function RootLayout() {

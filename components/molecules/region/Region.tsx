@@ -2,14 +2,14 @@ import { MotiView } from 'moti';
 import { Pressable, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
-import Listening from '~/assets/images/listening.svg';
 import ListeningText from '~/assets/images/listening-text.svg';
-import Reading from '~/assets/images/reading.svg';
+import Listening from '~/assets/images/listening.svg';
 import ReadingText from '~/assets/images/reading-text.svg';
-import Speaking from '~/assets/images/speaking.svg';
+import Reading from '~/assets/images/reading.svg';
 import SpeakingText from '~/assets/images/speaking-text.svg';
-import Writing from '~/assets/images/writing.svg';
+import Speaking from '~/assets/images/speaking.svg';
 import WritingText from '~/assets/images/writing-text.svg';
+import Writing from '~/assets/images/writing.svg';
 import { SkillEnum } from '~/lib/enums';
 import { cn } from '~/lib/utils';
 

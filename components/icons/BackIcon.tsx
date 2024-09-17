@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import { Ref } from 'react';
 import Svg, { Path, SvgProps } from 'react-native-svg';
 
 const BackIcon = (props: SvgProps, ref: Ref<Svg>) => {
