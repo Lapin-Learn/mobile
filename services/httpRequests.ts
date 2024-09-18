@@ -14,6 +14,12 @@ type APIResponse<T> = {
   data: T;
 };
 
+type APIError = {
+  status: number;
+  message: string;
+  code?: string;
+};
+
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -31,7 +37,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
-    return Promise.reject(error);
+    return Promise.reject(formatError(error));
   }
 );
 
@@ -39,11 +45,21 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error: AxiosError) => {
-    const errorMessage = (error.response?.data as { message?: string })?.message || error.message;
-    return Promise.reject(new Error(errorMessage));
+  (error) => {
+    return Promise.reject(formatError(error));
   }
 );
+
+const formatError = (error: any | AxiosError): APIError => {
+  let message = error.message;
+  const status = error.response?.status || 500;
+
+  if (error.response?.data?.message) {
+    message = error.response.data.message;
+  }
+
+  return { status, message };
+};
 
 class API {
   private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
@@ -56,12 +72,7 @@ class API {
       const json = response.data as APIResponse<T>;
       return json.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || error.message;
-        throw new Error(errorMessage);
-      } else {
-        throw new Error(`${error}`);
-      }
+      throw formatError(error);
     }
   }
 
@@ -91,6 +102,7 @@ class API {
   async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'DELETE',
+      params: searchParams,
       ...nextOptions,
     });
   }

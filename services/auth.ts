@@ -47,10 +47,6 @@ export const resetPassword = async (params: { newPassword: string }) => {
   await api.post<AuthInfo>('auth/password-update', { body: params });
 };
 
-export const signOut = async () => {
-  return;
-};
-
 // export const getAuthUser = async () => {
 //   const data = await api.get<AuthUser>('auth/profile');
 //   SecureStore.setItem(localStorageUserKey, JSON.stringify(data));
@@ -58,7 +54,7 @@ export const signOut = async () => {
 // };
 
 export const refreshToken = async (refreshToken: string) => {
-  const data = await api.post<AuthInfo>('auth/refresh', {
+  const data = await api.post<AuthInfo>('auth/access-token', {
     body: { refreshToken },
   });
   return data;
