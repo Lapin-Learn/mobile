@@ -21,10 +21,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    hydrate();
-  }, []);
-
-  useEffect(() => {
     if (status === 'signOut') {
       signOut.mutate();
     }
