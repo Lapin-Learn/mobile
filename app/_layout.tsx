@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import { AppStack } from '~/components/navigation/AppStack';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
+import AuthProvider from '~/providers/auth';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -30,9 +31,11 @@ export default function RootLayout() {
     <ThemeProvider value={LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
-          <StatusBar style={'light'} />
-          <AppStack />
-          <Toast />
+          <AuthProvider>
+            <StatusBar style={'light'} />
+            <AppStack />
+            <Toast />
+          </AuthProvider>
         </I18nextProvider>
       </QueryClientProvider>
     </ThemeProvider>
