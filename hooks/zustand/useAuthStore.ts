@@ -5,11 +5,16 @@ import { useStoreWithEqualityFn } from 'zustand/traditional';
 import { getTokenAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
 import { TokenType } from '~/types';
 
-type AuthStatus = 'idle' | 'signOut' | 'signIn';
+export type AuthStatus = 'idle' | 'signOut' | 'signIn';
 
-type AuthState = {
+export interface AuthProps {
   token: TokenType | null;
   status: AuthStatus;
+}
+
+type AuthState = {
+  token: AuthProps['token'];
+  status: AuthProps['status'];
   signIn: (data: TokenType) => void;
   signOut: () => void;
   hydrate: () => void;
@@ -56,7 +61,6 @@ const authStore = createStore<AuthState>()((set, get) => ({
       if (decodedToken.exp < currentTime) {
         signOut();
       } else {
-        // Schedule the next check just before the token expires
         const timeout = (decodedToken.exp - currentTime) * 1000;
         setTimeout(() => get().checkTokenExpiration(), timeout);
       }

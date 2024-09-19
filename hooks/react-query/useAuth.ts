@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
 
-import { signIn as setNewToken } from '~/hooks/zustand';
+import { signIn as setNewToken, signOut } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
-import { forgotPassword, resetPassword, signIn, signOut, signUp, verify } from '~/services/auth';
+import { forgotPassword, refreshToken, resetPassword, signIn, signUp, verify } from '~/services/auth';
 
 import { useToast } from '../useToast';
 
@@ -101,11 +101,24 @@ export const useSignOut = () => {
   const toast = useToast();
   const client = useQueryClient();
   return useMutation({
-    mutationFn: signOut,
+    mutationFn: () => Promise.resolve(),
     onSuccess: () => {
       signOut();
       client.clear();
-      router.navigate('auth/sign-in' as Href);
+      router.replace('auth/sign-in' as Href);
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
+    },
+  });
+};
+
+export const useRefreshToken = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: refreshToken,
+    onSuccess: () => {
+      toast.show({ type: 'success', text1: 'Token refreshed' });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
