@@ -7,38 +7,35 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
+import { MultipleChoiceQuestion } from '~/lib/types';
 import { getDuration } from '~/services';
 
 import { BackButton } from '../BackButton';
 import CorrectAnswerModal from '../CorrectAnswerModal';
 import IncorrectAnswerModal from '../IncorrectAnswerModal';
 import { AfterLesson } from '../lesson/AfterLesson';
-import { Question } from './types';
 
-const exerciseData: Question[] = [
+const exerciseData: MultipleChoiceQuestion[] = [
   {
     id: '1',
-    content:
+    paragraph:
       'In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner.',
-    questionType: 'multiple_choice',
     question: 'Artists in the German aesthetic tradition portrayed nature realistically.',
     options: ['True', 'False', 'Not Given'],
     answer: 1,
   },
   {
     id: '2',
-    content:
+    paragraph:
       'Stress is one of the serious issues that many people are facing today. It is a feeling of being under too much mental or emotional pressure. Stress is a normal part of life. Everyone feels stress from time to time. However, long-term stress can contribute to health problems. Stress can affect your body, your thoughts, your feelings, and your behavior. Being able to recognize common stress symptoms can help you manage them. Stress that is left unchecked can contribute to many health problems, such as high blood pressure, heart disease, obesity, and diabetes.',
-    questionType: 'multiple_choice',
     question: 'Which of the following is NOT a health problem caused by stress?',
     options: ['Lung disease', 'High blood pressure', 'Obesity', 'Diabetes'],
     answer: 0,
   },
   {
     id: '3',
-    content:
+    paragraph:
       'The human brain is the most complex organ in the body. This three-pound mass of gray and white matter sits at the center of all human activity. It controls everything from the way we move to what we think and feel. The brain is made up of many parts that all work together as a team. The brain is protected by the bones of the skull and by a covering of three thin membranes called meninges. The brain is also cushioned and protected by cerebrospinal fluid. This watery fluid is found in the spaces between the arachnoid mater and the pia mater, two of the meninges. The brain is divided into three main parts: the forebrain, the midbrain, and the hindbrain.',
-    questionType: 'multiple_choice',
     question: 'Which of the following is NOT true about the brain?',
     options: [
       'It is the most complex organ in the body',
@@ -51,7 +48,7 @@ const exerciseData: Question[] = [
 ];
 
 export default function MultipleChoice(data: any) {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<MultipleChoiceQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answer, setAnswer] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
@@ -126,7 +123,7 @@ export default function MultipleChoice(data: any) {
             <View className='gap-8'>
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
-                <ReadingContainer>{questions[currentQuestion]?.content}</ReadingContainer>
+                <ReadingContainer>{questions[currentQuestion]?.paragraph}</ReadingContainer>
                 <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.question}</Text>
               </View>
               <View>

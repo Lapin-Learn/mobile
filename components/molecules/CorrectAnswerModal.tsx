@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Modal, Text, View } from 'react-native';
 
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
+import { AnswerModalProps } from '~/lib/types';
 
 import { Button } from '../ui/Button';
-import { AnswerModalProps } from './exercise/types';
 
 export default function CorrectAnswerModal({ onPressContinue }: AnswerModalProps) {
   const { t } = useTranslation('question');

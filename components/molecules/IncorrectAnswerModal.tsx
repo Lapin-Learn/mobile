@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Modal, Text, View } from 'react-native';
 
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
+import { AnswerModalProps } from '~/lib/types';
 
 import { Button } from '../ui/Button';
-import { AnswerModalProps } from './exercise/types';
 
 export default function IncorrectAnswerModal({ correctAnswer, onPressContinue }: AnswerModalProps) {
   const { t } = useTranslation('question');
