@@ -17,3 +17,14 @@ export const setTokenAsync = async (token: TokenType): Promise<void> => {
 export const removeTokenAsync = async (): Promise<void> => {
   SecureStore.deleteItemAsync(TOKEN_KEY);
 };
+
+export const convertSecondsToMinutes = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
+};
+
+export const getDuration = (startTime: Date): number => {
+  const endTime = new Date();
+  return Math.round(Math.abs(endTime.getTime() - startTime.getTime()) / 1000);
+};

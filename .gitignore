@@ -24,7 +24,6 @@ expo-env.d.ts
 # @end expo-cli.env
 .env
 /.mightymeld
-/.vscode
 
 
 # Expo

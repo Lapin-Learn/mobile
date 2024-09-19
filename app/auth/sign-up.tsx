@@ -71,7 +71,7 @@ export default function SignUp() {
             />
           </View>
           <View className='gap-y-6'>
-            <Button className='shadow-button' onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
+            <Button onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
               <Text className='text-body font-semibold text-white'>{t('signUp.signUpButton')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>

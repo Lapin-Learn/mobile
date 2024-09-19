@@ -1,3 +1,4 @@
+import { RouteProp } from '@react-navigation/native';
 import { SplashScreen, Tabs } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 import { Platform, View } from 'react-native';
@@ -18,6 +19,14 @@ function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focu
   );
 }
 
+type TabParamList = {
+  practice: undefined;
+  mission: undefined;
+  '(map)': undefined;
+  vocabulary: undefined;
+  profile: undefined;
+};
+
 export default function TabsLayout() {
   const { status } = useAuth();
 
@@ -36,11 +45,11 @@ export default function TabsLayout() {
   return (
     <Tabs
       initialRouteName='(map)'
-      screenOptions={({ route }) => ({
+      screenOptions={({ route }: { route: RouteProp<TabParamList> }) => ({
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: { height: Platform.OS === 'ios' ? 101 : 80 },
-        tabBarIcon: ({ focused }) => {
+        tabBarIcon: ({ focused }: { focused: boolean }) => {
           const iconMapping: { [key: string]: React.FC<SvgProps> } = {
             practice: IconPracticeTab,
             mission: IconMissionTab,

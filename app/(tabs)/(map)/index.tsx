@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
+import { Redirect } from 'expo-router';
 import { MotiView } from 'moti';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,9 +12,29 @@ import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Region } from '~/components/molecules/region/Region';
+import { hydrate, useAuth } from '~/hooks/zustand';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
+  const { status } = useAuth();
+
+  useEffect(() => {
+    hydrate();
+  }, []);
+
+  // if (status === 'idle') {
+  //   // Display loading indicator while hydrating the auth state
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size={50} color='blue' />
+  //     </View>
+  //   );
+  // }
+
+  if (status === 'signOut') {
+    return <Redirect href='/auth/sign-in' />;
+  }
+
   return (
     <SafeAreaView>
       <View className='z-50 m-4 flex flex-row items-center justify-center gap-10'>
@@ -52,21 +73,6 @@ function Map() {
     speaking: { x: 150, y: -75 },
     writing: { x: -25, y: -250 },
     null: { x: 0, y: 0 },
-  };
-
-  const getTranslate = (skill: SkillEnum | null) => {
-    switch (skill) {
-      case SkillEnum.READING:
-        return { x: -75, y: -25 };
-      case SkillEnum.LISTENING:
-        return { x: 100, y: 100 };
-      case SkillEnum.SPEAKING:
-        return { x: 150, y: -75 };
-      case SkillEnum.WRITING:
-        return { x: -25, y: -250 };
-      default:
-        return { x: 0, y: 0 };
-    }
   };
 
   return (

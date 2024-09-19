@@ -3,7 +3,7 @@ export interface Question {
   content: string;
   questionType: string;
   question: string;
-  choices: string[];
+  options: string[];
   answer: number;
 }
 

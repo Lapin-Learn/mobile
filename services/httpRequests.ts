@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { getTokenAsync } from './utils';
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000';
+const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
 interface EndpointOptions extends Omit<AxiosRequestConfig, 'url' | 'method'> {
   searchParams?: string | Record<string, string>;
   body?: unknown;

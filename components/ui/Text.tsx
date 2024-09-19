@@ -12,7 +12,7 @@ const TextClassContext = React.createContext<string | undefined>(undefined);
 const Text = React.forwardRef<RNText, TextProps>(({ asChild, className, ...props }, ref) => {
   const textClass = React.useContext(TextClassContext); // Extract the class from the context
   const Component = RNText;
-  return <Component className={cn('text-base text-foreground', textClass, className)} ref={ref} {...props} />;
+  return <Component className={cn('text-body text-foreground', textClass, className)} ref={ref} {...props} />;
 });
 Text.displayName = 'Text';
 

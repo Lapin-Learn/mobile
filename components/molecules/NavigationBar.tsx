@@ -21,7 +21,7 @@ export function NavigationBar({
 }: NavigationBarProps) {
   return (
     <View className='px-4'>
-      <View className='flex h-13.5 flex-row items-center justify-between'>
+      <View className='flex h-11 flex-row items-center justify-between'>
         {headerLeftShown &&
           (onHeaderLeftPress ? (
             onHeaderLeftPress()

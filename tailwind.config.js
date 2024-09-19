@@ -10,6 +10,23 @@ module.exports = {
       xl: '1280px',
     },
     extend: {
+      borderRadius: {
+        none: '0',
+        sm: '4px',
+        DEFAULT: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '20px',
+        '2xl': '24px',
+        '3xl': '28px',
+        '4xl': '32px',
+        '5xl': '36px',
+        '6xl': '40px',
+        '7xl': '44px',
+        '8xl': '48px',
+        '9xl': '52px',
+        '10xl': '56px',
+      },
       spacing: {
         1: '4px', // 1 unit = 4px
         2: '8px', // 2 units = 8px
@@ -27,6 +44,7 @@ module.exports = {
         12.5: '50px', // 12.5 units = 50px
         13.5: '54px', // 13.5 units = 54px
         14: '56px', // 14 units = 56px
+        15: '60px', // 14 units = 56px
         16: '64px', // 16 units = 64px
         18: '72px', // 18 units = 72px
         20: '80px', // 20 units = 80px
@@ -49,15 +67,15 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
-        'large-title': ['34px', { lineHeight: '40px' }],
-        'title-1': ['28px', { lineHeight: '34px' }],
+        'large-title': ['34px', { lineHeight: '51px' }],
+        'title-1': ['28px', { lineHeight: '42px' }],
         'title-2': ['22px', { lineHeight: '28px' }],
         'title-3': ['20px', { lineHeight: '25px' }],
-        'title-4': ['17px', { lineHeight: '22px' }],
+        'title-4': ['17px', { lineHeight: '25.5px' }],
         headline: ['17px', { lineHeight: '22px' }],
         body: ['17px', { lineHeight: '22px' }],
         callout: ['16px', { lineHeight: '21px' }],
-        subhead: ['15px', { lineHeight: '20px' }],
+        subhead: ['15px', { lineHeight: '22.5px' }],
         footnote: ['13px', { lineHeight: '18px' }],
         'caption-1': ['12px', { lineHeight: '16px' }],
         'caption-2': ['11px', { lineHeight: '13px' }],
