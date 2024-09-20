@@ -11,7 +11,7 @@ import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
 import Confetti from '~/lib/components/confentti';
-import { convertSecondsToMinutes } from '~/services';
+import { convertSecondsToMinutes } from '~/lib/utils';
 
 import { ProgressCircle } from '../ProgressCircle';
 

@@ -7,45 +7,13 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
+import { multipleChoiceQuestions } from '~/lib/mockData';
 import { MultipleChoiceQuestion } from '~/lib/types';
-import { getDuration } from '~/services';
+import { getDuration } from '~/lib/utils';
 
+import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
-import CorrectAnswerModal from '../CorrectAnswerModal';
-import IncorrectAnswerModal from '../IncorrectAnswerModal';
 import { AfterLesson } from '../lesson/AfterLesson';
-
-const exerciseData: MultipleChoiceQuestion[] = [
-  {
-    id: '1',
-    paragraph:
-      'In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner. In 1898, after her father died, Margaret returned to Adelaide to study and then teach at the Adelaide School of Design. Her early artwork was influenced by the German aesthetic tradition, in which subjects of the natural world were depicted in a true to life manner.',
-    question: 'Artists in the German aesthetic tradition portrayed nature realistically.',
-    options: ['True', 'False', 'Not Given'],
-    answer: 1,
-  },
-  {
-    id: '2',
-    paragraph:
-      'Stress is one of the serious issues that many people are facing today. It is a feeling of being under too much mental or emotional pressure. Stress is a normal part of life. Everyone feels stress from time to time. However, long-term stress can contribute to health problems. Stress can affect your body, your thoughts, your feelings, and your behavior. Being able to recognize common stress symptoms can help you manage them. Stress that is left unchecked can contribute to many health problems, such as high blood pressure, heart disease, obesity, and diabetes.',
-    question: 'Which of the following is NOT a health problem caused by stress?',
-    options: ['Lung disease', 'High blood pressure', 'Obesity', 'Diabetes'],
-    answer: 0,
-  },
-  {
-    id: '3',
-    paragraph:
-      'The human brain is the most complex organ in the body. This three-pound mass of gray and white matter sits at the center of all human activity. It controls everything from the way we move to what we think and feel. The brain is made up of many parts that all work together as a team. The brain is protected by the bones of the skull and by a covering of three thin membranes called meninges. The brain is also cushioned and protected by cerebrospinal fluid. This watery fluid is found in the spaces between the arachnoid mater and the pia mater, two of the meninges. The brain is divided into three main parts: the forebrain, the midbrain, and the hindbrain.',
-    question: 'Which of the following is NOT true about the brain?',
-    options: [
-      'It is the most complex organ in the body',
-      'It is protected by the bones of the skull',
-      'It is cushioned by cerebrospinal fluid',
-      'It is divided into four main parts',
-    ],
-    answer: 3,
-  },
-];
 
 export default function MultipleChoice(data: any) {
   const [questions, setQuestions] = useState<MultipleChoiceQuestion[]>([]);
@@ -62,7 +30,7 @@ export default function MultipleChoice(data: any) {
   const { t } = useTranslation('question');
 
   useEffect(() => {
-    setQuestions(exerciseData);
+    setQuestions(multipleChoiceQuestions);
     setStartTime(new Date());
   }, []);
 
@@ -87,7 +55,6 @@ export default function MultipleChoice(data: any) {
   const handleContinue = () => {
     if (currentQuestion === questions.length - 1) {
       if (startTime !== null) setEndTime(getDuration(startTime));
-
       setIsFinished(true);
     } else {
       setCurrentQuestion(currentQuestion + 1);
@@ -147,9 +114,9 @@ export default function MultipleChoice(data: any) {
                 </Button>
               )}
             </View>
-            {isChecking && isCorrect && <CorrectAnswerModal onPressContinue={handleContinue} />}
+            {isChecking && isCorrect && <AnswerModal modalType='correct' onPressContinue={handleContinue} />}
             {isChecking && !isCorrect && (
-              <IncorrectAnswerModal correctAnswer={answer} onPressContinue={handleContinue} />
+              <AnswerModal modalType='incorrect' correctAnswer={answer} onPressContinue={handleContinue} />
             )}
           </View>
         </View>

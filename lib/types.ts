@@ -1,9 +1,3 @@
-export type AnswerModalProps = {
-  correctAnswer?: string | null;
-  explanation?: string | null;
-  onPressContinue: () => void;
-};
-
 export type MultipleChoiceQuestion = {
   id: string;
   paragraph: string;
