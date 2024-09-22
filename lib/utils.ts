@@ -18,3 +18,14 @@ export function formatLearningDuration(duration: number) {
     ? `${hour} ${t('questionType.hour')}${currentLanguage === 'en' && parseFloat(hour) > 1 ? 's' : ''}`
     : `${min} ${t('questionType.min')}${currentLanguage === 'en' && parseFloat(min) > 1 ? 's' : ''}`;
 }
+
+/**
+ * Format audio timer to MM:SS
+ * @param time  - time in seconds
+ * @returns formatted time in MM:SS
+ */
+export function formatAudioTimer(time: number) {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes.toFixed(0).padStart(2, '0')}:${seconds.toFixed(0).padStart(2, '0')}`;
+}
