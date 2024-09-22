@@ -7,16 +7,15 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
-import { multipleChoiceQuestions } from '~/lib/mockData';
-import { MultipleChoiceQuestion } from '~/lib/types';
+import { IQuestion } from '~/lib/interfaces';
 import { getDuration } from '~/lib/utils';
 
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import { AfterLesson } from '../lesson/AfterLesson';
 
-export default function MultipleChoice(data: any) {
-  const [questions, setQuestions] = useState<MultipleChoiceQuestion[]>([]);
+export default function MultipleChoice({ data }: { data: IQuestion[] }) {
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answer, setAnswer] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
@@ -29,10 +28,8 @@ export default function MultipleChoice(data: any) {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const { t } = useTranslation('question');
 
-  console.log(data);
-
   useEffect(() => {
-    setQuestions(multipleChoiceQuestions);
+    setQuestions(data);
     setStartTime(new Date());
   }, []);
 
@@ -42,7 +39,9 @@ export default function MultipleChoice(data: any) {
   };
 
   const handleCheckAnswer = () => {
-    const answerIndex = questions[currentQuestion].answer;
+    const answerIndex: number = Array.isArray(questions[currentQuestion].content.answer)
+      ? questions[currentQuestion].content.answer[0]
+      : questions[currentQuestion].content.answer;
     setIsChecking(true);
     setProgress(((currentQuestion + 1) / questions.length) * 100);
     if (answerIndex === selected) {
@@ -50,7 +49,7 @@ export default function MultipleChoice(data: any) {
       setCorrectAnswers(correctAnswers + 1);
     } else {
       setIsCorrect(false);
-      setAnswer(questions[currentQuestion].options[answerIndex]);
+      setAnswer(questions[currentQuestion].content.options[answerIndex]);
     }
   };
 
@@ -92,11 +91,11 @@ export default function MultipleChoice(data: any) {
             <View className='gap-8'>
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
-                <ReadingContainer>{questions[currentQuestion]?.paragraph || ''}</ReadingContainer>
-                <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.question}</Text>
+                <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
+                <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
               </View>
               <View>
-                {questions[currentQuestion]?.options?.map((option, index) => (
+                {questions[currentQuestion]?.content.options?.map((option, index) => (
                   <ChoiceButton
                     key={index}
                     index={index}

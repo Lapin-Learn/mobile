@@ -33,20 +33,20 @@ export interface IQuestion {
   explanation: string;
 }
 
+export interface ILessonsResponse {
+  lessons: ILesson[];
+  totalLearningDuration: number;
+}
+
 export interface ILessonQuestionsResponse {
   id: number;
   name: string;
   order: number;
   questionToLessons: {
     order: number;
-    question: object;
+    question: IQuestion;
     questionId: string;
   }[];
-}
-
-export interface ILessonsResponse {
-  lessons: ILesson[];
-  totalLearningDuration: number;
 }
 
 export interface IUserProfile {
