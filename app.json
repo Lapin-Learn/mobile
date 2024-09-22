@@ -20,7 +20,8 @@
       "infoPlist": {
         "CFBundleName": "Lapin Learn",
         "CFBundleAllowMixedLocalizations": true,
-        "ExpoLocalization_supportsRTL": false
+        "ExpoLocalization_supportsRTL": false,
+        "UIBackgroundModes": ["audio"]
       },
       "bundleIdentifier": "com.datn.lapinlearn"
     },
