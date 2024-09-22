@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
-import { multipleChoiceQuestions } from '~/lib/mockData';
-import { MultipleChoiceQuestion } from '~/lib/types';
+import { multipleChoicesQuestions } from '~/lib/mockData';
+import { MultipleChoicesQuestion } from '~/lib/types';
 import { getDuration } from '~/lib/utils';
 
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
+import { ChoiceCheckBox } from '../ChoiceCheckBox';
 import { AfterLesson } from '../lesson/AfterLesson';
 
-export default function MultipleChoice(data: any) {
-  const [questions, setQuestions] = useState<MultipleChoiceQuestion[]>([]);
+export default function MultipleChoices(data: any) {
+  const [questions, setQuestions] = useState<MultipleChoicesQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [answer, setAnswer] = useState<string | null>(null);
-  const [selected, setSelected] = useState<number | null>(null);
+  const [answer, setAnswer] = useState<string[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [checkedBox, setCheckedBox] = useState<boolean>(false);
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
@@ -29,28 +30,32 @@ export default function MultipleChoice(data: any) {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const { t } = useTranslation('question');
 
-  console.log(data);
-
   useEffect(() => {
-    setQuestions(multipleChoiceQuestions);
+    setQuestions(multipleChoicesQuestions);
     setStartTime(new Date());
   }, []);
 
   const handlePress = (index: number) => {
     if (index === null) return;
-    setSelected(index);
+    setSelected((prevSelected) => {
+      if (prevSelected.includes(index)) {
+        return prevSelected.filter((answer) => answer !== index);
+      } else {
+        return [...prevSelected, index];
+      }
+    });
   };
 
   const handleCheckAnswer = () => {
-    const answerIndex = questions[currentQuestion].answer;
+    const answerIndices = questions[currentQuestion].answer;
     setIsChecking(true);
     setProgress(((currentQuestion + 1) / questions.length) * 100);
-    if (answerIndex === selected) {
+    if (selected.length === answerIndices.length && selected.every((answer) => answerIndices.includes(answer))) {
       setIsCorrect(true);
       setCorrectAnswers(correctAnswers + 1);
     } else {
       setIsCorrect(false);
-      setAnswer(questions[currentQuestion].options[answerIndex]);
+      setAnswer(answerIndices.map((index) => questions[currentQuestion].options[index]));
     }
   };
 
@@ -60,8 +65,8 @@ export default function MultipleChoice(data: any) {
       setIsFinished(true);
     } else {
       setCurrentQuestion(currentQuestion + 1);
-      setAnswer(null);
-      setSelected(null);
+      setAnswer([]);
+      setSelected([]);
       setIsChecking(false);
       setIsCorrect(false);
     }
@@ -97,20 +102,22 @@ export default function MultipleChoice(data: any) {
               </View>
               <View>
                 {questions[currentQuestion]?.options?.map((option, index) => (
-                  <ChoiceButton
+                  <ChoiceCheckBox
                     key={index}
                     index={index}
                     label={option}
                     selectedBox={selected}
                     isChecking={isChecking}
                     isCorrect={isCorrect}
+                    checked={checkedBox}
                     onPress={() => handlePress(index)}
+                    onCheckedChange={() => setCheckedBox(selected.includes(index))}
                   />
                 ))}
               </View>
             </View>
             <View className='pb-10 pt-4'>
-              {selected !== null && !isChecking && (
+              {selected.length > 0 && !isChecking && (
                 <Button className='bg-neutral-900' onPress={handleCheckAnswer}>
                   <Text className='text-body font-semibold text-white'>{t('general.check')}</Text>
                 </Button>
@@ -118,7 +125,7 @@ export default function MultipleChoice(data: any) {
             </View>
             {isChecking && isCorrect && <AnswerModal modalType='correct' onPressContinue={handleContinue} />}
             {isChecking && !isCorrect && (
-              <AnswerModal modalType='incorrect' correctAnswer={answer} onPressContinue={handleContinue} />
+              <AnswerModal modalType='incorrect' correctAnswers={answer} onPressContinue={handleContinue} />
             )}
           </View>
         </View>

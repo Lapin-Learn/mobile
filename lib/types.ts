@@ -1,23 +1,16 @@
-export type MultipleChoiceQuestion = {
-  id: string;
-  paragraph: string;
+export interface ReadingQuestion {
+  paragraph?: string;
   question: string;
+}
+
+export interface MultipleChoiceQuestion extends ReadingQuestion {
   options: string[];
   answer: number;
-};
+}
 
-export type FillInTheBlankQuestion = {
-  id: string;
-  paragraph: string;
-  question: string;
-  answer: string;
-};
-
-export type MatchingQuestion = {
-  id: string;
-  question: string;
+export interface MultipleChoicesQuestion extends ReadingQuestion {
   options: string[];
   answer: number[];
-};
+}
 
-export type Question = MultipleChoiceQuestion | FillInTheBlankQuestion | MatchingQuestion;
+export type Question = MultipleChoiceQuestion | MultipleChoicesQuestion;

@@ -10,11 +10,12 @@ import { Button } from '../ui/Button';
 export type AnswerModalProps = {
   modalType: 'correct' | 'incorrect';
   correctAnswer?: string | null;
+  correctAnswers?: string[] | null;
   explanation?: string | null;
   onPressContinue: () => void;
 };
 
-export default function AnswerModal({ modalType, correctAnswer, onPressContinue }: AnswerModalProps) {
+export default function AnswerModal({ modalType, correctAnswer, correctAnswers, onPressContinue }: AnswerModalProps) {
   const { t } = useTranslation('question');
   const randomEncourage =
     modalType === 'correct'
@@ -47,7 +48,17 @@ export default function AnswerModal({ modalType, correctAnswer, onPressContinue 
             </Text>
           </Link>
         </View>
-        {modalType === 'incorrect' && (
+        {modalType === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
+          <View>
+            <Text className='text-body font-semibold text-neutral-900'>{t('general.correctAnswer')}</Text>
+            {correctAnswers?.map((answer, index) => (
+              <Text key={index} className='text-body text-neutral-900'>
+                {`\u2022 ${answer}`}
+              </Text>
+            ))}
+          </View>
+        )}
+        {modalType === 'incorrect' && correctAnswer && (
           <View>
             <Text className='text-body font-semibold text-neutral-900'>{t('general.correctAnswer')}</Text>
             <Text className='text-body text-neutral-900'>{correctAnswer}</Text>

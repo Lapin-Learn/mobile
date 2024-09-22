@@ -1,4 +1,4 @@
-import { BandScoreEnum, CERFLevelEnum, ContentTypeEnum, SkillEnum } from './enums';
+import { BandScoreEnum, SkillEnum } from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -23,15 +23,25 @@ export interface ILesson {
   xp: number;
 }
 
-export interface IQuestionResponse {
-  contentType: ContentTypeEnum;
+export interface IQuestion {
+  id: string;
+  contentType: string;
   content: Question;
-  imageId: string;
-  audioId: string;
-  cerfLevel: CERFLevelEnum;
+  imageId: string | null;
+  audioId: string | null;
+  cerfLevel: string;
   explanation: string;
-  createdAt: Date;
-  updatedAt: Date;
+}
+
+export interface ILessonQuestionsResponse {
+  id: number;
+  name: string;
+  order: number;
+  questionToLessons: {
+    order: number;
+    question: object;
+    questionId: string;
+  }[];
 }
 
 export interface ILessonsResponse {

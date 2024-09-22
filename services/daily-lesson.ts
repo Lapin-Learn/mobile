@@ -1,6 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { ILessonsResponse, IQuestionType } from '~/lib/interfaces';
+import { ILessonQuestionsResponse, ILessonsResponse, IQuestionType } from '~/lib/interfaces';
 
 import api from './httpRequests';
 
@@ -34,7 +34,7 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<any[
   const [, lessonId] = queryKey;
 
   try {
-    const response = await api.get(`/daily-lessons/lessons/${lessonId}/questions`);
+    const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/lessons/${lessonId}/questions`);
     return response;
   } catch (error) {
     console.error('Error fetching questions:', error);
