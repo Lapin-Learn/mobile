@@ -14,7 +14,7 @@ import { BackButton } from '../BackButton';
 import { ChoiceCheckBox } from '../ChoiceCheckBox';
 import { AfterLesson } from '../lesson/AfterLesson';
 
-export default function MultipleChoices({ data }: { data: IQuestion[] }) {
+export default function MultipleChoices({ data, lesson }: { data: IQuestion[]; lesson: number }) {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answer, setAnswer] = useState<string[]>([]);
@@ -86,6 +86,12 @@ export default function MultipleChoices({ data }: { data: IQuestion[] }) {
             exp: 20,
             carrot: 20,
             timer: endTime,
+          }}
+          lessonCompletion={{
+            lessonId: lesson,
+            correctAnswers,
+            wrongAnswers: questions.length - correctAnswers,
+            duration: endTime,
           }}
         />
       ) : (

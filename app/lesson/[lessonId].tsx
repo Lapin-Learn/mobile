@@ -22,7 +22,9 @@ export default function Exercise() {
 
   return (
     <View>
-      {questionData[0].contentType === ContentTypeEnum.MULTIPLE_CHOICE && <MultipleChoice data={questionData} />}
+      {questionData[0].contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
+        <MultipleChoice lesson={Number(lessonId)} data={questionData} />
+      )}
     </View>
   );
 }

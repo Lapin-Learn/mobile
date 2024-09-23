@@ -14,7 +14,7 @@ import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import { AfterLesson } from '../lesson/AfterLesson';
 
-export default function MultipleChoice({ data }: { data: IQuestion[] }) {
+export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; lesson: number }) {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answer, setAnswer] = useState<string | null>(null);
@@ -79,6 +79,12 @@ export default function MultipleChoice({ data }: { data: IQuestion[] }) {
             exp: 20,
             carrot: 20,
             timer: endTime,
+          }}
+          lessonCompletion={{
+            lessonId: lesson,
+            correctAnswers,
+            wrongAnswers: questions.length - correctAnswers,
+            duration: endTime,
           }}
         />
       ) : (

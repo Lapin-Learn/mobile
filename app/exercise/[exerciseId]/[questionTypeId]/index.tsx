@@ -35,7 +35,7 @@ export default function QuestionType() {
   }
 
   const currentLesson = lessons?.lessons.find((lesson) => lesson.isCurrent);
-  const [curLessonId, setCurLessonId] = useState<number | null>(currentLesson?.id || null);
+  const [curLessonId, setCurLessonId] = useState<number | null>(currentLesson?.id || 0);
 
   const handlePrev = () => {
     ref.current?.prev();
