@@ -1,16 +1,14 @@
+import { ContentTypeEnum } from './enums';
+
 export interface ReadingQuestion {
-  paragraph?: string;
+  paragraph: string;
   question: string;
 }
 
 export interface MultipleChoiceQuestion extends ReadingQuestion {
+  type: ContentTypeEnum.MULTIPLE_CHOICE;
   options: string[];
-  answer: number;
+  answer: number | number[];
 }
 
-export interface MultipleChoicesQuestion extends ReadingQuestion {
-  options: string[];
-  answer: number[];
-}
-
-export type Question = MultipleChoiceQuestion | MultipleChoicesQuestion;
+export type Question = MultipleChoiceQuestion;
