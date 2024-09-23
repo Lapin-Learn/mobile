@@ -20,8 +20,7 @@
       "infoPlist": {
         "CFBundleName": "Lapin Learn",
         "CFBundleAllowMixedLocalizations": true,
-        "ExpoLocalization_supportsRTL": false,
-        "UIBackgroundModes": ["audio"]
+        "ExpoLocalization_supportsRTL": false
       },
       "bundleIdentifier": "com.datn.lapinlearn"
     },
@@ -30,7 +29,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#F9F7F7"
       },
-      "package": "com.datn.lapinlearn"
+      "permissions": [""],
+            "package": "com.datn.lapinlearn"
     },
     "web": {
       "bundler": "metro",

@@ -1,0 +1,1 @@
+export const registerBackgroundService = async () => {};

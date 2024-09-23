@@ -12,7 +12,7 @@ const events = [Event.PlaybackState, Event.PlaybackError];
 
 const data = {
   id: 'trackId',
-  url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+  url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
   title: 'Track Title',
   artist: 'Track Artist',
 };
@@ -56,8 +56,9 @@ export function TrackAudio() {
     }
   };
 
-  const handleRemove = () => {
-    // TrackPlayer.remove(data.id);
+  // TODO: Implement remove track if needed when question is answered
+  const handleRemove = async () => {
+    await TrackPlayer.remove([parseInt(data.id as string)]);
   };
 
   const Action = ({ repeat }: { repeat?: boolean }) => {
@@ -71,14 +72,12 @@ export function TrackAudio() {
 
   return (
     <View className='w-full flex flex-row border border-black rounded-md justify-center items-center p-4 gap-x-4'>
-      <View className='flex-grow-0 flex-row gap-x-2'>
+      <View className='flex-row gap-x-2'>
         <Action />
         <Action repeat />
       </View>
-      <View className='flex-grow'>
-        <SeekBar progress={useProgress(500)} />
-      </View>
-      <Text className='flex-grow-0 font-semibold text-body'>{formatAudioTimer(duration - position)}</Text>
+      <SeekBar progress={useProgress(500)} />
+      <Text className='font-semibold text-body'>{formatAudioTimer(duration - position)}</Text>
     </View>
   );
 }

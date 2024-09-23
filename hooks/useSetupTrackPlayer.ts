@@ -1,37 +1,50 @@
 import { useEffect, useRef } from 'react';
-import TrackPlayer, { Capability } from 'react-native-track-player';
+import { AppState, AppStateStatus } from 'react-native';
+import TrackPlayer, { AppKilledPlaybackBehavior, State } from 'react-native-track-player';
 
 const setupPlayer = async () => {
   await TrackPlayer.setupPlayer();
   await TrackPlayer.updateOptions({
-    stoppingAppPausesPlayback: true, // This is for android only
     android: {
+      appKilledPlaybackBehavior: AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
       alwaysPauseOnInterruption: true,
     },
-    capabilities: [
-      Capability.Play,
-      Capability.Pause,
-      Capability.SkipToNext,
-      Capability.SkipToPrevious,
-      Capability.Stop,
-    ],
-    compactCapabilities: [Capability.Play, Capability.Pause],
   });
 };
 
 export async function useSetupTrackPlayer({ onLoad }: { onLoad?: () => void }) {
+  // registerBackgroundService();
   const isInitialized = useRef(false);
 
   useEffect(() => {
-    !isInitialized.current &&
-      setupPlayer()
-        .then(() => {
-          isInitialized.current = true;
-          onLoad?.();
-        })
-        .catch((error) => {
-          isInitialized.current = false;
-          console.error(error);
-        });
+    if (!isInitialized.current) {
+      (async () => {
+        await setupPlayer();
+        isInitialized.current = true;
+
+        if (onLoad) {
+          onLoad();
+        }
+      })();
+    }
+
+    // AppState logic to pause playback when backgrounded
+    const handleAppStateChange = async (nextAppState: AppStateStatus) => {
+      if (nextAppState === 'background') {
+        const state = await TrackPlayer.getState();
+        if (state === State.Playing) {
+          await TrackPlayer.pause(); // Pause the player when the app goes to the background
+        }
+      }
+    };
+
+    // Add the listener for AppState changes
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    // Cleanup on unmount
+    return () => {
+      subscription.remove();
+      TrackPlayer.pause();
+    };
   }, [onLoad]);
 }
