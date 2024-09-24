@@ -95,3 +95,14 @@ export interface IStreak {
   target: number;
   record: number;
 }
+
+export interface IInstruction {
+  id: string;
+  content: string;
+  order: number;
+  imageId: string;
+  audioId: string;
+  questionTypeId: number;
+  image?: string;
+  audio?: string;
+}
