@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
 import i18next from '~/i18n';
@@ -9,8 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatLearningDuration(duration: number) {
-  const { t } = useTranslation('translation');
-  const currentLanguage = i18next.language;
+  const { t, language: currentLanguage } = i18next;
   const hour = (duration / 3600).toFixed(1);
   const min = (duration / 60).toFixed(0);
 
