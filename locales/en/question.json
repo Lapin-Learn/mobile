@@ -16,6 +16,8 @@
       ],
       "explanation": "Explanation",
       "correctAnswer": "The correct answer is:",
-      "continue": "Continue"
+      "continue": "Continue",
+      "noQuestionFound": "No question found",
+      "unsupportedQuestionType": "Unsupported question type"
   }
 }

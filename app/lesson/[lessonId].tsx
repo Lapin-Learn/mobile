@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
-import { SafeAreaView, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { SafeAreaView, Text, View } from 'react-native';
 
 import MultipleChoice from '~/components/molecules/exercise/MultipleChoice';
 import MultipleChoices from '~/components/molecules/exercise/MultipleChoices';
@@ -11,6 +12,7 @@ import { IQuestion } from '~/lib/interfaces';
 export default function Exercise() {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
   const { data: questions, isLoading: questionsLoading } = useLessonQuestions({ lessonId: Number(lessonId) });
+  const { t } = useTranslation('question');
 
   if (questionsLoading) {
     return <LoadingLesson />;
@@ -28,7 +30,7 @@ export default function Exercise() {
       case ContentTypeEnum.MULTIPLE_CHOICES:
         return <MultipleChoices lesson={Number(lessonId)} data={questionData} />;
       default:
-        return <Text>Unsupported question type</Text>;
+        return <Text>{t('general.unsupportedQuestionType')}</Text>;
     }
   };
 
@@ -37,7 +39,9 @@ export default function Exercise() {
       {questionData.length > 0 ? (
         renderQuestionComponent(questionData[0].contentType)
       ) : (
-        <Text>No questions available</Text>
+        <View className='flex justify-center items-center h-full'>
+          <Text>{t('general.noQuestionFound')}</Text>
+        </View>
       )}
     </SafeAreaView>
   );

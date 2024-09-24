@@ -16,6 +16,8 @@
       ],
       "explanation": "Xem giải thích",
       "correctAnswer": "Câu trả lời đúng là:",
-      "continue": "Tiếp tục"
+      "continue": "Tiếp tục",
+      "noQuestionFound": "Không có câu hỏi",
+      "unsupportedQuestionType": "Loại câu hỏi không được hỗ trợ"
   }
 }
