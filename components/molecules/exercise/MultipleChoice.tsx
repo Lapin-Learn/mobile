@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, SafeAreaView, Text, View } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
@@ -42,7 +42,7 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
     onSuccess: (response: IAfterLesson) => {
       setXp(response.xp);
       setCarrots(response.carrots);
-      setIsFinished(true);
+      setTimeout(() => setIsFinished(true), 200);
     },
     onError: (error) => {
       console.error('Lesson completion mutation error:', error);
@@ -76,6 +76,8 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
 
   const handleContinue = () => {
     if (currentQuestion === questions.length - 1) {
+      setIsChecking(false);
+      setIsCorrect(false);
       if (startTime !== null) setEndTime(getDuration(startTime));
       lessonCompletionMutation.mutate();
     } else {
@@ -91,6 +93,8 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
     router.back();
   };
 
+  const ViewComponent = Platform.OS === 'ios' ? SafeAreaView : View;
+
   return (
     <View>
       {isFinished ? (
@@ -103,8 +107,9 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
           }}
         />
       ) : (
-        <View className='flex h-full'>
-          <View className='mx-4 mt-8 flex flex-row items-center justify-center gap-4 px-2'>
+        <ViewComponent className='flex h-full'>
+          <View
+            className={`mx-4 flex flex-row items-center justify-center gap-4 px-2 ${Platform.OS === 'android' ? 'mt-8' : ''}`}>
             <BackButton onPress={handleBack} />
             <Progress value={progress} />
           </View>
@@ -129,7 +134,7 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
                 ))}
               </View>
             </View>
-            <View className='pb-10 pt-4'>
+            <View className={`${Platform.OS === 'android' ? 'pb-10 pt-4' : ''}`}>
               {selected !== null && !isChecking && (
                 <Button className='bg-neutral-900' onPress={handleCheckAnswer}>
                   <Text className='text-body font-semibold text-white'>{t('general.check')}</Text>
@@ -141,7 +146,7 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
               <AnswerModal modalType='incorrect' correctAnswer={answer} onPressContinue={handleContinue} />
             )}
           </View>
-        </View>
+        </ViewComponent>
       )}
     </View>
   );

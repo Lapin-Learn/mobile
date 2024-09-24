@@ -1,7 +1,6 @@
-import { useRoute } from '@react-navigation/native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { BookMarked, ChevronLeft, ChevronRight, LucidePlay } from 'lucide-react-native';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
@@ -18,8 +17,7 @@ import { IQuestionType } from '~/lib/interfaces';
 import { formatLearningDuration } from '~/lib/utils';
 
 export default function QuestionType() {
-  const route = useRoute();
-  const { exerciseId, questionTypeId } = route.params as { exerciseId: string; questionTypeId: string };
+  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: string; questionTypeId: string }>();
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId as SkillEnum });
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
@@ -29,13 +27,19 @@ export default function QuestionType() {
   const width = Dimensions.get('window').width - 32;
   const ref = useRef<ICarouselInstance>(null);
   const { t } = useTranslation('translation');
+  const currentLesson = lessons?.lessons?.find((lesson) => lesson.isCurrent) || lessons?.lessons?.[0];
+
+  const [curLessonId, setCurLessonId] = useState<number>(currentLesson?.id || 0);
+
+  useEffect(() => {
+    if (currentLesson) {
+      setCurLessonId(currentLesson.id);
+    }
+  }, [currentLesson]);
 
   if (lessonsLoading) {
     return <Loading />;
   }
-
-  const currentLesson = lessons?.lessons.find((lesson) => lesson.isCurrent);
-  const [curLessonId, setCurLessonId] = useState<number | null>(currentLesson?.id || 0);
 
   const handlePrev = () => {
     ref.current?.prev();

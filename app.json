@@ -29,7 +29,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#F9F7F7"
       },
-      "package": "com.datn.lapinlearn"
+      "permissions": [""],
+            "package": "com.datn.lapinlearn"
     },
     "web": {
       "bundler": "metro",
