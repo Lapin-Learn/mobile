@@ -14,3 +14,20 @@ export enum BandScoreEnum {
   BAND_6_5 = '6.5',
   BAND_7_0 = '7.0',
 }
+
+export enum ContentTypeEnum {
+  MULTIPLE_CHOICE = 'multiple_choice',
+  MULTIPLE_CHOICES = 'multiple_choices',
+  FILL_IN_THE_BLANK = 'fill_in_the_blank',
+  MATCHING = 'matching',
+}
+
+export enum CERFLevelEnum {
+  A1 = 'A1',
+  A2 = 'A2',
+  B1 = 'B1',
+  B2 = 'B2',
+  C1 = 'C1',
+  C2 = 'C2',
+  Any = 'Any',
+}

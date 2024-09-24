@@ -18,3 +18,14 @@ export function formatLearningDuration(duration: number) {
     ? `${hour} ${t('questionType.hour')}${currentLanguage === 'en' && parseFloat(hour) > 1 ? 's' : ''}`
     : `${min} ${t('questionType.min')}${currentLanguage === 'en' && parseFloat(min) > 1 ? 's' : ''}`;
 }
+
+export const convertSecondsToMinutes = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
+};
+
+export const getDuration = (startTime: Date): number => {
+  const endTime = new Date();
+  return Math.round(Math.abs(endTime.getTime() - startTime.getTime()) / 1000);
+};

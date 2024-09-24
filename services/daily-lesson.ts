@@ -1,8 +1,15 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { ILessonsResponse, IQuestionType } from '~/lib/interfaces';
+import { IAfterLesson, ILessonQuestionsResponse, ILessonsResponse, IQuestionType } from '~/lib/interfaces';
 
 import api from './httpRequests';
+
+type LessonCompletionParams = {
+  lessonId: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+  duration: number;
+};
 
 export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<any[]>) => {
   const [, skill] = queryKey;
@@ -26,6 +33,28 @@ export const getLessons = async ({ queryKey }: QueryFunctionContext<any[]>) => {
     return response;
   } catch (error) {
     console.error('Error fetching lessons:', error);
+    throw error;
+  }
+};
+
+export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<any[]>) => {
+  const [, lessonId] = queryKey;
+
+  try {
+    const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/lessons/${lessonId}/questions`);
+    return response;
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    throw error;
+  }
+};
+
+export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
+  try {
+    const response = await api.post(`/lessons/completion`, { body: params });
+    return Promise.resolve(response as IAfterLesson);
+  } catch (error) {
+    console.error('Error confirming lesson completion:', error);
     throw error;
   }
 };

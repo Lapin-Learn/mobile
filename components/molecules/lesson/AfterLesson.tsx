@@ -11,22 +11,16 @@ import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
 import Confetti from '~/lib/components/confentti';
+import { convertSecondsToMinutes } from '~/lib/utils';
 
 import { ProgressCircle } from '../ProgressCircle';
 
-type AfterLessonProps = {
+export type AfterLessonProps = {
   percent: number;
   exp: number;
   carrot: number;
-  timer: Date;
-  [key: string]: number | Date;
-};
-
-const data: AfterLessonProps = {
-  percent: 74,
-  exp: 20,
-  carrot: 20,
-  timer: new Date(),
+  timer: number;
+  [key: string]: number;
 };
 
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
@@ -35,7 +29,7 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
   timer: { Component: TimerIcon, label: 'after.Timer' },
 };
 
-export function AfterLesson() {
+export function AfterLesson({ data }: { data: AfterLessonProps }) {
   const { t } = useTranslation('lesson');
   const randomEncourage = Math.random() * Number(t('after.encourage.length'));
 
@@ -73,7 +67,7 @@ export function AfterLesson() {
                       <View>
                         <Text className='text-title-2 font-bold'>
                           {/* TODO: update timer later */}
-                          {key === 'timer' ? '1:48' : (data[key] as number)}&nbsp;
+                          {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}&nbsp;
                           <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
                         </Text>
                       </View>
