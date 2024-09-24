@@ -38,7 +38,7 @@ export function NavigationBar({
             />
           ))}
 
-        {headerTitle && <Text className='text-title-1 font-bold text-black'>{headerTitle}</Text>}
+        {headerTitle && <Text className='text-title-4 font-bold text-black'>{headerTitle}</Text>}
 
         {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
       </View>

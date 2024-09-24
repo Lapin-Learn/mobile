@@ -12,16 +12,19 @@ import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text as UIText } from '~/components/ui/Text';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
+import { useDailyLesson } from '~/hooks/zustand';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/interfaces';
 import { formatLearningDuration } from '~/lib/utils';
 
 export default function QuestionType() {
   const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: string; questionTypeId: string }>();
+  const setCurrentQuestionType = useDailyLesson((state) => state.setCurrentQuestionType);
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId as SkillEnum });
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
+  setCurrentQuestionType(currentQuestionType ? currentQuestionType : ({} as IQuestionType));
   const { bandScore } = currentQuestionType?.progress || { bandScore: 'pre_ielts' };
   const { data: lessons, isLoading: lessonsLoading } = useListLessons({ questionTypeId });
   const width = Dimensions.get('window').width - 32;
@@ -62,7 +65,14 @@ export default function QuestionType() {
               {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
             </Text>
           </View>
-          <Button variant='secondary' size='md' className='color-neutral-900 flex-row gap-2 w-fit px-4'>
+
+          <Button
+            variant='secondary'
+            size='md'
+            className='color-neutral-900 flex-row gap-2 w-fit px-4'
+            onPress={() => {
+              router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
+            }}>
             <LucidePlay size={12} color='black' fill='black' />
             <Text className='text-subhead font-semibold'>{t('questionType.theoryPractice')}</Text>
           </Button>
