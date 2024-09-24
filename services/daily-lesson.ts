@@ -1,6 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { ILessonQuestionsResponse, ILessonsResponse, IQuestionType } from '~/lib/interfaces';
+import { IAfterLesson, ILessonQuestionsResponse, ILessonsResponse, IQuestionType } from '~/lib/interfaces';
 
 import api from './httpRequests';
 
@@ -52,7 +52,7 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<any[
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
   try {
     const response = await api.post(`/lessons/completion`, { body: params });
-    return response;
+    return Promise.resolve(response as IAfterLesson);
   } catch (error) {
     console.error('Error confirming lesson completion:', error);
     throw error;

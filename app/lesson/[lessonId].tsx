@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
-import { View } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
 import MultipleChoice from '~/components/molecules/exercise/MultipleChoice';
+import MultipleChoices from '~/components/molecules/exercise/MultipleChoices';
 import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { ContentTypeEnum } from '~/lib/enums';
@@ -20,11 +21,24 @@ export default function Exercise() {
       return lessonQuestion.question;
     }) ?? [];
 
+  const renderQuestionComponent = (contentType: string) => {
+    switch (contentType) {
+      case ContentTypeEnum.MULTIPLE_CHOICE:
+        return <MultipleChoice lesson={Number(lessonId)} data={questionData} />;
+      case ContentTypeEnum.MULTIPLE_CHOICES:
+        return <MultipleChoices lesson={Number(lessonId)} data={questionData} />;
+      default:
+        return <Text>Unsupported question type</Text>;
+    }
+  };
+
   return (
-    <View>
-      {questionData[0].contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
-        <MultipleChoice lesson={Number(lessonId)} data={questionData} />
+    <SafeAreaView>
+      {questionData.length > 0 ? (
+        renderQuestionComponent(questionData[0].contentType)
+      ) : (
+        <Text>No questions available</Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 }

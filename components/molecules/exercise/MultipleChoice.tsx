@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +8,9 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
-import { IQuestion } from '~/lib/interfaces';
+import { IAfterLesson, IQuestion } from '~/lib/interfaces';
 import { getDuration } from '~/lib/utils';
+import { confirmLessonCompletion } from '~/services';
 
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
@@ -26,7 +28,26 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<number>(0);
   const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [xp, setXp] = useState<number>(0);
+  const [carrots, setCarrots] = useState<number>(0);
   const { t } = useTranslation('question');
+  const lessonCompletionMutation = useMutation({
+    mutationFn: () =>
+      confirmLessonCompletion({
+        lessonId: lesson,
+        correctAnswers,
+        wrongAnswers: questions.length - correctAnswers,
+        duration: endTime,
+      }),
+    onSuccess: (response: IAfterLesson) => {
+      setXp(response.xp);
+      setCarrots(response.carrots);
+      setIsFinished(true);
+    },
+    onError: (error) => {
+      console.error('Lesson completion mutation error:', error);
+    },
+  });
 
   useEffect(() => {
     setQuestions(data);
@@ -56,7 +77,7 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
   const handleContinue = () => {
     if (currentQuestion === questions.length - 1) {
       if (startTime !== null) setEndTime(getDuration(startTime));
-      setIsFinished(true);
+      lessonCompletionMutation.mutate();
     } else {
       setCurrentQuestion(currentQuestion + 1);
       setAnswer(null);
@@ -76,15 +97,9 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
         <AfterLesson
           data={{
             percent: (correctAnswers / questions.length) * 100,
-            exp: 20,
-            carrot: 20,
+            exp: xp,
+            carrot: carrots,
             timer: endTime,
-          }}
-          lessonCompletion={{
-            lessonId: lesson,
-            correctAnswers,
-            wrongAnswers: questions.length - correctAnswers,
-            duration: endTime,
           }}
         />
       ) : (

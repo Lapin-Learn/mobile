@@ -1,4 +1,3 @@
-import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +12,6 @@ import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
 import Confetti from '~/lib/components/confentti';
 import { convertSecondsToMinutes } from '~/lib/utils';
-import { confirmLessonCompletion } from '~/services';
 
 import { ProgressCircle } from '../ProgressCircle';
 
@@ -25,39 +23,17 @@ export type AfterLessonProps = {
   [key: string]: number;
 };
 
-export type LessonCompletionProps = {
-  lessonId: number;
-  correctAnswers: number;
-  wrongAnswers: number;
-  duration: number;
-};
-
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
   exp: { Component: FlashIcon, label: 'after.Experience' },
   carrot: { Component: CarrotIcon, label: 'after.Carrot' },
   timer: { Component: TimerIcon, label: 'after.Timer' },
 };
 
-export function AfterLesson({
-  data,
-  lessonCompletion,
-}: {
-  data: AfterLessonProps;
-  lessonCompletion: LessonCompletionProps;
-}) {
+export function AfterLesson({ data }: { data: AfterLessonProps }) {
   const { t } = useTranslation('lesson');
   const randomEncourage = Math.random() * Number(t('after.encourage.length'));
 
   const [showConfetti, setShowConfetti] = useState(false);
-  const lessonCompletionMutation = useMutation({
-    mutationFn: () => confirmLessonCompletion(lessonCompletion),
-    onSuccess: () => {
-      alert('Lesson completion mutation success');
-    },
-    onError: (error) => {
-      console.error('Lesson completion mutation error:', error);
-    },
-  });
 
   useEffect(() => {
     setShowConfetti(true);
@@ -65,7 +41,6 @@ export function AfterLesson({
 
   // TODO: back to previous page
   const handlePress = () => {
-    lessonCompletionMutation.mutate();
     router.back();
   };
 

@@ -49,6 +49,22 @@ export interface ILessonQuestionsResponse {
   }[];
 }
 
+export interface ILessonCompletion {
+  lessonId: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+  duration: number;
+}
+
+export interface IAfterLesson {
+  lessonId: number;
+  carrots: number;
+  xp: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+  duration: number;
+}
+
 export interface IUserProfile {
   id: string;
   username: string;
