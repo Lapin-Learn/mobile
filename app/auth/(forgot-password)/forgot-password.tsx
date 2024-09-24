@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
+import { ControllerInput } from '~/components/molecules/ControllerInput';
+import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { Button } from '~/components/ui/Button';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -13,66 +16,55 @@ const schema = z.object({
 type ForgotPasswordFormField = z.infer<typeof schema>;
 
 export default function ForgotPassword() {
+  const { t } = useTranslation('auth');
+
   const {
     control,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ForgotPasswordFormField>({
-    defaultValues: { email: '' },
     resolver: zodResolver(schema),
   });
 
   const forgotPasswordMutation = useForgotPassword();
 
-  const renderInput = (
-    field: ControllerRenderProps<{ email: string }>,
-    placeholder: string,
-    secureTextEntry = false
-  ) => {
-    return (
-      <View className='gap-y-1'>
-        <Text>{placeholder}</Text>
-        <TextInput
-          className='w-full h-12 border border-gray-black p-2'
-          secureTextEntry={secureTextEntry}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </View>
-    );
-  };
-
-  const onSubmit: SubmitHandler<ForgotPasswordFormField> = async (data) => {
+  const onSubmit: SubmitHandler<ForgotPasswordFormField> = (data) => {
     try {
-      // TODO: Call your API here (#1)
-      await forgotPasswordMutation.mutateAsync(data);
+      forgotPasswordMutation.mutate(data);
     } catch {
-      setError('email', { message: 'Invalid email or password' });
+      setError('email', { message: t('forgotPassword.invalidEmailOrPassword') });
     }
   };
 
   return (
-    <SafeAreaView>
-      <View className='gap-y-2'>
-        <Controller
-          name='email'
-          control={control}
-          render={({ field }) => (
-            <View>
-              {renderInput(field, 'Email')}
-              {errors.email && <Text className='text-red-500'>{errors.email.message}</Text>}
+    <SafeAreaView className='h-screen'>
+      <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+        <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
+          <View className='gap-y-10'>
+            <View className='flex-row'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
+                {t('forgotPassword.instruction')}
+              </Text>
             </View>
-          )}
-        />
+            <ControllerInput
+              props={{ name: 'email', control }}
+              label={t('forgotPassword.emailLabel')}
+              placeholder={t('forgotPassword.emailPlaceholder')}
+              error={errors.email}
+            />
+          </View>
 
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-          title={`${isSubmitting ? 'Loading ...' : 'Verify'}`}
-        />
-      </View>
+          <Button
+            className='w-full'
+            onPress={handleSubmit(onSubmit)}
+            disabled={forgotPasswordMutation.isPending}
+            size={'lg'}>
+            <Text className='text-body font-semibold text-white'>{t('forgotPassword.sendOtpButton')}</Text>
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

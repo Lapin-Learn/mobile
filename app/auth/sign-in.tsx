@@ -1,10 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
-import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
+import LOGOFB from '~/assets/images/facebook.svg';
+import LOGOGOOGLE from '~/assets/images/google.svg';
+import { ControllerInput } from '~/components/molecules/ControllerInput';
+import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { Button } from '~/components/ui/Button';
 import { useSignIn } from '~/hooks/react-query/useAuth';
 
 const schema = z.object({
@@ -18,81 +23,73 @@ export default function SignIn() {
   const {
     control,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<SignInFormField>({
-    defaultValues: { email: '', password: '' },
     resolver: zodResolver(schema),
   });
+  const { t } = useTranslation('auth');
 
   const signInMutation = useSignIn();
 
-  const renderInput = (
-    field: ControllerRenderProps<{ email: string; password: string }>,
-    placeholder: string,
-    secureTextEntry = false
-  ) => {
-    return (
-      <View className='gap-y-1'>
-        <Text>{placeholder}</Text>
-        <TextInput
-          className='w-full h-12 border border-gray-black p-2'
-          secureTextEntry={secureTextEntry}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </View>
-    );
-  };
-
   const onSubmit: SubmitHandler<SignInFormField> = async (data) => {
-    try {
-      // TODO: Call your API here (#1)
-      await signInMutation.mutateAsync(data);
-    } catch {
-      setError('email', { message: 'Invalid email or password' });
-      setError('password', { message: 'Invalid email or password' });
-    }
+    signInMutation.mutate(data);
   };
 
   return (
-    <SafeAreaView>
-      <View className='gap-y-2'>
-        <Controller
-          name='email'
-          control={control}
-          render={({ field }) => (
-            <View>
-              {renderInput(field, 'Email')}
-              {errors.email && <Text className='text-red-500'>{errors.email.message}</Text>}
-            </View>
-          )}
-        />
-        <Controller
-          name='password'
-          control={control}
-          render={({ field }) => (
-            <View>
-              {renderInput(field, 'Password', true)}
-              {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
-            </View>
-          )}
-        />
+    <SafeAreaView className='h-screen'>
+      <NavigationBar title={t('signIn.welcomeBack')} />
 
-        <Link push href='/auth/(forgot-password)'>
-          Forgot password?
-        </Link>
-        <Link push href='/auth/(sign-up)'>
-          Sign up
-        </Link>
+      <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
+        <Text className='w-full text-callout font-normal text-neutral-500'>{t('signIn.enterDetails')}</Text>
+        <View className='gap-y-20'>
+          <View className='flex gap-y-4'>
+            <ControllerInput
+              props={{ name: 'email', control }}
+              label={t('signIn.email')}
+              placeholder={t('signIn.emailPlaceholder')}
+              error={errors.email}
+            />
 
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          disabled={signInMutation.isPending}
-          title={`${signInMutation.isPending ? 'Loading ...' : 'Sign In'}`}
-        />
+            <ControllerInput
+              props={{ name: 'password', control }}
+              label={t('signIn.password')}
+              placeholder={t('signIn.passwordPlaceholder')}
+              error={errors.password}
+            />
+
+            <View className='flex flex-row justify-end'>
+              <Link push href='/auth/(forgot-password)'>
+                <Text className='text-subhead font-medium text-orange-500'>{t('signIn.forgotPassword')}</Text>
+              </Link>
+            </View>
+          </View>
+
+          <View className='gap-y-6'>
+            <Button onPress={handleSubmit(onSubmit)} size={'lg'} disabled={signInMutation.isPending}>
+              <Text className='text-body font-semibold text-white'>{t('signIn.signIn')}</Text>
+            </Button>
+            <View className='flex flex-col items-center justify-center gap-y-[7px]'>
+              <Text className='text-subhead font-medium text-supporting-text'>{t('signIn.orSignInWith')}</Text>
+              <OtherSignIn />
+            </View>
+          </View>
+        </View>
+        <View className='flex flex-row items-center justify-center gap-x-2.5'>
+          <Text className='text-footnote text-neutral-900'>{t('signIn.noAccount')}</Text>
+          <Link push href='/auth/sign-up'>
+            <Text className='text-footnote font-medium text-orange-500'>{t('signIn.signUp')}</Text>
+          </Link>
+        </View>
       </View>
     </SafeAreaView>
+  );
+}
+
+function OtherSignIn() {
+  return (
+    <View className='flex flex-row items-center justify-center gap-x-[35px]'>
+      <LOGOFB onPress={() => {}} width={32} height={32} />
+      <LOGOGOOGLE onPress={() => {}} width={32} height={32} />
+    </View>
   );
 }

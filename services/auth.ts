@@ -1,7 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
-
-import { apiAuth } from './httpRequests';
-import { localStorageTokenKey, localStorageUserKey } from './storage';
+import api from './httpRequests';
 
 export type Session = {
   user?: AuthInfo;
@@ -9,7 +6,7 @@ export type Session = {
 
 export type AuthInfo = {
   token_type: string;
-  access_token: string;
+  accessToken: string;
   expires_in: number;
   refresh_token: string;
 };
@@ -24,70 +21,30 @@ export type AccountIdentifier = {
 };
 
 type SignInParams = Pick<AccountIdentifier, 'email' | 'password'>;
-type SignUpParams = AccountIdentifier;
-type VerifyParams = { email: string; code: string };
-type ForgotPasswordParams = { email: string };
-type ResetPasswordParams = { email: string; password: string };
+type SignUpParams = Pick<AccountIdentifier, 'email' | 'password'>;
+type VerifyParams = { email: string; otp: string };
 
 export const signIn = async (params: SignInParams) => {
-  // const data = await apiAuth.post<AuthInfo>('auth/sign-in', { body: params });
-  const data = {
-    access_token: 'mock',
-    refresh_token: 'mock',
-    token_type: 'mock',
-    expires_in: 0,
-  };
-  SecureStore.setItem(localStorageTokenKey, JSON.stringify(data));
+  const data = await api.post<AuthInfo>('auth/signin', { body: params });
   return data;
 };
 
-export const signOut = () => {
-  SecureStore.deleteItemAsync(localStorageTokenKey);
-  SecureStore.deleteItemAsync(localStorageUserKey);
-};
-
 export const signUp = async (params: SignUpParams) => {
-  // return await apiAuth.post<AuthInfo>('auth/sign-up', { body: params });
-  const data = {
-    access_token: 'mock',
-    refresh_token: 'mock',
-    token_type: 'mock',
-    expires_in: 0,
-  };
+  const data = await api.post<AuthInfo>('auth/signup', { body: params });
   return data;
 };
 
 export const verify = async (params: VerifyParams) => {
-  // return await apiAuth.post<AuthInfo>('auth/verify', { body: params });
-  const data = {
-    access_token: 'mock',
-    refresh_token: 'mock',
-    token_type: 'mock',
-    expires_in: 0,
-  };
+  const data = await api.post<AuthInfo>('auth/otp', { body: params });
   return data;
 };
 
-export const forgotPassword = async (params: ForgotPasswordParams) => {
-  // return await apiAuth.post<AuthInfo>('auth/forgot-password', { body: params });
-  const data = {
-    access_token: 'mock',
-    refresh_token: 'mock',
-    token_type: 'mock',
-    expires_in: 0,
-  };
-  return data;
+export const forgotPassword = async (params: Pick<AccountIdentifier, 'email'>) => {
+  await api.get<AuthInfo>(`auth/otp?email=${params.email}`);
 };
 
-export const resetPassword = async (params: ResetPasswordParams) => {
-  // return await apiAuth.post<AuthInfo>('auth/reset-password', { body: params });
-  const data = {
-    access_token: 'mock',
-    refresh_token: 'mock',
-    token_type: 'mock',
-    expires_in: 0,
-  };
-  return data;
+export const resetPassword = async (params: { newPassword: string }) => {
+  await api.post<AuthInfo>('auth/password-update', { body: params });
 };
 
 // export const getAuthUser = async () => {
@@ -97,9 +54,8 @@ export const resetPassword = async (params: ResetPasswordParams) => {
 // };
 
 export const refreshToken = async (refreshToken: string) => {
-  const data = await apiAuth.post<AuthInfo>('auth/refresh', {
+  const data = await api.post<AuthInfo>('auth/access-token', {
     body: { refreshToken },
   });
-  SecureStore.setItem(localStorageTokenKey, JSON.stringify(data));
-  return data.access_token;
+  return data;
 };

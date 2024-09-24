@@ -1,22 +1,20 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import en from '~/locales/en/english.json';
-import vi from '~/locales/vi/vietnamese.json';
+import * as en from '~/locales/en';
+import * as vi from '~/locales/vi';
 
-i18n
-  .use(initReactI18next) // Passes i18n down to react-i18next
-  .init({
-    compatibilityJSON: 'v3',
-    resources: {
-      en: { translation: en },
-      vi: { translation: vi },
-    },
-    lng: 'vi', // Set the initial language
-    fallbackLng: 'en', // Use English if detected language is not available
-    interpolation: {
-      escapeValue: false, // React already safes from XSS
-    },
-  });
+i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
+  resources: {
+    en: { translation: en.english, auth: en.auth, lesson: en.lesson, question: en.question },
+    vi: { translation: vi.vietnamese, auth: vi.auth, lesson: vi.lesson, question: vi.question },
+  },
+  lng: 'vi',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

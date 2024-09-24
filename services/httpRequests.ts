@@ -1,8 +1,10 @@
-import { getAuthValueFromStorage } from './storage';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000';
-interface EndpointOptions extends Omit<RequestInit, 'body'> {
-  searchParams?: string;
+import { getTokenAsync } from './utils';
+
+const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
+interface EndpointOptions extends Omit<AxiosRequestConfig, 'url' | 'method'> {
+  searchParams?: string | Record<string, string>;
   body?: unknown;
 }
 
@@ -12,80 +14,98 @@ type APIResponse<T> = {
   data: T;
 };
 
-class API {
-  private headers: HeadersInit = {
+type APIError = {
+  status: number;
+  message: string;
+  code?: string;
+};
+
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
     'Content-Type': 'application/json',
-  };
-  private generateRequest: (defaultRequest: RequestInit) => RequestInit;
-  constructor(generateRequest: (defaultRequest: RequestInit) => RequestInit = (req) => req) {
-    this.generateRequest = generateRequest;
+    'Cache-Control': 'no-cache',
+  },
+});
+
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    const auth = await getTokenAsync();
+    if (auth) {
+      config.headers.Authorization = `Bearer ${auth.accessToken}`;
+    }
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(formatError(error));
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject(formatError(error));
+  }
+);
+
+const formatError = (error: any | AxiosError): APIError => {
+  let message = error.message;
+  const status = error.response?.status || 500;
+
+  if (error.response?.data?.message) {
+    message = error.response.data.message;
+  }
+
+  return { status, message };
+};
+
+class API {
+  private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await axiosInstance.request<APIResponse<T>>({
+        url: endpoint,
+        ...options,
+      });
+
+      const json = response.data as APIResponse<T>;
+      return json.data;
+    } catch (error) {
+      throw formatError(error);
+    }
   }
 
   async get<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
-    const initRequest = {
+    return this.request<T>(endpoint, {
       method: 'GET',
-      headers: this.headers,
+      params: searchParams,
       ...nextOptions,
-      body: JSON.stringify(nextOptions.body),
-    };
-    const finalRequest = this.generateRequest(initRequest);
-    const url = BASE_URL + '/' + endpoint + '?' + searchParams;
-    const response = await fetch(url, finalRequest);
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return (await ((await response.json()) as Promise<APIResponse<T>>)).data;
+    });
   }
+
   async post<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
-    const url = [BASE_URL, endpoint].filter(Boolean).join('/');
-    const response = await fetch(url, {
+    return this.request<T>(endpoint, {
       method: 'POST',
-      headers: this.headers,
+      data: body,
       ...nextOptions,
-      body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return (await ((await response.json()) as Promise<APIResponse<T>>)).data;
   }
+
   async put<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
-    const url = [BASE_URL, endpoint].filter(Boolean).join('/');
-    const response = await fetch(url, {
+    return this.request<T>(endpoint, {
       method: 'PUT',
-      headers: this.headers,
+      data: body,
       ...nextOptions,
-      body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return (await ((await response.json()) as Promise<APIResponse<T>>)).data;
   }
   async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
-    const url = [BASE_URL, endpoint, searchParams].filter(Boolean).join('/');
-    const response = await fetch(url, {
+    return this.request<T>(endpoint, {
       method: 'DELETE',
-      headers: this.headers,
+      params: searchParams,
       ...nextOptions,
-      body: JSON.stringify(nextOptions.body),
     });
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return (await ((await response.json()) as Promise<APIResponse<T>>)).data;
   }
 }
-
-const api = new API((defaultRequest) => {
-  const auth = getAuthValueFromStorage();
-  return {
-    ...defaultRequest,
-    headers: {
-      ...defaultRequest.headers,
-      Authorization: `Bearer ${auth?.access_token}`,
-    },
-  };
-});
-export const apiAuth = new API();
+const api = new API();
 export default api;

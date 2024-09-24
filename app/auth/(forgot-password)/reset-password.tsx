@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
+import { ControllerInput } from '~/components/molecules/ControllerInput';
+import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { Button } from '~/components/ui/Button';
 import { useResetPassword } from '~/hooks/react-query/useAuth';
 
 const schema = z
@@ -16,77 +18,56 @@ const schema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
+
 type ResetPasswordFormField = z.infer<typeof schema>;
 
 export default function ResetPassword() {
-  const { email } = useLocalSearchParams();
-
+  const { t } = useTranslation('auth');
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ResetPasswordFormField>({
-    defaultValues: { password: '', confirmPassword: '' },
     resolver: zodResolver(schema),
   });
 
   const resetPasswordMutation = useResetPassword();
 
-  const renderInput = (
-    field: ControllerRenderProps<{ password: string; confirmPassword: string }>,
-    placeholder: string,
-    secureTextEntry = false
-  ) => {
-    return (
-      <View className='gap-y-1'>
-        <Text>{placeholder}</Text>
-        <TextInput
-          className='w-full h-12 border border-gray-black p-2'
-          secureTextEntry={secureTextEntry}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </View>
-    );
-  };
-
-  const onSubmit: SubmitHandler<ResetPasswordFormField> = async (data) => {
-    try {
-      // TODO: Call your API here (#1)
-      await resetPasswordMutation.mutateAsync({ email: email as string, password: data.password });
-    } catch {}
+  const onSubmit: SubmitHandler<ResetPasswordFormField> = (data) => {
+    resetPasswordMutation.mutate({ newPassword: data.password });
   };
 
   return (
-    <SafeAreaView>
-      <View className='gap-y-2'>
-        <Controller
-          name='password'
-          control={control}
-          render={({ field }) => (
-            <View>
-              {renderInput(field, 'New Password', true)}
-              {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
+    <SafeAreaView className='h-screen'>
+      <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+        <NavigationBar title={t('resetPassword.title')} headerLeftShown={true} />
+        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
+          <View className='gap-y-10'>
+            <View className='flex-row'>
+              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
+                {t('resetPassword.instruction')}
+              </Text>
             </View>
-          )}
-        />
-        <Controller
-          name='confirmPassword'
-          control={control}
-          render={({ field }) => (
-            <View>
-              {renderInput(field, 'Confirm New Password', true)}
-              {errors.confirmPassword && <Text className='text-red-500'>{errors.confirmPassword.message}</Text>}
-            </View>
-          )}
-        />
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-          title={`${isSubmitting ? 'Loading ...' : 'Reset Password'}`}
-        />
-      </View>
+            <ControllerInput
+              props={{ name: 'password', control }}
+              label={t('resetPassword.passwordLabel')}
+              placeholder={t('resetPassword.passwordPlaceholder')}
+              error={errors.password}
+            />
+
+            <ControllerInput
+              props={{ name: 'confirmPassword', control }}
+              label={t('resetPassword.confirmPasswordLabel')}
+              placeholder={t('resetPassword.confirmPasswordPlaceholder')}
+              error={errors.confirmPassword}
+            />
+          </View>
+
+          <Button onPress={handleSubmit(onSubmit)} disabled={resetPasswordMutation.isPending} size={'lg'}>
+            <Text className='text-body font-semibold text-white'>{t('resetPassword.resetButton')}</Text>
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

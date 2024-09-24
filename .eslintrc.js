@@ -17,7 +17,16 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  plugins: ['react', 'react-native', 'prettier', 'simple-import-sort', 'react-hooks', '@typescript-eslint'],
+  plugins: [
+    'react',
+    'react-native',
+    'prettier',
+    'simple-import-sort',
+    'react-hooks',
+    '@typescript-eslint',
+    'simple-import-sort',
+    'unused-imports',
+  ],
   rules: {
     'prettier/prettier': 'warn',
     'react/react-in-jsx-scope': 'off',
@@ -26,8 +35,18 @@ module.exports = {
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/rules-of-hooks': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
   overrides: [
     {

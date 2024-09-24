@@ -1,6 +1,20 @@
 {
-  "Hello": "Hello",
-  "Hello, {{name}}!": "Hello, {{name}}!",
-  "Hello, {{name}}! You have {{unreadCount}} unread messages": "Hello, {{name}}! You have {{unreadCount}} unread messages",
-  "Welcome to React": "Welcome to React and react-i18next"
+  "list": {
+    "level": "Level {{level}}",
+    "progress": "{{current}}/{{total}}",
+    "exerciseButton": "Do exercises",
+    "randomButton": "Random exercises"
+  },
+  "questionTypes": {
+    "experience": "Progress",
+    "xp": "XP"
+  },
+  "questionType": {
+    "totalLearnedTime": "Total",
+    "hour": "hour",
+    "min": "minute",
+    "theoryPractice": "Pratice theory",
+    "practiceBtn": "Start now",
+    "jumpNextBtn": "Jump to next band"
+  }
 }
