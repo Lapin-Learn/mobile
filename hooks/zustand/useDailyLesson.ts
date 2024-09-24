@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { IQuestionType } from '~/lib/interfaces';
 
 type DailyLessonState = {
-  excersieId: null;
+  exerciseId: null;
   questionTypeId: null;
   currentQuestionType: IQuestionType;
 };
@@ -13,7 +13,7 @@ type DailyLessonActions = {
 };
 
 export const useDailyLesson = create<DailyLessonState & DailyLessonActions>((set) => ({
-  excersieId: null,
+  exerciseId: null,
   questionTypeId: null,
   currentQuestionType: {} as IQuestionType,
   setCurrentQuestionType: (questionType: IQuestionType) => set({ currentQuestionType: questionType }),
