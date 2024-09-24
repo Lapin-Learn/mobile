@@ -35,7 +35,7 @@ export default function QuestionType() {
   }
 
   const currentLesson = lessons?.lessons.find((lesson) => lesson.isCurrent);
-  const [curLessonId, setCurLessonId] = useState<number | null>(currentLesson?.id || null);
+  const [curLessonId, setCurLessonId] = useState<number | null>(currentLesson?.id || 0);
 
   const handlePrev = () => {
     ref.current?.prev();
@@ -108,7 +108,7 @@ export default function QuestionType() {
           )}
         </View>
         <View className='gap-4 mb-18'>
-          <Button size='lg' onPress={() => router.push(`/lesson/${curLessonId}`)}>
+          <Button size='lg' onPress={() => router.push(`/lesson/${curLessonId}`)} disabled={!curLessonId}>
             <UIText>{t('questionType.practiceBtn')}</UIText>
           </Button>
           <Button size='lg' className='bg-neutral-900'>

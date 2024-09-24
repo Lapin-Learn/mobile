@@ -12,21 +12,24 @@ import { cn } from '~/lib/utils';
 
 import * as ProgressPrimitive from '../primitives/progress';
 
-const Progress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
-    indicatorClassName?: string;
+type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
+  className?: string;
+  value: number | undefined | null;
+  indicatorClassName?: string;
+};
+
+const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
+  ({ className, value, indicatorClassName, ...props }, ref) => {
+    return (
+      <ProgressPrimitive.Root
+        ref={ref}
+        className={cn('relative h-2 grow overflow-hidden rounded-full bg-neutral-100', className)}
+        {...props}>
+        <Indicator value={value} className={indicatorClassName} />
+      </ProgressPrimitive.Root>
+    );
   }
->(({ className, value, indicatorClassName, ...props }, ref) => {
-  return (
-    <ProgressPrimitive.Root
-      ref={ref}
-      className={cn('relative h-2 w-full overflow-hidden rounded-full bg-neutral-100', className)}
-      {...props}>
-      <Indicator value={value} className={indicatorClassName} />
-    </ProgressPrimitive.Root>
-  );
-});
+);
 Progress.displayName = ProgressPrimitive.Root.displayName;
 
 export { Progress };

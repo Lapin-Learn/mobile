@@ -29,3 +29,13 @@ export function formatAudioTimer(time: number) {
   const seconds = time % 60;
   return `${minutes.toFixed(0).padStart(2, '0')}:${seconds.toFixed(0).padStart(2, '0')}`;
 }
+export const convertSecondsToMinutes = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
+};
+
+export const getDuration = (startTime: Date): number => {
+  const endTime = new Date();
+  return Math.round(Math.abs(endTime.getTime() - startTime.getTime()) / 1000);
+};
