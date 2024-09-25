@@ -8,6 +8,8 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
+import { useInstruction } from '~/hooks/zustand';
+import { ContentTypeEnum } from '~/lib/enums';
 import { IAfterLesson, IQuestion } from '~/lib/interfaces';
 import { getDuration } from '~/lib/utils';
 import { confirmLessonCompletion } from '~/services';
@@ -49,9 +51,22 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
     },
   });
 
+  const {
+    setContentTypeForInstruction,
+    setQuestionForInstruction,
+    setAnswersForInstruction,
+    setExplanationForInstruction,
+  } = useInstruction((state) => ({
+    setContentTypeForInstruction: state.setContentType,
+    setQuestionForInstruction: state.setQuestion,
+    setAnswersForInstruction: state.setAnswers,
+    setExplanationForInstruction: state.setExplanation,
+  }));
+
   useEffect(() => {
     setQuestions(data);
     setStartTime(new Date());
+    setContentTypeForInstruction(ContentTypeEnum.MULTIPLE_CHOICE);
   }, []);
 
   const handlePress = (index: number) => {
@@ -72,6 +87,11 @@ export default function MultipleChoice({ data, lesson }: { data: IQuestion[]; le
       setIsCorrect(false);
       setAnswer(questions[currentQuestion].content.options[answerIndex]);
     }
+
+    // Set instruction store
+    setQuestionForInstruction(data[currentQuestion]?.content.question);
+    setAnswersForInstruction([data[currentQuestion]?.content.options[answerIndex]]);
+    setExplanationForInstruction(data[currentQuestion]?.explanation);
   };
 
   const handleContinue = () => {
