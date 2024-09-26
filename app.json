@@ -8,7 +8,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/LapinLearn.svg",
       "resizeMode": "contain",
       "backgroundColor": "#F9F7F7"
     },
@@ -30,7 +30,7 @@
         "backgroundColor": "#F9F7F7"
       },
       "permissions": [""],
-            "package": "com.datn.lapinlearn"
+      "package": "com.datn.lapinlearn"
     },
     "web": {
       "bundler": "metro",

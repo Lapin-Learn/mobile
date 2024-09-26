@@ -3,6 +3,7 @@ import { Stack } from 'expo-router';
 export function AppStack() {
   return (
     <Stack>
+      <Stack.Screen name='on-boarding' options={{ headerShown: false }} />
       <Stack.Screen name='index' options={{ headerShown: false }} />
       <Stack.Screen name='update-profile' options={{ headerShown: false }} />
       <Stack.Screen name='(tabs)' options={{ headerShown: false }} />

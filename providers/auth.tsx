@@ -1,13 +1,25 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import { AuthProps, hydrate, useAuth } from '~/hooks/zustand';
+import { getFirstLaunchAsync } from '~/services';
+
+async function checkIfFirstLaunch() {
+  try {
+    const hasFirstLaunched = await getFirstLaunchAsync();
+    return hasFirstLaunched;
+  } catch {
+    return false;
+  }
+}
 
 const AuthContext = createContext<AuthProps>({ token: { token_type: null, accessToken: null }, status: 'idle' });
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { token, status } = useAuth();
   const signOut = useSignOut();
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+
   const contextValue = useMemo(
     () => ({
       token,
@@ -17,15 +29,22 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
+    const firstLaunch = async () => {
+      setIsFirstLaunch(await checkIfFirstLaunch());
+    };
+    firstLaunch();
+  }, []);
+
+  useEffect(() => {
     hydrate();
   }, []);
 
   useEffect(() => {
-    if (status === 'signOut') {
+    if (status === 'signOut' && isFirstLaunch === false) {
       signOut.mutate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [status, isFirstLaunch]);
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
