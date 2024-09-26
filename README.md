@@ -4,6 +4,18 @@
 
 `npm run prebuild`
 
+# Prebuild the app for only the android
+
+`npm run prebuild --platform android`
+
+# Prebuild the app for only the ios
+
+`npm run prebuild --platform ios`
+
+# Update the app when update the app.json
+
+`npm run prebuild --clean`
+
 # Install the app
 
 `npm run install`

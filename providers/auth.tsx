@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 import { useSignOut } from '~/hooks/react-query/useAuth';
@@ -42,6 +43,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (status === 'signOut' && isFirstLaunch === false) {
       signOut.mutate();
+    }
+    if (isFirstLaunch === true) {
+      router.push('/on-boarding');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, isFirstLaunch]);

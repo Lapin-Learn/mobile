@@ -39,7 +39,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
     setShowConfetti(true);
   }, []);
 
-  // TODO: back to previous page
   const handlePress = () => {
     router.back();
   };
@@ -66,7 +65,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                       <Component width={24} height={24} />
                       <View>
                         <Text className='text-title-2 font-bold'>
-                          {/* TODO: update timer later */}
                           {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}&nbsp;
                           <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
                         </Text>

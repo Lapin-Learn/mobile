@@ -1,7 +1,7 @@
 import { Href, router } from 'expo-router';
 import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/molecules/PlatformView';
@@ -9,9 +9,9 @@ import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';
-import { cn } from '~/lib/utils';
 
 const profileData = [
+  { label: 'profile.fullname', value: 'Lê Vũ Ngân Trúc' },
   { label: 'profile.username', value: 'Ngân Trúc' },
   { label: 'profile.email', value: 'ngantruc2003@gmail.com' },
   { label: 'profile.phone', value: '+84 123 456 789' },
@@ -40,8 +40,7 @@ export default function Index() {
     <PlatformView>
       <NavigationBar headerLeftShown />
       <ScrollView>
-        <View className='gap-y-10 px-4'>
-          {/* Avatar */}
+        <View className='gap-y-10 p-4 pt-0'>
           <View className='items-center justify-center'>
             <View className='items-end justify-end'>
               <Image className='h-22 w-22 rounded-full' source={{ uri: 'https://via.placeholder.com/48' }} />
@@ -56,7 +55,6 @@ export default function Index() {
             <Text className='text-body text-supporting-text'>ngantruc2003@gmail.com</Text>
           </View>
 
-          {/* Profile */}
           <ProfileSection>
             <ProfileSection.Title label={t('profile.basic_info')}>
               <Button variant={'link'} size={'sm'} onPress={handleEdit}>
@@ -70,28 +68,15 @@ export default function Index() {
             </ProfileSection.Group>
           </ProfileSection>
 
-          {/* Settings */}
           <ProfileSection>
             <ProfileSection.Title label={t('settings.title')} />
-            <View>
-              {settingsData.map((item, index) => (
-                <ProfileSection.Item
-                  key={index}
-                  className={cn(
-                    'border border-neutral-100 p-4',
-                    index === 0 && 'rounded-t',
-                    index === settingsData.length - 1 && 'rounded-b'
-                  )}>
-                  <TouchableOpacity className='w-full flex-row items-center justify-between'>
-                    <Text className='text-body font-semibold'>{t(item.label)}</Text>
-                    <ChevronRight size={24} color={Colors.light['neutral-100']} />
-                  </TouchableOpacity>
-                </ProfileSection.Item>
-              ))}
-            </View>
+            <ProfileSection.List
+              data={settingsData.map((item) => ({ label: t(item.label), action: item.action }))}
+              rightIcon={ChevronRight}
+            />
           </ProfileSection>
 
-          <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
+          <Button onPress={() => signOut.mutate()} variant={'link'} className='flex-row gap-x-1 px-5 py-3.5'>
             <Text className='text-body font-bold text-orange-500 '>{t('sign_out')}</Text>
             <LogOut size={24} color={Colors.light['orange-500']} />
           </Button>

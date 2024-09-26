@@ -1,4 +1,10 @@
 {
+  "on_boarding": {
+    "title": "Newly Created Educational Initiative",
+    "description": "Select suitable teaching approaches and methods that align with the content, learning goals, and participants’ requirements.",
+    "get_start": "Get Started",
+    "skip": "Skip"
+  },
   "list": {
     "level": "Level {{level}}",
     "progress": "{{current}}/{{total}}",
