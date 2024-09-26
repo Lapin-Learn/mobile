@@ -91,7 +91,6 @@ export default function Explanation() {
           <Button
             size={'lg'}
             variant={'black'}
-            className=''
             onPress={() => {
               if (router.canGoBack()) {
                 router.back();
