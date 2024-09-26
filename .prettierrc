@@ -10,5 +10,12 @@
   "endOfLine": "auto",
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-organize-imports"]
+  "organizeImportsSkipDestructiveCodeActions": true,
+  "quoteProps": "as-needed",
+  "htmlWhitespaceSensitivity": "ignore",
+  "singleAttributePerLine": false,
+  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["clsx", "tw", "cn"],
+  "tailwindPreserveWhitespace": true,
+  "tailwindPreserveDuplicates": true
 }
