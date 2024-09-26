@@ -15,7 +15,7 @@ export type AnswerModalProps = {
   onPressContinue: () => void;
 };
 
-export default function AnswerModal({ modalType, correctAnswer, correctAnswers, onPressContinue }: AnswerModalProps) {
+export default function AnswerModal({ modalType, correctAnswers, onPressContinue }: AnswerModalProps) {
   const { t } = useTranslation('question');
   const randomEncourage =
     modalType === 'correct'
@@ -56,12 +56,6 @@ export default function AnswerModal({ modalType, correctAnswer, correctAnswers, 
                 {`\u2022 ${answer}`}
               </Text>
             ))}
-          </View>
-        )}
-        {modalType === 'incorrect' && correctAnswer && (
-          <View>
-            <Text className='text-body font-semibold text-neutral-900'>{t('general.correctAnswer')}</Text>
-            <Text className='text-body text-neutral-900'>{correctAnswer}</Text>
           </View>
         )}
         <Button
