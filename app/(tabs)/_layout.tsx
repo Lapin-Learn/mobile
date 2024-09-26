@@ -37,7 +37,7 @@ export default function TabsLayout() {
   return (
     <Tabs
       initialRouteName='(map)'
-      screenOptions={({ route }: { route: RouteProp<ParamListBase, string>; navigation: any }) => ({
+      screenOptions={({ route }: { route: RouteProp<ParamListBase, string> }) => ({
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: { height: Platform.OS === 'ios' ? 101 : 80 },

@@ -31,7 +31,7 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
   const { t } = useTranslation('lesson');
-  const randomEncourage = Math.random() * Number(t('after.encourage.length'));
+  const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -53,7 +53,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
         <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
           <View className='flex items-center justify-center gap-y-5'>
             <ProgressCircle size={160} progress={data.percent as number} showsText />
-            <Text className='text-title-2 font-bold'>{t(`after.encourage.${Math.floor(randomEncourage)}`)}</Text>
+            <Text className='text-title-2 font-bold'>{t(`after.encourages.${Math.floor(randomEncourage)}`)}</Text>
           </View>
           <View className='w-full gap-y-6'>
             <View className='flex w-full flex-row items-center justify-start gap-x-4'>

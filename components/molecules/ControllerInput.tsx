@@ -14,10 +14,11 @@ export function ControllerInput<T>({ props, label, placeholder, error }: Control
     <View className='w-full flex-col items-start justify-start gap-1'>
       <Text className='text-lg font-semibold text-neutral-900'>{label}</Text>
       <View className='flex w-full flex-row gap-x-1'>
-        <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
+        <View className='flex w-full grow flex-row items-center justify-center rounded'>
           <TextInput
-            className='w-full border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-neutral-700'
+            className='h-fit-content w-full rounded border border-neutral-200 bg-white p-3 text-justify text-subhead font-medium placeholder:text-start placeholder:text-neutral-700'
             placeholder={placeholder}
+            textAlign='center'
             value={field.value === 0 ? '' : field.value}
             onChangeText={field.onChange}
             onBlur={field.onBlur}

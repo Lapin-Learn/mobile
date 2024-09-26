@@ -1,12 +1,13 @@
-import { SafeAreaView, Text } from 'react-native';
+import { Text } from 'react-native';
 
+import PlatformView from '~/components/molecules/PlatformView';
 import { TrackAudio } from '~/components/molecules/TrackAudio';
 
 export default function Mission() {
   return (
-    <SafeAreaView>
+    <PlatformView>
       <Text>Mission</Text>
       <TrackAudio />
-    </SafeAreaView>
+    </PlatformView>
   );
 }

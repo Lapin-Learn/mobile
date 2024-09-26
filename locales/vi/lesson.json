@@ -1,24 +1,24 @@
 {
-    "loading": {
-        "tip": [
-            "Bạn có thể làm bài tập nâng band mà không cần tích lũy đủ điểm kinh nghiệm",
-            "Hãy tập trung vào việc nghe hiểu thay vì chỉ làm đúng câu hỏi",
-            "Thời gian ôn luyện đều đặn mỗi ngày sẽ giúp bạn cải thiện nhanh chóng",
-            "Thực hành viết các đoạn văn ngắn để cải thiện khả năng viết"
-          ]
-    },
-    "after":{
-        "encourage": [
-            "Tuyệt vời",
-            "Làm tốt lắm",
-            "Rất tốt",
-            "Tiếp tục giữ vững",
-            "Bạn đang làm rất tốt",
-            "Bạn đang đi đúng hướng"
-        ],
-        "receive-reward": "Nhận thưởng",
-        "Experience": "Kinh nghiệm",
-        "Timer": "Thời gian",
-        "Carrot": "Cà rốt"
-    }
+  "loading": {
+    "tips": [
+      "Bạn có thể làm bài tập nâng band mà không cần tích lũy đủ điểm kinh nghiệm",
+      "Hãy tập trung vào việc nghe hiểu thay vì chỉ làm đúng câu hỏi",
+      "Thời gian ôn luyện đều đặn mỗi ngày sẽ giúp bạn cải thiện nhanh chóng",
+      "Thực hành viết các đoạn văn ngắn để cải thiện khả năng viết"
+    ]
+  },
+  "after": {
+    "encourages": [
+      "Tuyệt vời",
+      "Làm tốt lắm",
+      "Rất tốt",
+      "Tiếp tục giữ vững",
+      "Bạn đang làm rất tốt",
+      "Bạn đang đi đúng hướng"
+    ],
+    "receive-reward": "Nhận thưởng",
+    "Experience": "Kinh nghiệm",
+    "Timer": "Thời gian",
+    "Carrot": "Cà rốt"
+  }
 }

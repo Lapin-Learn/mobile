@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView as IosView, Platform, Text, View } from 'react-native';
-import { SafeAreaView as AndroidView } from 'react-native-safe-area-context';
+import { Text, View } from 'react-native';
 
 import MultipleChoice from '~/components/molecules/exercise/MultipleChoice';
 import MultipleChoices from '~/components/molecules/exercise/MultipleChoices';
@@ -35,14 +34,12 @@ export default function Exercise() {
     }
   };
 
-  const ViewComponent = Platform.OS === 'ios' ? IosView : AndroidView;
-
   return (
     <View>
       {questionData.length > 0 ? (
         renderQuestionComponent(questionData[0].contentType)
       ) : (
-        <View className='flex justify-center items-center h-full'>
+        <View className='flex h-full items-center justify-center'>
           <Text>{t('general.noQuestionFound')}</Text>
         </View>
       )}
