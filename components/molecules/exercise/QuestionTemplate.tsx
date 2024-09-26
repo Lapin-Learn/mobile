@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, SafeAreaView, Text, View } from 'react-native';
 
@@ -69,12 +69,12 @@ export default function QuestionTemplate({
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     nextQuestion();
     if (currentQuestion === questions.length - 1) {
       lessonCompletionMutation.mutate();
     }
-  };
+  }, [nextQuestion, currentQuestion, questions]);
 
   const handleBack = () => {
     resetGame();

@@ -58,11 +58,7 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
             ))}
           </View>
         )}
-        <Button
-          className={`${modalType === 'correct' ? 'bg-green-500' : 'bg-red-500'}`}
-          onPress={() => {
-            onPressContinue();
-          }}>
+        <Button className={`${modalType === 'correct' ? 'bg-green-500' : 'bg-red-500'}`} onPress={onPressContinue}>
           <Text className='text-body font-semibold text-white'>{t('general.continue')}</Text>
         </Button>
       </View>
