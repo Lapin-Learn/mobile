@@ -18,7 +18,6 @@ export function ControllerInput<T>({ props, label, placeholder, error }: Control
           <TextInput
             className='h-fit-content w-full rounded border border-neutral-200 bg-white p-3 text-justify text-subhead font-medium placeholder:text-start placeholder:text-neutral-700'
             placeholder={placeholder}
-            textAlign='center'
             value={field.value === 0 ? '' : field.value}
             onChangeText={field.onChange}
             onBlur={field.onBlur}
