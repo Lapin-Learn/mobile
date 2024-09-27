@@ -15,6 +15,7 @@ import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import { ChoiceCheckBox } from '../ChoiceCheckBox';
 import { AfterLesson } from '../lesson/AfterLesson';
+import { TrackAudio } from '../TrackAudio';
 
 export default function MultipleChoices({ data, lesson }: { data: IQuestion[]; lesson: number }) {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
@@ -119,7 +120,12 @@ export default function MultipleChoices({ data, lesson }: { data: IQuestion[]; l
             <View className='gap-8'>
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
-                <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
+                {questions[currentQuestion]?.audioId && (
+                  <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} />
+                )}
+                {!questions[currentQuestion]?.audioId && questions[currentQuestion]?.content.paragraph && (
+                  <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
+                )}{' '}
                 <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
               </View>
               <View>

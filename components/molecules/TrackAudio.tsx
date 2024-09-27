@@ -10,14 +10,21 @@ import { SeekBar } from './SeekBar';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
-const data = {
-  id: 'trackId',
-  url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-  title: 'Track Title',
-  artist: 'Track Artist',
+// const data = {
+//   id: 'trackId',
+//   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+//   title: 'Track Title',
+//   artist: 'Track Artist',
+// };
+
+type TrackAudioProps = {
+  data: {
+    id: string;
+    url: string;
+  };
 };
 
-export function TrackAudio() {
+export function TrackAudio({ data }: TrackAudioProps) {
   const [playerState, setPlayerState] = useState<State>(State.None);
   const { position, duration } = useProgress();
 
