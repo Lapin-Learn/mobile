@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
-import { LucideMoveLeft } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
+import { ForwardRefExoticComponent } from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 export type NavigationBarProps = {
   title?: string;
@@ -9,6 +10,7 @@ export type NavigationBarProps = {
   onHeaderLeftPress?: () => JSX.Element;
   headerRightShown?: boolean;
   onHeaderRightPress?: () => JSX.Element;
+  icon?: ForwardRefExoticComponent<LucideProps>;
 };
 
 export function NavigationBar({
@@ -18,6 +20,7 @@ export function NavigationBar({
   onHeaderLeftPress,
   headerRightShown = false,
   onHeaderRightPress,
+  icon: Icon = LucideMoveLeft,
 }: NavigationBarProps) {
   return (
     <View className='px-4'>
@@ -26,16 +29,17 @@ export function NavigationBar({
           (onHeaderLeftPress ? (
             onHeaderLeftPress()
           ) : (
-            <LucideMoveLeft
-              color={'black'}
+            <Pressable
+              style={{ width: 24, height: 24 }}
               onPress={() => {
                 if (router.canGoBack()) {
                   router.back();
                 } else {
                   router.dismiss();
                 }
-              }}
-            />
+              }}>
+              <Icon color={'black'} />
+            </Pressable>
           ))}
 
         {headerTitle && <Text className='text-title-4 font-bold text-black'>{headerTitle}</Text>}
