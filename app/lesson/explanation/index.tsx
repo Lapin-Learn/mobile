@@ -75,11 +75,10 @@ export default function Explanation() {
         <View className='relative flex grow flex-col justify-between m-4'>
           <View className='gap-y-8'>
             <View className='gap-y-3'>
-              <Text className='text-title-4'>
-                {t('explanation.evidence')}
-                {'\n'}
+              <View>
+                <Text className='text-title-4'>{t('explanation.evidence')}</Text>
                 <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
-              </Text>
+              </View>
               <Text className='text-title-4'>
                 {t('explanation.answer')}
                 {'\n'}
