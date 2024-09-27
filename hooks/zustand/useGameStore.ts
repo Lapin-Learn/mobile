@@ -31,6 +31,11 @@ type GameActions = {
   resetGame: () => void;
 };
 
+type InstructionStore = {
+  question: string;
+  explanation: string;
+};
+
 type MultipleChoiceGame = {
   answer: string[];
   selected: number[];
@@ -38,7 +43,7 @@ type MultipleChoiceGame = {
   handleMultipleSelect: (index: number) => void;
 };
 
-type GameStore = GameState & GameActions & MultipleChoiceGame;
+export type GameStore = GameState & GameActions & InstructionStore & MultipleChoiceGame;
 
 export const useGameStore = create<GameStore>((set, get) => ({
   contentType: null,
@@ -55,6 +60,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   xp: 0,
   carrots: 0,
   correctAnswers: 0,
+  question: '',
+  explanation: '',
   setContentType: (contentType: ContentTypeEnum) => set({ contentType }),
   setQuestions: (questions: IQuestion[]) => set({ questions }),
   setStartTime: (startTime: Date | null) => set({ startTime }),
@@ -73,7 +80,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   checkAnswer: () => {
     const { contentType, currentQuestion, questions, selected, correctAnswers } = get();
     switch (contentType) {
-      case ContentTypeEnum.MULTIPLE_CHOICE:
+      case ContentTypeEnum.MULTIPLE_CHOICE: {
         const answerIndices: number[] = questions[currentQuestion].content.answer;
         set({ isChecking: true });
         set({ progress: ((currentQuestion + 1) / questions.length) * 100 });
@@ -82,9 +89,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
           set({ correctAnswers: correctAnswers + 1 });
         } else {
           set({ isCorrect: false });
-          set({ answer: answerIndices.map((index: number) => questions[currentQuestion].content.options[index]) });
         }
+
+        // Set instruction store
+        set({ question: questions[currentQuestion]?.content.question });
+        set({ answer: answerIndices.map((index: number) => questions[currentQuestion].content.options[index]) });
+        set({ explanation: questions[currentQuestion]?.explanation });
         break;
+      }
+      // TODO: Add more content types
       default:
         break;
     }
@@ -117,5 +130,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       xp: 0,
       carrots: 0,
       correctAnswers: 0,
+      question: '',
+      explanation: '',
     }),
 }));

@@ -1,6 +1,7 @@
-import { Link } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Text, View } from 'react-native';
+import { Modal, Pressable, Text, View } from 'react-native';
 
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
@@ -11,19 +12,33 @@ export type AnswerModalProps = {
   modalType: 'correct' | 'incorrect';
   correctAnswer?: string | null;
   correctAnswers?: string[] | null;
-  explanation?: string | null;
   onPressContinue: () => void;
 };
 
 export default function AnswerModal({ modalType, correctAnswers, onPressContinue }: AnswerModalProps) {
+  const [randomEncourage, setRandomEncourage] = useState<number>(0);
+  const [showModal, setShowModal] = useState(true);
   const { t } = useTranslation('question');
-  const randomEncourage =
-    modalType === 'correct'
-      ? Math.random() * Number(t('general.correct.length'))
-      : Math.random() * Number(t('general.incorrect.length'));
+
+  useEffect(() => {
+    const randomValue =
+      modalType === 'correct'
+        ? Math.random() * Number(t('general.correct.length'))
+        : Math.random() * Number(t('general.incorrect.length'));
+    setRandomEncourage(randomValue);
+  }, [modalType, onPressContinue]);
+
+  // Ensure modal is shown when navigating back to the page
+  useFocusEffect(
+    useCallback(() => {
+      if (!showModal) {
+        setShowModal(true);
+      }
+    }, [showModal])
+  );
 
   return (
-    <Modal animationType='slide' transparent={true}>
+    <Modal animationType='slide' transparent={true} visible={showModal}>
       <View
         className={`absolute bottom-0 flex w-screen justify-end gap-4 ${modalType === 'correct' ? 'bg-green-50' : 'bg-red-50'} px-4 pb-10 pt-4`}>
         <View className='flex flex-row items-center justify-between'>
@@ -42,11 +57,16 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
               </Text>
             </View>
           )}
-          <Link href='/(map)'>
+          <Pressable
+            onPress={() => {
+              // Close modal and navigate to explanation page
+              if (setShowModal) setShowModal(false);
+              router.push('/lesson/explanation');
+            }}>
             <Text className={`text-subhead ${modalType === 'correct' ? 'text-green-700' : 'text-red-700'} underline`}>
               {t('general.explanation')}
             </Text>
-          </Link>
+          </Pressable>
         </View>
         {modalType === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
           <View>
