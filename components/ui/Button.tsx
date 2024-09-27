@@ -14,6 +14,7 @@ const buttonVariants = cva('group flex items-center justify-center rounded', {
       secondary: 'bg-secondary active:opacity-80',
       ghost: 'active:bg-accent',
       link: 'px-2.5 py-1 active:underline',
+      black: 'bg-neutral-900 active:opacity-80',
     },
 
     size: {
@@ -39,6 +40,7 @@ const buttonTextVariants = cva('text-sm native:text-base font-medium text-foregr
       secondary: 'text-secondary-foreground group-active:text-secondary-foreground',
       ghost: 'group-active:text-accent-foreground',
       link: 'text-primary group-active:underline',
+      black: 'text-white group-active:text-accent-foreground',
     },
     size: {
       default: 'w-full',

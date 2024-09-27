@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
-import { LucideMoveLeft } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
+import { ForwardRefExoticComponent } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 export type NavigationBarProps = ViewProps & {
@@ -11,6 +12,7 @@ export type NavigationBarProps = ViewProps & {
   onHeaderLeftPress?: () => JSX.Element;
   headerRightShown?: boolean;
   onHeaderRightPress?: () => JSX.Element;
+  icon?: ForwardRefExoticComponent<LucideProps>;
 };
 
 export function NavigationBar({
@@ -21,6 +23,7 @@ export function NavigationBar({
   onHeaderLeftPress,
   headerRightShown = false,
   onHeaderRightPress,
+  icon: Icon = LucideMoveLeft,
   children,
 }: NavigationBarProps) {
   return (
@@ -31,23 +34,24 @@ export function NavigationBar({
             (onHeaderLeftPress ? (
               onHeaderLeftPress()
             ) : (
-              <LucideMoveLeft
-                color={'black'}
+              <Pressable
+                className='w-6'
                 onPress={() => {
                   if (router.canGoBack()) {
                     router.back();
                   } else {
                     router.dismiss();
                   }
-                }}
-              />
+                }}>
+                <Icon color={'black'} />
+              </Pressable>
             ))}
-
           {headerTitle && <Text className='text-title-4 font-bold text-black'>{headerTitle}</Text>}
 
           {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
         </View>
       )}
+
       {title && (
         <View className='w-full items-start'>
           <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
