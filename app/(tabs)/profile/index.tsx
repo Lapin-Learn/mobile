@@ -23,7 +23,8 @@ export default function Index() {
   };
 
   const handleChangeAvatar = () => {
-    Alert.alert(t('profile.changeAvatar'));
+    // TODO: Implement change avatar feature
+    Alert.alert('Change Avatar', 'This feature is not available yet.');
   };
 
   if (isFetching) {
@@ -38,7 +39,6 @@ export default function Index() {
     { label: 'profile.fullname', value: data?.fullName ?? 'default' },
     { label: 'profile.username', value: data?.username ?? 'default' },
     { label: 'profile.email', value: data?.email ?? 'default' },
-    { label: 'profile.phone', value: data?.phone ?? 'default' },
   ];
 
   const settingsData = [
@@ -56,6 +56,7 @@ export default function Index() {
           <View className='items-center justify-center'>
             <View className='items-end justify-end'>
               <View className='h-22 w-22 overflow-hidden rounded-full'>
+                {/* TODO: update when avatar is available after integrate update user profile */}
                 {/* <Image className='h-full w-full' source={{ uri: 'https://via.placeholder.com/48' }} /> */}
                 <Skeleton width='100%' height='100%' colorMode='light' />
               </View>
