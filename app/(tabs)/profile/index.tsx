@@ -1,8 +1,10 @@
+import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
 import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -28,6 +30,7 @@ const settingsData = [
 ];
 
 export default function Index() {
+  const [image, setImage] = useState<string | null>(null);
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
@@ -36,9 +39,20 @@ export default function Index() {
     router.push('/profile/edit' as Href);
   };
 
-  const handleChangeAvatar = () => {
-    // TODO: Implement change avatar feature
-    Alert.alert('Change Avatar', 'This feature is not available yet.');
+  const handleChangeAvatar = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
   };
 
   if (isFetching) {
