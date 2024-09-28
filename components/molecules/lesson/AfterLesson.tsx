@@ -1,8 +1,8 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import { SvgProps } from 'react-native-svg';
 
 import CarrotIcon from '~/assets/images/carrot.svg';
