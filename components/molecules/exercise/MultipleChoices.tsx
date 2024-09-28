@@ -121,11 +121,11 @@ export default function MultipleChoices({ data, lesson }: { data: IQuestion[]; l
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
                 {questions[currentQuestion]?.audioId && (
-                  <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} />
+                  <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} checked={isChecking} />
                 )}
                 {!questions[currentQuestion]?.audioId && questions[currentQuestion]?.content.paragraph && (
                   <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
-                )}{' '}
+                )}
                 <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
               </View>
               <View>
