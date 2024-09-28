@@ -3,7 +3,15 @@ import { Href, router } from 'expo-router';
 
 import { signIn as setNewToken, signOut } from '~/hooks/zustand';
 import { setTokenAsync } from '~/services';
-import { forgotPassword, refreshToken, resetPassword, signIn, signUp, verify } from '~/services/auth';
+import {
+  forgotPassword,
+  refreshToken,
+  resetPassword,
+  signIn,
+  signInWithProvider,
+  signUp,
+  verify,
+} from '~/services/auth';
 
 import { useToast } from '../useToast';
 
@@ -25,6 +33,20 @@ export const useSignIn = () => {
   const toast = useToast();
   return useMutation({
     mutationFn: signIn,
+    onSuccess: (data) => {
+      toast.show({ type: 'success', text1: 'Welcome back' });
+      setNewToken(data);
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
+    },
+  });
+};
+
+export const useSignInWithProvider = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: signInWithProvider,
     onSuccess: (data) => {
       toast.show({ type: 'success', text1: 'Welcome back' });
       setNewToken(data);

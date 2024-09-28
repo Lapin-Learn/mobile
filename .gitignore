@@ -32,3 +32,7 @@ dist/
 web-build/
 
 ./.idea
+
+#google-service
+google-services.json
+GoogleService-Info.plist
