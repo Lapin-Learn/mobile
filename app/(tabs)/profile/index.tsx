@@ -1,31 +1,21 @@
 import { Href, router } from 'expo-router';
 import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
+import { Skeleton } from 'moti/skeleton';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 
+import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/molecules/PlatformView';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';
-
-const profileData = [
-  { label: 'profile.fullname', value: 'Lê Vũ Ngân Trúc' },
-  { label: 'profile.username', value: 'Ngân Trúc' },
-  { label: 'profile.email', value: 'ngantruc2003@gmail.com' },
-  { label: 'profile.phone', value: '+84 123 456 789' },
-];
-
-const settingsData = [
-  { action: () => {}, label: 'settings.username' },
-  { action: () => {}, label: 'settings.notifications' },
-  { action: () => {}, label: 'settings.social_accounts' },
-  { action: () => {}, label: 'settings.privacy_settings' },
-];
+import { useUserProfile } from '~/hooks/react-query/useUser';
 
 export default function Index() {
   const { t } = useTranslation('profile');
+  const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
 
   const handleEdit = () => {
@@ -36,6 +26,28 @@ export default function Index() {
     Alert.alert(t('profile.changeAvatar'));
   };
 
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+
+  const profileData = [
+    { label: 'profile.fullname', value: data?.fullName ?? 'default' },
+    { label: 'profile.username', value: data?.username ?? 'default' },
+    { label: 'profile.email', value: data?.email ?? 'default' },
+    { label: 'profile.phone', value: data?.phone ?? 'default' },
+  ];
+
+  const settingsData = [
+    { label: 'settings.custom_settings', action: () => {} },
+    { label: 'settings.notifications', action: () => {} },
+    { label: 'settings.social_accounts', action: () => {} },
+    { label: 'settings.privacy_settings', action: () => {} },
+  ];
+
   return (
     <PlatformView>
       <NavigationBar headerLeftShown />
@@ -43,21 +55,24 @@ export default function Index() {
         <View className='gap-y-10 p-4 pt-0'>
           <View className='items-center justify-center'>
             <View className='items-end justify-end'>
-              <Image className='h-22 w-22 rounded-full' source={{ uri: 'https://via.placeholder.com/48' }} />
+              <View className='h-22 w-22 overflow-hidden rounded-full'>
+                {/* <Image className='h-full w-full' source={{ uri: 'https://via.placeholder.com/48' }} /> */}
+                <Skeleton width='100%' height='100%' colorMode='light' />
+              </View>
               <Button
-                variant={'link'}
+                variant='link'
                 className='absolute z-10 m-0 h-6 w-6 items-center justify-center rounded-full bg-white p-0'
                 onPress={handleChangeAvatar}>
                 <Camera size={16} color={Colors.light['orange-500']} />
               </Button>
             </View>
-            <Text className='text-title-1 font-bold text-black'>Ngân Trúc</Text>
-            <Text className='text-body text-supporting-text'>ngantruc2003@gmail.com</Text>
+            <Text className='text-title-1 font-bold text-black'>{profileData[0].value}</Text>
+            <Text className='text-body text-supporting-text'>{profileData[1].value}</Text>
           </View>
 
           <ProfileSection>
             <ProfileSection.Title label={t('profile.basic_info')}>
-              <Button variant={'link'} size={'sm'} onPress={handleEdit}>
+              <Button variant='link' size='sm' onPress={handleEdit}>
                 <Text className='text-subhead text-orange-500'>{t('profile.edit')}</Text>
               </Button>
             </ProfileSection.Title>
@@ -76,7 +91,7 @@ export default function Index() {
             />
           </ProfileSection>
 
-          <Button onPress={() => signOut.mutate()} variant={'link'} className='flex-row gap-x-1 px-5 py-3.5'>
+          <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
             <Text className='text-body font-bold text-orange-500 '>{t('sign_out')}</Text>
             <LogOut size={24} color={Colors.light['orange-500']} />
           </Button>
