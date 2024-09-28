@@ -30,7 +30,7 @@
         "backgroundColor": "#F9F7F7"
       },
       "permissions": [""],
-            "package": "com.datn.lapinlearn"
+      "package": "com.datn.lapinlearn"
     },
     "web": {
       "bundler": "metro",

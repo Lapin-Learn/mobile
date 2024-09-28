@@ -26,7 +26,7 @@ export default function Lesson() {
       {questionData.length > 0 ? (
         <QuestionTemplate contentType={questionData[0].contentType} data={questionData} lesson={Number(lessonId)} />
       ) : (
-        <View className='flex justify-center items-center h-full'>
+        <View className='flex h-full items-center justify-center'>
           <Text>{t('general.noQuestionFound')}</Text>
         </View>
       )}

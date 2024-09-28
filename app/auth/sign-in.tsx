@@ -2,13 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LOGOFB from '~/assets/images/facebook.svg';
 import LOGOGOOGLE from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/molecules/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useSignIn } from '~/hooks/react-query/useAuth';
 
@@ -36,7 +37,7 @@ export default function SignIn() {
   };
 
   return (
-    <SafeAreaView className='h-screen'>
+    <PlatformView>
       <NavigationBar title={t('signIn.welcomeBack')} />
 
       <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
@@ -81,7 +82,7 @@ export default function SignIn() {
           </Link>
         </View>
       </View>
-    </SafeAreaView>
+    </PlatformView>
   );
 }
 

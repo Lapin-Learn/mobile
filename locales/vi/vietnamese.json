@@ -1,4 +1,10 @@
 {
+  "on_boarding": {
+    "title": "Sáng kiến ​​giáo dục mới được tạo",
+    "description": "Chọn phương pháp giảng dạy phù hợp và phương pháp phù hợp với nội dung, mục tiêu học tập và yêu cầu của người tham gia.",
+    "get_start": "Bắt đầu",
+    "skip": "Bỏ qua"
+  },
   "list": {
     "level": "Cấp độ {{level}}",
     "progress": "{{current}}/{{total}}",
