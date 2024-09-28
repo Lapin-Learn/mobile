@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { create } from 'zustand';
 
 import { ContentTypeEnum } from '~/lib/enums';
@@ -105,6 +106,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   nextQuestion: () => {
     const { currentQuestion, questions, startTime } = get();
     if (currentQuestion === questions.length - 1) {
+      if (Platform.OS === 'ios') {
+        set({ isChecking: false });
+        set({ isCorrect: false });
+      }
       if (startTime !== null) set({ endTime: getDuration(startTime) });
     } else {
       set((state) => ({ currentQuestion: state.currentQuestion + 1 }));
