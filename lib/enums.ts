@@ -22,7 +22,7 @@ export enum ContentTypeEnum {
   MATCHING = 'matching',
 }
 
-export enum CERFLevelEnum {
+export enum CEFRLevelEnum {
   A1 = 'A1',
   A2 = 'A2',
   B1 = 'B1',

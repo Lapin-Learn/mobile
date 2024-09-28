@@ -1,0 +1,19 @@
+{
+  "profile": {
+    "basic_info": "Basic Info",
+    "avatar_change": "Change avatar",
+    "edit": "Edit",
+    "fullname": "Full Name",
+    "username": "Username",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "settings": {
+    "title": "Settings",
+    "username": "Username",
+    "notifications": "Notifications",
+    "social_accounts": "Social Accounts",
+    "privacy_settings": "Privacy Settings"
+  },
+  "sign_out": "Sign Out"
+}

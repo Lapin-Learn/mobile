@@ -1,23 +1,15 @@
 {
   "multipleChoice": {
-      "title": "Read the passage and choose the correct answer"
+    "title": "Read the passage and choose the correct answer"
   },
-  "general":{
-      "check": "Check",
-      "correct": [
-        "Correct!",
-        "Good job!",
-        "Well done!"
-      ],
-      "incorrect": [
-        "Incorrect!",
-        "Try again!",
-        "Not quite!"
-      ],
-      "explanation": "Explanation",
-      "correctAnswer": "The correct answer is:",
-      "continue": "Continue",
-      "noQuestionFound": "No question found",
-      "unsupportedQuestionType": "Unsupported question type"
+  "general": {
+    "check": "Check",
+    "correct": ["Correct!", "Good job!", "Well done!"],
+    "incorrect": ["Incorrect!", "Try again!", "Not quite!"],
+    "explanation": "Explanation",
+    "correctAnswer": "The correct answer is:",
+    "continue": "Continue",
+    "noQuestionFound": "No question found",
+    "unsupportedQuestionType": "Unsupported question type"
   }
 }

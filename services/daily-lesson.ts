@@ -1,6 +1,12 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { IAfterLesson, ILessonQuestionsResponse, ILessonsResponse, IQuestionType, IInstruction } from '~/lib/interfaces';
+import {
+  IAfterLesson,
+  IInstruction,
+  ILessonQuestionsResponse,
+  ILessonsResponse,
+  IQuestionType,
+} from '~/lib/interfaces';
 
 import api from './httpRequests';
 

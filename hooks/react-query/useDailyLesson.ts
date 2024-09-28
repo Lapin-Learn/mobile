@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { SkillEnum } from '~/lib/enums';
-import { getLessonQuestions, getLessons, getQuestionTypes, getInstruction } from '~/services';
+import { getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({

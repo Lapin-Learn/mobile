@@ -10,6 +10,9 @@ module.exports = {
       xl: '1280px',
     },
     extend: {
+      height: {
+        'fit-content': 'fit-content(20em)',
+      },
       borderRadius: {
         none: '0',
         sm: '4px',

@@ -40,7 +40,7 @@ export default function ForgotPassword() {
   return (
     <SafeAreaView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
-        <NavigationBar title={t('forgotPassword.title')} headerLeftShown={true} />
+        <NavigationBar title={t('forgotPassword.title')} headerLeftShown />
         <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>

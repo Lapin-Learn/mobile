@@ -71,7 +71,7 @@ export default function Explanation() {
     <SafeAreaView>
       <View className='h-full'>
         <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View className='relative flex grow flex-col justify-between m-4'>
+        <View className='relative m-4 flex grow flex-col justify-between'>
           <View className='gap-y-8'>
             <View className='gap-y-3'>
               <Text className='text-title-4'>
@@ -98,7 +98,7 @@ export default function Explanation() {
                 router.dismiss();
               }
             }}>
-            <Text className='text-white text-body font-semibold'>{t('explanation.understood')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('explanation.understood')}</Text>
           </Button>
         </View>
       </View>
