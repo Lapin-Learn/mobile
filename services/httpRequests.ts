@@ -61,6 +61,22 @@ const formatError = (error: any | AxiosError): APIError => {
   return { status, message };
 };
 
+const axiosImageInstance = axios.create({
+  baseURL: '',
+  headers: {
+    'Content-Type': 'image/jpeg',
+  },
+});
+
+axiosImageInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject(formatError(error));
+  }
+);
+
 class API {
   private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
     try {
@@ -71,6 +87,19 @@ class API {
 
       const json = response.data as APIResponse<T>;
       return json.data;
+    } catch (error) {
+      throw formatError(error);
+    }
+  }
+
+  private async fileRequest<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await axiosImageInstance.request<T>({
+        url: endpoint,
+        ...options,
+      });
+
+      return response.data;
     } catch (error) {
       throw formatError(error);
     }
@@ -99,10 +128,19 @@ class API {
       ...nextOptions,
     });
   }
+
   async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'DELETE',
       params: searchParams,
+      ...nextOptions,
+    });
+  }
+
+  async putImage<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+    return this.fileRequest<T>(endpoint, {
+      method: 'PUT',
+      data: body,
       ...nextOptions,
     });
   }

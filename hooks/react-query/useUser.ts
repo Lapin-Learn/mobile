@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { getUserProfile, updateUserProfile } from '~/services';
+import { createPreSignedUrl, getUserProfile, updateUserProfile, uploadAvatar } from '~/services';
 
 import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
@@ -33,5 +33,17 @@ export const useUpdateUserProfile = () => {
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
     },
+  });
+};
+
+export const useCreatePreSignedUrl = () => {
+  return useMutation({
+    mutationFn: createPreSignedUrl,
+  });
+};
+
+export const useUploadAvatar = () => {
+  return useMutation({
+    mutationFn: uploadAvatar,
   });
 };
