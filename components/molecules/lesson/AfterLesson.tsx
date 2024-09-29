@@ -10,6 +10,7 @@ import FlashIcon from '~/assets/images/flash.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
+import { useGameStore } from '~/hooks/zustand';
 import Confetti from '~/lib/components/confentti';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
@@ -30,6 +31,7 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 };
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
+  const { resetGame } = useGameStore();
   const { t } = useTranslation('lesson');
   const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
@@ -40,6 +42,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
   }, []);
 
   const handlePress = () => {
+    resetGame();
     router.back();
   };
 

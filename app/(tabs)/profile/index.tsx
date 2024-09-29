@@ -13,6 +13,20 @@ import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import { useUserProfile } from '~/hooks/react-query/useUser';
 
+const profileData = [
+  { label: 'profile.fullname', value: 'Lê Vũ Ngân Trúc' },
+  { label: 'profile.username', value: 'Ngân Trúc' },
+  { label: 'profile.email', value: 'ngantruc2003@gmail.com' },
+  { label: 'profile.phone', value: '+84 123 456 789' },
+];
+
+const settingsData = [
+  { action: () => {}, label: 'settings.username' },
+  { action: () => {}, label: 'settings.notifications' },
+  { action: () => {}, label: 'settings.social_accounts' },
+  { action: () => {}, label: 'settings.privacy_settings' },
+];
+
 export default function Index() {
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
