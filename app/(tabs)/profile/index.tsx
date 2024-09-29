@@ -2,10 +2,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
 import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -24,24 +23,26 @@ import {
 import { useToast } from '~/hooks/useToast';
 import { IPresignedUrl } from '~/lib/interfaces';
 
-const clearImageCache = () => {
-  FastImage.clearMemoryCache();
-  FastImage.clearDiskCache();
-};
-
 export default function Index() {
   const { t } = useTranslation('profile');
-  const { data, isFetching, error, refetch } = useUserProfile();
+  const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
   const createPreSignedUrl = useCreatePreSignedUrl();
   const uploadAvatar = useUploadAvatar();
   const updateUserProfile = useUpdateUserProfile();
-  const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
+  const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+  const [image, setImage] = useState('https://via.placeholder.com/48');
 
   const handleEdit = () => {
     router.push('/profile/edit' as Href);
   };
+
+  useEffect(() => {
+    if (data?.avatar) {
+      setImage(data.avatar.url);
+    }
+  }, [data]);
 
   const handleChangeAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -75,7 +76,7 @@ export default function Index() {
         await uploadAvatar.mutateAsync({ presignedUrl, file: arrBuffer }).then(async () => {
           await updateUserProfile.mutateAsync({ avatarId: presignedUrl.id });
           setIsAvatarChanged(false);
-          !data?.avatar && refetch();
+          setImage(result.assets[0].uri);
         });
       } catch (error) {
         setIsAvatarChanged(false);
@@ -116,11 +117,7 @@ export default function Index() {
                 {isAvatarChanged ? (
                   <Skeleton width='100%' height='100%' colorMode='light' />
                 ) : (
-                  <FastImage
-                    style={{ width: '100%', height: '100%' }}
-                    source={{ uri: data?.avatar ? data.avatar.url : 'https://via.placeholder.com/48' }}
-                    onLoadEnd={clearImageCache}
-                  />
+                  <Image className='h-full w-full' source={{ uri: image }} />
                 )}
               </View>
               <Button
