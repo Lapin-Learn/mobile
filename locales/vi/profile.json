@@ -10,7 +10,7 @@
   },
   "settings": {
     "title": "Cài đặt",
-    "username": "Tên người dùng",
+    "custom_settings": "Cài đặt riêng",
     "notifications": "Thông báo",
     "social_accounts": "Tài khoản mạng xã hội",
     "privacy_settings": "Cài đặt quyền riêng tư"
