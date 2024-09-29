@@ -4,7 +4,8 @@ import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -15,20 +16,28 @@ import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import {
   useCreatePreSignedUrl,
+  useCreateUpdatePreSignedUrl,
   useUpdateUserProfile,
   useUploadAvatar,
   useUserProfile,
 } from '~/hooks/react-query/useUser';
 import { useToast } from '~/hooks/useToast';
+import { IPresignedUrl } from '~/lib/interfaces';
+
+const clearImageCache = () => {
+  FastImage.clearMemoryCache();
+  FastImage.clearDiskCache();
+};
 
 export default function Index() {
   const { t } = useTranslation('profile');
-  const { data, isFetching, error } = useUserProfile();
+  const { data, isFetching, error, refetch } = useUserProfile();
   const signOut = useSignOut();
   const createPreSignedUrl = useCreatePreSignedUrl();
   const uploadAvatar = useUploadAvatar();
   const updateUserProfile = useUpdateUserProfile();
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+  const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
 
   const handleEdit = () => {
     router.push('/profile/edit' as Href);
@@ -54,20 +63,23 @@ export default function Index() {
 
       const toast = useToast();
       try {
-        if (data?.avatarId) {
+        let presignedUrl: IPresignedUrl = { id: '', url: '' };
+        if (!data?.avatar) {
+          presignedUrl = await createPreSignedUrl.mutateAsync({ name: result.assets[0].fileName || 'test.jpg' });
         } else {
-          const presignedUrl = await createPreSignedUrl.mutateAsync({ name: result.assets[0].fileName || 'test.jpg' });
-          await uploadAvatar.mutateAsync({ presignedUrl, file: arrBuffer }).then(async () => {
-            console.log('avatar uploaded', presignedUrl.id);
-            await updateUserProfile.mutateAsync({ avatarId: presignedUrl.id });
-            setIsAvatarChanged(false);
+          presignedUrl = await createUpdatePreSignedUrl.mutateAsync({
+            name: result.assets[0].fileName || 'test.jpg',
+            uuid: data.avatar.id || '',
           });
         }
+        await uploadAvatar.mutateAsync({ presignedUrl, file: arrBuffer }).then(async () => {
+          await updateUserProfile.mutateAsync({ avatarId: presignedUrl.id });
+          setIsAvatarChanged(false);
+          !data?.avatar && refetch();
+        });
       } catch (error) {
         setIsAvatarChanged(false);
         toast.show({ type: 'error', text1: 'Failed to upload avatar' });
-
-        console.log(error);
       }
     }
   };
@@ -104,9 +116,10 @@ export default function Index() {
                 {isAvatarChanged ? (
                   <Skeleton width='100%' height='100%' colorMode='light' />
                 ) : (
-                  <Image
-                    className='h-full w-full'
+                  <FastImage
+                    style={{ width: '100%', height: '100%' }}
                     source={{ uri: data?.avatar ? data.avatar.url : 'https://via.placeholder.com/48' }}
+                    onLoadEnd={clearImageCache}
                   />
                 )}
               </View>

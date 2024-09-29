@@ -21,3 +21,8 @@ export const uploadAvatar = async (data: { presignedUrl: IPresignedUrl; file: Ar
     await api.post('files/confirmation', { body: { id: data.presignedUrl.id } });
   });
 };
+
+export const createUpdatePreSignedUrl = async (data: { name: string; uuid: string }) => {
+  const response = await api.put<IPresignedUrl>(`files/presigned-url/${data.uuid}`, { body: { name: data.name } });
+  return response;
+};

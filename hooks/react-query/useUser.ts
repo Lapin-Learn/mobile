@@ -1,6 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { createPreSignedUrl, getUserProfile, updateUserProfile, uploadAvatar } from '~/services';
+import {
+  createPreSignedUrl,
+  createUpdatePreSignedUrl,
+  getUserProfile,
+  updateUserProfile,
+  uploadAvatar,
+} from '~/services';
 
 import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
@@ -45,5 +51,11 @@ export const useCreatePreSignedUrl = () => {
 export const useUploadAvatar = () => {
   return useMutation({
     mutationFn: uploadAvatar,
+  });
+};
+
+export const useCreateUpdatePreSignedUrl = () => {
+  return useMutation({
+    mutationFn: createUpdatePreSignedUrl,
   });
 };
