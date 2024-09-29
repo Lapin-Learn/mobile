@@ -10,27 +10,40 @@ import { SeekBar } from './SeekBar';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
-const data = {
-  id: 'trackId',
-  url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-  title: 'Track Title',
-  artist: 'Track Artist',
+type TrackAudioProps = {
+  data: {
+    id: string;
+    url: string;
+  };
+  checked?: boolean;
 };
 
-export function TrackAudio() {
+export function TrackAudio({ data, checked }: TrackAudioProps) {
   const [playerState, setPlayerState] = useState<State>(State.None);
   const { position, duration } = useProgress();
 
   useEffect(() => {
-    TrackPlayer.add(data)
-      .then(() => {
-        TrackPlayer.play();
-      })
-      .catch((err) => {
-        console.error('err', err);
-      });
-    TrackPlayer.setRepeatMode(RepeatMode.Off);
-  }, []);
+    const setupTrack = async () => {
+      try {
+        await TrackPlayer.reset();
+        await TrackPlayer.add(data);
+        await TrackPlayer.play();
+        await TrackPlayer.setRepeatMode(RepeatMode.Off);
+      } catch (error) {
+        console.error('Error playing the track: ', error);
+      }
+    };
+
+    if (!checked) {
+      return async () => {
+        await setupTrack();
+      };
+    }
+
+    return () => {
+      TrackPlayer.stop();
+    };
+  }, [data, checked]);
 
   useTrackPlayerEvents(events, (event) => {
     if (event.type === Event.PlaybackError) {
@@ -54,11 +67,6 @@ export function TrackAudio() {
       default:
         return TrackPlayer.pause();
     }
-  };
-
-  // TODO: Implement remove track if needed when question is answered
-  const handleRemove = async () => {
-    await TrackPlayer.remove([parseInt(data.id as string)]);
   };
 
   const Action = ({ repeat }: { repeat?: boolean }) => {

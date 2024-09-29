@@ -14,6 +14,7 @@ import { IQuestion } from '~/lib/interfaces';
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import { AfterLesson } from '../lesson/AfterLesson';
+import { TrackAudio } from '../TrackAudio';
 import MultipleChoice from './MultipleChoice';
 
 export default function QuestionTemplate({
@@ -105,8 +106,10 @@ export default function QuestionTemplate({
             <View className='gap-8'>
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
-                {questions[currentQuestion]?.audioId && <Text>{questions[currentQuestion]?.audioId}</Text>}
-                {questions[currentQuestion]?.content.paragraph && (
+                {questions[currentQuestion]?.audioId && (
+                  <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} checked={isChecking} />
+                )}
+                {!questions[currentQuestion]?.audioId && questions[currentQuestion]?.content.paragraph && (
                   <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
                 )}
                 <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
