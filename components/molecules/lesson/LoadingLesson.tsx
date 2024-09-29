@@ -6,7 +6,7 @@ import Spinner from '~/assets/images/spinner.svg';
 
 export function LoadingLesson() {
   const { t } = useTranslation('lesson');
-  const randomTip = Math.random() * Number(t('loading.tip.length'));
+  const randomTip = Math.random() * Number(t('loading.tips.length'));
   return (
     <View className='mx-9 flex h-full flex-col items-center justify-center gap-y-8'>
       <MotiView
@@ -25,7 +25,7 @@ export function LoadingLesson() {
         }}>
         <Spinner className='animate-spin' color='#EE5D28' />
       </MotiView>
-      <Text className='text-center text-body font-semibold'>{t(`loading.tip.${Math.floor(randomTip)}`)}</Text>
+      <Text className='text-center text-body font-semibold'>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>
     </View>
   );
 }

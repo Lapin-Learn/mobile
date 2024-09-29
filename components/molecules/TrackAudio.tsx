@@ -73,19 +73,19 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
     const Component = repeat ? RotateCcw : playerState === State.Playing ? PauseIcon : PlayIcon;
     return (
       <TouchableOpacity onPress={handleAction(repeat ? 'repeat' : playerState === State.Playing ? 'pause' : 'play')}>
-        <Component className='w-4 h-4' color='black' />
+        <Component className='h-4 w-4' color='black' />
       </TouchableOpacity>
     );
   };
 
   return (
-    <View className='w-full flex flex-row border border-black rounded-md justify-center items-center p-4 gap-x-4'>
+    <View className='flex w-full flex-row items-center justify-center gap-x-4 rounded-md border border-black p-4'>
       <View className='flex-row gap-x-2'>
         <Action />
         <Action repeat />
       </View>
       <SeekBar progress={useProgress(500)} />
-      <Text className='font-semibold text-body'>{formatAudioTimer(duration - position)}</Text>
+      <Text className='text-body font-semibold'>{formatAudioTimer(duration - position)}</Text>
     </View>
   );
 }

@@ -10,18 +10,18 @@ const buttonVariants = cva('group flex items-center justify-center rounded', {
     variant: {
       default: 'bg-orange-500 py-3.5 px-5 active:opacity-90',
       destructive: 'bg-destructive active:opacity-90',
-      outline: 'border border-input active:bg-accent',
+      outline: 'm-auto',
       secondary: 'bg-secondary active:opacity-80',
       ghost: 'active:bg-accent',
-      link: 'active:underline',
+      link: 'px-2.5 py-1 active:underline',
       black: 'bg-neutral-900 active:opacity-80',
     },
 
     size: {
       default: 'w-full',
-      sm: 'w-full h-7',
-      md: 'w-full h-8.5',
-      lg: 'w-full h-12.5',
+      sm: 'h-7',
+      md: 'h-8.5',
+      lg: 'h-12.5',
       icon: 'w-7 h-7',
     },
   },
@@ -43,7 +43,7 @@ const buttonTextVariants = cva('text-sm native:text-base font-medium text-foregr
       black: 'text-white group-active:text-accent-foreground',
     },
     size: {
-      default: '',
+      default: 'w-full',
       sm: 'text-sm',
       md: 'text-base',
       lg: 'text-lg',

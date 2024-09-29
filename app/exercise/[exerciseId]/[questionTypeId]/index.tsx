@@ -55,8 +55,8 @@ export default function QuestionType() {
   return (
     <SafeAreaView>
       <NavigationBar headerLeftShown />
-      <View className='h-full px-4 pb-9 justify-between'>
-        <View className='w-full flex gap-5 items-center'>
+      <View className='h-full justify-between px-4 pb-9'>
+        <View className='flex w-full items-center gap-5'>
           <Image className='h-40 w-40 rounded-full' source={{ uri: 'https://via.placeholder.com/160x160' }} />
           <View className='items-center'>
             <Text className='text-title-1 font-bold text-neutral-900'>{currentQuestionType?.name}</Text>
@@ -69,7 +69,7 @@ export default function QuestionType() {
           <Button
             variant='secondary'
             size='md'
-            className='color-neutral-900 flex-row gap-2 w-fit px-4'
+            className='w-fit flex-row gap-2 px-4 color-neutral-900'
             onPress={() => {
               router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
             }}>
@@ -88,8 +88,8 @@ export default function QuestionType() {
               defaultIndex={(currentLesson && currentLesson.order - 1) || 0}
               onSnapToItem={(index) => setCurLessonId(lessons?.lessons[index].id)}
               renderItem={({ item }) => (
-                <View className='bg-neutral-50 w-full px-4 py-5 rounded-lg gap-2'>
-                  <View className='justify-between flex-row'>
+                <View className='w-full gap-2 rounded-lg bg-neutral-50 px-4 py-5'>
+                  <View className='flex-row justify-between'>
                     <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
                       <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />
                     </TouchableOpacity>
@@ -101,12 +101,12 @@ export default function QuestionType() {
                     </TouchableOpacity>
                   </View>
                   <View className='gap-2'>
-                    <View className='bg-white w-12 h-12 p-3 rounded-full'>
+                    <View className='h-12 w-12 rounded-full bg-white p-3'>
                       <BookMarked size={24} color='black' />
                     </View>
-                    <Text className='text-title-1 font-bold z-10'>{item.name}</Text>
+                    <Text className='z-10 text-title-1 font-bold'>{item.name}</Text>
                   </View>
-                  <View className='flex-row gap-4 items-center'>
+                  <View className='flex-row items-center gap-4'>
                     <View className='flex-grow'>
                       <Progress value={item.xp / 50} />
                     </View>
@@ -121,7 +121,7 @@ export default function QuestionType() {
             <Text>Không có bài học nào</Text>
           )}
         </View>
-        <View className='gap-4 mb-18'>
+        <View className='mb-18 gap-4'>
           <Button size='lg' onPress={() => router.push(`/lesson/${curLessonId}`)} disabled={!curLessonId}>
             <UIText>{t('questionType.practiceBtn')}</UIText>
           </Button>

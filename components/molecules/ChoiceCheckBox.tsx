@@ -21,12 +21,12 @@ const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitiv
   ({ className, index, label, selectedBox, checked, isChecking, isCorrect, onPress, ...props }, ref) => {
     const checkingSelected = isChecking && selectedBox?.includes(index);
     return (
-      <View className='flex flex-row items-center gap-4 mb-3 w-full'>
+      <View className='mb-3 flex w-full flex-row items-center gap-4'>
         <CheckboxPrimitive.Root
           ref={ref}
           className={cn(
-            'h-10 w-10 shrink-0 rounded-sm border-2 border-neutral-900 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-            selectedBox?.includes(index) && 'bg-orange-50 border-2 border-orange-500',
+            'h-10 w-10 shrink-0 rounded-sm border-2 border-neutral-900 disabled:cursor-not-allowed disabled:opacity-50 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
+            selectedBox?.includes(index) && 'border-2 border-orange-500 bg-orange-50',
             checkingSelected && isCorrect && 'border-green-400 bg-green-50 text-green-700',
             checkingSelected && !isCorrect && 'border-red-400 bg-red-100 text-red-700',
             className
@@ -34,7 +34,7 @@ const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitiv
           checked={selectedBox?.includes(index) || false}
           onPress={onPress}
           {...props}>
-          <CheckboxPrimitive.Indicator className={cn('items-center justify-center h-full w-full')}>
+          <CheckboxPrimitive.Indicator className={cn('h-full w-full items-center justify-center')}>
             <Check size={20} color={checkingSelected ? (isCorrect ? 'green' : 'red') : 'black'} />
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>

@@ -82,7 +82,7 @@ export default function SignUp() {
         </View>
         <View className='flex flex-row items-center justify-center gap-x-2.5'>
           <Text className='text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
-          <Link push href='/auth/sign-in'>
+          <Link replace href='/auth/sign-in'>
             <Text className='text-footnote font-medium text-orange-500'>{t('signUp.signIn')}</Text>
           </Link>
         </View>

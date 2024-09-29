@@ -1,5 +1,5 @@
 import { router, useFocusEffect } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, Pressable, Text, View } from 'react-native';
 
@@ -15,14 +15,18 @@ export type AnswerModalProps = {
   onPressContinue: () => void;
 };
 
-export default function AnswerModal({ modalType, correctAnswer, correctAnswers, onPressContinue }: AnswerModalProps) {
-  const { t } = useTranslation('question');
-  const randomEncourage =
-    modalType === 'correct'
-      ? Math.random() * Number(t('general.correct.length'))
-      : Math.random() * Number(t('general.incorrect.length'));
-
+export default function AnswerModal({ modalType, correctAnswers, onPressContinue }: AnswerModalProps) {
+  const [randomEncourage, setRandomEncourage] = useState<number>(0);
   const [showModal, setShowModal] = useState(true);
+  const { t } = useTranslation('question');
+
+  useEffect(() => {
+    const randomValue =
+      modalType === 'correct'
+        ? Math.random() * Number(t('general.correct.length'))
+        : Math.random() * Number(t('general.incorrect.length'));
+    setRandomEncourage(randomValue);
+  }, [modalType, onPressContinue]);
 
   // Ensure modal is shown when navigating back to the page
   useFocusEffect(
@@ -74,17 +78,7 @@ export default function AnswerModal({ modalType, correctAnswer, correctAnswers, 
             ))}
           </View>
         )}
-        {modalType === 'incorrect' && correctAnswer && (
-          <View>
-            <Text className='text-body font-semibold text-neutral-900'>{t('general.correctAnswer')}</Text>
-            <Text className='text-body text-neutral-900'>{correctAnswer}</Text>
-          </View>
-        )}
-        <Button
-          className={`${modalType === 'correct' ? 'bg-green-500' : 'bg-red-500'}`}
-          onPress={() => {
-            onPressContinue();
-          }}>
+        <Button className={`${modalType === 'correct' ? 'bg-green-500' : 'bg-red-500'}`} onPress={onPressContinue}>
           <Text className='text-body font-semibold text-white'>{t('general.continue')}</Text>
         </Button>
       </View>

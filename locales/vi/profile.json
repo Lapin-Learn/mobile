@@ -1,0 +1,19 @@
+{
+  "profile": {
+    "basic_info": "Thông tin cơ bản",
+    "avatar_change": "Thay đổi ảnh đại diện",
+    "edit": "Chỉnh sửa",
+    "fullname": "Họ và tên",
+    "username": "Tên người dùng",
+    "email": "Email",
+    "phone": "Số điện thoại"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "custom_settings": "Cài đặt riêng",
+    "notifications": "Thông báo",
+    "social_accounts": "Tài khoản mạng xã hội",
+    "privacy_settings": "Cài đặt quyền riêng tư"
+  },
+  "sign_out": "Đăng xuất"
+}
