@@ -73,7 +73,7 @@ export default function SignUp() {
           </View>
           <View className='gap-y-6'>
             <Button onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
-              <Text className='text-body font-semibold text-white'>{t('signUp.signUpButton')}</Text>
+              <Text className='text-button'>{t('signUp.signUpButton')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>
               <Text className='text-subhead font-medium text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
