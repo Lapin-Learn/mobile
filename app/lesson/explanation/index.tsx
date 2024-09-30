@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { LucideX } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import HTML from 'react-native-render-html';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -70,38 +70,33 @@ export default function Explanation() {
 
   return (
     <SafeAreaView>
-      <View className='h-full'>
-        <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View className='relative m-4 flex grow flex-col justify-between'>
-          <View className='gap-y-8'>
-            <View className='gap-y-3'>
-              <View>
-                <Text className='text-title-4'>{t('explanation.evidence')}</Text>
-                <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
+      <ScrollView>
+        <View className='h-full'>
+          <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
+          <View className='relative m-4 flex grow flex-col justify-between'>
+            <View className='gap-y-8'>
+              <View className='gap-y-3'>
+                <View>
+                  <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
+                </View>
               </View>
-              <Text className='text-title-4'>
-                {t('explanation.answer')}
-                {'\n'}
-                <Text className='font-bold'>{question}</Text>
-              </Text>
+              <AnswerField answers={answer} />
             </View>
-            <AnswerField answers={answer} />
+            <Button
+              size={'lg'}
+              variant={'black'}
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                } else {
+                  router.dismiss();
+                }
+              }}>
+              <Text className='text-body font-semibold text-white'>{t('explanation.understood')}</Text>
+            </Button>
           </View>
-
-          <Button
-            size={'lg'}
-            variant={'black'}
-            onPress={() => {
-              if (router.canGoBack()) {
-                router.back();
-              } else {
-                router.dismiss();
-              }
-            }}>
-            <Text className='text-button'>{t('explanation.understood')}</Text>
-          </Button>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
