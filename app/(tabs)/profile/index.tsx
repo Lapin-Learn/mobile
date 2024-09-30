@@ -36,7 +36,7 @@ export default function Index() {
   const toast = useToast();
 
   const handleEdit = () => {
-    router.push('/profile/edit' as Href);
+    router.push('/edit-profile' as Href);
   };
 
   useEffect(() => {
