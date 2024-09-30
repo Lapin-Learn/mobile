@@ -31,7 +31,7 @@ const buttonVariants = cva('group flex items-center justify-center rounded', {
   },
 });
 
-const buttonTextVariants = cva('text-sm native:text-base font-medium text-foreground ', {
+const buttonTextVariants = cva('text-sm native:text-base font-medium text-foreground', {
   variants: {
     variant: {
       default: 'text-primary-foreground',

@@ -32,5 +32,15 @@
     "social_accounts": "Social Accounts",
     "privacy_settings": "Privacy Settings"
   },
-  "sign_out": "Sign Out"
+  "sign_out": "Sign Out",
+  "change_password": {
+    "title": "Password",
+    "old_password": "Old Password",
+    "old_password_placeholder": "Enter old password",
+    "new_password": "New Password",
+    "new_password_placeholder": "Enter new password",
+    "confirm_password": "Confirm Password",
+    "confirm_password_placeholder": "Re-enter new password",
+    "save_button": "Save changes"
+  }
 }
