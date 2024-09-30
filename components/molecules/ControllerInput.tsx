@@ -35,7 +35,7 @@ const CustomTextInput = ({ className, ...props }: TextInputProps) => {
   return (
     <TextInput
       className={cn(
-        'w-full border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-neutral-700 rounded',
+        'w-full rounded border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-neutral-700',
         className
       )}
       {...props}
@@ -58,7 +58,7 @@ export function ControllerInput<T>({
 }: ControllerInputProps<T> & TextModeProps & SelectModeProps) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const { field } = useController(props);
-  const { t } = useTranslation('user');
+  const { t } = useTranslation('profile');
 
   const renderInput = () => {
     switch (mode) {
@@ -102,9 +102,9 @@ export function ControllerInput<T>({
               style={{ color: 'black' }}
             />
             <TouchableOpacity
-              className='absolute right-3 top-1/2 transform -translate-y-1/2'
+              className='absolute right-3 top-1/2 -translate-y-1/2 transform'
               onPress={() => router.push('/edit-profile/change-password')}>
-              <Text className='text-subhead text-orange-500'>{t('profile.changePassword')}</Text>
+              <Text className='text-subhead text-orange-500'>{t('profile.change_password')}</Text>
             </TouchableOpacity>
           </View>
         );

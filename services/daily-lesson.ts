@@ -1,6 +1,12 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { IAfterLesson, ILessonQuestionsResponse, ILessonsResponse, IQuestionType, IInstruction } from '~/lib/interfaces';
+import {
+  IAfterLesson,
+  IInstruction,
+  ILessonQuestionsResponse,
+  ILessonsResponse,
+  IQuestionType,
+} from '~/lib/interfaces';
 
 import api from './httpRequests';
 
@@ -29,7 +35,7 @@ export const getLessons = async ({ queryKey }: QueryFunctionContext<any[]>) => {
   const [, questionTypeId] = queryKey;
 
   try {
-    const response = await api.get<ILessonsResponse>(`/daily-lessons/questions-types/${questionTypeId}/lessons`);
+    const response = await api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`);
     return response;
   } catch (error) {
     console.error('Error fetching lessons:', error);

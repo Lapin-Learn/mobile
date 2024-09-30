@@ -1,7 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { SkillEnum } from '~/lib/enums';
-import { getLessonQuestions, getLessons, getQuestionTypes, getInstruction } from '~/services';
+import { IAfterLesson, ILessonCompletion } from '~/lib/interfaces';
+import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
+
+import { useGameStore } from '../zustand';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({
@@ -28,5 +31,28 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
   return useQuery({
     queryKey: ['instruction', questionTypeId],
     queryFn: getInstruction,
+  });
+};
+
+export const useLessonCompletion = (params: ILessonCompletion) => {
+  const { lessonId, correctAnswers, wrongAnswers, duration } = params;
+  const { setXp, setCarrots, setIsFinished } = useGameStore();
+
+  return useMutation({
+    mutationFn: () =>
+      confirmLessonCompletion({
+        lessonId,
+        correctAnswers,
+        wrongAnswers,
+        duration,
+      }),
+    onSuccess: (response: IAfterLesson) => {
+      setXp(response.xp);
+      setCarrots(response.carrots);
+      setTimeout(() => setIsFinished(true), 200);
+    },
+    onError: (error) => {
+      console.error('Lesson completion mutation error:', error);
+    },
   });
 };

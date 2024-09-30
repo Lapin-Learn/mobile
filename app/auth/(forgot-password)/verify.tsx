@@ -82,7 +82,7 @@ export default function Verify() {
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
-                      className='h-12 w-12 rounded-none border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-title-2 placeholder:font-semibold placeholder:text-neutral-700'
+                      className='h-12 w-12 rounded border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-title-2 placeholder:font-semibold placeholder:text-neutral-700'
                       maxLength={1}
                       keyboardType='numeric'
                       value={field.value[i]}

@@ -1,8 +1,8 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import { SvgProps } from 'react-native-svg';
 
 import CarrotIcon from '~/assets/images/carrot.svg';
@@ -10,6 +10,7 @@ import FlashIcon from '~/assets/images/flash.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
+import { useGameStore } from '~/hooks/zustand';
 import Confetti from '~/lib/components/confentti';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
@@ -30,8 +31,9 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 };
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
+  const { resetGame } = useGameStore();
   const { t } = useTranslation('lesson');
-  const randomEncourage = Math.random() * Number(t('after.encourage.length'));
+  const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -39,8 +41,8 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
     setShowConfetti(true);
   }, []);
 
-  // TODO: back to previous page
   const handlePress = () => {
+    resetGame();
     router.back();
   };
 
@@ -53,7 +55,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
         <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
           <View className='flex items-center justify-center gap-y-5'>
             <ProgressCircle size={160} progress={data.percent as number} showsText />
-            <Text className='text-title-2 font-bold'>{t(`after.encourage.${Math.floor(randomEncourage)}`)}</Text>
+            <Text className='text-title-2 font-bold'>{t(`after.encourages.${Math.floor(randomEncourage)}`)}</Text>
           </View>
           <View className='w-full gap-y-6'>
             <View className='flex w-full flex-row items-center justify-start gap-x-4'>
@@ -66,7 +68,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                       <Component width={24} height={24} />
                       <View>
                         <Text className='text-title-2 font-bold'>
-                          {/* TODO: update timer later */}
                           {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}&nbsp;
                           <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
                         </Text>

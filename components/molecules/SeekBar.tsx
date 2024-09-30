@@ -64,13 +64,13 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
   });
 
   return (
-    <GestureHandlerRootView className='flex justify-center w-full items-center'>
+    <GestureHandlerRootView className='flex w-full items-center justify-center'>
       <GestureDetector gesture={tapGesture}>
-        <Animated.View className='w-full h-2 rounded-xl bg-neutral-100 overflow-hidden items-start justify-center'>
+        <Animated.View className='h-2 w-full items-start justify-center overflow-hidden rounded-xl bg-neutral-100'>
           <GestureDetector gesture={panGesture}>
-            <Animated.View style={[thumbStyle]} className='w-3.5 h-3.5 z-10 absolute rounded-full bg-background' />
+            <Animated.View style={[thumbStyle]} className='absolute z-10 h-3.5 w-3.5 rounded-full bg-background' />
           </GestureDetector>
-          <Animated.View style={[sliderStyle]} className='h-2 bg-orange-400 rounded-xl' />
+          <Animated.View style={[sliderStyle]} className='h-2 rounded-xl bg-orange-400' />
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>

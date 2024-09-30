@@ -9,49 +9,50 @@ import ChoiceButton from '~/components/molecules/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/ChoiceCheckBox';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
-import { useInstruction } from '~/hooks/zustand';
+import { useGameStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';
 
 function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
   if (answers.length === 0) return <View></View>;
   if (answers.length === 1) {
     return (
-      <ChoiceButton
-        index={0}
-        label={answers[0]}
-        selectedBox={0}
-        isChecking={true}
-        isCorrect={true}
-        onPress={() => {}}
-      />
+      <View>
+        <ChoiceButton
+          index={0}
+          label={answers[0]}
+          selectedBox={[0]}
+          isChecking={true}
+          isCorrect={true}
+          onPress={() => {}}
+        />
+      </View>
     );
   }
 
-  return answers.map((item, index) => (
-    <ChoiceCheckBox
-      key={index}
-      index={index}
-      label={item}
-      selectedBox={Array.from({ length: answers.length }, (_, i) => i)}
-      checked={true}
-      isChecking={true}
-      isCorrect={true}
-      onPress={() => {}}
-      onCheckedChange={() => {}}
-    />
-  ));
+  return (
+    <View>
+      {answers.map((item, index) => (
+        <ChoiceCheckBox
+          key={index}
+          index={index}
+          label={item}
+          selectedBox={Array.from({ length: answers.length }, (_, i) => i)}
+          checked={true}
+          isChecking={true}
+          isCorrect={true}
+          onPress={() => {}}
+          onCheckedChange={() => {}}
+        />
+      ))}
+    </View>
+  );
 }
 
 export default function Explanation() {
   const { t } = useTranslation('lesson');
   const windowWidth = useWindowDimensions().width;
 
-  const { contentType, question, answers, explanation } = useInstruction((state) => ({
-    contentType: state.contentType,
-    question: state.question,
-    answers: state.answers,
-    explanation: state.explanation,
-  }));
+  const { contentType, question, answer, explanation } = useGameStore();
 
   const formattedExplanation = `
     <div style="font-size: 17px; line-height: 25.5px;">
@@ -71,21 +72,20 @@ export default function Explanation() {
     <SafeAreaView>
       <View className='h-full'>
         <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View className='relative flex grow flex-col justify-between m-4'>
+        <View className='relative m-4 flex grow flex-col justify-between'>
           <View className='gap-y-8'>
             <View className='gap-y-3'>
-              <Text className='text-title-4'>
-                {t('explanation.evidence')}
-                {'\n'}
+              <View>
+                <Text className='text-title-4'>{t('explanation.evidence')}</Text>
                 <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
-              </Text>
+              </View>
               <Text className='text-title-4'>
                 {t('explanation.answer')}
                 {'\n'}
                 <Text className='font-bold'>{question}</Text>
               </Text>
             </View>
-            <AnswerField answers={answers} />
+            <AnswerField answers={answer} />
           </View>
 
           <Button
@@ -98,7 +98,7 @@ export default function Explanation() {
                 router.dismiss();
               }
             }}>
-            <Text className='text-white text-body font-semibold'>{t('explanation.understood')}</Text>
+            <Text className='text-body font-semibold text-white'>{t('explanation.understood')}</Text>
           </Button>
         </View>
       </View>

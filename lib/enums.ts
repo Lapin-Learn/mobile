@@ -22,12 +22,11 @@ export enum BandScoreEnum {
 
 export enum ContentTypeEnum {
   MULTIPLE_CHOICE = 'multiple_choice',
-  MULTIPLE_CHOICES = 'multiple_choices',
   FILL_IN_THE_BLANK = 'fill_in_the_blank',
   MATCHING = 'matching',
 }
 
-export enum CERFLevelEnum {
+export enum CEFRLevelEnum {
   A1 = 'A1',
   A2 = 'A2',
   B1 = 'B1',

@@ -1,4 +1,4 @@
-import { BandScoreEnum, CERFLevelEnum, ContentTypeEnum, GenderEnum, SkillEnum } from './enums';
+import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, GenderEnum, SkillEnum } from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -29,8 +29,14 @@ export interface IQuestion {
   content: Question;
   imageId: string | null;
   audioId: string | null;
-  cerfLevel: CERFLevelEnum;
+  cerfLevel: CEFRLevelEnum;
   explanation: string;
+  audio?: IAudio;
+}
+
+export interface IAudio {
+  id: string;
+  url: string;
 }
 
 export interface ILessonsResponse {
