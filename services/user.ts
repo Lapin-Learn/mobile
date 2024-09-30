@@ -7,12 +7,10 @@ export const getUserProfile = async () => {
   return data;
 };
 
-export const updateUserProfile = async (
-  data: Omit<IUserProfile, 'fullName' | 'dob' | 'gender'> & {
-    fullName?: string;
-    dob?: string;
-    gender?: 'male' | 'female' | 'other';
-  }
-) => {
-  await api.put('users/profile', { body: data });
+export const updateUserProfile = async (params: Partial<IUserProfile>) => {
+  await api.put('users/profile', {
+    body: {
+      body: params,
+    },
+  });
 };

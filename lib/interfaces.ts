@@ -1,4 +1,4 @@
-import { BandScoreEnum, CERFLevelEnum, ContentTypeEnum, SkillEnum } from './enums';
+import { BandScoreEnum, CERFLevelEnum, ContentTypeEnum, GenderEnum, SkillEnum } from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -71,8 +71,8 @@ export interface IUserProfile {
   email: string;
   role: string;
   fullName: string | null;
-  dob: string | null;
-  gender: string | null;
+  dob: Date | null;
+  gender: GenderEnum | null;
   createdAt: string;
   learnerProfile: ILearnerProfile;
 }

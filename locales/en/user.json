@@ -1,0 +1,26 @@
+{
+  "profile": {
+      "title": "General information",
+      "userName": "Username",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "dob": "Date of birth",
+      "gender": "Gender",
+      "update": "Save changes",
+      "changePassword": "Change password",
+      "notFound": "User information not found"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female"
+  },
+  "placeholder": {
+    "userName": "Enter your user name",
+    "fullName": "Enter your full name",
+    "email": "Enter your email",
+    "changePassword": "Change your password",
+    "dob": "Enter your date of birth",
+    "gender": "Choose your gender"
+  }
+}

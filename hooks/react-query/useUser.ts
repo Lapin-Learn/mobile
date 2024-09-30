@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getUserProfile, updateUserProfile } from '~/services';
 
@@ -25,10 +25,12 @@ export const useUserProfile = () => {
 
 export const useUpdateUserProfile = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateUserProfile,
     onSuccess: () => {
       toast.show({ type: 'success', text1: 'Profile updated' });
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });

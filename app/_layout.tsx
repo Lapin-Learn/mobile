@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 import TrackPlayer from 'react-native-track-player';
 
 import { AppStack } from '~/components/navigation/AppStack';
+import { PortalHost } from '~/components/primitives/portal';
 import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
@@ -43,6 +44,7 @@ export default function RootLayout() {
             <StatusBar style={'light'} />
             <AppStack />
             <Toast />
+            <PortalHost />
           </AuthProvider>
         </I18nextProvider>
       </QueryClientProvider>
