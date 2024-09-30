@@ -33,6 +33,7 @@ export default function Index() {
   const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [image, setImage] = useState('https://via.placeholder.com/48');
+  const toast = useToast();
 
   const handleEdit = () => {
     router.push('/profile/edit' as Href);
@@ -62,7 +63,6 @@ export default function Index() {
           .map((c) => c.charCodeAt(0))
       ).buffer;
 
-      const toast = useToast();
       try {
         let presignedUrl: IPresignedUrl = { id: '', url: '' };
         if (!data?.avatar) {
@@ -79,6 +79,7 @@ export default function Index() {
           setImage(result.assets[0].uri);
         });
       } catch (error) {
+        console.error(error);
         setIsAvatarChanged(false);
         toast.show({ type: 'error', text1: 'Failed to upload avatar' });
       }
