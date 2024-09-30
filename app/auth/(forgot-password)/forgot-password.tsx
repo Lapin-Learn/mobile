@@ -61,7 +61,7 @@ export default function ForgotPassword() {
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
             size={'lg'}>
-            <Text className='text-body font-semibold text-white'>{t('forgotPassword.sendOtpButton')}</Text>
+            <Text className='text-button'>{t('forgotPassword.sendOtpButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

@@ -77,7 +77,7 @@ export interface IUserProfile {
   email: string;
   role: string;
   fullName: string | null;
-  dob: string | null;
+  dob: Date | null;
   gender: GenderEnum | null;
   createdAt: string;
   learnerProfile: ILearnerProfile;
