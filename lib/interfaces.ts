@@ -1,4 +1,4 @@
-import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, SkillEnum } from './enums';
+import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, GenderEnum, SkillEnum } from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -78,9 +78,19 @@ export interface IUserProfile {
   role: string;
   fullName: string | null;
   dob: string | null;
-  gender: string | null;
+  gender: GenderEnum | null;
   createdAt: string;
   learnerProfile: ILearnerProfile;
+  avatarId: string | null;
+  avatar?: IAvatar;
+}
+
+export interface IAvatar {
+  id: string;
+  name: string;
+  owner: string;
+  permission: string;
+  url: string;
 }
 
 export interface ILearnerProfile {
@@ -111,4 +121,9 @@ export interface IInstruction {
   questionTypeId: number;
   image?: string;
   audio?: string;
+}
+
+export interface IPresignedUrl {
+  id: string;
+  url: string;
 }
