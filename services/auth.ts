@@ -1,4 +1,14 @@
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native-google-signin/google-signin';
+
+import { ProviderNameEnum } from '~/lib/enums';
+
 import api from './httpRequests';
+
+const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID;
+GoogleSignin.configure({
+  webClientId: GOOGLE_CLIENT_ID,
+});
 
 export type Session = {
   user?: AuthInfo;
@@ -58,4 +68,27 @@ export const refreshToken = async (refreshToken: string) => {
     body: { refreshToken },
   });
   return data;
+};
+
+export const signInWithProvider = async (provider: ProviderNameEnum) => {
+  let idToken;
+  if (provider === ProviderNameEnum.GOOGLE) {
+    idToken = await signInWithGoogle();
+  }
+
+  const data = await api.post<AuthInfo>('auth/provider', {
+    headers: { Authorization: `Bearer ${idToken}` },
+  });
+
+  return data;
+};
+
+export const signInWithGoogle = async () => {
+  const userInfo: SignInResponse = await GoogleSignin.signIn();
+  if (!isCancelledResponse(userInfo)) {
+    const googleCredential = auth.GoogleAuthProvider.credential(userInfo.data?.idToken || '');
+    const userCredential = await auth().signInWithCredential(googleCredential);
+    const idToken = await userCredential.user.getIdToken();
+    return idToken;
+  }
 };

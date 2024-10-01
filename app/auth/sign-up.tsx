@@ -10,7 +10,8 @@ import LOGOGOOGLE from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
-import { useSignUp } from '~/hooks/react-query/useAuth';
+import { useSignInWithProvider, useSignUp } from '~/hooks/react-query/useAuth';
+import { ProviderNameEnum } from '~/lib/enums';
 
 const schema = z
   .object({
@@ -92,10 +93,17 @@ export default function SignUp() {
 }
 
 function OtherSignIn() {
+  const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
       <LOGOFB onPress={() => {}} width={32} height={32} />
-      <LOGOGOOGLE onPress={() => {}} width={32} height={32} />
+      <LOGOGOOGLE
+        onPress={() => {
+          signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
+        }}
+        width={32}
+        height={32}
+      />
     </View>
   );
 }
