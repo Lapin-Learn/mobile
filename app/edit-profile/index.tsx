@@ -139,7 +139,7 @@ export default function UpdateProfile() {
               size='lg'
               onPress={handleSubmit(onSubmit)}
               disabled={!isFormChanged || updateUserProfileMutation.isPending}>
-              <Text className='text-button'>{t('profile.update')}</Text>
+              <Text className='text-body font-semibold text-white'>{t('profile.update')}</Text>
             </Button>
           </View>
         </View>

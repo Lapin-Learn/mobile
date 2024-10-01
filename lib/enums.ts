@@ -1,8 +1,3 @@
-export enum GenderEnum {
-  MALE = 'male',
-  FEMALE = 'female',
-}
-
 export enum SkillEnum {
   SPEAKING = 'speaking',
   WRITING = 'writing',
@@ -39,4 +34,9 @@ export enum CEFRLevelEnum {
 export enum ProviderNameEnum {
   GOOGLE = 'google',
   FACEBOOK = 'facebook',
+}
+
+export enum GenderEnum {
+  MALE = 'male',
+  FEMALE = 'female',
 }

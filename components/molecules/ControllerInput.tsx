@@ -1,7 +1,7 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Href, router } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { FieldError, FieldValues, UseControllerProps, useController } from 'react-hook-form';
+import { FieldError, FieldValues, useController, UseControllerProps } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
 
@@ -103,7 +103,7 @@ export function ControllerInput<T>({
             />
             <TouchableOpacity
               className='absolute right-3 top-1/2 -translate-y-1/2 transform'
-              onPress={() => router.push('/edit-profile/change-password' as Href)}>
+              onPress={() => router.push('/edit-profile/change-password')}>
               <Text className='text-subhead text-orange-500'>{t('profile.changePassword')}</Text>
             </TouchableOpacity>
           </View>
