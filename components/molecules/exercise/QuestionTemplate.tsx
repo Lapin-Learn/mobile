@@ -119,7 +119,7 @@ export default function QuestionTemplate({
             <View className='pb-10 pt-4'>
               {selected.length > 0 && !isChecking && (
                 <Button className='bg-neutral-900' onPress={checkAnswer}>
-                  <Text className='text-body font-semibold text-white'>{t('general.check')}</Text>
+                  <Text className='text-button'>{t('general.check')}</Text>
                 </Button>
               )}
             </View>

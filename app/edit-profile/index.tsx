@@ -48,7 +48,7 @@ export default function UpdateProfile() {
     resolver: zodResolver(schema),
   });
   const initialFormState = useRef(watch());
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation('user');
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -57,7 +57,7 @@ export default function UpdateProfile() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  if (!data) return <Text>{t('profile.not_found')}</Text>;
+  if (!data) return <Text>{t('profile.notFound')}</Text>;
   if (isPending) return <Loading />;
   if (error) return <Text>{error.message}</Text>;
 
@@ -73,22 +73,22 @@ export default function UpdateProfile() {
 
   return (
     <SafeAreaView className={`h-full ${Platform.OS === 'android' ? 'py-11' : ''}`}>
-      <NavigationBar headerTitle={t('profile.basic_info')} headerLeftShown />
+      <NavigationBar headerTitle={t('profile.title')} headerLeftShown />
       <View className='flex grow items-center px-4 pt-6'>
         <View className='flex h-full gap-6'>
           <View className='flex gap-4'>
             <ControllerInput
               className='h-12'
               props={{ name: 'fullName', control }}
-              label={t('profile.fullname')}
-              placeholder={t('placeholder.fullname')}
+              label={t('profile.fullName')}
+              placeholder={t('placeholder.fullName')}
               error={errors.fullName}
             />
             <ControllerInput
               className='h-12'
               props={{ name: 'username', control }}
-              label={t('profile.username')}
-              placeholder={t('placeholder.username')}
+              label={t('profile.userName')}
+              placeholder={t('placeholder.userName')}
               error={errors.username}
             />
             <ControllerInput
@@ -96,7 +96,7 @@ export default function UpdateProfile() {
               mode='change-password'
               props={{ name: 'password', control }}
               label={t('profile.password')}
-              placeholder={t('placeholder.change_password')}
+              placeholder={t('placeholder.changePassword')}
               error={errors.password}
             />
             <ControllerInput
@@ -139,7 +139,7 @@ export default function UpdateProfile() {
               size='lg'
               onPress={handleSubmit(onSubmit)}
               disabled={!isFormChanged || updateUserProfileMutation.isPending}>
-              <Text className='text-body font-semibold text-white'>{t('profile.update')}</Text>
+              <Text className='text-button'>{t('profile.update')}</Text>
             </Button>
           </View>
         </View>

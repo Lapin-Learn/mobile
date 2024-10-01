@@ -1,8 +1,10 @@
-import { router } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import { Href, router } from 'expo-router';
 import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -11,34 +13,77 @@ import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';
-import { useUserProfile } from '~/hooks/react-query/useUser';
-
-const profileData = [
-  { label: 'profile.fullname', value: 'Lê Vũ Ngân Trúc' },
-  { label: 'profile.username', value: 'Ngân Trúc' },
-  { label: 'profile.email', value: 'ngantruc2003@gmail.com' },
-  { label: 'profile.phone', value: '+84 123 456 789' },
-];
-
-const settingsData = [
-  { action: () => {}, label: 'settings.username' },
-  { action: () => {}, label: 'settings.notifications' },
-  { action: () => {}, label: 'settings.social_accounts' },
-  { action: () => {}, label: 'settings.privacy_settings' },
-];
+import {
+  useCreatePreSignedUrl,
+  useCreateUpdatePreSignedUrl,
+  useUpdateUserProfile,
+  useUploadAvatar,
+  useUserProfile,
+} from '~/hooks/react-query/useUser';
+import { useToast } from '~/hooks/useToast';
+import { IPresignedUrl } from '~/lib/interfaces';
 
 export default function Index() {
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
+  const createPreSignedUrl = useCreatePreSignedUrl();
+  const uploadAvatar = useUploadAvatar();
+  const updateUserProfile = useUpdateUserProfile();
+  const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
+  const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+  const [image, setImage] = useState('https://via.placeholder.com/48');
+  const toast = useToast();
 
   const handleEdit = () => {
-    router.push('/edit-profile');
+    router.push('/edit-profile' as Href);
   };
 
-  const handleChangeAvatar = () => {
-    // TODO: Implement change avatar feature
-    Alert.alert('Change Avatar', 'This feature is not available yet.');
+  useEffect(() => {
+    if (data?.avatar) {
+      setImage(data.avatar.url);
+    }
+  }, [data]);
+
+  const handleChangeAvatar = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.canceled) {
+      setIsAvatarChanged(true);
+
+      const arrBuffer = new Uint8Array(
+        atob(result.assets[0].base64 || '')
+          .split('')
+          .map((c) => c.charCodeAt(0))
+      ).buffer;
+
+      try {
+        let presignedUrl: IPresignedUrl = { id: '', url: '' };
+        if (!data?.avatar) {
+          presignedUrl = await createPreSignedUrl.mutateAsync({ name: result.assets[0].fileName || 'test.jpg' });
+        } else {
+          presignedUrl = await createUpdatePreSignedUrl.mutateAsync({
+            name: result.assets[0].fileName || 'test.jpg',
+            uuid: data.avatar.id || '',
+          });
+        }
+        await uploadAvatar.mutateAsync({ presignedUrl, file: arrBuffer }).then(async () => {
+          await updateUserProfile.mutateAsync({ avatarId: presignedUrl.id });
+          setIsAvatarChanged(false);
+          setImage(result.assets[0].uri);
+        });
+      } catch (error) {
+        console.error(error);
+        setIsAvatarChanged(false);
+        toast.show({ type: 'error', text1: 'Failed to upload avatar' });
+      }
+    }
   };
 
   if (isFetching) {
@@ -70,9 +115,11 @@ export default function Index() {
           <View className='items-center justify-center'>
             <View className='items-end justify-end'>
               <View className='h-22 w-22 overflow-hidden rounded-full'>
-                {/* TODO: update when avatar is available after integrate update user profile */}
-                {/* <Image className='h-full w-full' source={{ uri: 'https://via.placeholder.com/48' }} /> */}
-                <Skeleton width='100%' height='100%' colorMode='light' />
+                {isAvatarChanged ? (
+                  <Skeleton width='100%' height='100%' colorMode='light' />
+                ) : (
+                  <Image className='h-full w-full' source={{ uri: image }} />
+                )}
               </View>
               <Button
                 variant='link'
@@ -81,8 +128,8 @@ export default function Index() {
                 <Camera size={16} color={Colors.light['orange-500']} />
               </Button>
             </View>
-            <Text className='text-title-1 font-bold text-black'>{profileData[0].value}</Text>
-            <Text className='text-body text-supporting-text'>{profileData[1].value}</Text>
+            <Text className='text-title-1 font-bold text-black'>{profileData[1].value}</Text>
+            <Text className='text-body text-supporting-text'>{profileData[2].value}</Text>
           </View>
 
           <ProfileSection>

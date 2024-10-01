@@ -11,7 +11,8 @@ import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/molecules/PlatformView';
 import { Button } from '~/components/ui/Button';
-import { useSignIn } from '~/hooks/react-query/useAuth';
+import { useSignIn, useSignInWithProvider } from '~/hooks/react-query/useAuth';
+import { ProviderNameEnum } from '~/lib/enums';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -67,7 +68,7 @@ export default function SignIn() {
 
           <View className='gap-y-6'>
             <Button onPress={handleSubmit(onSubmit)} size={'lg'} disabled={signInMutation.isPending}>
-              <Text className='text-body font-semibold text-white'>{t('signIn.signIn')}</Text>
+              <Text className='text-button'>{t('signIn.signIn')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>
               <Text className='text-subhead font-medium text-supporting-text'>{t('signIn.orSignInWith')}</Text>
@@ -87,10 +88,17 @@ export default function SignIn() {
 }
 
 function OtherSignIn() {
+  const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
       <LOGOFB onPress={() => {}} width={32} height={32} />
-      <LOGOGOOGLE onPress={() => {}} width={32} height={32} />
+      <LOGOGOOGLE
+        onPress={() => {
+          signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
+        }}
+        width={32}
+        height={32}
+      />
     </View>
   );
 }

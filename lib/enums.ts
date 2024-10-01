@@ -35,3 +35,8 @@ export enum CEFRLevelEnum {
   C2 = 'C2',
   Any = 'Any',
 }
+
+export enum ProviderNameEnum {
+  GOOGLE = 'google',
+  FACEBOOK = 'facebook',
+}

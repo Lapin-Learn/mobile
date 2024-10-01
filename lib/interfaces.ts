@@ -81,6 +81,16 @@ export interface IUserProfile {
   gender: GenderEnum | null;
   createdAt: string;
   learnerProfile: ILearnerProfile;
+  avatarId: string | null;
+  avatar?: IAvatar;
+}
+
+export interface IAvatar {
+  id: string;
+  name: string;
+  owner: string;
+  permission: string;
+  url: string;
 }
 
 export interface ILearnerProfile {
@@ -111,4 +121,9 @@ export interface IInstruction {
   questionTypeId: number;
   image?: string;
   audio?: string;
+}
+
+export interface IPresignedUrl {
+  id: string;
+  url: string;
 }
