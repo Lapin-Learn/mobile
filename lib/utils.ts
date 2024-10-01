@@ -28,6 +28,19 @@ export function formatAudioTimer(time: number) {
   const seconds = time % 60;
   return `${minutes.toFixed(0).padStart(2, '0')}:${seconds.toFixed(0).padStart(2, '0')}`;
 }
+
+export function formatNumber(num: number): string {
+  if (num < 1000) {
+    return num.toString();
+  } else if (num < 1000000) {
+    return (num / 1000).toFixed(2) + 'K';
+  } else if (num < 1000000000) {
+    return (num / 1000000).toFixed(2) + 'M';
+  } else {
+    return (num / 1000000000).toFixed(2) + 'B';
+  }
+}
+
 export const convertSecondsToMinutes = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;

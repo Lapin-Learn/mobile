@@ -102,7 +102,13 @@ export interface ILearnerProfile {
   streakId: number;
   createdAt: string;
   updatedAt: string;
+  level: ILevel;
   streak?: IStreak;
+}
+
+export interface ILevel {
+  id: number;
+  xp: number;
 }
 
 export interface IStreak {

@@ -7,31 +7,55 @@ import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IconCarrot from '~/assets/images/carrot.svg';
-import IconRank from '~/assets/images/rank.svg';
 import IconStreak from '~/assets/images/streak.svg';
+import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/region/Region';
+import XpTrackBar from '~/components/molecules/XpTrackBar';
 import { useUserProfile } from '~/hooks/react-query/useUser';
-import { SkillEnum } from '~/lib/enums';
+import { RankEnum, SkillEnum } from '~/lib/enums';
+import { formatNumber } from '~/lib/utils';
 
 export default function Index() {
-  useUserProfile();
+  const { data, isFetching, error } = useUserProfile();
 
-  return (
-    <SafeAreaView>
-      <View className='z-50 m-4 flex flex-row items-center justify-center gap-10'>
-        <View className='flex flex-row items-center justify-center'>
-          <IconStreak width={32} height={32} />
-          <Text className='title-4 font-bold text-orange-500'>1234</Text>
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+
+  if (data) {
+    const { learnerProfile } = data;
+    const { streak, carrots, level, xp, rank } = learnerProfile;
+
+    return (
+      <SafeAreaView>
+        <View className='z-50 m-4 flex flex-row items-center justify-center gap-6'>
+          <View className='flex flex-row items-center justify-center gap-[2px]'>
+            <IconStreak width={28} height={28} />
+            <Text className='title-4 font-bold text-orange-500'>{streak?.current}</Text>
+          </View>
+          <View className='flex flex-row items-center justify-center gap-[2px]'>
+            <IconCarrot width={28} height={28} />
+            <Text className='title-4 font-bold text-orange-400'>{formatNumber(carrots ?? 0)}</Text>
+          </View>
+          <View className='flex flex-row items-center justify-center'>
+            <XpTrackBar
+              level={level.id || 1}
+              currentXp={xp || 0}
+              levelXp={level.xp || 100}
+              rank={(rank as RankEnum) || RankEnum.BRONZE}
+            />
+          </View>
         </View>
-        <View className='flex flex-row items-center justify-center'>
-          <IconCarrot width={32} height={32} />
-          <Text className='title-4 font-bold text-orange-400'>500</Text>
-        </View>
-        <IconRank width={48} height={48} />
-      </View>
-      <Map />
-    </SafeAreaView>
-  );
+        <Map />
+      </SafeAreaView>
+    );
+  } else {
+    return null;
+  }
 }
 
 function Map() {
