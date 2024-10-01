@@ -1,14 +1,40 @@
 import { ContentTypeEnum } from './enums';
 
-export interface ReadingQuestion {
-  paragraph: string;
-  question: string;
+export interface BaseQuestion {
+  type: ContentTypeEnum;
+  question?: string;
 }
 
-export interface MultipleChoiceQuestion extends ReadingQuestion {
-  type: ContentTypeEnum.MULTIPLE_CHOICE;
-  options: string[];
+export interface ReadingQuestion extends BaseQuestion {
+  paragraph: string;
+}
+
+export interface MultipleChoiceAnswer {
   answer: number[];
 }
 
-export type Question = MultipleChoiceQuestion;
+export interface MultipleChoiceQuestion extends ReadingQuestion, MultipleChoiceAnswer {
+  options: string[];
+}
+
+export interface PairAnswer {
+  columnA: string[];
+  columnB: string[];
+}
+
+export interface MatchingAnswer {
+  answer: PairAnswer[];
+}
+
+export interface MatchingQuestion extends ReadingQuestion, MatchingAnswer {
+  columnA: {
+    title: string;
+    options: string[];
+  };
+  columnB: {
+    title: string;
+    options: string[];
+  };
+}
+
+export type Question = MultipleChoiceQuestion | MatchingQuestion;

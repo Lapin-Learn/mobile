@@ -92,7 +92,7 @@ export default function Explanation() {
                   router.dismiss();
                 }
               }}>
-              <Text className='text-body font-semibold text-white'>{t('explanation.understood')}</Text>
+              <Text className='text-button'>{t('explanation.understood')}</Text>
             </Button>
           </View>
         </View>

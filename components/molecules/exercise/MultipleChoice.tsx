@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/ChoiceButton';
 import { useGameStore } from '~/hooks/zustand';
+import { MultipleChoiceQuestion } from '~/lib/types';
 
 import { ChoiceCheckBox } from '../ChoiceCheckBox';
 
@@ -21,7 +22,7 @@ export default function MultipleChoice() {
 
   return (
     <View>
-      {questions[currentQuestion]?.content.options?.map((option, index) => {
+      {(questions[currentQuestion]?.content as MultipleChoiceQuestion).options?.map((option, index) => {
         if (questions[currentQuestion]?.content.answer.length > 1) {
           return (
             <ChoiceCheckBox
