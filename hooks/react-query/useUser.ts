@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+  changePassword,
   createPreSignedUrl,
   createUpdatePreSignedUrl,
   getUserProfile,
@@ -59,5 +60,18 @@ export const useUploadAvatar = () => {
 export const useCreateUpdatePreSignedUrl = () => {
   return useMutation({
     mutationFn: createUpdatePreSignedUrl,
+  });
+};
+
+export const useChangePassword = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      toast.show({ type: 'success', text1: 'Password changed' });
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
+    },
   });
 };

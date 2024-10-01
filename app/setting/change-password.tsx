@@ -2,24 +2,33 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/molecules/PlatformView';
 import { Button } from '~/components/ui/Button';
-
-const schema = z.object({
-  oldPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
-});
-
-type ChangePasswordFormField = z.infer<typeof schema>;
+import { useChangePassword } from '~/hooks/react-query/useUser';
 
 export default function ChangePassword() {
   const { t } = useTranslation('profile');
+  const changePasswordMutation = useChangePassword();
+  const { isPending } = changePasswordMutation;
+
+  const schema = z
+    .object({
+      oldPassword: z.string().min(8, t('change_password.limit_characters')),
+      newPassword: z.string().min(8, t('change_password.limit_characters')),
+      confirmPassword: z.string().min(8, t('change_password.limit_characters')),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: t('change_password.password_not_match'),
+      path: ['confirmPassword'],
+    });
+
+  type ChangePasswordFormField = z.infer<typeof schema>;
+
   const {
     control,
     handleSubmit,
@@ -33,10 +42,14 @@ export default function ChangePassword() {
   const newPassword = watch('newPassword');
   const confirmPassword = watch('confirmPassword');
 
-  const isButtonDisabled = !oldPassword && !newPassword && !confirmPassword;
+  const isButtonDisabled = !oldPassword && !newPassword && !confirmPassword && newPassword !== confirmPassword;
+
+  const onSubmit = (data: ChangePasswordFormField) => {
+    changePasswordMutation.mutate({ oldPassword: data.oldPassword, newPassword: data.newPassword });
+  };
 
   return (
-    <PlatformView className='m-4 flex gap-6'>
+    <PlatformView className='m-4 flex gap-y-6'>
       <NavigationBar headerTitle={t('change_password.title')} headerLeftShown icon={X} />
       <View className='flex gap-4'>
         <ControllerInput
@@ -64,8 +77,12 @@ export default function ChangePassword() {
           secureTextEntry
         />
       </View>
-      <Button disabled={isButtonDisabled}>
-        <Text className='text-button'>{t('change_password.save_button')}</Text>
+      <Button disabled={isButtonDisabled} onPress={handleSubmit(onSubmit)}>
+        {isPending ? (
+          <ActivityIndicator color='white' />
+        ) : (
+          <Text className='text-button'>{t('change_password.save_button')}</Text>
+        )}
       </Button>
     </PlatformView>
   );
