@@ -32,7 +32,7 @@ export default function OnBoarding() {
       </NavigationBar>
       <View className='w-full gap-y-2 px-4'>
         <Button className='flex-row items-center justify-center gap-x-1 px-4 py-3.5' onPress={handleGetStart}>
-          <Text className='text-body font-semibold text-white'>{t('on_boarding.get_start')}</Text>
+          <Text className='text-button'>{t('on_boarding.get_start')}</Text>
           <LucideMoveRight color={'white'} />
         </Button>
         <Button className='bg-white' onPress={handleSkip}>

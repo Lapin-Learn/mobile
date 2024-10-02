@@ -68,7 +68,7 @@ export default function SignIn() {
 
           <View className='gap-y-6'>
             <Button onPress={handleSubmit(onSubmit)} size={'lg'} disabled={signInMutation.isPending}>
-              <Text className='text-body font-semibold text-white'>{t('signIn.signIn')}</Text>
+              <Text className='text-button'>{t('signIn.signIn')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>
               <Text className='text-subhead font-medium text-supporting-text'>{t('signIn.orSignInWith')}</Text>

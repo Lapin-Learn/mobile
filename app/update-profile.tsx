@@ -66,9 +66,7 @@ export default function UpdateProfile() {
             size={'lg'}
             disabled={updateUserProfileMutation.isPending}
             className='absolute bottom-20 left-0 right-0'>
-            <Text className='text-body font-semibold text-white'>
-              {updateUserProfileMutation.isPending ? 'Updating...' : 'Update'}
-            </Text>
+            <Text className='text-button'>{updateUserProfileMutation.isPending ? 'Updating...' : 'Update'}</Text>
           </Button>
         </View>
       </View>

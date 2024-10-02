@@ -64,7 +64,7 @@ export default function ResetPassword() {
           </View>
 
           <Button onPress={handleSubmit(onSubmit)} disabled={resetPasswordMutation.isPending} size={'lg'}>
-            <Text className='text-body font-semibold text-white'>{t('resetPassword.resetButton')}</Text>
+            <Text className='text-button'>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

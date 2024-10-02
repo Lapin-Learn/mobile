@@ -8,6 +8,7 @@ export function AppStack() {
       <Stack.Screen name='update-profile' options={{ headerShown: false }} />
       <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
       <Stack.Screen name='auth' options={{ headerShown: false }} />
+      <Stack.Screen name='edit-profile' options={{ headerShown: false }} />
       <Stack.Screen name='firebaseauth' options={{ headerShown: false }} />
       <Stack.Screen name='exercise' options={{ headerShown: false }} />
       <Stack.Screen name='random' options={{ headerShown: false }} />
