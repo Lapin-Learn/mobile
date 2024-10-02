@@ -1,4 +1,12 @@
-import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, GenderEnum, RankEnum, SkillEnum } from './enums';
+import {
+  BandScoreEnum,
+  CEFRLevelEnum,
+  ContentTypeEnum,
+  GenderEnum,
+  MilestonesEnum,
+  RankEnum,
+  SkillEnum,
+} from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -11,6 +19,7 @@ export interface IQuestionType {
     bandScore: BandScoreEnum;
     totalLearningXP: number;
   };
+  image: IImage;
 }
 
 export interface ILesson {
@@ -55,20 +64,19 @@ export interface ILessonQuestionsResponse {
   }[];
 }
 
-export interface ILessonCompletion {
-  lessonId: number;
-  correctAnswers: number;
-  wrongAnswers: number;
-  duration: number;
+export interface IMilestone {
+  type: MilestonesEnum;
+  newValue: ILevel | RankEnum;
 }
 
 export interface IAfterLesson {
   lessonId: number;
-  carrots: number;
-  xp: number;
+  bonusCarrot: number;
+  bonusXP: number;
   correctAnswers: number;
   wrongAnswers: number;
   duration: number;
+  milestones: IMilestone[];
 }
 
 export interface IUserProfile {
@@ -82,10 +90,10 @@ export interface IUserProfile {
   createdAt: string;
   learnerProfile: ILearnerProfile;
   avatarId: string | null;
-  avatar?: IAvatar;
+  avatar?: IImage;
 }
 
-export interface IAvatar {
+export interface IImage {
   id: string;
   name: string;
   owner: string;

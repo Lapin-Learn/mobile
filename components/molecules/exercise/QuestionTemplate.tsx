@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
@@ -10,11 +11,13 @@ import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
 import { useGameStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/interfaces';
+import { getDuration } from '~/lib/utils';
 
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import ContentText from '../ContentText';
 import { AfterLesson } from '../lesson/AfterLesson';
+import { Loading } from '../Loading';
 import PlatformView from '../PlatformView';
 import { TrackAudio } from '../TrackAudio';
 import { Matching } from './matching/Matching';
@@ -37,7 +40,6 @@ export default function QuestionTemplate({
     isCorrect,
     correctAnswers,
     progress,
-    endTime,
     isFinished,
     xp,
     carrots,
@@ -45,22 +47,24 @@ export default function QuestionTemplate({
     checkAnswer,
     setContentType,
     setQuestions,
-    setStartTime,
-    nextQuestion,
     resetGame,
+    setIsChecking,
+    setIsCorrect,
+    setCurrentQuestion,
+    setAnswer,
+    setSelected,
   } = useGameStore();
   const { t } = useTranslation('question');
-  const lessonCompletionMutation = useLessonCompletion({
-    lessonId: lesson,
-    correctAnswers,
-    wrongAnswers: questions.length - correctAnswers,
-    duration: endTime,
-  });
+  const lessonCompletionMutation = useLessonCompletion();
+  const { isPending } = lessonCompletionMutation;
+
+  const [duration, setDuration] = useState<number>(0);
 
   useEffect(() => {
     setQuestions(data);
     setContentType(contentType);
-    setStartTime(new Date());
+    setQuestions(data);
+    setDuration(new Date().getTime());
   }, []);
 
   // TODO: Handle different content types
@@ -81,10 +85,33 @@ export default function QuestionTemplate({
     }
   };
 
+  const nextQuestion = () => {
+    setIsChecking(false);
+    setIsCorrect(false);
+    setAnswer([]);
+    if (currentQuestion === questions.length - 1) {
+    } else {
+      setCurrentQuestion(currentQuestion + 1);
+      switch (contentType) {
+        case ContentTypeEnum.MULTIPLE_CHOICE: {
+          setSelected([]);
+        }
+        case ContentTypeEnum.MATCHING: {
+          break;
+        }
+      }
+    }
+  };
+
   const handleContinue = useCallback(() => {
     nextQuestion();
     if (currentQuestion === questions.length - 1) {
-      lessonCompletionMutation.mutate();
+      lessonCompletionMutation.mutate({
+        lessonId: lesson,
+        correctAnswers,
+        wrongAnswers: questions.length - correctAnswers,
+        duration: getDuration(duration),
+      });
     }
   }, [nextQuestion, currentQuestion, questions]);
 
@@ -97,6 +124,16 @@ export default function QuestionTemplate({
     router.back();
   };
 
+  const ViewComponent = Platform.OS === 'ios' ? SafeAreaView : View;
+
+  if (isPending && !isFinished) {
+    return (
+      <View className='h-full'>
+        <Loading />
+      </View>
+    );
+  }
+
   return (
     <View>
       {isFinished ? (
@@ -105,7 +142,7 @@ export default function QuestionTemplate({
             percent: (correctAnswers / questions.length) * 100,
             exp: xp,
             carrot: carrots,
-            timer: endTime,
+            timer: getDuration(duration),
           }}
         />
       ) : (

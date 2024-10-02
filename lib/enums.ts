@@ -41,6 +41,11 @@ export enum GenderEnum {
   FEMALE = 'female',
 }
 
+export enum MilestonesEnum {
+  LEVEL_UP = 'level_up',
+  RANK_UP = 'rank_up',
+}
+
 export enum RankEnum {
   BRONZE = 'bronze',
   SILVER = 'silver',

@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 
 import { ContentTypeEnum } from '~/lib/enums';
-import { IQuestion } from '~/lib/interfaces';
+import { IMilestone, IQuestion } from '~/lib/interfaces';
 import { MatchingQuestion, MultipleChoiceQuestion, PairAnswer } from '~/lib/types';
-import { getDuration } from '~/lib/utils';
 
 type GameState = {
   contentType: ContentTypeEnum | null;
@@ -12,24 +11,27 @@ type GameState = {
   isChecking: boolean;
   isCorrect: boolean;
   progress: number;
-  startTime: Date | null;
-  endTime: number;
   isFinished: boolean;
   xp: number;
   carrots: number;
   correctAnswers: number;
+  milestones: IMilestone[];
 };
 
 type GameActions = {
   setContentType: (contentType: ContentTypeEnum) => void;
   setQuestions: (questions: IQuestion[]) => void;
-  setStartTime: (startTime: Date | null) => void;
   setIsFinished: (isFinished: boolean) => void;
   setXp: (xp: number) => void;
   setCarrots: (carrots: number) => void;
   checkAnswer: <T extends PairAnswer | number>(selectedData?: T[]) => void;
-  nextQuestion: () => void;
   resetGame: () => void;
+  setMilestones: (milestones: IMilestone[]) => void;
+  setIsChecking: (isChecking: boolean) => void;
+  setIsCorrect: (isCorrect: boolean) => void;
+  setCurrentQuestion: (currentQuestion: number) => void;
+  setAnswer: (answer: string[]) => void;
+  setSelected: (selected: number[]) => void;
 };
 
 type InstructionStore = {
@@ -51,24 +53,21 @@ export type GameStore = GameState & GameActions & InstructionStore & (MultipleCh
 export const useGameStore = create<GameStore>((set, get) => ({
   answer: [],
   selected: [],
-
   contentType: null,
   questions: [],
   currentQuestion: 0,
   isChecking: false,
   isCorrect: false,
   progress: 0,
-  startTime: null,
-  endTime: 0,
   isFinished: false,
   xp: 0,
   carrots: 0,
   correctAnswers: 0,
   question: '',
   explanation: '',
+  milestones: [],
   setContentType: (contentType: ContentTypeEnum) => set({ contentType }),
   setQuestions: (questions: IQuestion[]) => set({ questions }),
-  setStartTime: (startTime: Date | null) => set({ startTime }),
   setIsFinished: (isFinished: boolean) => set({ isFinished }),
   setXp: (xp: number) => set({ xp }),
   setCarrots: (carrots: number) => set({ carrots }),
@@ -139,23 +138,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
         break;
     }
   },
-  nextQuestion: () => {
-    const { currentQuestion, questions, startTime, contentType } = get();
-    if (currentQuestion === questions.length - 1) {
-      if (startTime !== null) set({ endTime: getDuration(startTime) });
-    } else {
-      set((state) => ({ currentQuestion: state.currentQuestion + 1 }));
-      switch (contentType) {
-        case ContentTypeEnum.MULTIPLE_CHOICE: {
-          set({ selected: [] });
-        }
-        case ContentTypeEnum.MATCHING: {
-          break;
-        }
-      }
-    }
-    set({ isCorrect: false, isChecking: false, answer: [] });
-  },
   resetGame: () =>
     set({
       contentType: null,
@@ -164,8 +146,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       isChecking: false,
       isCorrect: false,
       progress: 0,
-      startTime: null,
-      endTime: 0,
       isFinished: false,
       xp: 0,
       carrots: 0,
@@ -176,4 +156,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
       answer: [],
       selected: [],
     }),
+  setMilestones: (milestones: IMilestone[]) => set({ milestones }),
+  setIsChecking: (isChecking: boolean) => set({ isChecking }),
+  setIsCorrect: (isCorrect: boolean) => set({ isCorrect }),
+  setCurrentQuestion: (currentQuestion: number) => set({ currentQuestion }),
+  setAnswer: (answer: string[]) => set({ answer }),
+  setSelected: (selected: number[]) => set({ selected }),
 }));

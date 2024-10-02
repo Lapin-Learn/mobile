@@ -43,14 +43,21 @@
       "en": "./locales/en/english.json",
       "vi": "./locales/vi/vietnamese.json"
     },
-    "plugins": ["expo-router", "expo-localization", "expo-secure-store", "@react-native-firebase/app", "@react-native-firebase/auth", [
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
         "expo-build-properties",
         {
           "ios": {
             "useFrameworks": "static"
           }
         }
-      ]],
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
