@@ -26,3 +26,7 @@ export const createUpdatePreSignedUrl = async (data: { name: string; uuid: strin
   const response = await api.put<IPresignedUrl>(`files/presigned-url/${data.uuid}`, { body: { name: data.name } });
   return response;
 };
+
+export const changePassword = async (data: { oldPassword: string; newPassword: string }) => {
+  await api.put('users/profile/password', { body: data });
+};

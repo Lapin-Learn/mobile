@@ -22,7 +22,7 @@ export default function SelectInput({ defaultValue, onValueChange, options, plac
 
   return (
     <Select defaultValue={defaultValue} onValueChange={onValueChange}>
-      <SelectTrigger className='w-full h-12 border border-neutral-200 bg-white p-3 placeholder:text-neutral-700 rounded'>
+      <SelectTrigger className='h-12 w-full rounded border border-neutral-200 bg-white p-3 placeholder:text-neutral-700'>
         <SelectValue className='text-subhead font-medium' placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent insets={contentInsets} className='w-full'>

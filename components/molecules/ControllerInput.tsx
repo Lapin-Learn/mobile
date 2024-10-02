@@ -55,7 +55,7 @@ export function ControllerInput<T>({
   defaultLabel = '',
   options,
   className = '',
-}: ControllerInputProps<T> & TextModeProps & SelectModeProps) {
+}: ControllerInputProps<T> & TextModeProps & SelectModeProps & TextInputProps) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const { field } = useController(props);
   const { t } = useTranslation('profile');

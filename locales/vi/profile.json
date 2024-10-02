@@ -32,5 +32,17 @@
     "social_accounts": "Tài khoản mạng xã hội",
     "privacy_settings": "Cài đặt quyền riêng tư"
   },
-  "sign_out": "Đăng xuất"
+  "sign_out": "Đăng xuất",
+  "change_password": {
+    "title": "Mật khẩu",
+    "old_password": "Mật khẩu cũ",
+    "old_password_placeholder": "Nhập mật khẩu cũ",
+    "new_password": "Mật khẩu mới",
+    "new_password_placeholder": "Nhập mật khẩu mới",
+    "confirm_password": "Xác nhận mật khẩu",
+    "confirm_password_placeholder": "Nhập lại mật khẩu mới",
+    "save_button": "Lưu thay đổi",
+    "limit_characters": "Mật khẩu phải dài ít nhất 8 ký tự",
+    "password_not_match": "Mật khẩu không khớp"
+  }
 }
