@@ -48,7 +48,7 @@ export default function UpdateProfile() {
     resolver: zodResolver(schema),
   });
   const initialFormState = useRef(watch());
-  const { t } = useTranslation('user');
+  const { t } = useTranslation('profile');
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -57,7 +57,7 @@ export default function UpdateProfile() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  if (!data) return <Text>{t('profile.notFound')}</Text>;
+  if (!data) return <Text>{t('profile.not_found')}</Text>;
   if (isPending) return <Loading />;
   if (error) return <Text>{error.message}</Text>;
 
@@ -73,22 +73,22 @@ export default function UpdateProfile() {
 
   return (
     <SafeAreaView className={`h-full ${Platform.OS === 'android' ? 'py-11' : ''}`}>
-      <NavigationBar headerTitle={t('profile.title')} headerLeftShown />
+      <NavigationBar headerTitle={t('profile.basic_info')} headerLeftShown />
       <View className='flex grow items-center px-4 pt-6'>
         <View className='flex h-full gap-6'>
           <View className='flex gap-4'>
             <ControllerInput
               className='h-12'
               props={{ name: 'fullName', control }}
-              label={t('profile.fullName')}
-              placeholder={t('placeholder.fullName')}
+              label={t('profile.fullname')}
+              placeholder={t('placeholder.fullname')}
               error={errors.fullName}
             />
             <ControllerInput
               className='h-12'
               props={{ name: 'username', control }}
-              label={t('profile.userName')}
-              placeholder={t('placeholder.userName')}
+              label={t('profile.username')}
+              placeholder={t('placeholder.username')}
               error={errors.username}
             />
             <ControllerInput
@@ -96,7 +96,7 @@ export default function UpdateProfile() {
               mode='change-password'
               props={{ name: 'password', control }}
               label={t('profile.password')}
-              placeholder={t('placeholder.changePassword')}
+              placeholder={t('placeholder.change_password')}
               error={errors.password}
             />
             <ControllerInput

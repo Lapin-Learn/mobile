@@ -6,7 +6,24 @@
     "fullname": "Full Name",
     "username": "Username",
     "email": "Email",
-    "phone": "Phone"
+    "password": "Password",
+    "dob": "Date of birth",
+    "gender": "Gender",
+    "update": "Save changes",
+    "change_password": "Change password",
+    "not_found": "User information not found"
+  },
+  "placeholder": {
+    "username": "Enter your user name",
+    "fullname": "Enter your full name",
+    "email": "Enter your email",
+    "change_password": "Change your password",
+    "dob": "Enter your date of birth",
+    "gender": "Choose your gender"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female"
   },
   "settings": {
     "title": "Settings",
