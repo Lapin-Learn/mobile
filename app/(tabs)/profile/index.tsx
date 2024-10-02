@@ -103,9 +103,7 @@ export default function Index() {
   const settingsData = [
     {
       label: 'settings.custom_settings',
-      action: () => {
-        router.push('/setting/change-password' as Href);
-      },
+      action: () => {},
     },
     { label: 'settings.notifications', action: () => {} },
     { label: 'settings.social_accounts', action: () => {} },
