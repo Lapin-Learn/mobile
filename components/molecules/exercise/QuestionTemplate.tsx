@@ -15,6 +15,7 @@ import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
 import { AfterLesson } from '../lesson/AfterLesson';
 import { TrackAudio } from '../TrackAudio';
+import { Matching } from './Matching';
 import MultipleChoice from './MultipleChoice';
 
 export default function QuestionTemplate({
@@ -65,6 +66,9 @@ export default function QuestionTemplate({
     switch (contentType) {
       case ContentTypeEnum.MULTIPLE_CHOICE:
         return <MultipleChoice />;
+
+      case ContentTypeEnum.MATCHING:
+        return <Matching />;
       default:
         return <Text>{t('general.unsupportedQuestionType')}</Text>;
     }
@@ -112,13 +116,15 @@ export default function QuestionTemplate({
                 {!questions[currentQuestion]?.audioId && questions[currentQuestion]?.content.paragraph && (
                   <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
                 )}
-                <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
+                {contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
+                  <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
+                )}
               </View>
               <View>{renderQuestionComponent()}</View>
             </View>
             <View className='pb-10 pt-4'>
               {selected.length > 0 && !isChecking && (
-                <Button className='bg-neutral-900' onPress={checkAnswer}>
+                <Button className='bg-neutral-900' onPress={() => checkAnswer}>
                   <Text className='text-button'>{t('general.check')}</Text>
                 </Button>
               )}
