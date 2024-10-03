@@ -40,7 +40,6 @@ export default function QuestionTemplate({
     isCorrect,
     correctAnswers,
     progress,
-    isFinished,
     xp,
     carrots,
     selected,
@@ -56,7 +55,7 @@ export default function QuestionTemplate({
   } = useGameStore();
   const { t } = useTranslation('question');
   const lessonCompletionMutation = useLessonCompletion();
-  const { isPending } = lessonCompletionMutation;
+  const { isPending, isSuccess } = lessonCompletionMutation;
 
   const [duration, setDuration] = useState<number>(0);
 
@@ -126,7 +125,7 @@ export default function QuestionTemplate({
 
   const ViewComponent = Platform.OS === 'ios' ? SafeAreaView : View;
 
-  if (isPending && !isFinished) {
+  if (isPending) {
     return (
       <View className='h-full'>
         <Loading />
@@ -136,7 +135,7 @@ export default function QuestionTemplate({
 
   return (
     <View>
-      {isFinished ? (
+      {!isPending && isSuccess ? (
         <AfterLesson
           data={{
             percent: (correctAnswers / questions.length) * 100,

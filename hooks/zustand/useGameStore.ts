@@ -11,7 +11,6 @@ type GameState = {
   isChecking: boolean;
   isCorrect: boolean;
   progress: number;
-  isFinished: boolean;
   xp: number;
   carrots: number;
   correctAnswers: number;
@@ -21,7 +20,6 @@ type GameState = {
 type GameActions = {
   setContentType: (contentType: ContentTypeEnum) => void;
   setQuestions: (questions: IQuestion[]) => void;
-  setIsFinished: (isFinished: boolean) => void;
   setXp: (xp: number) => void;
   setCarrots: (carrots: number) => void;
   checkAnswer: <T extends PairAnswer | number>(selectedData?: T[]) => void;
@@ -59,7 +57,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isChecking: false,
   isCorrect: false,
   progress: 0,
-  isFinished: false,
   xp: 0,
   carrots: 0,
   correctAnswers: 0,
@@ -68,7 +65,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   milestones: [],
   setContentType: (contentType: ContentTypeEnum) => set({ contentType }),
   setQuestions: (questions: IQuestion[]) => set({ questions }),
-  setIsFinished: (isFinished: boolean) => set({ isFinished }),
   setXp: (xp: number) => set({ xp }),
   setCarrots: (carrots: number) => set({ carrots }),
 
@@ -146,7 +142,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       isChecking: false,
       isCorrect: false,
       progress: 0,
-      isFinished: false,
       xp: 0,
       carrots: 0,
       correctAnswers: 0,

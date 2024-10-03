@@ -107,8 +107,8 @@ export default function QuestionType() {
                     <Text className='z-10 text-title-1 font-bold'>{item.name}</Text>
                   </View>
                   <View className='flex-row items-center gap-4'>
-                    <View className='flex-grow'>
-                      <Progress value={item.xp / 50} />
+                    <View className='h-2 flex-grow'>
+                      <Progress value={(item.xp / 50) * 100} />
                     </View>
                     <Text className='text-subhead font-medium text-supporting-text'>
                       {t('questionTypes.xp')} {item.xp}/50

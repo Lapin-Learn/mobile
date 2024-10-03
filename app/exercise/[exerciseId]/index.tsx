@@ -38,7 +38,7 @@ function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name
             {t('questionTypes.xp')} {totalLearningXP}/500
           </Text>
         </View>
-        <Progress value={totalLearningXP / 500} />
+        <Progress value={(totalLearningXP / 500) * 100} />
       </View>
     </View>
   );

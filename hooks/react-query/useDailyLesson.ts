@@ -35,7 +35,7 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
 };
 
 export const useLessonCompletion = () => {
-  const { setXp, setCarrots, setIsFinished, setMilestones } = useGameStore();
+  const { setXp, setCarrots, setMilestones } = useGameStore();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -43,7 +43,6 @@ export const useLessonCompletion = () => {
     onSuccess: (response: IAfterLesson) => {
       setXp(response.bonusXP);
       setCarrots(response.bonusCarrot);
-      setIsFinished(true);
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
       setMilestones(response.milestones);
     },
