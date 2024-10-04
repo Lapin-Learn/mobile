@@ -3,59 +3,20 @@ import 'react-native-reanimated';
 
 import { MotiView } from 'moti';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import IconCarrot from '~/assets/images/carrot.svg';
-import IconStreak from '~/assets/images/streak.svg';
-import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/region/Region';
-import XpTrackBar from '~/components/molecules/XpTrackBar';
-import { useUserProfile } from '~/hooks/react-query/useUser';
-import { RankEnum, SkillEnum } from '~/lib/enums';
-import { formatNumber } from '~/lib/utils';
+import TrackBar from '~/components/molecules/TrackBar';
+import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
-  const { data, isFetching, error } = useUserProfile();
-
-  if (isFetching) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Text>{error.message}</Text>;
-  }
-
-  if (data) {
-    const { learnerProfile } = data;
-    const { streak, carrots, level, xp, rank } = learnerProfile;
-
-    return (
-      <SafeAreaView>
-        <View className='z-50 m-4 flex flex-row items-center justify-center gap-6'>
-          <View className='flex flex-row items-center justify-center gap-[2px]'>
-            <IconStreak width={28} height={28} />
-            <Text className='title-4 font-bold text-orange-500'>{streak?.current}</Text>
-          </View>
-          <View className='flex flex-row items-center justify-center gap-[2px]'>
-            <IconCarrot width={28} height={28} />
-            <Text className='title-4 font-bold text-orange-400'>{formatNumber(carrots ?? 0)}</Text>
-          </View>
-          <View className='flex flex-row items-center justify-center'>
-            <XpTrackBar
-              level={level.id || 1}
-              currentXp={xp || 0}
-              levelXp={level.xp || 100}
-              rank={(rank as RankEnum) || RankEnum.BRONZE}
-            />
-          </View>
-        </View>
-        <Map />
-      </SafeAreaView>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <SafeAreaView>
+      <TrackBar />
+      <Map />
+    </SafeAreaView>
+  );
 }
 
 function Map() {

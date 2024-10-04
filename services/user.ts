@@ -1,4 +1,4 @@
-import { IPresignedUrl, IUserProfile } from '~/lib/interfaces';
+import { IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/interfaces';
 
 import api from './httpRequests';
 
@@ -29,4 +29,9 @@ export const createUpdatePreSignedUrl = async (data: { name: string; uuid: strin
 
 export const changePassword = async (data: { oldPassword: string; newPassword: string }) => {
   await api.put('users/profile/password', { body: data });
+};
+
+export const getGameProfile = async () => {
+  const data = await api.get<IGameProfile>('users/profile/gamification');
+  return data;
 };

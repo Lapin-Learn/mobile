@@ -6,13 +6,18 @@ import { formatNumber } from '~/lib/utils';
 import RankIcon from '../icons/RankIcon';
 
 type XpTrackBarProps = {
-  level: number;
-  currentXp: number;
-  levelXp: number;
-  rank: RankEnum;
+  level?: number;
+  currentXp?: number;
+  levelXp?: number;
+  rank?: RankEnum;
 };
 
-export default function XpTrackBar({ level, currentXp, levelXp, rank }: XpTrackBarProps) {
+export default function XpTrackBar({
+  level = 1,
+  currentXp = 0,
+  levelXp = 100,
+  rank = RankEnum.BRONZE,
+}: XpTrackBarProps) {
   return (
     <View className='flex flex-row items-center gap-1'>
       <RankIcon name={rank} width={24} height={24} />

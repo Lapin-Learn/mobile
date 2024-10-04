@@ -56,13 +56,17 @@ export default function QuestionTemplate({
   });
 
   useEffect(() => {
-    setContentType(contentType);
     setQuestions(data);
+    setContentType(contentType);
     setStartTime(new Date());
   }, []);
 
   // TODO: Handle different content types
   const renderQuestionComponent = () => {
+    if (!questions.length || !contentType) {
+      return null;
+    }
+
     switch (contentType) {
       case ContentTypeEnum.MULTIPLE_CHOICE:
         return <MultipleChoice />;
@@ -124,7 +128,7 @@ export default function QuestionTemplate({
             </View>
             <View className='pb-10 pt-4'>
               {selected.length > 0 && !isChecking && (
-                <Button className='bg-neutral-900' onPress={() => checkAnswer}>
+                <Button className='bg-neutral-900' onPress={() => checkAnswer()}>
                   <Text className='text-button'>{t('general.check')}</Text>
                 </Button>
               )}

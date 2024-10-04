@@ -133,3 +133,20 @@ export interface IPresignedUrl {
   id: string;
   url: string;
 }
+
+export interface IGameProfile {
+  id: string;
+  rank: string;
+  levelId: number;
+  xp: number;
+  carrots: number;
+  streakId: number;
+  createdAt: string;
+  updatedAt: string;
+  level: ILevel;
+  streak: IStreak;
+  profileBadges: any[];
+  profileMissions: any[];
+  profileItems: any[];
+  currentItems: any[];
+}
