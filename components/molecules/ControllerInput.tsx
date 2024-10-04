@@ -3,10 +3,11 @@ import { Href, router } from 'expo-router';
 import { useState } from 'react';
 import { FieldError, FieldValues, UseControllerProps, useController } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, Text, TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
 
 import { cn } from '~/lib/utils';
 
+import { Button } from '../ui/Button';
 import SelectInput from './SelectInput';
 
 type ControllerInputMode = 'text' | 'datepicker' | 'select' | 'change-password';
@@ -64,17 +65,16 @@ export function ControllerInput<T>({
     switch (mode) {
       case 'datepicker':
         return (
-          <TouchableOpacity className='w-full' onPress={() => setShowDatePicker(true)}>
-            <CustomTextInput
-              className={className}
-              placeholder={placeholder}
-              value={field.value ? new Date(field.value).toLocaleDateString('en-GB') : ''}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              editable={false}
-              style={{ color: 'black' }}
-            />
-          </TouchableOpacity>
+          <CustomTextInput
+            className={className}
+            placeholder={placeholder}
+            value={field.value ? new Date(field.value).toLocaleDateString('en-GB') : ''}
+            onChangeText={field.onChange}
+            onBlur={field.onBlur}
+            editable={false}
+            style={{ color: 'black' }}
+            onPress={() => setShowDatePicker((prev) => !prev)}
+          />
         );
       case 'select':
         return (
@@ -131,21 +131,47 @@ export function ControllerInput<T>({
       <View className='flex w-full flex-row gap-x-1'>
         <View className='flex w-full grow flex-row items-center justify-center rounded-md'>{renderInput()}</View>
       </View>
-      {showDatePicker && (
-        <DateTimePicker
-          value={field.value ? new Date(field.value) : new Date()}
-          mode='date'
-          display='spinner'
-          onChange={(event, selectedDate) => {
-            const currentDate = selectedDate || new Date();
-            setShowDatePicker(Platform.OS === 'ios');
-            field.onChange(currentDate);
-            if (Platform.OS !== 'ios') {
-              setShowDatePicker(false);
-            }
-          }}
-        />
-      )}
+      {showDatePicker &&
+        (Platform.OS === 'ios' ? (
+          <Modal animationType='none' transparent={true} visible={true}>
+            <View className='absolute bottom-0 left-0 right-0 w-full items-center justify-end bg-background'>
+              <View className='flex w-full items-end justify-center bg-white py-1'>
+                <Button variant={'link'} className='w-20' onPress={() => setShowDatePicker(false)}>
+                  <Text className='text-title-4 text-blue-500'>{t('profile.done')}</Text>
+                </Button>
+              </View>
+              <View>
+                <DateTimePicker
+                  value={field.value ? new Date(field.value) : new Date()}
+                  mode='date'
+                  display='spinner'
+                  textColor='black'
+                  themeVariant='light'
+                  onChange={(_, selectedDate) => {
+                    const currentDate = selectedDate || new Date();
+                    setShowDatePicker(true);
+                    field.onChange(currentDate);
+                  }}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : (
+          <DateTimePicker
+            value={field.value ? new Date(field.value) : new Date()}
+            mode='date'
+            display='spinner'
+            textColor='black'
+            onChange={(_, selectedDate) => {
+              const currentDate = selectedDate || new Date();
+              setShowDatePicker(Platform.OS === 'ios');
+              field.onChange(currentDate);
+              if (Platform.OS !== 'ios') {
+                setShowDatePicker(false);
+              }
+            }}
+          />
+        ))}
       {error && <Text className='text-red-500'>{String(error.message)}</Text>}
     </View>
   );
