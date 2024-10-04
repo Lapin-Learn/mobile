@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
+import { cn } from '~/lib/utils';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
@@ -115,7 +116,7 @@ export default function Verify() {
             <View className='flex flex-row items-center justify-center gap-x-2.5'>
               <Text className='text-footnote text-neutral-900'>{t('verify.noOtp')}</Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
-                <Text className={`${time > 0 ? 'text-neutral-300' : 'text-orange-500'} text-footnote font-medium`}>
+                <Text className={cn('text-footnote font-medium', time > 0 ? 'text-neutral-300' : 'text-orange-500')}>
                   {t('verify.resendCode', { time: time > 0 ? time : '' })}
                 </Text>
               </Pressable>

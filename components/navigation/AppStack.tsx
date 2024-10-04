@@ -13,6 +13,8 @@ export function AppStack() {
       <Stack.Screen name='exercise' options={{ headerShown: false }} />
       <Stack.Screen name='random' options={{ headerShown: false }} />
       <Stack.Screen name='lesson' options={{ headerShown: false }} />
+      <Stack.Screen name='items' options={{ headerShown: false }} />
+      <Stack.Screen name='streak' options={{ headerShown: false }} />
     </Stack>
   );
 }
