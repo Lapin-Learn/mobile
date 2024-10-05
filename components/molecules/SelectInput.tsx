@@ -1,6 +1,15 @@
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/Select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/Select';
 
 import { Option } from '../primitives/select';
 
@@ -16,8 +25,8 @@ export default function SelectInput({ defaultValue, onValueChange, options, plac
   const contentInsets = {
     top: insets.top,
     bottom: insets.bottom,
-    left: 12,
-    right: 12,
+    left: 16,
+    right: 16,
   };
 
   return (
@@ -27,8 +36,11 @@ export default function SelectInput({ defaultValue, onValueChange, options, plac
       </SelectTrigger>
       <SelectContent insets={contentInsets} className='w-full'>
         <SelectGroup>
-          {options.map((item) => (
-            <SelectItem className='text-subhead font-medium' key={item.value} value={item.value} label={item.label} />
+          {options.map((item, index) => (
+            <View key={item.value}>
+              <SelectItem className='text-subhead font-medium' value={item.value} label={item.label} />
+              {index < options.length - 1 && <SelectSeparator className='my-1' />}
+            </View>
           ))}
         </SelectGroup>
       </SelectContent>

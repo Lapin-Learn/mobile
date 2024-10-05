@@ -33,11 +33,11 @@ export function formatNumber(num: number): string {
   if (num < 1000) {
     return num.toString();
   } else if (num < 1000000) {
-    return (num / 1000).toFixed(2) + 'K';
+    return (Math.floor(num / 100) / 10).toFixed(1) + 'K';
   } else if (num < 1000000000) {
-    return (num / 1000000).toFixed(2) + 'M';
+    return (Math.floor(num / 100000) / 10).toFixed(1) + 'M';
   } else {
-    return (num / 1000000000).toFixed(2) + 'B';
+    return (Math.floor(num / 100000000) / 10).toFixed(1) + 'B';
   }
 }
 

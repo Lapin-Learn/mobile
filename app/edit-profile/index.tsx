@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Href, router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Platform, SafeAreaView, Text, View } from 'react-native';
+import { Platform, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
+import CustomTextInput from '~/components/molecules/CustomTextInput';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
@@ -14,15 +16,14 @@ import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
   email: z.string().email('Invalid email'),
+  gender: z.nativeEnum(GenderEnum),
   fullName: z.string().optional(),
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'Invalid date' })
     .max(new Date(), { message: 'Invalid date' })
     .optional(),
-  gender: z.string().optional(),
 });
 
 type FormField = z.infer<typeof schema>;
@@ -39,11 +40,10 @@ export default function UpdateProfile() {
   } = useForm<FormField>({
     defaultValues: {
       username: data?.username || '',
-      password: 'password', // default password for display
       email: data?.email || '',
       fullName: data?.fullName || '',
       dob: data?.dob ? new Date(data.dob) : new Date(),
-      gender: data?.gender || '',
+      gender: data?.gender || GenderEnum.MALE,
     },
     resolver: zodResolver(schema),
   });
@@ -84,6 +84,7 @@ export default function UpdateProfile() {
               placeholder={t('placeholder.fullname')}
               error={errors.fullName}
             />
+
             <ControllerInput
               className='h-12'
               props={{ name: 'username', control }}
@@ -91,32 +92,46 @@ export default function UpdateProfile() {
               placeholder={t('placeholder.username')}
               error={errors.username}
             />
-            <ControllerInput
-              className='h-12'
-              mode='change-password'
-              props={{ name: 'password', control }}
-              label={t('profile.password')}
-              placeholder={t('placeholder.change_password')}
-              error={errors.password}
-            />
+
+            <View className='w-full flex-col items-start justify-start gap-1'>
+              <Text className='text-lg font-semibold text-neutral-900'>{t('profile.password')}</Text>
+              <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
+                <CustomTextInput
+                  className='h-12'
+                  placeholder={t('placeholder.change_password')}
+                  value={'password'}
+                  editable={false}
+                  secureTextEntry
+                  style={{ color: 'black' }}
+                />
+                <TouchableOpacity
+                  className='absolute right-3 top-1/2 -translate-y-1/2 transform'
+                  onPress={() => router.push('/edit-profile/change-password' as Href)}>
+                  <Text className='text-subhead text-orange-500'>{t('profile.change_password')}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
             <ControllerInput
               className='h-12'
               props={{ name: 'email', control }}
               label={t('profile.email')}
               placeholder={t('placeholder.email')}
               error={errors.email}
-              isEditable={false}
+              editable={false}
             />
+
             <ControllerInput
-              className='h-12'
-              mode='datepicker'
+              className='h-12 text-black'
+              type='date'
               props={{ name: 'dob', control }}
               label={t('profile.dob')}
               placeholder={t('placeholder.dob')}
               error={errors.dob}
             />
+
             <ControllerInput
-              mode='select'
+              type='select'
               props={{ name: 'gender', control }}
               label={t('profile.gender')}
               defaultLabel={

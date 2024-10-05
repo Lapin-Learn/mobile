@@ -5,6 +5,7 @@ import { Modal, Pressable, Text, View } from 'react-native';
 
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
+import { cn } from '~/lib/utils';
 
 import { Button } from '../ui/Button';
 
@@ -40,7 +41,10 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
   return (
     <Modal animationType='slide' transparent={true} visible={showModal}>
       <View
-        className={`absolute bottom-0 flex w-screen justify-end gap-4 ${modalType === 'correct' ? 'bg-green-50' : 'bg-red-50'} px-4 pb-10 pt-4`}>
+        className={cn(
+          'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',
+          modalType === 'correct' ? 'bg-green-50' : 'bg-red-50'
+        )}>
         <View className='flex flex-row items-center justify-between'>
           {modalType === 'correct' ? (
             <View className='flex flex-row items-center gap-2'>
@@ -63,7 +67,7 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
               if (setShowModal) setShowModal(false);
               router.push('/lesson/explanation');
             }}>
-            <Text className={`text-subhead ${modalType === 'correct' ? 'text-green-700' : 'text-red-700'} underline`}>
+            <Text className={cn('text-subhead underline', modalType === 'correct' ? 'text-green-700' : 'text-red-700')}>
               {t('general.explanation')}
             </Text>
           </Pressable>

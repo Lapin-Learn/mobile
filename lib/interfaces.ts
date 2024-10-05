@@ -1,4 +1,4 @@
-import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, GenderEnum, SkillEnum } from './enums';
+import { BandScoreEnum, CEFRLevelEnum, ContentTypeEnum, GenderEnum, RankEnum, SkillEnum } from './enums';
 import { Question } from './types';
 
 export interface IQuestionType {
@@ -95,7 +95,7 @@ export interface IAvatar {
 
 export interface ILearnerProfile {
   id: string;
-  rank: string;
+  rank: RankEnum;
   levelId: number;
   xp: number;
   carrots: number;
@@ -132,4 +132,21 @@ export interface IInstruction {
 export interface IPresignedUrl {
   id: string;
   url: string;
+}
+
+export interface IGameProfile {
+  id: string;
+  rank: RankEnum;
+  levelId: number;
+  xp: number;
+  carrots: number;
+  streakId: number;
+  createdAt: string;
+  updatedAt: string;
+  level: ILevel;
+  streak: IStreak;
+  profileBadges: any[];
+  profileMissions: any[];
+  profileItems: any[];
+  currentItems: any[];
 }
