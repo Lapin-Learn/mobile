@@ -24,25 +24,24 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
 
   useEffect(() => {
     const setupTrack = async () => {
-      try {
-        await TrackPlayer.reset();
-        await TrackPlayer.add(data);
-        await TrackPlayer.play();
-        await TrackPlayer.setRepeatMode(RepeatMode.Off);
-      } catch (error) {
-        console.error('Error playing the track: ', error);
-      }
+      TrackPlayer.reset();
+      TrackPlayer.add(data)
+        .then(() => {
+          TrackPlayer.play();
+          TrackPlayer.setRepeatMode(RepeatMode.Off);
+        })
+        .catch((err) => {
+          console.error('err', err);
+        });
     };
 
     if (!checked) {
-      return async () => {
-        await setupTrack();
-      };
+      setupTrack();
     }
 
-    return () => {
-      TrackPlayer.stop();
-    };
+    if (checked) {
+      TrackPlayer.pause();
+    }
   }, [data, checked]);
 
   useTrackPlayerEvents(events, (event) => {
@@ -57,6 +56,9 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
   const handleAction = (action: string) => () => {
     switch (action) {
       case 'play':
+        if (playerState === State.Ended) {
+          TrackPlayer.seekTo(0);
+        }
         if (playerState === State.Playing) {
           return TrackPlayer.pause();
         }

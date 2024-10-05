@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
+import { LucideMoveLeft } from 'lucide-react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
@@ -13,7 +14,6 @@ import { IQuestion } from '~/lib/interfaces';
 import { getDuration } from '~/lib/utils';
 
 import AnswerModal from '../AnswerModal';
-import { BackButton } from '../BackButton';
 import ContentText from '../ContentText';
 import { AfterLesson } from '../lesson/AfterLesson';
 import { Loading } from '../Loading';
@@ -146,7 +146,9 @@ export default function QuestionTemplate({
       ) : (
         <PlatformView className='flex'>
           <View className='mx-4 flex flex-row items-center justify-center gap-x-4 px-2'>
-            <BackButton onPress={handleBack} />
+            <Pressable className='w-6' onPress={handleBack}>
+              <LucideMoveLeft color={'black'} />
+            </Pressable>
             <Progress value={progress} />
           </View>
           <View className='flex justify-between px-4 pt-4'>
