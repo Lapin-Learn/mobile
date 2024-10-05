@@ -82,6 +82,7 @@ module.exports = {
         footnote: ['13px', { lineHeight: '18px' }],
         'caption-1': ['12px', { lineHeight: '16px' }],
         'caption-2': ['11px', { lineHeight: '13px' }],
+        streak: ['64px', { lineHeight: '56px' }],
       },
       colors: {
         background: '#F9F7F7',
@@ -158,6 +159,7 @@ module.exports = {
           900: '#272727',
         },
         blue: {
+          DEFAULT: '#37aeff',
           50: '#ebf7ff',
           100: '#c1e6ff',
           200: '#a3daff',
@@ -169,6 +171,7 @@ module.exports = {
           800: '#1e608c',
           900: '#17496b',
         },
+        dark: '#272727',
         'supporting-text': '#929292',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

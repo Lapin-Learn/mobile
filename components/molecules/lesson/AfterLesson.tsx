@@ -1,10 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import LottieView from 'lottie-react-native';
 import { Share2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 import { SvgProps } from 'react-native-svg';
 
@@ -15,16 +16,15 @@ import MilestoneLevel from '~/assets/images/milestone_level.svg';
 import MilestoneRank from '~/assets/images/milestone_rank.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import RankIcon from '~/components/icons/RankIcon';
-import { Modal } from '~/components/molecules/Modal';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { useUserProfile } from '~/hooks/react-query/useUser';
 import { useGameStore } from '~/hooks/zustand';
-import Confetti from '~/lib/components/confentti';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/interfaces';
 import { convertSecondsToMinutes, formatNumber } from '~/lib/utils';
 
+import { Modal } from '../Modal';
 import { ProgressCircle } from '../ProgressCircle';
 import RadialGradientBackground from '../RadialGradient';
 
@@ -85,6 +85,8 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
       handleBack();
     }
   };
+
+  const dimensions = Dimensions.get('window');
 
   return (
     <View className='w-full'>
@@ -173,8 +175,17 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
       ) : (
         <View className='w-full'>
           <LinearGradient start={{ x: 0.5, y: 1 }} end={{ x: 0.5, y: 0 }} colors={['#3A8A7D', '#20534D']}>
-            <View className='h-full w-full'>{showConfetti && <Confetti />}</View>
+            <View className='h-full w-full'>
+              <LottieView
+                style={{ ...StyleSheet.absoluteFillObject }}
+                resizeMode='cover'
+                source={require('~/assets/images/confetti.json')}
+                autoPlay
+                loop={true}
+              />
+            </View>
           </LinearGradient>
+
           <Modal position='bottom'>
             <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
               <View className='flex items-center justify-center gap-y-5'>
