@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 
 import {
   changePassword,
@@ -39,6 +40,7 @@ export const useUpdateUserProfile = () => {
     onSuccess: () => {
       toast.show({ type: 'success', text1: 'Profile updated' });
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+      router.push('/profile');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -70,6 +72,7 @@ export const useChangePassword = () => {
     mutationFn: changePassword,
     onSuccess: () => {
       toast.show({ type: 'success', text1: 'Password changed' });
+      router.back();
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
