@@ -4,6 +4,7 @@ import {
   changePassword,
   createPreSignedUrl,
   createUpdatePreSignedUrl,
+  getGameProfile,
   getUserProfile,
   updateUserProfile,
   uploadAvatar,
@@ -74,4 +75,18 @@ export const useChangePassword = () => {
       toast.show({ type: 'error', text1: error.message });
     },
   });
+};
+
+export const useGameProfile = () => {
+  const signOut = useSignOut();
+  const gameProfile = useQuery({
+    queryKey: ['gameProfile'],
+    queryFn: getGameProfile,
+  });
+
+  if (gameProfile.error?.message === 'Unauthorized') {
+    signOut.mutate();
+  }
+
+  return gameProfile;
 };

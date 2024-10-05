@@ -51,7 +51,7 @@ export const useLessonCompletion = (params: ILessonCompletion) => {
       setXp(response.xp);
       setCarrots(response.carrots);
       setTimeout(() => setIsFinished(true), 200);
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
     },
     onError: (error) => {
       console.error('Lesson completion mutation error:', error);
