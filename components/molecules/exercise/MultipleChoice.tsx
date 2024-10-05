@@ -6,6 +6,7 @@ import { useGameStore } from '~/hooks/zustand';
 import { MultipleChoiceQuestion } from '~/lib/types';
 
 import { ChoiceCheckBox } from '../ChoiceCheckBox';
+import { Loading } from '../Loading';
 
 export default function MultipleChoice() {
   const { questions, currentQuestion, isChecking, isCorrect, selected, handleMultipleSelect, handleSingleSelect } =
@@ -15,7 +16,9 @@ export default function MultipleChoice() {
 
   useEffect(() => {
     setCheckedBox(false);
-    setContent(questions[currentQuestion]?.content);
+    if (questions[currentQuestion]?.content) {
+      setContent(questions[currentQuestion]?.content);
+    }
   }, [questions, currentQuestion]);
 
   const handlePress = (index: number) => {
@@ -25,6 +28,8 @@ export default function MultipleChoice() {
       return handleSingleSelect(index);
     }
   };
+
+  if (!content) return <Loading />;
 
   return (
     <View>

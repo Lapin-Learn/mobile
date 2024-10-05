@@ -22,5 +22,11 @@
     "theoryPractice": "Ôn tập lý thuyết",
     "practiceBtn": "Luyện tập",
     "jumpNextBtn": "Thử thách nâng band"
+  },
+  "streak": {
+    "days": "Ngày Streak",
+    "max": "{{max}} là streak dài nhất bạn đạt được!",
+    "this": "Đây",
+    "schedule": "Lịch Streak"
   }
 }
