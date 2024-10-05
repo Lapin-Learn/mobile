@@ -1,10 +1,9 @@
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import XpTrackBar from '~/components/molecules/XpTrackBar';
 import { useGameProfile } from '~/hooks/react-query/useUser';
-import { RankEnum } from '~/lib/enums';
 
 import Carrots from './Carrots';
 import Streak from './Streak';
@@ -28,13 +27,13 @@ export default function TrackBar() {
 
   return (
     <View className='z-50 m-4 flex flex-row items-center justify-center gap-6'>
-      <Pressable onPress={() => router.push('/streak')}>
+      <Pressable onPress={() => router.push('/streak' as Href)}>
         <Streak streak={data.streak.current} />
       </Pressable>
-      <Pressable onPress={() => router.push('/items')}>
+      <Pressable onPress={() => router.push('/items' as Href)}>
         <Carrots carrots={data.carrots} />
       </Pressable>
-      <XpTrackBar level={data.level.id} currentXp={data.xp} levelXp={data.level.xp} rank={data.rank as RankEnum} />
+      <XpTrackBar level={data.level.id} currentXp={data.xp} levelXp={data.level.xp} rank={data.rank} />
     </View>
   );
 }
