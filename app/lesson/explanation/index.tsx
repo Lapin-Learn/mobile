@@ -72,31 +72,30 @@ export default function Explanation() {
     <PlatformView>
       <ScrollView>
         <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View className='justify-between'>
-          <View className='m-4 flex grow flex-col justify-between'>
-            <View className='gap-y-8'>
-              <View className='gap-y-3'>
-                <View>
-                  <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
-                </View>
+        <View className='m-4 mb-20 flex grow flex-col justify-between'>
+          <View className='gap-y-8'>
+            <View className='gap-y-3'>
+              <View>
+                <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
               </View>
-              <AnswerField answers={answer} />
             </View>
-            <Button
-              size={'lg'}
-              variant={'black'}
-              onPress={() => {
-                if (router.canGoBack()) {
-                  router.back();
-                } else {
-                  router.dismiss();
-                }
-              }}>
-              <Text className='text-button'>{t('explanation.understood')}</Text>
-            </Button>
+            <AnswerField answers={answer} />
           </View>
         </View>
       </ScrollView>
+      <View className='absolute bottom-0 left-0 right-0 bg-background p-4 pb-10'>
+        <Button
+          className='bg-neutral-900'
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.dismiss();
+            }
+          }}>
+          <Text className='text-button'>{t('explanation.understood')}</Text>
+        </Button>
+      </View>
     </PlatformView>
   );
 }
