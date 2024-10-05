@@ -11,7 +11,8 @@
     "gender": "Giới tính",
     "update": "Lưu thay đổi",
     "change_password": "Đổi mật khẩu",
-    "not_found": "Không tìm thấy thông tin người dùng"
+    "not_found": "Không tìm thấy thông tin người dùng",
+    "done": "Xong"
   },
   "placeholder": {
     "username": "Nhập tên đăng nhập",

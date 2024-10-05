@@ -122,7 +122,7 @@ export default function UpdateProfile() {
             />
 
             <ControllerInput
-              className='h-12'
+              className='h-12 text-black'
               type='date'
               props={{ name: 'dob', control }}
               label={t('profile.dob')}

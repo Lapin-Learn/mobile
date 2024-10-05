@@ -11,7 +11,8 @@
     "gender": "Gender",
     "update": "Save changes",
     "change_password": "Change password",
-    "not_found": "User information not found"
+    "not_found": "User information not found",
+    "done": "Done"
   },
   "placeholder": {
     "username": "Enter your user name",
