@@ -1,16 +1,16 @@
-import { MotiView } from 'moti';
-import { View } from 'react-native';
-import RadialGradientBackground from '~/components/molecules/RadialGradient';
-
 import { router } from 'expo-router';
 import { Share2 } from 'lucide-react-native';
-import { useState } from 'react';
+import { MotiView } from 'moti';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
+
 import MilestonesBackground from '~/assets/images/background_milestone.svg';
 import MilestoneLevel from '~/assets/images/milestone_level.svg';
 import MilestoneRank from '~/assets/images/milestone_rank.svg';
 import RankIcon from '~/components/icons/RankIcon';
+import RadialGradientBackground from '~/components/molecules/RadialGradient';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
@@ -22,26 +22,13 @@ import { formatNumber } from '~/lib/utils';
 
 export default function Milestones() {
   const { resetGame, milestones } = useGameStore();
-  // const { resetGame } = useGameStore();
   const { t } = useTranslation('lesson');
   const { data: learner } = useUserProfile();
 
   const [currentMillstone, setCurrentMillstone] = useState(0);
 
-  // To test the component
-  // const milestones: IMilestone[] = [
-  //   {
-  //     type: MilestonesEnum.LEVEL_UP,
-  //     newValue: {
-  //       id: 3,
-  //       xp: 300,
-  //     },
-  //   },
-  //   {
-  //     type: MilestonesEnum.RANK_UP,
-  //     newValue: RankEnum.GOLD,
-  //   },
-  // ];
+  useEffect(() => {}, [currentMillstone]);
+
   const rankTranslation = {
     [RankEnum.BRONZE]: t('rank.bronze'),
     [RankEnum.SILVER]: t('rank.silver'),

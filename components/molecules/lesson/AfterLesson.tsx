@@ -44,20 +44,6 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
   const { resetGame, milestones } = useGameStore();
-  // To test the component
-  // const milestones: IMilestone[] = [
-  //   {
-  //     type: MilestonesEnum.LEVEL_UP,
-  //     newValue: {
-  //       id: 3,
-  //       xp: 300,
-  //     },
-  //   },
-  //   {
-  //     type: MilestonesEnum.RANK_UP,
-  //     newValue: RankEnum.GOLD,
-  //   },
-  // ];
   const { t } = useTranslation('lesson');
   const { data: learner } = useUserProfile();
 

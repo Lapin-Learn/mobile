@@ -1,8 +1,7 @@
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View } from 'react-native';
 
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
@@ -124,8 +123,6 @@ export default function QuestionTemplate({
     resetGame();
     router.back();
   };
-
-  const ViewComponent = Platform.OS === 'ios' ? SafeAreaView : View;
 
   if (isPending) {
     return (
