@@ -1,16 +1,15 @@
 import { CircleX } from 'lucide-react-native';
 import { useState } from 'react';
-import { Modal, TouchableOpacity, View } from 'react-native';
+import { Modal, ModalProps, TouchableOpacity, View } from 'react-native';
 
 import { cn } from '~/lib/utils';
 
-type CustomModalProps = {
+type CustomModalProps = ModalProps & {
   onRequestClose?: () => void;
-  children?: React.ReactNode;
   position?: 'center' | 'bottom';
 };
 
-function CustomModal({ onRequestClose, children, position = 'center' }: CustomModalProps) {
+function CustomModal({ onRequestClose, children, position = 'center', ...props }: CustomModalProps) {
   const [visible, setVisible] = useState(true);
   const exitButton = (
     <View className='flex items-end justify-end'>
@@ -20,7 +19,12 @@ function CustomModal({ onRequestClose, children, position = 'center' }: CustomMo
     </View>
   );
   return (
-    <Modal animationType='slide' transparent={true} visible={visible} onRequestClose={onRequestClose}>
+    <Modal
+      {...props}
+      animationType={props.animationType ?? 'slide'}
+      transparent={true}
+      visible={props.visible ?? visible}
+      onRequestClose={onRequestClose}>
       <View className={cn('flex-1', position === 'center' ? 'items-center justify-center bg-black/50' : 'justify-end')}>
         <View
           className={cn(

@@ -1,15 +1,17 @@
-import { ChevronsDown, ChevronsUp } from 'lucide-react-native';
+import { MoveDown, MoveUp } from 'lucide-react-native';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
 
-import ContentText from './ContentText';
+type ReadingContainerProps = {
+  children: React.ReactNode;
+};
 
-export default function ReadingContainer({ children }: { children: string }) {
+export default function ReadingContainer({ children }: ReadingContainerProps) {
   const [isTop, setIsTop] = useState(true);
   const [isBottom, setIsBottom] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
 
-  const handleScroll = (event: any) => {
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
     const top = contentOffset.y === 0;
     const bottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 1;
@@ -21,18 +23,19 @@ export default function ReadingContainer({ children }: { children: string }) {
   return (
     <View className='relative'>
       <ScrollView
-        className='max-h-80 rounded border border-neutral-900'
+        className='max-h-80 grow-0 rounded border border-neutral-900'
         onScroll={handleScroll}
+        scrollEnabled={isScrollable}
         scrollEventThrottle={16}
-        onContentSizeChange={(contentWidth, contentHeight) => {
-          setIsScrollable(contentHeight > 320);
+        onContentSizeChange={(_, contentHeight) => {
+          setIsScrollable(contentHeight > 280);
         }}>
-        <ContentText>{children}</ContentText>
+        {children}
       </ScrollView>
       {isScrollable && (
-        <View className='absolute bottom-2 right-1 flex flex-col items-center'>
-          <ChevronsUp color={isTop ? '#cccccc' : '#5c5c5c'} />
-          <ChevronsDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
+        <View className='absolute bottom-2 right-1 flex flex-col items-center gap-2'>
+          <MoveUp color={isTop ? '#cccccc' : '#5c5c5c'} />
+          <MoveDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
         </View>
       )}
     </View>

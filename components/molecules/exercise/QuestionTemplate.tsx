@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import ReadingContainer from '~/components/molecules/ReadingContainer';
 import { Button } from '~/components/ui/Button';
@@ -13,9 +13,11 @@ import { IQuestion } from '~/lib/interfaces';
 
 import AnswerModal from '../AnswerModal';
 import { BackButton } from '../BackButton';
+import ContentText from '../ContentText';
 import { AfterLesson } from '../lesson/AfterLesson';
+import PlatformView from '../PlatformView';
 import { TrackAudio } from '../TrackAudio';
-import { Matching } from './Matching';
+import { Matching } from './matching/Matching';
 import MultipleChoice from './MultipleChoice';
 
 export default function QuestionTemplate({
@@ -31,7 +33,6 @@ export default function QuestionTemplate({
     questions,
     currentQuestion,
     answer,
-    selected,
     isChecking,
     isCorrect,
     correctAnswers,
@@ -40,10 +41,11 @@ export default function QuestionTemplate({
     isFinished,
     xp,
     carrots,
+    selected,
+    checkAnswer,
     setContentType,
     setQuestions,
     setStartTime,
-    checkAnswer,
     nextQuestion,
     resetGame,
   } = useGameStore();
@@ -73,6 +75,7 @@ export default function QuestionTemplate({
 
       case ContentTypeEnum.MATCHING:
         return <Matching />;
+
       default:
         return <Text>{t('general.unsupportedQuestionType')}</Text>;
     }
@@ -85,12 +88,14 @@ export default function QuestionTemplate({
     }
   }, [nextQuestion, currentQuestion, questions]);
 
+  const handleCheckAnswer = () => {
+    checkAnswer(selected);
+  };
+
   const handleBack = () => {
     resetGame();
     router.back();
   };
-
-  const ViewComponent = Platform.OS === 'ios' ? SafeAreaView : View;
 
   return (
     <View>
@@ -104,41 +109,44 @@ export default function QuestionTemplate({
           }}
         />
       ) : (
-        <ViewComponent className='flex h-full'>
-          <View
-            className={`mx-4 flex flex-row items-center justify-center gap-4 px-2 ${Platform.OS === 'android' ? 'mt-8' : ''}`}>
+        <PlatformView className='flex'>
+          <View className='mx-4 flex flex-row items-center justify-center gap-x-4 px-2'>
             <BackButton onPress={handleBack} />
             <Progress value={progress} />
           </View>
-          <View className='relative flex grow justify-between px-4 pt-4'>
-            <View className='gap-8'>
+          <View className='flex justify-between px-4 pt-4'>
+            <View className='relative gap-8'>
               <View className='gap-3'>
                 <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
                 {questions[currentQuestion]?.audioId && (
                   <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} checked={isChecking} />
                 )}
                 {!questions[currentQuestion]?.audioId && questions[currentQuestion]?.content.paragraph && (
-                  <ReadingContainer>{questions[currentQuestion]?.content.paragraph || ''}</ReadingContainer>
+                  <ReadingContainer>
+                    <ContentText>{questions[currentQuestion]?.content.paragraph}</ContentText>
+                  </ReadingContainer>
                 )}
                 {contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
                   <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
                 )}
               </View>
-              <View>{renderQuestionComponent()}</View>
+              <View className='grow'>{renderQuestionComponent()}</View>
             </View>
-            <View className='pb-10 pt-4'>
-              {selected.length > 0 && !isChecking && (
-                <Button className='bg-neutral-900' onPress={() => checkAnswer()}>
-                  <Text className='text-button'>{t('general.check')}</Text>
-                </Button>
-              )}
-            </View>
-            {isChecking && isCorrect && <AnswerModal modalType='correct' onPressContinue={handleContinue} />}
-            {isChecking && !isCorrect && (
-              <AnswerModal modalType='incorrect' correctAnswers={answer} onPressContinue={handleContinue} />
-            )}
           </View>
-        </ViewComponent>
+          {selected.length > 0 && !isChecking && (
+            <View className='absolute bottom-0 left-0 right-0 bg-background p-4 pb-10'>
+              <Button className='bg-neutral-900' onPress={handleCheckAnswer}>
+                <Text className='text-button'>{t('general.check')}</Text>
+              </Button>
+            </View>
+          )}
+          {isChecking &&
+            (isCorrect ? (
+              <AnswerModal modalType='correct' onPressContinue={handleContinue} />
+            ) : (
+              <AnswerModal modalType='incorrect' correctAnswers={answer} onPressContinue={handleContinue} />
+            ))}
+        </PlatformView>
       )}
     </View>
   );

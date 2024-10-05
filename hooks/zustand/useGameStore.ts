@@ -27,7 +27,7 @@ type GameActions = {
   setIsFinished: (isFinished: boolean) => void;
   setXp: (xp: number) => void;
   setCarrots: (carrots: number) => void;
-  checkAnswer: (selectedData?: PairAnswer[]) => void;
+  checkAnswer: <T extends PairAnswer | number>(selectedData?: T[]) => void;
   nextQuestion: () => void;
   resetGame: () => void;
 };
@@ -35,10 +35,10 @@ type GameActions = {
 type InstructionStore = {
   question: string;
   explanation: string;
+  answer: string[];
 };
 
 type MultipleChoiceGame = {
-  answer: string[];
   selected: number[];
   handleSingleSelect: (index: number) => void;
   handleMultipleSelect: (index: number) => void;
@@ -74,24 +74,27 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setCarrots: (carrots: number) => set({ carrots }),
 
   handleSingleSelect: (index: number) => {
-    if (index === null) return;
-    set({ selected: [index] });
+    const { selected } = get();
+    set({ selected: selected.includes(index) ? [] : [index] });
   },
   handleMultipleSelect: (index: number) => {
     const { selected } = get();
-    if (index === null) return;
     set({ selected: selected.includes(index) ? selected.filter((answer) => answer !== index) : [...selected, index] });
   },
 
-  checkAnswer: (selectedData) => {
-    const { contentType, currentQuestion, questions, selected, correctAnswers } = get();
+  checkAnswer: <T extends PairAnswer | number>(selectedData?: T[]) => {
+    const { contentType, currentQuestion, questions, correctAnswers } = get();
     const question = questions[currentQuestion];
+
     switch (contentType) {
       case ContentTypeEnum.MULTIPLE_CHOICE: {
         const answerIndices: number[] = question.content.answer as number[];
         set({ isChecking: true });
         set({ progress: ((currentQuestion + 1) / questions.length) * 100 });
-        if (selected.length === answerIndices.length && selected.every((answer) => answerIndices.includes(answer))) {
+        if (
+          selectedData?.length === answerIndices.length &&
+          (selectedData as number[])?.every((answer) => answerIndices.includes(answer))
+        ) {
           set({ isCorrect: true });
           set({ correctAnswers: correctAnswers + 1 });
         } else {
@@ -106,12 +109,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({ explanation: question?.explanation });
         break;
       }
-      // TODO: Add more content types
+
       case ContentTypeEnum.MATCHING: {
         const correctPairs = question.content as MatchingQuestion;
         set({ isChecking: true });
         set({ progress: ((currentQuestion + 1) / questions.length) * 100 });
-        const isCorrect = selectedData?.every((selectedPair) => {
+        const isCorrect = (selectedData as PairAnswer[])?.every((selectedPair) => {
           const correctPair = correctPairs.answer.find(
             (pair) =>
               pair.columnA.every((columnAIndex) => selectedPair.columnA.includes(columnAIndex)) &&
@@ -126,28 +129,32 @@ export const useGameStore = create<GameStore>((set, get) => ({
         } else {
           set({ isCorrect: false });
         }
+
+        // TODO: Set instruction store for matching game
+        break;
       }
+      // TODO: Add more content types
+
       default:
         break;
     }
   },
   nextQuestion: () => {
     const { currentQuestion, questions, startTime, contentType } = get();
-    set({ isChecking: false });
-    set({ isCorrect: false });
     if (currentQuestion === questions.length - 1) {
       if (startTime !== null) set({ endTime: getDuration(startTime) });
     } else {
       set((state) => ({ currentQuestion: state.currentQuestion + 1 }));
       switch (contentType) {
         case ContentTypeEnum.MULTIPLE_CHOICE: {
-          set({ selected: [], answer: [] });
+          set({ selected: [] });
         }
         case ContentTypeEnum.MATCHING: {
           break;
         }
       }
     }
+    set({ isCorrect: false, isChecking: false, answer: [] });
   },
   resetGame: () =>
     set({

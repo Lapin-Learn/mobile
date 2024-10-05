@@ -39,7 +39,7 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
   );
 
   return (
-    <Modal animationType='slide' transparent={true} visible={showModal}>
+    <Modal animationType='slide' transparent={true} visible={showModal} onRequestClose={onPressContinue}>
       <View
         className={cn(
           'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',

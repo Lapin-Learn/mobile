@@ -37,4 +37,4 @@ export interface MatchingQuestion extends ReadingQuestion, MatchingAnswer {
   };
 }
 
-export type Question = MultipleChoiceQuestion | MatchingQuestion;
+export type Question = MultipleChoiceQuestion & MatchingQuestion;

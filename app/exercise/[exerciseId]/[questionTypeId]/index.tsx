@@ -126,7 +126,7 @@ export default function QuestionType() {
             <UIText>{t('questionType.practiceBtn')}</UIText>
           </Button>
           <Button size='lg' className='bg-neutral-900'>
-            <UIText className=''>{t('questionType.jumpNextBtn')}</UIText>
+            <UIText>{t('questionType.jumpNextBtn')}</UIText>
           </Button>
         </View>
       </View>

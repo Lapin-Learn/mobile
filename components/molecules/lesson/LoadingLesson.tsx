@@ -1,6 +1,7 @@
 import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { Easing } from 'react-native-reanimated';
 
 import Spinner from '~/assets/images/spinner.svg';
 
@@ -11,19 +12,19 @@ export function LoadingLesson() {
     <View className='mx-9 flex h-full flex-col items-center justify-center gap-y-8'>
       <MotiView
         from={{
-          transform: [{ rotate: '0deg' }],
+          rotate: '0deg',
         }}
         animate={{
-          transform: [{ rotate: '360deg' }],
+          rotate: '360deg',
         }}
         transition={{
           loop: true,
           repeatReverse: false,
           type: 'timing',
-          duration: 1000,
-          delay: 0,
+          easing: Easing.linear,
+          duration: 2000,
         }}>
-        <Spinner className='animate-spin' color='#EE5D28' />
+        <Spinner />
       </MotiView>
       <Text className='text-center text-body font-semibold'>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>
     </View>
