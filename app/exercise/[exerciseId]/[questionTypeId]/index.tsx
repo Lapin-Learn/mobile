@@ -57,7 +57,10 @@ export default function QuestionType() {
       <NavigationBar headerLeftShown />
       <View className='h-full justify-between px-4 pb-9'>
         <View className='flex w-full items-center gap-5'>
-          <Image className='h-40 w-40 rounded-full' source={{ uri: 'https://via.placeholder.com/160x160' }} />
+          <Image
+            className='h-40 w-40 rounded-full'
+            source={{ uri: currentQuestionType?.image?.url || 'https://via.placeholder.com/40' }}
+          />
           <View className='items-center'>
             <Text className='text-title-1 font-bold text-neutral-900'>{currentQuestionType?.name}</Text>
             <Text className='text-title-4 font-medium text-supporting-text'>
@@ -107,8 +110,8 @@ export default function QuestionType() {
                     <Text className='z-10 text-title-1 font-bold'>{item.name}</Text>
                   </View>
                   <View className='flex-row items-center gap-4'>
-                    <View className='flex-grow'>
-                      <Progress value={item.xp / 50} />
+                    <View className='h-2 flex-grow'>
+                      <Progress value={(item.xp / 50) * 100} />
                     </View>
                     <Text className='text-subhead font-medium text-supporting-text'>
                       {t('questionTypes.xp')} {item.xp}/50

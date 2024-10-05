@@ -47,7 +47,7 @@ export const convertSecondsToMinutes = (seconds: number): string => {
   return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
 };
 
-export const getDuration = (startTime: Date): number => {
-  const endTime = new Date();
-  return Math.round(Math.abs(endTime.getTime() - startTime.getTime()) / 1000);
+export const getDuration = (startTime: number): number => {
+  const endTime = new Date().getTime();
+  return Math.round(Math.abs(endTime - startTime) / 1000);
 };

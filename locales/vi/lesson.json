@@ -20,5 +20,29 @@
     "Experience": "Kinh nghiệm",
     "Timer": "Thời gian",
     "Carrot": "Cà rốt"
+  },
+  "explanation": {
+    "title": "Giải thích",
+    "evidence": "Dẫn chứng nằm ở đoạn",
+    "answer": "Vậy đáp án cho câu hỏi:",
+    "understood": "Đã hiểu"
+  },
+  "rank": {
+    "title": "Hạng",
+    "bronze": "Đồng",
+    "silver": "Bạc",
+    "gold": "Vàng",
+    "platinum": "Bạch kim",
+    "diamond": "Kim cương",
+    "master": "Thách đấu"
+  },
+  "level": {
+    "xp": "KN"
+  },
+  "gain-new-level": "THĂNG CẤP",
+  "gain-new-rank": "THĂNG HẠNG",
+  "button": {
+    "next": "Tiếp tục",
+    "share": "Chia sẻ"
   }
 }

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { SkillEnum } from '~/lib/enums';
-import { IAfterLesson, ILessonCompletion } from '~/lib/interfaces';
+import { IAfterLesson } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
 import { useGameStore } from '../zustand';
@@ -34,24 +34,17 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
   });
 };
 
-export const useLessonCompletion = (params: ILessonCompletion) => {
-  const { lessonId, correctAnswers, wrongAnswers, duration } = params;
-  const { setXp, setCarrots, setIsFinished } = useGameStore();
+export const useLessonCompletion = () => {
+  const { setXp, setCarrots, setMilestones } = useGameStore();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () =>
-      confirmLessonCompletion({
-        lessonId,
-        correctAnswers,
-        wrongAnswers,
-        duration,
-      }),
+    mutationFn: confirmLessonCompletion,
     onSuccess: (response: IAfterLesson) => {
-      setXp(response.xp);
-      setCarrots(response.carrots);
-      setTimeout(() => setIsFinished(true), 200);
+      setXp(response.bonusXP);
+      setCarrots(response.bonusCarrot);
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
+      setMilestones(response.milestones);
     },
     onError: (error) => {
       console.error('Lesson completion mutation error:', error);

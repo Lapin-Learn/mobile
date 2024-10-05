@@ -23,7 +23,7 @@ function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name
   return (
     <View className='flex flex-col gap-2 rounded-lg border-2 border-neutral-100 p-4'>
       <View className='flex w-full flex-row items-start justify-between'>
-        <Image className='h-12 w-12 rounded-full' source={{ uri: 'https://via.placeholder.com/48' }} />
+        <Image className='h-12 w-12 rounded-full' source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
         <Badge>
           <Text className={badgeTextVariants({ variant: 'default' })}>
             {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
@@ -38,7 +38,7 @@ function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name
             {t('questionTypes.xp')} {totalLearningXP}/500
           </Text>
         </View>
-        <Progress value={totalLearningXP / 500} />
+        <Progress value={(totalLearningXP / 500) * 100} />
       </View>
     </View>
   );
@@ -75,7 +75,7 @@ export default function Exercise() {
                 onPress={() => {
                   router.push(`/exercise/${exerciseId}/${item.id}`);
                 }}>
-                <QuestionTypeCard name={item.name} progress={item.progress} imageId={item.imageId} />
+                <QuestionTypeCard name={item.name} progress={item.progress} imageId={item.image?.url || ''} />
               </Pressable>
             )}
             showsVerticalScrollIndicator={false}
