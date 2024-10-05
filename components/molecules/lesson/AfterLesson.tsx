@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import LottieView from 'lottie-react-native';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
@@ -52,6 +53,8 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
   ];
   const { t } = useTranslation('lesson');
 
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
   const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
   const handleBack = () => {
@@ -59,13 +62,15 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
     router.back();
   };
 
-  const handleReceiveReward = () => {
-    if (milestones.length) {
-      router.replace('/milestones');
-    } else {
-      handleBack();
+  useEffect(() => {
+    if (!isModalVisible) {
+      if (milestones.length) {
+        router.replace('/milestones');
+      } else {
+        handleBack();
+      }
     }
-  };
+  }, [isModalVisible]);
 
   return (
     <View className='w-full'>
@@ -82,7 +87,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
           </View>
         </LinearGradient>
 
-        <Modal position='bottom'>
+        <Modal position='bottom' visible={isModalVisible}>
           <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
             <View className='flex items-center justify-center gap-y-5'>
               <ProgressCircle size={160} progress={data.percent as number} showsText />
@@ -109,7 +114,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                   );
                 })}
               </View>
-              <Button onPress={handleReceiveReward}>
+              <Button onPress={() => setIsModalVisible(false)}>
                 <Text className='text-button'>{t('after.receive-reward')}</Text>
               </Button>
             </View>

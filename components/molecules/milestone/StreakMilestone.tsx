@@ -36,7 +36,7 @@ export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps
   const mockDoneRecords = ['2024/10/2', '2024/10/3', '2024/10/5'];
 
   return (
-    <PlatformView className='flex h-full justify-between p-4'>
+    <PlatformView className='mx-4 flex h-full justify-between py-4'>
       <View />
       <View className='flex w-full items-center gap-6 px-4'>
         <MilestoneStreak />
