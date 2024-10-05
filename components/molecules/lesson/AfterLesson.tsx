@@ -3,9 +3,9 @@ import { router } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Share2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 import { SvgProps } from 'react-native-svg';
 
@@ -47,7 +47,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
   const { t } = useTranslation('lesson');
   const { data: learner } = useUserProfile();
 
-  const [showConfetti, setShowConfetti] = useState(false);
   const [showMillstones, setShowMillstones] = useState(false);
   const [currentMillstone, setCurrentMillstone] = useState(0);
 
@@ -60,10 +59,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
     [RankEnum.DIAMOND]: t('rank.diamond'),
     [RankEnum.MASTER]: t('rank.master'),
   };
-
-  useEffect(() => {
-    setShowConfetti(true);
-  }, []);
 
   const handleBack = () => {
     resetGame();
@@ -85,8 +80,6 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
       handleBack();
     }
   };
-
-  const dimensions = Dimensions.get('window');
 
   return (
     <View className='w-full'>
