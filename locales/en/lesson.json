@@ -19,23 +19,5 @@
     "evidence": "The evidence is in the paragraph",
     "answer": "So the answer to the question:",
     "understood": "Understood"
-  },
-  "rank": {
-    "title": "Rank",
-    "bronze": "Bronze",
-    "silver": "Silver",
-    "gold": "Gold",
-    "platinum": "Platinum",
-    "diamond": "Diamond",
-    "master": "Master"
-  },
-  "level": {
-    "xp": "XP"
-  },
-  "gain-new-level": "LEVEL UP",
-  "gain-new-rank": "RANK UP",
-  "button": {
-    "next": "Continue",
-    "share": "Share"
   }
 }

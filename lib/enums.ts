@@ -42,6 +42,7 @@ export enum GenderEnum {
 }
 
 export enum MilestonesEnum {
+  DAILY_STREAK = 'daily_streak',
   LEVEL_UP = 'level_up',
   RANK_UP = 'rank_up',
 }

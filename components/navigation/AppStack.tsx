@@ -2,19 +2,19 @@ import { Stack } from 'expo-router';
 
 export function AppStack() {
   return (
-    <Stack>
-      <Stack.Screen name='index' options={{ headerShown: false }} />
-      <Stack.Screen name='on-boarding' options={{ headerShown: false }} />
-      <Stack.Screen name='update-profile' options={{ headerShown: false }} />
-      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-      <Stack.Screen name='auth' options={{ headerShown: false }} />
-      <Stack.Screen name='edit-profile' options={{ headerShown: false }} />
-      <Stack.Screen name='firebaseauth' options={{ headerShown: false }} />
-      <Stack.Screen name='exercise' options={{ headerShown: false }} />
-      <Stack.Screen name='random' options={{ headerShown: false }} />
-      <Stack.Screen name='lesson' options={{ headerShown: false }} />
-      <Stack.Screen name='items' options={{ headerShown: false }} />
-      <Stack.Screen name='streak' options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='index' />
+      <Stack.Screen name='on-boarding' />
+      <Stack.Screen name='update-profile' />
+      <Stack.Screen name='(tabs)' />
+      <Stack.Screen name='auth' />
+      <Stack.Screen name='edit-profile' />
+      <Stack.Screen name='firebaseauth' />
+      <Stack.Screen name='exercise' />
+      <Stack.Screen name='random' />
+      <Stack.Screen name='lesson' />
+      <Stack.Screen name='items' />
+      <Stack.Screen name='streak' />
     </Stack>
   );
 }

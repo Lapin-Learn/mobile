@@ -66,7 +66,7 @@ export interface ILessonQuestionsResponse {
 
 export interface IMilestone {
   type: MilestonesEnum;
-  newValue: ILevel | RankEnum;
+  newValue: ILevel | RankEnum | number;
 }
 
 export interface IAfterLesson {
