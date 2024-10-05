@@ -13,13 +13,13 @@ export interface IQuestionType {
   id: number;
   name: string;
   skill: SkillEnum;
-  imageId: string;
+  imageId: string | null;
   lessons: number;
   progress: {
     bandScore: BandScoreEnum;
     totalLearningXP: number;
   };
-  image: IImage;
+  image: IImage | null;
 }
 
 export interface ILesson {

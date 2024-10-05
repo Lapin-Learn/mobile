@@ -57,13 +57,14 @@ export default function QuestionTemplate({
   const lessonCompletionMutation = useLessonCompletion();
   const { isPending, isSuccess } = lessonCompletionMutation;
 
+  const [startTime, setStartTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
 
   useEffect(() => {
     setQuestions(data);
     setContentType(contentType);
     setQuestions(data);
-    setDuration(new Date().getTime());
+    setStartTime(new Date().getTime());
   }, []);
 
   // TODO: Handle different content types
@@ -88,8 +89,7 @@ export default function QuestionTemplate({
     setIsChecking(false);
     setIsCorrect(false);
     setAnswer([]);
-    if (currentQuestion === questions.length - 1) {
-    } else {
+    if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       switch (contentType) {
         case ContentTypeEnum.MULTIPLE_CHOICE: {
@@ -105,12 +105,14 @@ export default function QuestionTemplate({
   const handleContinue = useCallback(() => {
     nextQuestion();
     if (currentQuestion === questions.length - 1) {
+      const endTime = getDuration(startTime);
       lessonCompletionMutation.mutate({
         lessonId: lesson,
         correctAnswers,
         wrongAnswers: questions.length - correctAnswers,
-        duration: getDuration(duration),
+        duration: endTime,
       });
+      setDuration(endTime);
     }
   }, [nextQuestion, currentQuestion, questions]);
 
@@ -141,7 +143,7 @@ export default function QuestionTemplate({
             percent: (correctAnswers / questions.length) * 100,
             exp: xp,
             carrot: carrots,
-            timer: getDuration(duration),
+            timer: duration,
           }}
         />
       ) : (

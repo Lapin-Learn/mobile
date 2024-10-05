@@ -5,6 +5,7 @@ import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { Easing } from 'react-native-reanimated';
 import { SvgProps } from 'react-native-svg';
 
 import RadialBackground from '~/assets/images/background_milestone.svg';
@@ -117,6 +118,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                 repeatReverse: false,
                 type: 'timing',
                 duration: 2000,
+                easing: Easing.linear,
               }}>
               <RadialBackground />
             </MotiView>
@@ -127,6 +129,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                   {milestones[currentMillstone].type === MilestonesEnum.LEVEL_UP ? (
                     <View className='relative flex items-center justify-center'>
                       <MilestoneLevel />
+                      {/*TODO: Drop shadow effect for text*/}
                       <Text className='absolute text-7xl font-extrabold drop-shadow-lg color-white'>
                         {(milestones[currentMillstone].newValue as ILevel).id}
                       </Text>
@@ -162,7 +165,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
                   <View className='flex flex-row justify-between'>
                     <Text className='text-body font-semibold'>Level {learner?.learnerProfile.levelId}</Text>
                     <Text className='text-body font-semibold'>
-                      {formatNumber(learner?.learnerProfile.xp || 0)} {t('level.xp')}/
+                      {formatNumber(learner?.learnerProfile.xp || 0)}/
                       {formatNumber(learner?.learnerProfile.level.xp || 0)} {t('level.xp')}
                     </Text>
                   </View>
