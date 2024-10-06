@@ -82,7 +82,7 @@ module.exports = {
         footnote: ['13px', { lineHeight: '18px' }],
         'caption-1': ['12px', { lineHeight: '16px' }],
         'caption-2': ['11px', { lineHeight: '13px' }],
-        streak: ['64px', { lineHeight: '56px' }],
+        streak: ['64px', { lineHeight: '64px' }],
       },
       colors: {
         background: '#F9F7F7',
