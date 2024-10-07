@@ -81,13 +81,15 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
   };
 
   return (
-    <View className='flex w-full flex-row items-center justify-center gap-x-4 rounded-md border border-black p-4'>
+    <View className='flex w-full flex-row items-center justify-between gap-x-4 rounded-md border border-black p-4'>
       <View className='flex-row gap-x-2'>
         <Action />
         <Action repeat />
       </View>
       <SeekBar progress={useProgress(500)} />
-      <Text className='text-body font-semibold'>{formatAudioTimer(duration - position)}</Text>
+      <View className='w-14'>
+        <Text className='text-center text-body font-semibold'>{formatAudioTimer(duration - position)}</Text>
+      </View>
     </View>
   );
 }

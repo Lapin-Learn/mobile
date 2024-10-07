@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 
-const BAR_WIDTH = 240;
 const INITIAL_THUMB_SIZE = 14;
 
 export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress> }) {
@@ -11,10 +11,11 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
   const isSliding = useRef(false);
   const offset = useSharedValue(0);
   const thumbPosition = useSharedValue(0);
+  const [barWidth, setBarWidth] = useState(0);
 
   useEffect(() => {
     if (!isSliding.current && duration > 0) {
-      const newOffset = (position / duration) * (BAR_WIDTH - INITIAL_THUMB_SIZE / 2);
+      const newOffset = (position / duration) * (barWidth - INITIAL_THUMB_SIZE / 2);
       offset.value = withTiming(newOffset, { duration: 0 });
       thumbPosition.value = newOffset;
     }
@@ -27,16 +28,16 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
     })
     .onChange((event) => {
       const newOffset = thumbPosition.value + event.translationX;
-      if (newOffset >= 0 && newOffset <= BAR_WIDTH - INITIAL_THUMB_SIZE) {
+      if (newOffset >= 0 && newOffset <= barWidth - INITIAL_THUMB_SIZE) {
         offset.value = newOffset;
       } else if (newOffset < 0) {
         offset.value = 0;
-      } else if (newOffset > BAR_WIDTH - INITIAL_THUMB_SIZE) {
-        offset.value = BAR_WIDTH - INITIAL_THUMB_SIZE;
+      } else if (newOffset > barWidth - INITIAL_THUMB_SIZE) {
+        offset.value = barWidth - INITIAL_THUMB_SIZE;
       }
     })
     .onEnd(() => {
-      const newPosition = (offset.value / (BAR_WIDTH - INITIAL_THUMB_SIZE)) * duration;
+      const newPosition = (offset.value / (barWidth - INITIAL_THUMB_SIZE)) * duration;
       runOnJS(TrackPlayer.seekTo)(newPosition);
       runOnJS(TrackPlayer.play)();
       isSliding.current = false;
@@ -44,10 +45,10 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
 
   const tapGesture = Gesture.Tap().onEnd((event) => {
     const tapX = event.x;
-    const newOffset = Math.max(0, Math.min(BAR_WIDTH - INITIAL_THUMB_SIZE, tapX));
+    const newOffset = Math.max(0, Math.min(barWidth - INITIAL_THUMB_SIZE, tapX));
     offset.value = withTiming(newOffset, { duration: 0 });
     thumbPosition.value = newOffset;
-    const newPosition = (newOffset / (BAR_WIDTH - INITIAL_THUMB_SIZE)) * duration;
+    const newPosition = (newOffset / (barWidth - INITIAL_THUMB_SIZE)) * duration;
     runOnJS(TrackPlayer.seekTo)(newPosition);
   });
 
@@ -63,8 +64,13 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
     };
   });
 
+  function handleLayout(event: LayoutChangeEvent): void {
+    const { width } = event.nativeEvent.layout;
+    setBarWidth(width);
+  }
+
   return (
-    <GestureHandlerRootView className='flex w-full items-center justify-center'>
+    <GestureHandlerRootView className='flex w-full grow items-center justify-center' onLayout={handleLayout}>
       <GestureDetector gesture={tapGesture}>
         <Animated.View className='h-2 w-full items-start justify-center overflow-hidden rounded-xl bg-neutral-100'>
           <GestureDetector gesture={panGesture}>
