@@ -4,7 +4,19 @@ type TargetStreakProps = {
   active: boolean;
 };
 export const TargetStreak = ({ active, ...props }: TargetStreakProps & SvgProps) => (
-  <Svg {...props} fill='none'>
+  <Svg
+    {...props}
+    fill='none'
+    style={{
+      shadowColor: '#2275B2',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 5.62,
+      elevation: 6,
+    }}>
     <Path
       fill='#fff'
       d='M31 1.963a12 12 0 0 1 12 0l24.373 14.072a12 12 0 0 1 6 10.392v28.144a12 12 0 0 1-6 10.392L43 79.035a12 12 0 0 1-12 0L6.627 64.963a12 12 0 0 1-6-10.392V26.427a12 12 0 0 1 6-10.392L31 1.963Z'
