@@ -26,7 +26,7 @@ const ProfileSection: FC<ProfileProps> & {
 
 const Title: FC<ProfileProps & { label: string }> = ({ label, children }) => (
   <View className='w-full flex-row items-center justify-between'>
-    <Text className='text-title-4 font-bold text-black'>{label}</Text>
+    <Text className='font-ibold text-title-4 text-black'>{label}</Text>
     {children}
   </View>
 );
@@ -43,7 +43,7 @@ const ListItem: FC<{
   <Item
     className={cn('border border-t-0 border-neutral-100 p-4', isFirst && 'rounded-t border-t', isLast && 'rounded-b')}>
     <TouchableOpacity onPress={onPress} className='w-full flex-row items-center justify-between'>
-      <Text className='text-body font-semibold'>{label}</Text>
+      <Text className='font-isemibold text-body'>{label}</Text>
       <Icon size={24} color={'#737373'} />
     </TouchableOpacity>
   </Item>

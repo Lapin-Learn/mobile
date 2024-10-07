@@ -49,14 +49,14 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
           {modalType === 'correct' ? (
             <View className='flex flex-row items-center gap-2'>
               <IconCheckmarkCircle width={24} height={24} />
-              <Text className='text-title-2 font-bold text-green-900'>
+              <Text className='font-ibold text-title-2 text-green-900'>
                 {t(`general.correct.${Math.floor(randomEncourage)}`)}
               </Text>
             </View>
           ) : (
             <View className='flex flex-row items-center gap-2'>
               <IconCrossCircle width={24} height={24} />
-              <Text className='text-title-2 font-bold text-red-900'>
+              <Text className='font-ibold text-title-2 text-red-900'>
                 {t(`general.incorrect.${Math.floor(randomEncourage)}`)}
               </Text>
             </View>
@@ -74,7 +74,7 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
         </View>
         {modalType === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
           <View>
-            <Text className='text-body font-semibold text-neutral-900'>{t('general.correctAnswer')}</Text>
+            <Text className='font-isemibold text-body text-neutral-900'>{t('general.correctAnswer')}</Text>
             {correctAnswers?.map((answer, index) => (
               <Text key={index} className='text-body text-neutral-900'>
                 {`\u2022 ${answer}`}

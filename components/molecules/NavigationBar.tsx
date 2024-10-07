@@ -46,7 +46,7 @@ export function NavigationBar({
                 <Icon color={'black'} />
               </Pressable>
             ))}
-          {headerTitle && <Text className='text-title-4 font-bold text-black'>{headerTitle}</Text>}
+          {headerTitle && <Text className='font-ibold text-title-4 text-black'>{headerTitle}</Text>}
 
           {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
         </View>
@@ -54,7 +54,7 @@ export function NavigationBar({
 
       {title && (
         <View className='w-full items-start'>
-          <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
+          <Text className='font-ibold text-large-title text-orange-900'>{title}</Text>
         </View>
       )}
       {children}

@@ -32,13 +32,13 @@ export default function SelectInput({ defaultValue, onValueChange, options, plac
   return (
     <Select defaultValue={defaultValue} onValueChange={onValueChange}>
       <SelectTrigger className='h-12 w-full rounded border border-neutral-200 bg-white p-3 placeholder:text-neutral-700'>
-        <SelectValue className='text-subhead font-medium' placeholder={placeholder} />
+        <SelectValue className='font-imedium text-subhead' placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent insets={contentInsets} className='w-full'>
         <SelectGroup>
           {options.map((item, index) => (
             <View key={item.value}>
-              <SelectItem className='text-subhead font-medium' value={item.value} label={item.label} />
+              <SelectItem className='font-imedium text-subhead' value={item.value} label={item.label} />
               {index < options.length - 1 && <SelectSeparator className='my-1' />}
             </View>
           ))}

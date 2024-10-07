@@ -88,7 +88,7 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
       </View>
       <SeekBar progress={useProgress(500)} />
       <View className='w-14'>
-        <Text className='text-center text-body font-semibold'>{formatAudioTimer(duration - position)}</Text>
+        <Text className='text-center font-isemibold text-body'>{formatAudioTimer(duration - position)}</Text>
       </View>
     </View>
   );

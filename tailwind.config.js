@@ -66,9 +66,6 @@ module.exports = {
         'speaking-lesson': '4px 4px 0px 0px rgba(135,62,181,1)',
         'writing-lesson': '4px 4px 0px 0px rgba(181,160,53,1)',
       },
-      fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-      },
       fontSize: {
         'large-title': ['34px', { lineHeight: '51px' }],
         'title-1': ['28px', { lineHeight: '42px' }],
@@ -82,7 +79,7 @@ module.exports = {
         footnote: ['13px', { lineHeight: '18px' }],
         'caption-1': ['12px', { lineHeight: '16px' }],
         'caption-2': ['11px', { lineHeight: '13px' }],
-        streak: ['64px', { lineHeight: '64px' }],
+        streak: ['64px', { lineHeight: '56px' }],
       },
       colors: {
         background: '#F9F7F7',
@@ -206,6 +203,17 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+    },
+    fontFamily: {
+      ithin: ['Inter_18pt-Thin', 'sans-serif'],
+      iextralight: ['Inter_18pt-ExtraLight', 'sans-serif'],
+      ilight: ['Inter_18pt-Light', 'sans-serif'],
+      inormal: ['Inter_18pt-Regular', 'sans-serif'],
+      imedium: ['Inter_18pt-Medium', 'sans-serif'],
+      isemibold: ['Inter_18pt-SemiBold', 'sans-serif'],
+      ibold: ['Inter_18pt-Bold', 'sans-serif'],
+      iextrabold: ['Inter_18pt-ExtraBold', 'sans-serif'],
+      iblack: ['Inter_18pt-Black', 'sans-serif'],
     },
   },
   plugins: [],

@@ -31,7 +31,7 @@ const buttonVariants = cva('group flex items-center justify-center rounded', {
   },
 });
 
-const buttonTextVariants = cva('text-sm native:text-base font-medium text-foreground', {
+const buttonTextVariants = cva('text-sm native:text-base font-imedium text-foreground', {
   variants: {
     variant: {
       default: 'text-primary-foreground',
@@ -63,7 +63,10 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
     return (
       <TextClassContext.Provider value={cn(props.disabled && '', buttonTextVariants({ variant, size }))}>
         <Pressable
-          className={cn(props.disabled && 'opacity-50', buttonVariants({ variant, size, className }))}
+          className={cn(
+            props.disabled && 'font-body font-isemibold opacity-50',
+            buttonVariants({ variant, size, className })
+          )}
           ref={ref}
           role='button'
           {...props}

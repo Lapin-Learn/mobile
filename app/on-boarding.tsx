@@ -36,7 +36,7 @@ export default function OnBoarding() {
           <LucideMoveRight color={'white'} />
         </Button>
         <Button className='bg-white' onPress={handleSkip}>
-          <Text className='text-body font-semibold text-neutral-300'>{t('on_boarding.skip')}</Text>
+          <Text className='font-isemibold text-body text-neutral-300'>{t('on_boarding.skip')}</Text>
         </Button>
       </View>
     </View>

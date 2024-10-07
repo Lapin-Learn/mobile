@@ -70,7 +70,7 @@ export default function Verify() {
         <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='w-full gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
+              <Text className='w-full flex-wrap font-inormal text-callout text-neutral-500'>
                 {t('verify.instruction', { email: maskEmail(email as string) })}
               </Text>
             </View>
@@ -83,7 +83,7 @@ export default function Verify() {
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
-                      className='h-12 w-12 rounded border border-neutral-200 bg-white p-3 text-subhead font-medium placeholder:text-title-2 placeholder:font-semibold placeholder:text-neutral-700'
+                      className='h-12 w-12 rounded border border-neutral-200 bg-white p-3 font-imedium text-subhead placeholder:font-isemibold placeholder:text-title-2 placeholder:text-neutral-700'
                       maxLength={1}
                       keyboardType='numeric'
                       value={field.value[i]}
@@ -116,7 +116,7 @@ export default function Verify() {
             <View className='flex flex-row items-center justify-center gap-x-2.5'>
               <Text className='text-footnote text-neutral-900'>{t('verify.noOtp')}</Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
-                <Text className={cn('text-footnote font-medium', time > 0 ? 'text-neutral-300' : 'text-orange-500')}>
+                <Text className={cn('font-imedium text-footnote', time > 0 ? 'text-neutral-300' : 'text-orange-500')}>
                   {t('verify.resendCode', { time: time > 0 ? time : '' })}
                 </Text>
               </Pressable>

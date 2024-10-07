@@ -154,7 +154,7 @@ export default function QuestionTemplate({
           <View className='flex justify-between px-4 pt-4'>
             <View className='relative gap-8'>
               <View className='gap-3'>
-                <Text className='text-title-3 font-bold'>{t('multipleChoice.title')}</Text>
+                <Text className='font-ibold text-title-3'>{t('multipleChoice.title')}</Text>
                 {questions[currentQuestion]?.audioId && (
                   <TrackAudio data={questions[currentQuestion].audio ?? { id: '', url: '' }} checked={isChecking} />
                 )}
@@ -164,7 +164,7 @@ export default function QuestionTemplate({
                   </ReadingContainer>
                 )}
                 {contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
-                  <Text className='text-title-4 font-bold'>{questions[currentQuestion]?.content.question}</Text>
+                  <Text className='font-ibold text-title-4'>{questions[currentQuestion]?.content.question}</Text>
                 )}
               </View>
               <View className='grow'>{renderQuestionComponent()}</View>

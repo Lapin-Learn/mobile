@@ -92,7 +92,7 @@ export function Region({ name, selected, onSelect }: RegionProps) {
       </View>
       {selected && (
         <View
-          className={cn('absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
+          className={cn(' absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
           <View className={cn('absolute', regionPopupClassNameSmall[name])}>
             <PopupLesson skill={name} />
           </View>
