@@ -30,11 +30,11 @@ function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name
           </Text>
         </Badge>
       </View>
-      <Text className='text-title-2 font-semibold text-neutral-900'>{name}</Text>
+      <Text className='font-isemibold text-title-2 text-neutral-900'>{name}</Text>
       <View className='flex gap-2'>
         <View className='flex flex-row justify-between'>
-          <Text className='text-subhead font-medium text-supporting-text'>{t('questionTypes.experience')}</Text>
-          <Text className='text-subhead font-medium text-supporting-text'>
+          <Text className='font-imedium text-subhead text-supporting-text'>{t('questionTypes.experience')}</Text>
+          <Text className='font-imedium text-subhead text-supporting-text'>
             {t('questionTypes.xp')} {totalLearningXP}/500
           </Text>
         </View>

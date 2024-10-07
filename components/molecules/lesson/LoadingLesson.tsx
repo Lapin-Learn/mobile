@@ -26,7 +26,7 @@ export function LoadingLesson() {
         }}>
         <Spinner />
       </MotiView>
-      <Text className='text-center text-body font-semibold'>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>
+      <Text className='text-center font-isemibold text-body'>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>
     </View>
   );
 }

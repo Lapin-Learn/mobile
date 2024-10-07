@@ -44,7 +44,7 @@ export default function ForgotPassword() {
         <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
           <View className='gap-y-10'>
             <View className='flex-row'>
-              <Text className='w-full flex-wrap text-callout font-normal text-neutral-500'>
+              <Text className='w-full flex-wrap font-inormal text-callout text-neutral-500'>
                 {t('forgotPassword.instruction')}
               </Text>
             </View>

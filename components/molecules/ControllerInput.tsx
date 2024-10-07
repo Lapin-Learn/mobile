@@ -24,7 +24,7 @@ export function ControllerInput<T>({
 
   return (
     <View className='w-full flex-col items-start justify-start gap-1'>
-      <Text className='text-lg font-semibold text-neutral-900'>{label}</Text>
+      <Text className='font-isemibold text-lg text-neutral-900'>{label}</Text>
       <View className='flex w-full flex-row gap-x-1'>
         <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
           {renderInput({

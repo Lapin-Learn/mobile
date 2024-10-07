@@ -38,7 +38,7 @@ const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitiv
             <Check size={20} color={checkingSelected ? (isCorrect ? 'green' : 'red') : 'black'} />
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
-        <Text className='shrink text-body font-semibold'>{label}</Text>
+        <Text className='shrink font-isemibold text-body'>{label}</Text>
       </View>
     );
   }

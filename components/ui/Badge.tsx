@@ -24,7 +24,7 @@ const badgeVariants = cva(
   }
 );
 
-const badgeTextVariants = cva('text-subhead font-bold ', {
+const badgeTextVariants = cva('text-subhead font-ibold ', {
   variants: {
     variant: {
       default: 'text-primary',

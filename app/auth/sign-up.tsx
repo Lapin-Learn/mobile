@@ -47,7 +47,7 @@ export default function SignUp() {
     <SafeAreaView className='h-screen'>
       <NavigationBar title={t('signUp.title')} />
       <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
-        <Text className='w-full text-callout font-normal text-neutral-500'>{t('signUp.subtitle')}</Text>
+        <Text className='w-full font-inormal text-callout text-neutral-500'>{t('signUp.subtitle')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>
             <ControllerInput
@@ -76,7 +76,7 @@ export default function SignUp() {
               <Text className='text-button'>{t('signUp.signUpButton')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>
-              <Text className='text-subhead font-medium text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
+              <Text className='font-imedium text-subhead text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
               <OtherSignIn />
             </View>
           </View>
@@ -84,7 +84,7 @@ export default function SignUp() {
         <View className='flex flex-row items-center justify-center gap-x-2.5'>
           <Text className='text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
           <Link replace href='/auth/sign-in'>
-            <Text className='text-footnote font-medium text-orange-500'>{t('signUp.signIn')}</Text>
+            <Text className='font-imedium text-footnote text-orange-500'>{t('signUp.signIn')}</Text>
           </Link>
         </View>
       </View>

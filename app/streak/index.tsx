@@ -1,10 +1,10 @@
 import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 
+import CustomCalendar from '~/components/molecules/custom-calendar';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
@@ -42,40 +42,43 @@ export default function Streak() {
   if (isFetching) return <Loading />;
 
   return (
-    <PlatformView className='bg-[#E7F4FE]'>
-      <NavigationBar headerTitle={'Streak'} headerLeftShown />
-      <View className='flex gap-y-8 px-8 pb-8'>
-        <View className='flex flex-row items-end justify-between'>
-          <View className='gap-y-1'>
+    <>
+      <SafeAreaView className='flex-1 bg-[#E7F4FE]'>
+        <NavigationBar headerTitle={'Streak'} headerLeftShown />
+        <View className='flex gap-y-8 px-8 pb-4'>
+          <View className='flex flex-row items-end justify-between'>
             <View className='gap-y-1'>
-              <Text className={`text-streak font-extrabold ${textStyle}`}>{data?.streak.current}</Text>
-              <Text className={`text-title-2 font-semibold ${textStyle}`}>{t('streak.days')}</Text>
-            </View>
-            <Text className='text-caption-1 font-semibold text-dark'>
-              {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
-            </Text>
-          </View>
-          <LottieView
-            source={require('~/assets/images/streak_flame.json')}
-            autoPlay
-            loop={true}
-            style={{ width: 100, height: 125 }}
-          />
-        </View>
-        <View className='flex flex-row items-center justify-between'>
-          {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
-            <TargetStreak key={index} width={74} height={80} active={active}>
-              <View className='h-full w-full items-center justify-center '>
-                <Text className='text-title-2 font-semibold text-white'>{value}</Text>
+              <View className='gap-y-1'>
+                <Text className={`font-iextrabold text-streak ${textStyle}`}>{data?.streak.current}</Text>
+                <Text className={`font-isemibold text-title-2 ${textStyle}`}>{t('streak.days')}</Text>
               </View>
-            </TargetStreak>
-          ))}
+              <Text className='font-isemibold text-caption-1 text-dark'>
+                {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
+              </Text>
+            </View>
+            <LottieView
+              source={require('~/assets/images/streak_flame.json')}
+              autoPlay
+              loop={true}
+              style={{ width: 100, height: 125 }}
+            />
+          </View>
+          <View className='flex flex-row items-center justify-between'>
+            {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
+              <TargetStreak key={index} width={74} height={80} active={active}>
+                <View className='h-full w-full items-center justify-center '>
+                  <Text className='font-isemibold text-title-2 text-white'>{value}</Text>
+                </View>
+              </TargetStreak>
+            ))}
+          </View>
         </View>
-      </View>
-      <View className='gap-y-4 bg-background px-4'>
-        <Text className='text-title-2 font-semibold'>{t('streak.schedule')}</Text>
-        {/* TODO: Schedule component */}
-      </View>
-    </PlatformView>
+        <View className='flex flex-1 grow gap-y-4 bg-background px-4 pt-4'>
+          <Text className='font-isemibold text-title-2'>{t('streak.schedule')}</Text>
+          <CustomCalendar />
+        </View>
+      </SafeAreaView>
+      <SafeAreaView className='flex-0 bg-background' />
+    </>
   );
 }

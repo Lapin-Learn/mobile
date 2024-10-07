@@ -36,3 +36,6 @@ web-build/
 #google-service
 google-services.json
 GoogleService-Info.plist
+
+#idea
+.idea

@@ -62,8 +62,8 @@ export default function QuestionType() {
             source={{ uri: currentQuestionType?.image?.url || 'https://via.placeholder.com/40' }}
           />
           <View className='items-center'>
-            <Text className='text-title-1 font-bold text-neutral-900'>{currentQuestionType?.name}</Text>
-            <Text className='text-title-4 font-medium text-supporting-text'>
+            <Text className='font-ibold text-title-1 text-neutral-900'>{currentQuestionType?.name}</Text>
+            <Text className='font-imedium text-title-4 text-supporting-text'>
               {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`} |{' '}
               {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
             </Text>
@@ -77,7 +77,7 @@ export default function QuestionType() {
               router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
             }}>
             <LucidePlay size={12} color='black' fill='black' />
-            <Text className='text-subhead font-semibold'>{t('questionType.theoryPractice')}</Text>
+            <Text className='font-isemibold text-subhead'>{t('questionType.theoryPractice')}</Text>
           </Button>
         </View>
         <View className='flex-grow flex-row items-center'>
@@ -96,7 +96,7 @@ export default function QuestionType() {
                     <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
                       <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />
                     </TouchableOpacity>
-                    <Text className='text-title-3 font-semibold'>
+                    <Text className='font-isemibold text-title-3'>
                       {item.order}/{lessons.lessons.length}
                     </Text>
                     <TouchableOpacity onPress={handleNext} disabled={item.order === lessons.lessons.length}>
@@ -107,13 +107,13 @@ export default function QuestionType() {
                     <View className='h-12 w-12 rounded-full bg-white p-3'>
                       <BookMarked size={24} color='black' />
                     </View>
-                    <Text className='z-10 text-title-1 font-bold'>{item.name}</Text>
+                    <Text className='z-10 font-ibold text-title-1'>{item.name}</Text>
                   </View>
                   <View className='flex-row items-center gap-4'>
                     <View className='h-2 flex-grow'>
                       <Progress value={(item.xp / 50) * 100} />
                     </View>
-                    <Text className='text-subhead font-medium text-supporting-text'>
+                    <Text className='font-imedium text-subhead text-supporting-text'>
                       {t('questionTypes.xp')} {item.xp}/50
                     </Text>
                   </View>

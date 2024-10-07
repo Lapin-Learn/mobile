@@ -131,7 +131,7 @@ export default function Index() {
                 <Camera size={16} color={Colors.light['orange-500']} />
               </Button>
             </View>
-            <Text className='text-title-1 font-bold text-black'>{profileData[1].value}</Text>
+            <Text className='font-ibold text-title-1 text-black'>{profileData[1].value}</Text>
             <Text className='text-body text-supporting-text'>{profileData[2].value}</Text>
           </View>
 
@@ -157,7 +157,7 @@ export default function Index() {
           </ProfileSection>
 
           <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
-            <Text className='text-body font-bold text-orange-500 '>{t('sign_out')}</Text>
+            <Text className='font-ibold text-body text-orange-500 '>{t('sign_out')}</Text>
             <LogOut size={24} color={Colors.light['orange-500']} />
           </Button>
         </View>
