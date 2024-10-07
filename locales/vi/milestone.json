@@ -1,0 +1,24 @@
+{
+  "rank": {
+    "title": "Hạng",
+    "bronze": "Đồng",
+    "silver": "Bạc",
+    "gold": "Vàng",
+    "platinum": "Bạch kim",
+    "diamond": "Kim cương",
+    "master": "Thách đấu"
+  },
+  "level": {
+    "xp": "KN"
+  },
+  "gain-new-level": "THĂNG CẤP",
+  "gain-new-rank": "THĂNG HẠNG",
+  "button": {
+    "next": "Tiếp tục",
+    "share": "Chia sẻ"
+  },
+  "streak": {
+    "day": "Ngày Streak!",
+    "congratulation": "Kéo dài streak thành công! Hãy học hàng ngày để giữ streak nhé!"
+  }
+}

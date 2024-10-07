@@ -1,0 +1,24 @@
+{
+  "rank": {
+    "title": "Rank",
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "diamond": "Diamond",
+    "master": "Master"
+  },
+  "level": {
+    "xp": "XP"
+  },
+  "gain-new-level": "LEVEL UP",
+  "gain-new-rank": "RANK UP",
+  "button": {
+    "next": "Continue",
+    "share": "Share"
+  },
+  "streak": {
+    "day": "Day Streak!",
+    "congratulation": "Keep your streak going! Keep learning daily to maintain your streak!"
+  }
+}
