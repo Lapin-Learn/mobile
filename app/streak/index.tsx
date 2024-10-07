@@ -7,7 +7,6 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/molecules/PlatformView';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
-import { cn } from '~/lib/utils';
 
 export function generateTarget(days: number): { value: number; active: boolean }[] {
   const base = 25;
@@ -43,14 +42,14 @@ export default function Streak() {
   if (isFetching) return <Loading />;
 
   return (
-    <PlatformView>
+    <PlatformView className='bg-[#E7F4FE]'>
       <NavigationBar headerTitle={'Streak'} headerLeftShown />
-      <View className='m-8 flex gap-y-8'>
+      <View className='flex gap-y-8 px-8 pb-8'>
         <View className='flex flex-row items-end justify-between'>
           <View className='gap-y-1'>
             <View className='gap-y-1'>
-              <Text className={cn('text-streak font-extrabold', textStyle)}>{data?.streak.current}</Text>
-              <Text className={cn('text-title-2 font-semibold', textStyle)}>{t('streak.days')}</Text>
+              <Text className={`text-streak font-extrabold ${textStyle}`}>{data?.streak.current}</Text>
+              <Text className={`text-title-2 font-semibold ${textStyle}`}>{t('streak.days')}</Text>
             </View>
             <Text className='text-caption-1 font-semibold text-dark'>
               {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
@@ -66,14 +65,14 @@ export default function Streak() {
         <View className='flex flex-row items-center justify-between'>
           {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
             <TargetStreak key={index} width={74} height={80} active={active}>
-              <View className='h-full w-full items-center justify-center'>
+              <View className='h-full w-full items-center justify-center '>
                 <Text className='text-title-2 font-semibold text-white'>{value}</Text>
               </View>
             </TargetStreak>
           ))}
         </View>
       </View>
-      <View className='mx-4 gap-y-4'>
+      <View className='gap-y-4 bg-background px-4'>
         <Text className='text-title-2 font-semibold'>{t('streak.schedule')}</Text>
         {/* TODO: Schedule component */}
       </View>
