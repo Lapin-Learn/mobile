@@ -20,7 +20,7 @@ export const useListLessons = ({ questionTypeId }: { readonly questionTypeId: st
   });
 };
 
-export const useLessonQuestions = ({ lessonId }: { readonly lessonId: number }) => {
+export const useLessonQuestions = ({ lessonId }: { readonly lessonId: string }) => {
   return useQuery({
     queryKey: ['lessonQuestions', lessonId],
     queryFn: getLessonQuestions,

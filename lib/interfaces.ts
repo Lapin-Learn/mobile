@@ -8,6 +8,7 @@ import {
   SkillEnum,
 } from './enums';
 import { Question } from './types';
+import { TypeQuestion } from './types/questions';
 
 export interface IQuestionType {
   id: number;
@@ -43,11 +44,6 @@ export interface IQuestion {
   audio?: IAudio;
 }
 
-export interface IAudio {
-  id: string;
-  url: string;
-}
-
 export interface ILessonsResponse {
   lessons: ILesson[];
   totalLearningDuration: number;
@@ -59,7 +55,7 @@ export interface ILessonQuestionsResponse {
   order: number;
   questionToLessons: {
     order: number;
-    question: IQuestion;
+    question: TypeQuestion;
     questionId: string;
   }[];
 }
@@ -93,13 +89,15 @@ export interface IUserProfile {
   avatar?: IImage;
 }
 
-export interface IImage {
+export interface IBucket {
   id: string;
   name: string;
   owner: string;
   permission: string;
   url: string;
 }
+export interface IImage extends IBucket {}
+export interface IAudio extends IBucket {}
 
 export interface ILearnerProfile {
   id: string;
