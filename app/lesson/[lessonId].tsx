@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import QuestionTemplate from '~/components/molecules/Exercise/QuestionTemplate';
+import QuestionTemplate from '~/components/molecules/exercise/QuestionTemplate';
 import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
 import useLesson from '~/hooks/useLesson';
 

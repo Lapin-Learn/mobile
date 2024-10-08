@@ -1,13 +1,4 @@
-import {
-  BandScoreEnum,
-  CEFRLevelEnum,
-  ContentTypeEnum,
-  GenderEnum,
-  MilestonesEnum,
-  RankEnum,
-  SkillEnum,
-} from './enums';
-import { Question } from './types';
+import { BandScoreEnum, GenderEnum, MilestonesEnum, RankEnum, SkillEnum } from './enums';
 import { TypeQuestion } from './types/questions';
 
 export interface IQuestionType {
@@ -31,17 +22,6 @@ export interface ILesson {
   bandScore: BandScoreEnum;
   isCurrent: boolean;
   xp: number;
-}
-
-export interface IQuestion {
-  id: string;
-  contentType: ContentTypeEnum;
-  content: Question;
-  imageId: string | null;
-  audioId: string | null;
-  cerfLevel: CEFRLevelEnum;
-  explanation: string;
-  audio?: IAudio;
 }
 
 export interface ILessonsResponse {

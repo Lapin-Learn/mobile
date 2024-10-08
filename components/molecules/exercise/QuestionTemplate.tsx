@@ -10,7 +10,7 @@ import AnswerModal from '../AnswerModal';
 import { AfterLesson } from '../lesson/AfterLesson';
 import { Loading } from '../Loading';
 import PlatformView from '../PlatformView';
-import AnswerInput from './AnswerInput';
+import AnswerInput from './answer-input/AnswerInput';
 import QuestionCard from './QuestionCard';
 
 export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
@@ -32,6 +32,7 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
     if (isCompleted && currentQuestionIndex === totalQuestion - 1) {
       mutation();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCompleted]);
 
   const handleBack = () => {

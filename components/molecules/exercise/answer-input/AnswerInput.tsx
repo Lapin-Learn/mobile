@@ -2,7 +2,7 @@ import { Answer } from '~/hooks/useLesson';
 import { ContentTypeEnum } from '~/lib/enums';
 import { TypeQuestion } from '~/lib/types/questions';
 
-import Matching from './Matching';
+import Matching from './matching/Matching';
 import MultipleChoice from './MultipleChoice';
 
 type BaseAnswerInputProps = {

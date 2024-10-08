@@ -54,7 +54,17 @@ export default function MultipleChoice({ options, answer, onAnswer, result }: Mu
                   key={index}
                   label={option}
                   onPress={() => handlePress(index)}
-                  variant={selected.includes(index) ? 'selected' : 'default'}
+                  variant={
+                    result === 'notAnswered'
+                      ? selected.includes(index)
+                        ? 'selected'
+                        : 'default'
+                      : answer.includes(index)
+                        ? 'correct'
+                        : selected.includes(index)
+                          ? 'incorrect'
+                          : 'default'
+                  }
                 />
               ))
             : options.map((option, index) => (
@@ -62,7 +72,17 @@ export default function MultipleChoice({ options, answer, onAnswer, result }: Mu
                   key={index}
                   label={option}
                   onPress={() => handlePress(index)}
-                  variant={selected.includes(index) ? 'selected' : 'default'}
+                  variant={
+                    result === 'notAnswered'
+                      ? selected.includes(index)
+                        ? 'selected'
+                        : 'default'
+                      : answer.includes(index)
+                        ? 'correct'
+                        : selected.includes(index)
+                          ? 'incorrect'
+                          : 'default'
+                  }
                   checked={selected.includes(index)}
                   onCheckedChange={() => {}}
                 />
