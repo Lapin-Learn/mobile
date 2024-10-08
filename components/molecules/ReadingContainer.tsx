@@ -1,4 +1,4 @@
-import { MoveDown, MoveUp } from 'lucide-react-native';
+import { ChevronsDown, ChevronsUp } from 'lucide-react-native';
 import { useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
 
@@ -34,8 +34,8 @@ export default function ReadingContainer({ children }: ReadingContainerProps) {
       </ScrollView>
       {isScrollable && (
         <View className='absolute bottom-2 right-1 flex flex-col items-center gap-2'>
-          <MoveUp color={isTop ? '#cccccc' : '#5c5c5c'} />
-          <MoveDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
+          <ChevronsUp color={isTop ? '#cccccc' : '#5c5c5c'} />
+          <ChevronsDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
         </View>
       )}
     </View>

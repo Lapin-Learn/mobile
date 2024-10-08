@@ -1,30 +1,29 @@
 import { useLocalSearchParams } from 'expo-router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import QuestionTemplate from '~/components/molecules/exercise/QuestionTemplate';
 import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
-import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
-import { IQuestion } from '~/lib/interfaces';
+import useLesson from '~/hooks/useLesson';
 
 export default function Lesson() {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
-  const { data: questions, isLoading: questionsLoading } = useLessonQuestions({ lessonId: Number(lessonId) });
+  const { isLoading, currentQuestion, clear } = useLesson(lessonId);
   const { t } = useTranslation('question');
 
-  if (questionsLoading) {
-    return <LoadingLesson />;
-  }
+  useEffect(() => {
+    return () => {
+      clear();
+    };
+  }, []);
 
-  const questionData: IQuestion[] =
-    questions?.questionToLessons.map((lessonQuestion) => {
-      return lessonQuestion.question;
-    }) ?? [];
+  if (isLoading) return <LoadingLesson />;
 
   return (
     <View>
-      {questionData.length > 0 ? (
-        <QuestionTemplate contentType={questionData[0].contentType} data={questionData} lesson={Number(lessonId)} />
+      {currentQuestion ? (
+        <QuestionTemplate lessonId={lessonId} />
       ) : (
         <View className='flex h-full items-center justify-center'>
           <Text>{t('general.noQuestionFound')}</Text>

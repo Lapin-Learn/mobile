@@ -1,30 +1,29 @@
+import { cva, VariantProps } from 'class-variance-authority';
 import { Text } from 'react-native';
 
-import { cn } from '~/lib/utils';
+import { Button, ButtonProps } from '../ui/Button';
 
-import { Button } from '../ui/Button';
+const choiceButtonVariants = cva('border-2 mb-3 w-full px-5 py-3', {
+  variants: {
+    variant: {
+      default: 'border-neutral-200 bg-background',
+      correct: 'border-green-400 bg-green-50 text-green-700',
+      incorrect: 'border-red-400 bg-red-50 text-red-700',
+      selected: 'border-orange-500 bg-background',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
 
-type ChoiceButtonProps = {
-  label: string;
-  index: number;
-  selectedBox?: number[];
-  isChecking?: boolean;
-  isCorrect?: boolean;
-  onPress: () => void;
-};
-
-export default function ChoiceButton({ label, index, selectedBox, onPress, isChecking, isCorrect }: ChoiceButtonProps) {
+type ChoiceButtonProps = Omit<ButtonProps, 'variant'> &
+  VariantProps<typeof choiceButtonVariants> & {
+    label: string;
+  };
+export default function ChoiceButton({ variant, label, ...props }: ChoiceButtonProps) {
   return (
-    <Button
-      className={cn(
-        'mb-3 w-full px-5 py-3',
-        selectedBox?.includes(index)
-          ? 'border-2 border-orange-500 bg-background'
-          : 'border-2 border-neutral-200 bg-background',
-        isChecking && selectedBox?.includes(index) && isCorrect ? 'border-green-400 bg-green-50 text-green-700' : '',
-        isChecking && selectedBox?.includes(index) && !isCorrect ? 'border-red-400 bg-red-50 text-red-700' : ''
-      )}
-      onPress={onPress}>
+    <Button className={choiceButtonVariants({ variant })} {...props}>
       <Text className='text-center text-body text-neutral-900'>{label}</Text>
     </Button>
   );
