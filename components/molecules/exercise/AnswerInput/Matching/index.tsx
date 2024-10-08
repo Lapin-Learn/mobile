@@ -6,7 +6,7 @@ import { MatchingQuestion, PairAnswer } from '~/lib/types';
 
 import { AnswerColumn, Column } from './AnswerColumn';
 
-export const Matching = () => {
+const Matching = () => {
   const { questions, currentQuestion, checkAnswer } = useGameStore();
   const [content, setContent] = useState<MatchingQuestion>();
   const [selectingPairs, setSelectingPairs] = useState<PairAnswer>({
@@ -72,3 +72,5 @@ export const Matching = () => {
     </View>
   );
 };
+
+export default Matching;

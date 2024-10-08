@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 
-import useLesson from '~/components/organisms/exercise-question/useLesson';
 import { Progress } from '~/components/ui/Progress';
 import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
+import useLesson from '~/hooks/useLesson';
 
 import AnswerModal from '../AnswerModal';
 import { Loading } from '../Loading';
 import PlatformView from '../PlatformView';
+import AnswerInput from './AnswerInput';
 import QuestionCard from './QuestionCard';
 
 export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
@@ -34,24 +35,6 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
   const [startTime, setStartTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
 
-  // TODO: Handle different content types
-  // const renderQuestionComponent = () => {
-  //   if (!questions.length || !contentType) {
-  //     return null;
-  //   }
-
-  //   switch (contentType) {
-  //     case ContentTypeEnum.MULTIPLE_CHOICE:
-  //       return <MultipleChoice />;
-
-  //     case ContentTypeEnum.MATCHING:
-  //       return <Matching />;
-
-  //     default:
-  //       return <Text>{t('general.unsupportedQuestionType')}</Text>;
-  //   }
-  // };
-
   // const handleContinue = useCallback(() => {
   //   nextQuestion();
   //   if (currentQuestion === questions.length - 1) {
@@ -65,10 +48,6 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
   //     setDuration(endTime);
   //   }
   // }, [nextQuestion, currentQuestion, questions]);
-
-  // const handleCheckAnswer = () => {
-  //   checkAnswer(selected);
-  // };
 
   const handleBack = () => {
     clear();
@@ -103,26 +82,26 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
             </Pressable>
             <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
           </View>
-          <View className='flex justify-between px-4 pt-4'>
-            <View className='relative gap-8'>
-              {currentQuestion && (
-                <QuestionCard
-                  data={currentQuestion}
-                  isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'}
-                />
-              )}
-              {/* <View className='grow'>{renderQuestionComponent()}</View> */}
+          {currentQuestion && (
+            <View className='relative h-full px-4'>
+              <QuestionCard
+                data={currentQuestion}
+                isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'}
+              />
+              <AnswerInput
+                onAnswer={answerQuestion}
+                result={learnerAnswers[currentQuestionIndex]}
+                {...currentQuestion}
+              />
             </View>
-          </View>
-          {/* {selected.length > 0 && !isChecking && (
-            <View className='absolute bottom-0 left-0 right-0 bg-background p-4 pb-10'>
-              <Button className='bg-neutral-900' onPress={handleCheckAnswer}>
-                <Text className='text-button'>{t('general.check')}</Text>
-              </Button>
-            </View>
-          )} */}
+          )}
           {typeof learnerAnswers[currentQuestionIndex] === 'boolean' && (
-            <AnswerModal modalType='correct' onPressContinue={nextQuestion} />
+            <AnswerModal
+              type={learnerAnswers[currentQuestionIndex] ? 'correct' : 'incorrect'}
+              // TODO: Fix correctAnswers, map from currentQuestion?.content.answer from number[] to string[]
+              // correctAnswers={currentQuestion?.content.answer ?? []}
+              onPressContinue={nextQuestion}
+            />
           )}
         </PlatformView>
       )}

@@ -10,24 +10,23 @@ import { cn } from '~/lib/utils';
 import { Button } from '../ui/Button';
 
 export type AnswerModalProps = {
-  modalType: 'correct' | 'incorrect';
-  correctAnswer?: string | null;
+  type: 'correct' | 'incorrect';
   correctAnswers?: string[] | null;
   onPressContinue: () => void;
 };
 
-export default function AnswerModal({ modalType, correctAnswers, onPressContinue }: AnswerModalProps) {
+export default function AnswerModal({ type, correctAnswers, onPressContinue }: AnswerModalProps) {
   const [randomEncourage, setRandomEncourage] = useState<number>(0);
   const [showModal, setShowModal] = useState(true);
   const { t } = useTranslation('question');
 
   useEffect(() => {
     const randomValue =
-      modalType === 'correct'
+      type === 'correct'
         ? Math.random() * Number(t('general.correct.length'))
         : Math.random() * Number(t('general.incorrect.length'));
     setRandomEncourage(randomValue);
-  }, [modalType, onPressContinue]);
+  }, [type]);
 
   // Ensure modal is shown when navigating back to the page
   useFocusEffect(
@@ -43,10 +42,10 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
       <View
         className={cn(
           'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',
-          modalType === 'correct' ? 'bg-green-50' : 'bg-red-50'
+          type === 'correct' ? 'bg-green-50' : 'bg-red-50'
         )}>
         <View className='flex flex-row items-center justify-between'>
-          {modalType === 'correct' ? (
+          {type === 'correct' ? (
             <View className='flex flex-row items-center gap-2'>
               <IconCheckmarkCircle width={24} height={24} />
               <Text className='font-ibold text-title-2 text-green-900'>
@@ -67,12 +66,12 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
               if (setShowModal) setShowModal(false);
               router.push('/lesson/explanation');
             }}>
-            <Text className={cn('text-subhead underline', modalType === 'correct' ? 'text-green-700' : 'text-red-700')}>
+            <Text className={cn('text-subhead underline', type === 'correct' ? 'text-green-700' : 'text-red-700')}>
               {t('general.explanation')}
             </Text>
           </Pressable>
         </View>
-        {modalType === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
+        {type === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
           <View>
             <Text className='font-isemibold text-body text-neutral-900'>{t('general.correctAnswer')}</Text>
             {correctAnswers?.map((answer, index) => (
@@ -82,7 +81,7 @@ export default function AnswerModal({ modalType, correctAnswers, onPressContinue
             ))}
           </View>
         )}
-        <Button className={`${modalType === 'correct' ? 'bg-green-500' : 'bg-red-500'}`} onPress={onPressContinue}>
+        <Button className={`${type === 'correct' ? 'bg-green-500' : 'bg-red-500'}`} onPress={onPressContinue}>
           <Text className='text-button'>{t('general.continue')}</Text>
         </Button>
       </View>
