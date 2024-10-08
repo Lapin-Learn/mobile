@@ -50,6 +50,6 @@
 
 @layer components {
   .text-button {
-    @apply text-body font-isemibold text-white;
+    @apply font-isemibold text-body text-white;
   }
 }

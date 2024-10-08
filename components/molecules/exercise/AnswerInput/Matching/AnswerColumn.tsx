@@ -1,10 +1,9 @@
+import { cva } from 'class-variance-authority';
 import { Dispatch, SetStateAction } from 'react';
 import { Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
-import { useGameStore } from '~/hooks/zustand';
 import { PairAnswer } from '~/lib/types';
-import { cn } from '~/lib/utils';
 
 /**
  * A: Column A
@@ -16,6 +15,47 @@ export enum Column {
   B = 'columnB',
 }
 
+const buttonVariants = cva('overflow-hidden border bg-background text-center text-body text-neutral-900', {
+  variants: {
+    variant: {
+      default: 'border-neutral-300',
+      selected: 'border-orange-500',
+      correct: 'border-green-400',
+      incorrect: 'border-red-400',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+const textVariants = cva('text-center text-body text-neutral-900', {
+  variants: {
+    variant: {
+      default: '',
+      correct: 'text-green-700',
+      incorrect: 'text-red-700',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+const viewVariants = cva('absolute right-0 top-0 h-6 w-6 items-center justify-center', {
+  variants: {
+    variant: {
+      default: '',
+      selected: 'bg-orange-500',
+      correct: 'bg-green-400',
+      incorrect: 'bg-red-400',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
 type AnswerColumnProps = {
   column: Column;
   title: string | undefined;
@@ -24,6 +64,8 @@ type AnswerColumnProps = {
   selectedPairs: PairAnswer[];
   setSelectingPairs: Dispatch<SetStateAction<PairAnswer>>;
   setSelectedPairs: Dispatch<SetStateAction<PairAnswer[]>>;
+  correctness?: boolean[];
+  isChecking?: boolean;
 };
 
 export const AnswerColumn = ({
@@ -34,13 +76,12 @@ export const AnswerColumn = ({
   selectedPairs,
   setSelectingPairs,
   setSelectedPairs,
+  correctness = [],
+  isChecking = false,
 }: AnswerColumnProps) => {
-  const { isChecking, isCorrect } = useGameStore();
-
   const findIndexOfPair = (value: string) => {
     const valueInPairA = selectedPairs.find((pair) => pair.columnA.includes(value));
     const valueInPairB = selectedPairs.find((pair) => pair.columnB.includes(value));
-
     if (valueInPairA) {
       return selectedPairs.indexOf(valueInPairA) === -1 ? null : selectedPairs.indexOf(valueInPairA) + 1;
     }
@@ -48,7 +89,9 @@ export const AnswerColumn = ({
     if (valueInPairB) {
       return selectedPairs.indexOf(valueInPairB) === -1 ? null : selectedPairs.indexOf(valueInPairB) + 1;
     }
-
+    if (selectingPairs.columnA.includes(value) || selectingPairs.columnB.includes(value)) {
+      return selectedPairs.length + 1;
+    }
     return null;
   };
 
@@ -65,51 +108,37 @@ export const AnswerColumn = ({
     }
   };
 
-  const renderClassName = (ref: string[], value: string) => {
-    return cn(
-      'border-2 bg-background text-center text-body text-neutral-900',
-      ref.includes(value) ? ' border-orange-500' : 'border-neutral-200'
-    );
-  };
-
-  const renderComponent = (component: 'Button' | 'Text' | 'View') => {
-    if (!isChecking) return '';
-
-    const styles = {
-      Button: isCorrect ? 'border-green-400 bg-green-50' : 'border-red-400 bg-red-50',
-      Text: isCorrect ? 'text-green-700' : 'text-red-700',
-      View: isCorrect ? 'bg-green-400' : 'bg-red-400',
-    };
-
-    return styles[component];
-  };
   return (
     <View className='gap-y-2'>
       <Text className='text-title-4 font-bold'>{title}</Text>
       <View className='gap-y-3'>
-        {options.map((value, index) => (
-          <Button
-            key={index}
-            className={cn(
-              `w-full overflow-hidden px-6 py-3`,
-              renderClassName(selectingPairs[column], value),
-              findIndexOfPair(value) ? ' border-orange-500' : '',
-              renderComponent('Button')
-            )}
-            onPress={() => handlePress(value, column)}>
-            <Text className={cn(renderComponent('Text'))}>{value}</Text>
-            {selectedPairs && (
-              <View
-                className={cn(
-                  'absolute right-0 top-0 h-6 w-6 items-center justify-center',
-                  findIndexOfPair(value) ? 'bg-orange-500' : '',
-                  renderComponent('View')
-                )}>
-                <Text className='text-center text-white'>{findIndexOfPair(value)}</Text>
-              </View>
-            )}
-          </Button>
-        ))}
+        {options.map((value, index) => {
+          const pairIndex = findIndexOfPair(value);
+          const isCorrect = pairIndex ? correctness[pairIndex - 1] : false;
+          return (
+            <Button
+              key={index}
+              className={buttonVariants({
+                variant: pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default',
+              })}
+              onPress={() => handlePress(value, column)}>
+              <Text
+                className={textVariants({
+                  variant: isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'default',
+                })}>
+                {value}
+              </Text>
+              {selectedPairs && (
+                <View
+                  className={viewVariants({
+                    variant: pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default',
+                  })}>
+                  <Text className='text-center text-white'>{findIndexOfPair(value)}</Text>
+                </View>
+              )}
+            </Button>
+          );
+        })}
       </View>
     </View>
   );

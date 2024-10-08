@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import QuestionTemplate from '~/components/molecules/exercise/QuestionTemplate';
+import QuestionTemplate from '~/components/molecules/Exercise/QuestionTemplate';
 import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
 import useLesson from '~/hooks/useLesson';
 
 export default function Lesson() {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
-  const { isLoading, currentQuestion, clear, ...rest } = useLesson(lessonId);
+  const { isLoading, currentQuestion, clear } = useLesson(lessonId);
   const { t } = useTranslation('question');
 
   useEffect(() => {

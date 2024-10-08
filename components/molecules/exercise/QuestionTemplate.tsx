@@ -1,25 +1,20 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pressable, Text, View } from 'react-native';
+import { useEffect } from 'react';
+import { Pressable, View } from 'react-native';
 
 import { Progress } from '~/components/ui/Progress';
-import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
 import useLesson from '~/hooks/useLesson';
 
 import AnswerModal from '../AnswerModal';
+import { AfterLesson } from '../lesson/AfterLesson';
 import { Loading } from '../Loading';
 import PlatformView from '../PlatformView';
 import AnswerInput from './AnswerInput';
 import QuestionCard from './QuestionCard';
 
 export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
-  const { t } = useTranslation('question');
   const {
-    isLoading,
-    isError,
-    isSuccess,
     nextQuestion,
     answerQuestion,
     totalQuestion,
@@ -28,33 +23,23 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
     clear,
     currentQuestion,
     currentQuestionIndex,
+    mutation,
+    result,
+    isPendingMutation,
   } = useLesson(lessonId);
-  const lessonCompletionMutation = useLessonCompletion();
-  const { isPending } = lessonCompletionMutation;
 
-  const [startTime, setStartTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
-
-  // const handleContinue = useCallback(() => {
-  //   nextQuestion();
-  //   if (currentQuestion === questions.length - 1) {
-  //     const endTime = getDuration(startTime);
-  //     lessonCompletionMutation.mutate({
-  //       lessonId: lesson,
-  //       correctAnswers,
-  //       wrongAnswers: questions.length - correctAnswers,
-  //       duration: endTime,
-  //     });
-  //     setDuration(endTime);
-  //   }
-  // }, [nextQuestion, currentQuestion, questions]);
+  useEffect(() => {
+    if (isCompleted && currentQuestionIndex === totalQuestion - 1) {
+      mutation();
+    }
+  }, [isCompleted]);
 
   const handleBack = () => {
     clear();
     router.back();
   };
 
-  if (isPending) {
+  if (isPendingMutation) {
     return (
       <View className='h-full'>
         <Loading />
@@ -64,16 +49,8 @@ export default function QuestionTemplate({ lessonId }: { lessonId: string }) {
 
   return (
     <View>
-      {isCompleted ? (
-        // <AfterLesson
-        //   data={{
-        //     percent: (correctAnswers / questions.length) * 100,
-        //     exp: xp,
-        //     carrot: carrots,
-        //     timer: duration,
-        //   }}
-        // />
-        <Text>Complete</Text>
+      {isCompleted && result ? (
+        <AfterLesson data={result} />
       ) : (
         <PlatformView className='flex'>
           <View className='mx-4 flex flex-row items-center justify-center gap-x-4 px-2'>

@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
-import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
+import { AfterLessonProps } from '~/components/molecules/lesson/AfterLesson';
+import { useLessonCompletion, useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { TypeQuestion } from '~/lib/types/questions';
+import { getDuration } from '~/lib/utils';
 
 export type Answer = boolean | 'notAnswered';
 
@@ -14,10 +16,13 @@ type State = {
   learnerAnswers: Answer[];
   isCompleted: boolean;
   learnerAnswer: number[] | null;
+  startTime: number;
+  result: AfterLessonProps | null;
 };
 
 type Action = {
   setQuestions: (questions: State['questions']) => void;
+  setResult: (result: State['result']) => void;
   answerQuestion: (newAnswer: boolean) => void;
   nextQuestion: () => void;
   clear: () => void;
@@ -31,6 +36,8 @@ const initialValue: State = {
   learnerAnswers: [],
   isCompleted: false,
   learnerAnswer: null,
+  startTime: 0,
+  result: null,
 };
 const useLessonStore = create<State & Action>((set, get) => ({
   ...initialValue,
@@ -40,7 +47,11 @@ const useLessonStore = create<State & Action>((set, get) => ({
       totalQuestion: questions.length,
       currentQuestion: questions.length ? questions[0] : null,
       learnerAnswers: Array(questions.length).fill('notAnswered'),
+      startTime: Date.now(),
     });
+  },
+  setResult: (result: State['result']) => {
+    set({ result });
   },
   answerQuestion: (newAnswer) => {
     const { learnerAnswers, currentQuestionIndex } = get();
@@ -66,6 +77,7 @@ const useLessonStore = create<State & Action>((set, get) => ({
 }));
 
 export default function useLesson(lessonId: string) {
+  const lessonCompletetionMutation = useLessonCompletion();
   const { data: lesson, isLoading, isError, isSuccess } = useLessonQuestions({ lessonId });
   const {
     setQuestions,
@@ -77,7 +89,39 @@ export default function useLesson(lessonId: string) {
     currentQuestionIndex,
     clear,
     isCompleted,
+    startTime,
+    result,
+    setResult,
   } = useLessonStore();
+
+  const mutation = () => {
+    const correctAnswers = learnerAnswers.reduce((acc, answer) => {
+      if (answer === true) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+    return lessonCompletetionMutation.mutate(
+      {
+        lessonId: Number(lessonId),
+        correctAnswers,
+        wrongAnswers: totalQuestion - correctAnswers,
+        duration: getDuration(startTime),
+      },
+      {
+        onSuccess: ({ bonusCarrot, bonusXP, correctAnswers, duration }) => {
+          setResult({
+            carrot: bonusCarrot,
+            exp: bonusXP,
+            percent: Math.ceil((correctAnswers / totalQuestion) * 100),
+            timer: duration,
+          });
+        },
+      }
+    );
+  };
+
+  const isPendingMutation = lessonCompletetionMutation.isPending;
 
   useEffect(() => {
     if (isSuccess && lesson) {
@@ -97,6 +141,10 @@ export default function useLesson(lessonId: string) {
     clear,
     currentQuestion,
     currentQuestionIndex,
+    startTime,
+    mutation,
+    result,
+    isPendingMutation,
   };
 }
 
