@@ -5,8 +5,8 @@ import { NewMilestone } from '~/components/molecules/milestone/NewMilestone';
 import { StreakMilestone } from '~/components/molecules/milestone/StreakMilestone';
 import { MilestoneProps } from '~/components/molecules/milestone/type';
 import { useGameStore } from '~/hooks/zustand';
-import { MilestonesEnum, RankEnum } from '~/lib/enums';
-import { IMilestone } from '~/lib/interfaces';
+import { useMilestone } from '~/hooks/zustand/useMilestone';
+import { MilestonesEnum } from '~/lib/enums';
 
 const MilestonesMap: {
   [key in MilestonesEnum]: (props: MilestoneProps) => JSX.Element;
@@ -17,24 +17,8 @@ const MilestonesMap: {
 };
 
 export default function Milestones() {
-  // const { resetGame, milestones } = useGameStore();
-
-  // To test the component
   const { resetGame } = useGameStore();
-  const milestones: IMilestone[] = [
-    {
-      type: MilestonesEnum.LEVEL_UP,
-      newValue: {
-        id: 3,
-        xp: 300,
-      },
-    },
-    {
-      type: MilestonesEnum.RANK_UP,
-      newValue: RankEnum.GOLD,
-    },
-    { type: MilestonesEnum.DAILY_STREAK, newValue: 3 },
-  ];
+  const { milestones } = useMilestone();
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
 

@@ -141,3 +141,8 @@ export interface IGameProfile {
   profileItems: any[];
   currentItems: any[];
 }
+
+export interface IHistoryStreak {
+  date: string;
+  actionName: ActionNameEnum;
+}

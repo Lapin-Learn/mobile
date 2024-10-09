@@ -5,6 +5,7 @@ import { IAfterLesson } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
 import { useGameStore } from '../zustand';
+import { useMilestone } from '../zustand/useMilestone';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({
@@ -35,7 +36,8 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
 };
 
 export const useLessonCompletion = () => {
-  const { setXp, setCarrots, setMilestones } = useGameStore();
+  const { setXp, setCarrots } = useGameStore();
+  const { setMilestones } = useMilestone();
   const queryClient = useQueryClient();
 
   return useMutation({

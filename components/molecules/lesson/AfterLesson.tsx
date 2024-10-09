@@ -11,8 +11,7 @@ import FlashIcon from '~/assets/images/flash.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Button } from '~/components/ui/Button';
 import { useGameStore } from '~/hooks/zustand';
-import { MilestonesEnum, RankEnum } from '~/lib/enums';
-import { IMilestone } from '~/lib/interfaces';
+import { useMilestone } from '~/hooks/zustand/useMilestone';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
 import { Modal } from '../Modal';
@@ -33,24 +32,9 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 };
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
-  // const { resetGame, milestones } = useGameStore();
-
-  // To test the component
   const { resetGame } = useGameStore();
-  const milestones: IMilestone[] = [
-    {
-      type: MilestonesEnum.LEVEL_UP,
-      newValue: {
-        id: 3,
-        xp: 300,
-      },
-    },
-    {
-      type: MilestonesEnum.RANK_UP,
-      newValue: RankEnum.GOLD,
-    },
-    { type: MilestonesEnum.DAILY_STREAK, newValue: 3 },
-  ];
+  const { milestones } = useMilestone();
+
   const { t } = useTranslation('lesson');
 
   const [isModalVisible, setIsModalVisible] = useState(true);
