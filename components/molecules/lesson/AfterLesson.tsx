@@ -10,7 +10,6 @@ import CarrotIcon from '~/assets/images/carrot.svg';
 import FlashIcon from '~/assets/images/flash.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Button } from '~/components/ui/Button';
-import { useGameStore } from '~/hooks/zustand';
 import { useMilestone } from '~/hooks/zustand/useMilestone';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
@@ -32,7 +31,6 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 };
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
-  const { resetGame } = useGameStore();
   const { milestones } = useMilestone();
 
   const { t } = useTranslation('lesson');
@@ -41,17 +39,12 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
 
   const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
-  const handleBack = () => {
-    resetGame();
-    router.back();
-  };
-
   useEffect(() => {
     if (!isModalVisible) {
       if (milestones.length) {
         router.replace('/milestones');
       } else {
-        handleBack();
+        router.back();
       }
     }
   }, [isModalVisible]);

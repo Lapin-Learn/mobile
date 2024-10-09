@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { NewMilestone } from '~/components/molecules/milestone/NewMilestone';
 import { StreakMilestone } from '~/components/molecules/milestone/StreakMilestone';
 import { MilestoneProps } from '~/components/molecules/milestone/type';
-import { useGameStore } from '~/hooks/zustand';
 import { useMilestone } from '~/hooks/zustand/useMilestone';
 import { MilestonesEnum } from '~/lib/enums';
 
@@ -18,7 +17,6 @@ const MilestonesMap: {
 };
 
 export default function Milestones() {
-  const { resetGame } = useGameStore();
   const { milestones } = useMilestone();
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
@@ -31,15 +29,11 @@ export default function Milestones() {
   });
   const Milestone = MilestonesMap[sortedMilestones[currentMilestone].type];
 
-  const handleBack = () => {
-    resetGame();
-    router.back();
-  };
   const handleNextMilestone = () => {
     if (currentMilestone < sortedMilestones.length - 1) {
       setCurrentMilestone((prev) => prev + 1);
     } else {
-      handleBack();
+      router.back();
     }
   };
 

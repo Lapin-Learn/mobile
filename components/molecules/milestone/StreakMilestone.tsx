@@ -6,20 +6,23 @@ import { View } from 'react-native';
 import StreakIcon from '~/components/icons/StreakIcon';
 import { Button } from '~/components/ui/Button';
 import { Text } from '~/components/ui/Text';
-import { useHistoryStreak } from '~/hooks/react-query/useStreak';
+import { useStreaks } from '~/hooks/react-query/useStreak';
 
 import { Loading } from '../Loading';
 import PlatformView from '../PlatformView';
 import { MilestoneProps } from './type';
 
 const WeekRecord = ({ streakRecords }: { readonly streakRecords: string[] }) => {
-  const weekMap = getCurrentWeekBooleanObject(streakRecords);
+  const { t, i18n } = useTranslation();
+
+  const DAYS_OF_WEEK: string[] = (t('calendar.days_of_week', { returnObjects: true }) as string[]) ?? [];
+  const weekMap = getCurrentWeekBooleanObject(streakRecords, DAYS_OF_WEEK);
 
   return (
     <View className='flex flex-row gap-4'>
       {Object.keys(weekMap).map((date, index) => (
         <View key={index} className='flex flex-col items-center justify-center gap-1'>
-          <Text className='text-body font-semibold color-neutral-200'>{date[0].toUpperCase()}</Text>
+          <Text className='text-body font-semibold color-neutral-200'>{i18n.language === 'en' ? date[0] : date}</Text>
           {weekMap[date] ? (
             <StreakIcon variant='done' />
           ) : weekMap[date] === false ? (
@@ -35,7 +38,7 @@ const WeekRecord = ({ streakRecords }: { readonly streakRecords: string[] }) => 
 
 export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
-  const { data, isPending } = useHistoryStreak({ start: '0' });
+  const { data, isPending } = useStreaks({ startDate: '0' });
 
   const [streakRecords, setStreakRecords] = useState<string[]>([]);
 
@@ -79,15 +82,13 @@ function formatDate(date: Date): string {
   return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
 }
 
-function getCurrentWeekBooleanObject(doneRecords: string[]): Record<string, boolean | undefined> {
-  const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+function getCurrentWeekBooleanObject(doneRecords: string[], dayNames: string[]): Record<string, boolean | undefined> {
   const currentDate = new Date();
   const currentDay = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(currentDate.getDate() - currentDay); // Set to the start of the week (Sunday)
 
   const weekBooleanObject: Record<string, boolean | undefined> = {};
-
   const doneRecordsSet = new Set(doneRecords.map((record) => formatDate(new Date(record))));
 
   for (let i = 0; i < 7; i++) {
