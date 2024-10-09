@@ -30,9 +30,20 @@
     "schedule": "Streak Schedule"
   },
   "calendar": {
-    "days_of_week": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
+    "days_of_week": ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
     "months": [
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
     ]
   }
 }

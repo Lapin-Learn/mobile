@@ -30,9 +30,20 @@
     "schedule": "Lịch Streak"
   },
   "calendar": {
-    "days_of_week": ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+    "days_of_week": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
     "months": [
-      "Tháng Một", "Tháng Hai", "Tháng Ba", "Tháng Tư", "Tháng Năm", "Tháng Sáu", "Tháng Bảy", "Tháng Tám", "Tháng Chín", "Tháng Mười", "Tháng Mười Một", "Tháng Mười Hai"
+      "Tháng Một",
+      "Tháng Hai",
+      "Tháng Ba",
+      "Tháng Tư",
+      "Tháng Năm",
+      "Tháng Sáu",
+      "Tháng Bảy",
+      "Tháng Tám",
+      "Tháng Chín",
+      "Tháng Mười",
+      "Tháng Mười Một",
+      "Tháng Mười Hai"
     ]
   }
 }
