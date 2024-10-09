@@ -1,6 +1,6 @@
 import { IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/interfaces';
 
-import api from './httpRequests';
+import api from '../httpRequests';
 
 export const getUserProfile = async () => {
   const data = await api.get<IUserProfile>('users/profile');

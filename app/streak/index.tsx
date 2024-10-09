@@ -1,3 +1,4 @@
+import { startOfMonth, subMonths } from 'date-fns';
 import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView, Text, View } from 'react-native';
@@ -5,7 +6,9 @@ import { SafeAreaView, Text, View } from 'react-native';
 import CustomCalendar from '~/components/molecules/custom-calendar';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/molecules/PlatformView';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
+import { useStreaks } from '~/hooks/react-query/useStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
 export function generateTarget(days: number): { value: number; active: boolean }[] {
@@ -35,15 +38,15 @@ export function generateTarget(days: number): { value: number; active: boolean }
 export default function Streak() {
   const { t } = useTranslation();
   const { data, isFetching } = useGameProfile();
+  const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
   const textStyle = data?.streak.current === 0 ? 'text-[#849EBC]' : 'text-blue';
   const isLongestStreak = data?.streak.current === data?.streak.record;
-
   if (isFetching) return <Loading />;
 
   return (
     <>
-      <SafeAreaView className='flex-1 bg-[#E7F4FE]'>
+      <PlatformView className='flex-1 bg-[#E7F4FE]'>
         <NavigationBar headerTitle={'Streak'} headerLeftShown />
         <View className='flex gap-y-8 px-8 pb-4'>
           <View className='flex flex-row items-end justify-between'>
@@ -75,9 +78,9 @@ export default function Streak() {
         </View>
         <View className='flex flex-1 grow gap-y-4 bg-background px-4 pt-4'>
           <Text className='font-isemibold text-title-2'>{t('streak.schedule')}</Text>
-          <CustomCalendar />
+          <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} />
         </View>
-      </SafeAreaView>
+      </PlatformView>
       <SafeAreaView className='flex-0 bg-background' />
     </>
   );

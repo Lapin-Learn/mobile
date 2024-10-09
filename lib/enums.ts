@@ -55,3 +55,7 @@ export enum RankEnum {
   DIAMOND = 'diamond',
   MASTER = 'master',
 }
+
+export enum ActionNameEnum {
+  STREAK = 'daily_streak',
+}

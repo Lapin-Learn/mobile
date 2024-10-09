@@ -1,3 +1,5 @@
+import { addDays, isBefore, isSameDay, subDays } from 'date-fns';
+
 const getDaysInMonth = (month: number, year: number) => {
   return new Date(year, month + 1, 0).getDate();
 };
@@ -9,7 +11,7 @@ type DayProps = {
   active: 'default' | 'single' | 'last' | 'middle' | 'first';
 };
 
-const generateCalendar = (startDay: Date, activeDays: Date[] = []) => {
+const generateCalendar = (startDay: Date) => {
   const year = startDay.getFullYear();
   const month = startDay.getMonth();
   const daysInMonth = getDaysInMonth(month, year);
@@ -56,13 +58,35 @@ const generateCalendar = (startDay: Date, activeDays: Date[] = []) => {
     });
   }
 
-  for (let i = 0; i < daysArray.length; i += 1) {
-    const isActive = activeDays.findIndex((activeDay) => activeDay.toDateString() === daysArray[i].day.toDateString());
-    if (isActive !== -1) {
-      daysArray[i].active = 'single';
-    }
-  }
   return daysArray;
 };
 
-export { generateCalendar };
+const parseActiveDays = (originalDays: DayProps[], activeDays: Date[] = []) => {
+  activeDays.sort((a, b) => a.getTime() - b.getTime());
+  const newDays = [...originalDays];
+  let i = 0;
+  let j = 0;
+  while (i < activeDays.length) {
+    if (isBefore(activeDays[i], originalDays[0].day)) {
+      i++;
+    } else break;
+  }
+  while (j < originalDays.length) {
+    if (i > activeDays.length - 1) break;
+    if (isSameDay(originalDays[j].day, activeDays[i])) {
+      newDays[j].active = 'single';
+      if (i > 0 && isSameDay(subDays(originalDays[j].day, 1), activeDays[i - 1])) {
+        newDays[j].active = 'last';
+        if (i < activeDays.length - 1 && isSameDay(addDays(originalDays[j].day, 1), activeDays[i + 1])) {
+          newDays[j].active = 'middle';
+        }
+      } else if (i < activeDays.length - 1 && isSameDay(addDays(originalDays[j].day, 1), activeDays[i + 1])) {
+        newDays[j].active = 'first';
+      }
+      i++;
+    }
+    j++;
+  }
+  return newDays;
+};
+export { generateCalendar, parseActiveDays };
