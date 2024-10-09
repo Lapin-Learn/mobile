@@ -6,10 +6,10 @@ export interface IQuestionType {
   name: string;
   skill: SkillEnum;
   imageId: string | null;
-  bandScoreRequired: {
+  bandScoreRequires: {
     bandScore: BandScoreEnum;
-    requiredXP: number;
-  };
+    requireXP: number;
+  }[];
   lessons: number;
   progress: {
     bandScore: BandScoreEnum;

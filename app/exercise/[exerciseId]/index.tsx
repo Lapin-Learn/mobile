@@ -20,9 +20,10 @@ function QuestionTypeCard({
   name,
   progress,
   imageId,
-  bandScoreRequired,
-}: Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequired'>) {
+  bandScoreRequires,
+}: Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>) {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
+  const curReq = bandScoreRequires.find((req) => req.bandScore === bandScore);
   const { t } = useTranslation('translation');
 
   return (
@@ -40,10 +41,10 @@ function QuestionTypeCard({
         <View className='flex flex-row justify-between'>
           <Text className='font-imedium text-subhead text-supporting-text'>{t('questionTypes.experience')}</Text>
           <Text className='font-imedium text-subhead text-supporting-text'>
-            {t('questionTypes.xp')} {totalLearningXP}/{bandScoreRequired.requiredXP}
+            {t('questionTypes.xp')} {totalLearningXP}/{curReq?.requireXP}
           </Text>
         </View>
-        <Progress value={(totalLearningXP / bandScoreRequired.requiredXP) * 100} />
+        <Progress value={(totalLearningXP / (curReq?.requireXP || 1)) * 100} />
       </View>
     </View>
   );
@@ -84,7 +85,7 @@ export default function Exercise() {
                   name={item.name}
                   progress={item.progress}
                   imageId={item.image?.url || ''}
-                  bandScoreRequired={item.bandScoreRequired}
+                  bandScoreRequires={item.bandScoreRequires}
                 />
               </Pressable>
             )}
