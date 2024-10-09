@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
-import { AuthInfo, AuthUser } from './auth';
+import { AuthInfo, AuthUser } from './axios/auth';
 
 export const localStorageTokenKey = 'auth_client_token';
 export const localStorageUserKey = 'auth_client_user';

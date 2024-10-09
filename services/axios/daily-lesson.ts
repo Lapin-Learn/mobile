@@ -8,7 +8,7 @@ import {
   IQuestionType,
 } from '~/lib/interfaces';
 
-import api from './httpRequests';
+import api from '../httpRequests';
 
 type LessonCompletionParams = {
   lessonId: number;

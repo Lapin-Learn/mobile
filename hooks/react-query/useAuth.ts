@@ -11,7 +11,7 @@ import {
   signInWithProvider,
   signUp,
   verify,
-} from '~/services/auth';
+} from '~/services/axios/auth';
 
 import { useToast } from '../useToast';
 

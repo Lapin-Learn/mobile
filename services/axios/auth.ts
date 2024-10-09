@@ -3,7 +3,7 @@ import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native
 
 import { ProviderNameEnum } from '~/lib/enums';
 
-import api from './httpRequests';
+import api from '../httpRequests';
 
 const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID;
 GoogleSignin.configure({

@@ -1,4 +1,4 @@
-import { BandScoreEnum, GenderEnum, MilestonesEnum, RankEnum, SkillEnum } from './enums';
+import { ActionNameEnum, BandScoreEnum, GenderEnum, MilestonesEnum, RankEnum, SkillEnum } from './enums';
 import { TypeQuestion } from './types/questions';
 
 export interface IQuestionType {
@@ -102,6 +102,11 @@ export interface IStreak {
   current: number;
   target: number;
   record: number;
+}
+
+export interface IStreakHistory {
+  date: string;
+  actionName: ActionNameEnum.STREAK;
 }
 
 export interface IInstruction {
