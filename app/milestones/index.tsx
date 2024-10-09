@@ -14,6 +14,7 @@ const MilestonesMap: {
   daily_streak: StreakMilestone,
   level_up: NewMilestone,
   rank_up: NewMilestone,
+  band_score_up: NewMilestone,
 };
 
 export default function Milestones() {
@@ -24,7 +25,8 @@ export default function Milestones() {
 
   useEffect(() => {}, [currentMilestone]);
 
-  const sortedMilestones = milestones.sort((a, b) => {
+  const filteredMilestones = milestones.filter((milestone) => milestone.type !== 'band_score_up');
+  const sortedMilestones = filteredMilestones.sort((a, b) => {
     return Object.values(MilestonesEnum).indexOf(a.type || '') - Object.values(MilestonesEnum).indexOf(b.type || '');
   });
   const Milestone = MilestonesMap[sortedMilestones[currentMilestone].type];
@@ -34,7 +36,7 @@ export default function Milestones() {
     router.back();
   };
   const handleNextMilestone = () => {
-    if (currentMilestone < milestones.length - 1) {
+    if (currentMilestone < sortedMilestones.length - 1) {
       setCurrentMilestone((prev) => prev + 1);
     } else {
       handleBack();

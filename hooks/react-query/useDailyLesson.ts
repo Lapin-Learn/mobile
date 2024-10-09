@@ -46,6 +46,8 @@ export const useLessonCompletion = () => {
       setXp(response.bonusXP);
       setCarrots(response.bonusCarrot);
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
+      response.milestones.find((m) => m.type === 'band_score_up') &&
+        queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
       setMilestones(response.milestones);
     },
     onError: (error) => {
