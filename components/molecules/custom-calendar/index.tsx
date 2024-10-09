@@ -1,12 +1,12 @@
 import { isSameMonth, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 import DayItem from './DayItem';
 import { generateCalendar, parseActiveDays } from './helpers';
 
-const DAYS_OF_WEEK = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 const LIMIT_QUERY = subMonths(new Date(), 12); // Limit to 12 months
 
 interface CustomCalendarProps {
@@ -15,6 +15,9 @@ interface CustomCalendarProps {
 }
 
 const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
+  const { t } = useTranslation();
+  const DAYS_OF_WEEK: string[] = (t('calendar.days_of_week', { returnObjects: true }) as string[]) ?? [];
+  const MONTHS: string[] = (t('calendar.months', { returnObjects: true }) as string[]) ?? [];
   const [startDay, setStartDay] = useState(new Date());
 
   const changeMonth = (direction: number) => {
@@ -32,7 +35,7 @@ const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
           <ChevronLeft size={28} color='#000' />
         </TouchableOpacity>
         <Text className='font-ibold text-headline'>
-          {startDay.toLocaleString('default', { month: 'long' })} {startDay.getFullYear()}
+          {(t('calendar.months', { returnObjects: true }) as string[])[startDay.getMonth()]} {startDay.getFullYear()}
         </Text>
         <TouchableOpacity onPress={() => changeMonth(1)} className='size-6'>
           <ChevronRight size={28} color='#000' />

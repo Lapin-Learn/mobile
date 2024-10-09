@@ -28,5 +28,11 @@
     "max": "This is the longest streak you have achieved!",
     "this": "Đây",
     "schedule": "Streak Schedule"
+  },
+  "calendar": {
+    "days_of_week": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
+    "months": [
+      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ]
   }
 }
