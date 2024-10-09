@@ -4,7 +4,6 @@ import { SkillEnum } from '~/lib/enums';
 import { IAfterLesson } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
-import { useGameStore } from '../zustand';
 import { useMilestone } from '../zustand/useMilestone';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
@@ -36,15 +35,12 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
 };
 
 export const useLessonCompletion = () => {
-  const { setXp, setCarrots } = useGameStore();
   const { setMilestones } = useMilestone();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: confirmLessonCompletion,
     onSuccess: (response: IAfterLesson) => {
-      setXp(response.bonusXP);
-      setCarrots(response.bonusCarrot);
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
       response.milestones.find((m) => m.type === 'band_score_up') &&
         queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
