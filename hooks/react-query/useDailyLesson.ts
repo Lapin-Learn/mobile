@@ -15,7 +15,7 @@ export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
 
 export const useListLessons = ({ questionTypeId }: { readonly questionTypeId: string }) => {
   return useQuery({
-    queryKey: ['lessons', questionTypeId],
+    queryKey: ['questionTypes', questionTypeId],
     queryFn: getLessons,
   });
 };
