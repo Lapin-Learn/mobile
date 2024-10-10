@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
 import { ContentTypeEnum } from '~/lib/enums';
-import { IMilestone, IQuestion } from '~/lib/interfaces';
 import { MatchingQuestion, MultipleChoiceQuestion, PairAnswer } from '~/lib/types';
+import { TypeQuestion } from '~/lib/types/questions';
 
 type GameState = {
   contentType: ContentTypeEnum | null;
-  questions: IQuestion[];
+  questions: TypeQuestion[];
   currentQuestion: number;
   isChecking: boolean;
   isCorrect: boolean;
@@ -14,17 +14,15 @@ type GameState = {
   xp: number;
   carrots: number;
   correctAnswers: number;
-  milestones: IMilestone[];
 };
 
 type GameActions = {
   setContentType: (contentType: ContentTypeEnum) => void;
-  setQuestions: (questions: IQuestion[]) => void;
+  setQuestions: (questions: TypeQuestion[]) => void;
   setXp: (xp: number) => void;
   setCarrots: (carrots: number) => void;
   checkAnswer: <T extends PairAnswer | number>(selectedData?: T[]) => void;
   resetGame: () => void;
-  setMilestones: (milestones: IMilestone[]) => void;
   setIsChecking: (isChecking: boolean) => void;
   setIsCorrect: (isCorrect: boolean) => void;
   setCurrentQuestion: (currentQuestion: number) => void;
@@ -62,9 +60,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   correctAnswers: 0,
   question: '',
   explanation: '',
-  milestones: [],
   setContentType: (contentType: ContentTypeEnum) => set({ contentType }),
-  setQuestions: (questions: IQuestion[]) => set({ questions }),
+  setQuestions: (questions: TypeQuestion[]) => set({ questions }),
   setXp: (xp: number) => set({ xp }),
   setCarrots: (carrots: number) => set({ carrots }),
 
@@ -101,7 +98,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({
           answer: answerIndices.map((index: number) => (question.content as MultipleChoiceQuestion).options[index]),
         });
-        set({ explanation: question?.explanation });
+        set({ explanation: question?.explanation || '' });
         break;
       }
 
@@ -151,7 +148,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       answer: [],
       selected: [],
     }),
-  setMilestones: (milestones: IMilestone[]) => set({ milestones }),
   setIsChecking: (isChecking: boolean) => set({ isChecking }),
   setIsCorrect: (isCorrect: boolean) => set({ isCorrect }),
   setCurrentQuestion: (currentQuestion: number) => set({ currentQuestion }),

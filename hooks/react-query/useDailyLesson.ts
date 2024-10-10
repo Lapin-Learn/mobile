@@ -4,7 +4,7 @@ import { SkillEnum } from '~/lib/enums';
 import { IAfterLesson } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
-import { useGameStore } from '../zustand';
+import { useMilestone } from '../zustand/useMilestone';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({
@@ -15,7 +15,7 @@ export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
 
 export const useListLessons = ({ questionTypeId }: { readonly questionTypeId: string }) => {
   return useQuery({
-    queryKey: ['lessons', questionTypeId],
+    queryKey: ['questionTypes', questionTypeId],
     queryFn: getLessons,
   });
 };
@@ -35,15 +35,15 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
 };
 
 export const useLessonCompletion = () => {
-  const { setXp, setCarrots, setMilestones } = useGameStore();
+  const { setMilestones } = useMilestone();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: confirmLessonCompletion,
     onSuccess: (response: IAfterLesson) => {
-      setXp(response.bonusXP);
-      setCarrots(response.bonusCarrot);
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
+      response.milestones.find((m) => m.type === 'band_score_question_type_up') &&
+        queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
       setMilestones(response.milestones);
     },
     onError: (error) => {

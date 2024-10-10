@@ -36,7 +36,7 @@ export function useFormInput<T>({ props, label, placeholder, error, type, defaul
         return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='email-address' />;
       case 'date':
         return (
-          <TouchableOpacity className='w-full'>
+          <TouchableOpacity className='w-full' onPress={() => setShowDatePicker(true)}>
             <CustomTextInput
               className={inputProps.className}
               placeholder={placeholder}
@@ -44,7 +44,6 @@ export function useFormInput<T>({ props, label, placeholder, error, type, defaul
               onChangeText={field.onChange}
               onBlur={field.onBlur}
               editable={false}
-              onPress={() => setShowDatePicker(true)}
             />
             {showDatePicker &&
               (Platform.OS === 'ios' ? (

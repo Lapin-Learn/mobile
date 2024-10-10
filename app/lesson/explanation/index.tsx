@@ -17,14 +17,7 @@ function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
   if (answers.length === 1) {
     return (
       <View>
-        <ChoiceButton
-          index={0}
-          label={answers[0]}
-          selectedBox={[0]}
-          isChecking={true}
-          isCorrect={true}
-          onPress={() => {}}
-        />
+        <ChoiceButton label={answers[0]} onPress={() => {}} />
       </View>
     );
   }
@@ -32,17 +25,7 @@ function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
   return (
     <View>
       {answers.map((item, index) => (
-        <ChoiceCheckBox
-          key={index}
-          index={index}
-          label={item}
-          selectedBox={Array.from({ length: answers.length }, (_, i) => i)}
-          checked={true}
-          isChecking={true}
-          isCorrect={true}
-          onPress={() => {}}
-          onCheckedChange={() => {}}
-        />
+        <ChoiceCheckBox key={index} label={item} checked={true} onPress={() => {}} onCheckedChange={() => {}} />
       ))}
     </View>
   );
