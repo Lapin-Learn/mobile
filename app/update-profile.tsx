@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'expo-router';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { z } from 'zod';
 
@@ -7,17 +9,23 @@ import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import { useUpdateUserProfile } from '~/hooks/react-query/useUser';
+import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
   fullName: z.string().optional(),
-  dob: z.string().optional(),
-  gender: z.string().optional(),
+  dob: z
+    .date()
+    .min(new Date('1900-01-01'), { message: 'Invalid date' })
+    .max(new Date(), { message: 'Invalid date' })
+    .optional(),
+  gender: z.nativeEnum(GenderEnum).optional(),
 });
 
 type FormField = z.infer<typeof schema>;
 
 export default function UpdateProfile() {
+  const { t } = useTranslation('profile');
   const {
     control,
     handleSubmit,
@@ -27,37 +35,55 @@ export default function UpdateProfile() {
   });
 
   const updateUserProfileMutation = useUpdateUserProfile();
-
-  const onSubmit: SubmitHandler<FormField> = async (data) => {
-    // updateUserProfileMutation.mutate(data);
+  const router = useRouter();
+  const onSubmit = (data: FormField) => {
+    updateUserProfileMutation.mutate(data, {
+      onSuccess: () => {
+        router.push('/');
+      },
+    });
   };
 
   return (
     <SafeAreaView className='h-full'>
-      <NavigationBar title={'Update Profile'} />
-      <View className='h-full w-full grow flex-col items-center justify-between px-4 pb-8'>
+      <NavigationBar title={t('profile.basic_info')} />
+      <View className='h-full w-full grow flex-col items-center justify-between px-4 pb-8 pt-10'>
         <View className='gap-y-20'>
           <ScrollView className='h-full'>
             <View className='flex h-full gap-y-4'>
               <ControllerInput
                 props={{ name: 'username', control }}
-                label={'Username'}
-                placeholder={'Enter your username'}
+                label={t('profile.username')}
+                placeholder={t('placeholder.username')}
                 error={errors.username}
               />
 
               <ControllerInput
                 props={{ name: 'fullName', control }}
-                label={'Full Name'}
-                placeholder={'Enter your full name'}
+                label={t('profile.fullname')}
+                placeholder={t('placeholder.fullname')}
                 error={errors.fullName}
               />
 
               <ControllerInput
                 props={{ name: 'dob', control }}
-                label={'Date of Birth'}
-                placeholder={'Enter your date of birth'}
+                type='date'
+                label={t('profile.dob')}
+                placeholder={t('placeholder.dob')}
                 error={errors.dob}
+              />
+
+              <ControllerInput
+                type='select'
+                props={{ name: 'gender', control }}
+                label={t('profile.gender')}
+                placeholder={t('placeholder.gender')}
+                defaultLabel={t('placeholder.gender')}
+                options={[
+                  { value: GenderEnum.MALE, label: t('gender.male') },
+                  { value: GenderEnum.FEMALE, label: t('gender.female') },
+                ]}
+                error={errors.gender}
               />
             </View>
           </ScrollView>
@@ -66,7 +92,7 @@ export default function UpdateProfile() {
             size={'lg'}
             disabled={updateUserProfileMutation.isPending}
             className='absolute bottom-20 left-0 right-0'>
-            <Text className='text-button'>{updateUserProfileMutation.isPending ? 'Updating...' : 'Update'}</Text>
+            <Text className='text-button'>{t('profile.done')}</Text>
           </Button>
         </View>
       </View>

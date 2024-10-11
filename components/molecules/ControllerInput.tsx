@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Text, TextInputProps, View } from 'react-native';
 
 import { FormInputProps, useFormInput } from '~/hooks/useFormInput';
@@ -21,6 +22,7 @@ export function ControllerInput<T>({
     defaultLabel,
     options,
   });
+  const { t } = useTranslation();
 
   return (
     <View className='w-full flex-col items-start justify-start gap-1'>
@@ -35,7 +37,7 @@ export function ControllerInput<T>({
           })}
         </View>
       </View>
-      {error && <Text className='text-red-500'>{String(error.message)}</Text>}
+      {error && <Text className='text-red-500'>{t(String(error.message), { ns: 'validation' })}</Text>}
     </View>
   );
 }

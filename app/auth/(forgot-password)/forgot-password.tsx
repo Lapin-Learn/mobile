@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 
@@ -38,7 +39,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <SafeAreaView className='h-screen'>
+    <PlatformView className='h-screen'>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown />
         <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
@@ -65,6 +66,6 @@ export default function ForgotPassword() {
           </Button>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </PlatformView>
   );
 }

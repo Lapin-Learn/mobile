@@ -68,6 +68,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <AuthProvider>
+            {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
             <StatusBar style={'light'} />
             <AppStack />
             <Toast />

@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 
+import { IUserProfile } from '~/lib/interfaces';
 import {
   changePassword,
   createPreSignedUrl,
   createUpdatePreSignedUrl,
+  getAccountIdentifier,
   getGameProfile,
   getUserProfile,
   updateUserProfile,
@@ -14,6 +16,29 @@ import {
 import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
 
+export const useAccountIdentifier = () => {
+  const signOut = useSignOut();
+  const accountIdentifier = useQuery({
+    queryKey: ['accountIdentifier'],
+    queryFn: getAccountIdentifier,
+    staleTime: Infinity,
+  });
+
+  if (accountIdentifier.error?.message === 'Unauthorized') {
+    signOut.mutate();
+  }
+
+  const { data: account, isSuccess } = accountIdentifier;
+
+  if (
+    accountIdentifier.error?.message === 'User not found' ||
+    (isSuccess && (!account.dob || !account.fullName || !account.gender))
+  ) {
+    router.replace('/update-profile');
+  }
+
+  return accountIdentifier;
+};
 export const useUserProfile = () => {
   const signOut = useSignOut();
   const userProfile = useQuery({
@@ -25,11 +50,6 @@ export const useUserProfile = () => {
     signOut.mutate();
   }
 
-  // TODO: update user profile
-  // if (userProfile.error?.message === 'User not found' || userProfile.data?.fullName === null) {
-  //   router.replace('/update-profile');
-  // }
-
   return userProfile;
 };
 
@@ -38,10 +58,11 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateUserProfile,
-    onSuccess: () => {
+    onSuccess: (returnData: IUserProfile) => {
       toast.show({ type: 'success', text1: 'Profile updated' });
+      queryClient.setQueryData(['userProfile'], returnData);
+      queryClient.setQueryData(['accountIdentifier'], returnData);
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-      router.push('/profile');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });

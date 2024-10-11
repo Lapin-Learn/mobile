@@ -1,5 +1,5 @@
 import { ParamListBase, RouteProp } from '@react-navigation/native';
-import { SplashScreen, Tabs } from 'expo-router';
+import { SplashScreen, Tabs, useRouter } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 import { Platform, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
@@ -9,6 +9,7 @@ import IconMissionTab from '~/assets/images/tab-mission.svg';
 import IconPracticeTab from '~/assets/images/tab-practice.svg';
 import IconProfileTab from '~/assets/images/tab-profile.svg';
 import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
+import { useAccountIdentifier } from '~/hooks/react-query/useUser';
 import { useAuth } from '~/hooks/zustand';
 
 function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focused: boolean }) {
@@ -21,6 +22,8 @@ function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focu
 
 export default function TabsLayout() {
   const { status } = useAuth();
+  const { data: account, isSuccess } = useAccountIdentifier();
+  const router = useRouter();
 
   const hideSplash = useCallback(async () => {
     await SplashScreen.hideAsync();

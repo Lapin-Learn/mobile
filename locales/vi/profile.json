@@ -12,7 +12,7 @@
     "update": "Lưu thay đổi",
     "change_password": "Đổi mật khẩu",
     "not_found": "Không tìm thấy thông tin người dùng",
-    "done": "Xong"
+    "done": "Cập nhật"
   },
   "placeholder": {
     "username": "Nhập tên đăng nhập",
@@ -42,8 +42,6 @@
     "new_password_placeholder": "Nhập mật khẩu mới",
     "confirm_password": "Xác nhận mật khẩu",
     "confirm_password_placeholder": "Nhập lại mật khẩu mới",
-    "save_button": "Lưu thay đổi",
-    "limit_characters": "Mật khẩu phải dài ít nhất 8 ký tự",
-    "password_not_match": "Mật khẩu không khớp"
+    "save_button": "Lưu thay đổi"
   }
 }

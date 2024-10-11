@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { z } from 'zod';
 
-import LOGOFB from '~/assets/images/facebook.svg';
-import LOGOGOOGLE from '~/assets/images/google.svg';
+import LogoFB from '~/assets/images/facebook.svg';
+import LogoGoogle from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
@@ -33,7 +33,7 @@ export default function SignIn() {
 
   const signInMutation = useSignIn();
 
-  const onSubmit: SubmitHandler<SignInFormField> = async (data) => {
+  const onSubmit = (data: SignInFormField) => {
     signInMutation.mutate(data);
   };
 
@@ -42,7 +42,7 @@ export default function SignIn() {
       <NavigationBar title={t('signIn.welcomeBack')} />
 
       <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
-        <Text className='font-pregular w-full text-callout text-neutral-500'>{t('signIn.enterDetails')}</Text>
+        <Text className='w-full font-inormal text-callout text-neutral-500'>{t('signIn.enterDetails')}</Text>
         <View className='gap-y-20'>
           <View className='flex gap-y-4'>
             <ControllerInput
@@ -91,8 +91,8 @@ function OtherSignIn() {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      <LOGOFB onPress={() => {}} width={32} height={32} />
-      <LOGOGOOGLE
+      <LogoFB onPress={() => {}} width={32} height={32} />
+      <LogoGoogle
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
         }}

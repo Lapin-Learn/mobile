@@ -1,0 +1,6 @@
+{
+  "change_password": {
+    "limit_characters": "Mật khẩu phải dài ít nhất 8 ký tự",
+    "password_not_match": "Mật khẩu không khớp"
+  }
+}
