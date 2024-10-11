@@ -45,6 +45,7 @@ export enum MilestonesEnum {
   DAILY_STREAK = 'daily_streak',
   LEVEL_UP = 'level_up',
   RANK_UP = 'rank_up',
+  BAND_SCORE_UP = 'band_score_question_type_up',
 }
 
 export enum RankEnum {
@@ -57,5 +58,7 @@ export enum RankEnum {
 }
 
 export enum ActionNameEnum {
-  STREAK = 'daily_streak',
+  DAILY_LOGIN = 'daily_login',
+  TASK_COMPLETED = 'task_completed',
+  DAILY_STREAK = 'daily_streak',
 }

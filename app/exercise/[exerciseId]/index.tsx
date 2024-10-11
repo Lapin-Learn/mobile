@@ -16,8 +16,14 @@ const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name' | 'progress' | 'imageId'>) {
+function QuestionTypeCard({
+  name,
+  progress,
+  imageId,
+  bandScoreRequires,
+}: Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>) {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
+  const curReq = bandScoreRequires.find((req) => req.bandScore === bandScore);
   const { t } = useTranslation('translation');
 
   return (
@@ -35,10 +41,10 @@ function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name
         <View className='flex flex-row justify-between'>
           <Text className='font-imedium text-subhead text-supporting-text'>{t('questionTypes.experience')}</Text>
           <Text className='font-imedium text-subhead text-supporting-text'>
-            {t('questionTypes.xp')} {totalLearningXP}/500
+            {t('questionTypes.xp')} {totalLearningXP}/{curReq?.requireXP}
           </Text>
         </View>
-        <Progress value={(totalLearningXP / 500) * 100} />
+        <Progress value={(totalLearningXP / (curReq?.requireXP || 1)) * 100} />
       </View>
     </View>
   );
@@ -75,7 +81,12 @@ export default function Exercise() {
                 onPress={() => {
                   router.push(`/exercise/${exerciseId}/${item.id}`);
                 }}>
-                <QuestionTypeCard name={item.name} progress={item.progress} imageId={item.image?.url || ''} />
+                <QuestionTypeCard
+                  name={item.name}
+                  progress={item.progress}
+                  imageId={item.image?.url || ''}
+                  bandScoreRequires={item.bandScoreRequires}
+                />
               </Pressable>
             )}
             showsVerticalScrollIndicator={false}

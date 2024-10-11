@@ -6,12 +6,17 @@ export interface IQuestionType {
   name: string;
   skill: SkillEnum;
   imageId: string | null;
+  bandScoreRequires: {
+    bandScore: BandScoreEnum;
+    requireXP: number;
+  }[];
   lessons: number;
   progress: {
     bandScore: BandScoreEnum;
     totalLearningXP: number;
   };
   image: IImage | null;
+  instrustion: IInstruction[];
 }
 
 export interface ILesson {
@@ -106,7 +111,7 @@ export interface IStreak {
 
 export interface IStreakHistory {
   date: string;
-  actionName: ActionNameEnum.STREAK;
+  actionName: ActionNameEnum.DAILY_STREAK;
 }
 
 export interface IInstruction {
