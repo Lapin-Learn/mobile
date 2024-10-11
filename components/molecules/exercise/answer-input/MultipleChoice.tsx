@@ -4,7 +4,7 @@ import { ScrollView, Text, View } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/ChoiceButton';
 import { Button } from '~/components/ui/Button';
-import { Answer } from '~/hooks/useLesson';
+import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MultipleChoiceContent } from '~/lib/types/questions';
 
 import { ChoiceCheckBox } from '../../ChoiceCheckBox';

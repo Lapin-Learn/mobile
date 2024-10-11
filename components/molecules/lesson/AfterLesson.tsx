@@ -10,7 +10,7 @@ import CarrotIcon from '~/assets/images/carrot.svg';
 import FlashIcon from '~/assets/images/flash.svg';
 import TimerIcon from '~/assets/images/mingcute_time-line.svg';
 import { Button } from '~/components/ui/Button';
-import { useMilestone } from '~/hooks/zustand/useMilestone';
+import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
 import { Modal } from '../Modal';
@@ -31,7 +31,7 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
 };
 
 export function AfterLesson({ data }: { data: AfterLessonProps }) {
-  const { milestones } = useMilestone();
+  const { milestones } = useMilestoneStore();
 
   const { t } = useTranslation('lesson');
 

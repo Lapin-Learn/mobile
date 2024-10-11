@@ -85,9 +85,9 @@ type Params<U> = Parameters<typeof useStore<typeof authStore, U>>;
 const tokenSelector = (state: ExtractState<typeof authStore>) => state.token;
 const statusSelector = (state: ExtractState<typeof authStore>) => state.status;
 
-export default function useAuthStore<U>(selector: Params<U>[1], equalityFn?: Params<U>[2]) {
+const useAuthStore = <U>(selector: Params<U>[1], equalityFn?: Params<U>[2]) => {
   return useStoreWithEqualityFn(authStore, selector, equalityFn);
-}
+};
 
 export const useAuth = () => {
   const token = useAuthStore(tokenSelector);

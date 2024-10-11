@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
-import { Answer } from '~/hooks/useLesson';
-import { PairAnswer } from '~/lib/types';
-import { MatchingContent } from '~/lib/types/questions';
+import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
+import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 
 import { AnswerColumn, Column } from './AnswerColumn';
 

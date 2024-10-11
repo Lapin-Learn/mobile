@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { NewMilestone } from '~/components/molecules/milestone/NewMilestone';
 import { StreakMilestone } from '~/components/molecules/milestone/StreakMilestone';
 import { MilestoneProps } from '~/components/molecules/milestone/type';
-import { useMilestone } from '~/hooks/zustand/useMilestone';
+import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { MilestonesEnum } from '~/lib/enums';
 
 const MilestonesMap: {
@@ -17,7 +17,7 @@ const MilestonesMap: {
 };
 
 export default function Milestones() {
-  const { milestones } = useMilestone();
+  const { milestones } = useMilestoneStore();
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
 

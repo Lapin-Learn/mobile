@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
 import { create } from 'zustand';
 
 import { AfterLessonProps } from '~/components/molecules/lesson/AfterLesson';
-import { useLessonCompletion, useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
-import { TypeQuestion } from '~/lib/types/questions';
+import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
+import { IQuestion } from '~/lib/types/questions';
 import { getDuration } from '~/lib/utils';
 
 export type Answer = boolean | 'notAnswered';
 
 type State = {
-  questions: TypeQuestion[];
+  lessonId: string;
+  questions: IQuestion[];
   totalQuestion: number;
   currentQuestionIndex: number;
-  currentQuestion: TypeQuestion | null;
+  currentQuestion: IQuestion | null;
   learnerAnswers: Answer[];
   isCompleted: boolean;
   learnerAnswer: number[] | null;
@@ -21,7 +21,7 @@ type State = {
 };
 
 type Action = {
-  setQuestions: (questions: State['questions']) => void;
+  setQuestions: (questions: State['questions'], lessonId: State['lessonId']) => void;
   setResult: (result: State['result']) => void;
   answerQuestion: (newAnswer: boolean) => void;
   nextQuestion: () => void;
@@ -29,6 +29,7 @@ type Action = {
 };
 
 const initialValue: State = {
+  lessonId: '',
   questions: [],
   totalQuestion: 0,
   currentQuestionIndex: 0,
@@ -39,10 +40,12 @@ const initialValue: State = {
   startTime: 0,
   result: null,
 };
+
 const useLessonStore = create<State & Action>((set, get) => ({
   ...initialValue,
-  setQuestions: (questions: State['questions']) => {
+  setQuestions: (questions, lessonId) => {
     set({
+      lessonId,
       questions,
       totalQuestion: questions.length,
       currentQuestion: questions.length ? questions[0] : null,
@@ -76,10 +79,10 @@ const useLessonStore = create<State & Action>((set, get) => ({
   },
 }));
 
-export default function useLesson(lessonId: string) {
+export const useDailyLessonQuestionStore = () => {
   const lessonCompletetionMutation = useLessonCompletion();
-  const { data: lesson, isLoading, isError, isSuccess } = useLessonQuestions({ lessonId });
   const {
+    lessonId,
     setQuestions,
     nextQuestion,
     totalQuestion,
@@ -123,29 +126,23 @@ export default function useLesson(lessonId: string) {
 
   const isPendingMutation = lessonCompletetionMutation.isPending;
 
-  useEffect(() => {
-    if (isSuccess && lesson) {
-      setQuestions(lesson.questionToLessons.map((q) => q.question));
-    }
-  }, [isSuccess, lesson]);
-
   return {
-    isLoading,
-    isError,
-    isSuccess,
-    isCompleted,
+    state: {
+      totalQuestion,
+      learnerAnswers,
+      currentQuestion,
+      currentQuestionIndex,
+      startTime,
+      result,
+      isCompleted,
+      isPendingMutation,
+    },
+    setQuestions,
     nextQuestion,
     answerQuestion,
-    totalQuestion,
-    learnerAnswers,
     clear,
-    currentQuestion,
-    currentQuestionIndex,
-    startTime,
     mutation,
-    result,
-    isPendingMutation,
   };
-}
+};
 
 export type UseLessonReturnType = ReturnType<typeof useLessonStore>;

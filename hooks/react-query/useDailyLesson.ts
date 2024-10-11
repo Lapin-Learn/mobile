@@ -4,7 +4,7 @@ import { SkillEnum } from '~/lib/enums';
 import { IAfterLesson } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
-import { useMilestone } from '../zustand/useMilestone';
+import { useMilestoneStore } from '../zustand';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({
@@ -35,7 +35,7 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
 };
 
 export const useLessonCompletion = () => {
-  const { setMilestones } = useMilestone();
+  const { setMilestones } = useMilestoneStore();
   const queryClient = useQueryClient();
 
   return useMutation({

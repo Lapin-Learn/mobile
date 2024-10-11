@@ -2,14 +2,14 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { ContentTypeEnum } from '~/lib/enums';
-import { TypeQuestion } from '~/lib/types/questions';
+import { IQuestion } from '~/lib/types/questions';
 
 import ContentText from '../ContentText';
 import ReadingContainer from '../ReadingContainer';
 import { TrackAudio } from '../TrackAudio';
 
 interface QuestionCardProps {
-  data: TypeQuestion;
+  data: IQuestion;
   isPaused?: boolean;
 }
 export default function QuestionCard({ data, isPaused = false }: QuestionCardProps) {

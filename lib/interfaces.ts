@@ -1,5 +1,5 @@
 import { ActionNameEnum, BandScoreEnum, GenderEnum, MilestonesEnum, RankEnum, SkillEnum } from './enums';
-import { TypeQuestion } from './types/questions';
+import { IQuestion } from './types/questions';
 
 export interface IQuestionType {
   id: number;
@@ -40,7 +40,7 @@ export interface ILessonQuestionsResponse {
   order: number;
   questionToLessons: {
     order: number;
-    question: TypeQuestion;
+    question: IQuestion;
     questionId: string;
   }[];
 }
@@ -141,8 +141,8 @@ export interface IGameProfile {
   updatedAt: string;
   level: ILevel;
   streak: IStreak;
-  profileBadges: any[];
-  profileMissions: any[];
-  profileItems: any[];
-  currentItems: any[];
+  profileBadges: unknown[];
+  profileMissions: unknown[];
+  profileItems: unknown[];
+  currentItems: unknown[];
 }

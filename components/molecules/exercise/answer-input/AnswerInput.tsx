@@ -1,6 +1,6 @@
-import { Answer } from '~/hooks/useLesson';
+import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { ContentTypeEnum } from '~/lib/enums';
-import { TypeQuestion } from '~/lib/types/questions';
+import { IQuestion } from '~/lib/types/questions';
 
 import Matching from './matching/Matching';
 import MultipleChoice from './MultipleChoice';
@@ -10,7 +10,7 @@ type BaseAnswerInputProps = {
   result: Answer;
 };
 
-type AnswerInputProps = BaseAnswerInputProps & TypeQuestion;
+type AnswerInputProps = BaseAnswerInputProps & IQuestion;
 const AnswerInput = (props: AnswerInputProps) => {
   const { contentType, content, ...rest } = props;
   switch (contentType) {

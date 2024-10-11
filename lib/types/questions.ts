@@ -1,7 +1,7 @@
 import { CEFRLevelEnum, ContentTypeEnum } from '../enums';
 import { IBucket } from '../interfaces';
 
-export type ReadingQuestion = {
+export type QuestionCard = {
   paragraph: string;
   question: string;
 };
@@ -25,7 +25,7 @@ export type MultipleChoiceContent = {
 
 type MultipleChoiceQuestion = BaseQuestion & {
   contentType: ContentTypeEnum.MULTIPLE_CHOICE;
-  content: ReadingQuestion & MultipleChoiceContent;
+  content: QuestionCard & MultipleChoiceContent;
 };
 
 export type Column = 'columnA' | 'columnB';
@@ -44,7 +44,7 @@ export type MatchingContent = {
 
 type MatchingQuestion = BaseQuestion & {
   contentType: ContentTypeEnum.MATCHING;
-  content: ReadingQuestion & MatchingContent;
+  content: QuestionCard & MatchingContent;
 };
 
-export type TypeQuestion = MultipleChoiceQuestion | MatchingQuestion;
+export type IQuestion = MultipleChoiceQuestion | MatchingQuestion;
