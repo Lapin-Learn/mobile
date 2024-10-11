@@ -16,7 +16,7 @@ export interface IQuestionType {
     totalLearningXP: number;
   };
   image: IImage | null;
-  instrustion: IInstruction[];
+  instructions: IInstruction[];
 }
 
 export interface ILesson {
@@ -50,7 +50,7 @@ export interface IMilestone {
   newValue: ILevel | RankEnum | number;
 }
 
-export interface IAfterLesson {
+export interface ILessonResult {
   lessonId: number;
   bonusCarrot: number;
   bonusXP: number;

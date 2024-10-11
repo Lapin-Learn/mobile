@@ -35,7 +35,7 @@ const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
           <ChevronLeft size={28} color='#000' />
         </TouchableOpacity>
         <Text className='font-ibold text-headline'>
-          {(t('calendar.months', { returnObjects: true }) as string[])[startDay.getMonth()]} {startDay.getFullYear()}
+          {MONTHS[startDay.getMonth()]} {startDay.getFullYear()}
         </Text>
         <TouchableOpacity onPress={() => changeMonth(1)} className='size-6'>
           <ChevronRight size={28} color='#000' />

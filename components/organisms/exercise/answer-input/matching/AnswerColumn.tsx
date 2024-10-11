@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
-import { PairAnswer } from '~/lib/types';
+import { PairAnswer } from '~/lib/types/questions';
 
 /**
  * A: Column A

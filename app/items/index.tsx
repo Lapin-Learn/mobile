@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 
 export default function Items() {
   return (

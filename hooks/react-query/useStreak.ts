@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { QUERY_KEYS } from '~/lib/constants';
 import { getStreak } from '~/services/axios/streak';
 
 export const useStreaks = ({ startDate }: { readonly startDate: string | null }) => {
   return useQuery({
-    queryKey: ['streaks', startDate],
+    queryKey: [QUERY_KEYS.streak, startDate],
     queryFn: getStreak,
+    staleTime: Infinity,
   });
 };

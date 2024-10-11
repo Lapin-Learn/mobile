@@ -7,7 +7,7 @@ import { Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Region } from '~/components/molecules/region/Region';
-import TrackBar from '~/components/molecules/TrackBar';
+import TrackBar from '~/components/molecules/track-bar/TrackBar';
 import { SkillEnum } from '~/lib/enums';
 
 export default function Index() {
@@ -19,6 +19,14 @@ export default function Index() {
   );
 }
 
+const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
+  reading: { x: -75, y: -25 },
+  listening: { x: 100, y: 100 },
+  speaking: { x: 150, y: -75 },
+  writing: { x: -25, y: -250 },
+  null: { x: 0, y: 0 },
+};
+
 function Map() {
   const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
 
@@ -28,14 +36,6 @@ function Map() {
     } else {
       setCurrentSkill(skill);
     }
-  };
-
-  const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
-    reading: { x: -75, y: -25 },
-    listening: { x: 100, y: 100 },
-    speaking: { x: 150, y: -75 },
-    writing: { x: -25, y: -250 },
-    null: { x: 0, y: 0 },
   };
 
   return (

@@ -20,7 +20,8 @@ export const NAV_THEME = {
 export const QUERY_KEYS = {
   list: 'list',
   detail: 'detail',
-  questionTypes: ['questionTypes'],
-  instruction: ['instruction'],
-  questions: ['questions'],
+  streak: 'streak',
+  questionTypes: 'questionTypes',
+  instruction: 'instruction',
+  questions: 'questions',
 };

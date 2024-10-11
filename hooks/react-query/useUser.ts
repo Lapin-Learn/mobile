@@ -19,6 +19,7 @@ export const useUserProfile = () => {
   const userProfile = useQuery({
     queryKey: ['userProfile'],
     queryFn: getUserProfile,
+    staleTime: Infinity,
   });
   if (userProfile.error?.message === 'Unauthorized') {
     signOut.mutate();
@@ -85,6 +86,7 @@ export const useGameProfile = () => {
   const gameProfile = useQuery({
     queryKey: ['gameProfile'],
     queryFn: getGameProfile,
+    staleTime: 0,
   });
 
   if (gameProfile.error?.message === 'Unauthorized') {

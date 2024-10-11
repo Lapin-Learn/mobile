@@ -10,7 +10,7 @@ import { I18nextProvider } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import TrackPlayer from 'react-native-track-player';
 
-import { AppStack } from '~/components/navigation/AppStack';
+import { AppStack } from '~/components/AppStack';
 import { PortalHost } from '~/components/primitives/portal';
 import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
@@ -25,7 +25,13 @@ const LIGHT_THEME: Theme = {
 
 export { ErrorBoundary } from 'expo-router';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 TrackPlayer.registerPlaybackService(() => registerBackgroundService);
 

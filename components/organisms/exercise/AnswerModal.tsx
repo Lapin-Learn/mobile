@@ -7,7 +7,7 @@ import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
 import { cn } from '~/lib/utils';
 
-import { Button } from '../ui/Button';
+import { Button } from '../../ui/Button';
 
 export type AnswerModalProps = {
   type: 'correct' | 'incorrect';

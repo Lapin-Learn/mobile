@@ -8,8 +8,9 @@ import { Button } from '~/components/ui/Button';
 import { Text } from '~/components/ui/Text';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 
+import PlatformView from '../../templates/PlatformView';
 import { Loading } from '../Loading';
-import PlatformView from '../PlatformView';
+import { getCurrentWeekBooleanObject } from './helpers';
 import { MilestoneProps } from './type';
 
 const WeekRecord = ({ streakRecords }: { readonly streakRecords: string[] }) => {
@@ -38,6 +39,8 @@ const WeekRecord = ({ streakRecords }: { readonly streakRecords: string[] }) => 
 
 export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
+  // TODO: recheck, because startDate param is the string for BE to parse data
+  // 0 maybe equal to 1970-01-01, so it means we get all the streaks
   const { data, isPending } = useStreaks({ startDate: '0' });
 
   const [streakRecords, setStreakRecords] = useState<string[]>([]);
@@ -77,30 +80,3 @@ export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps
     </PlatformView>
   );
 };
-
-function formatDate(date: Date): string {
-  return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
-}
-
-function getCurrentWeekBooleanObject(doneRecords: string[], dayNames: string[]): Record<string, boolean | undefined> {
-  const currentDate = new Date();
-  const currentDay = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
-  const startOfWeek = new Date(currentDate);
-  startOfWeek.setDate(currentDate.getDate() - currentDay); // Set to the start of the week (Sunday)
-
-  const weekBooleanObject: Record<string, boolean | undefined> = {};
-  const doneRecordsSet = new Set(doneRecords.map((record) => formatDate(new Date(record))));
-
-  for (let i = 0; i < 7; i++) {
-    const weekDate = new Date(startOfWeek);
-    weekDate.setDate(startOfWeek.getDate() + i);
-    const formattedDate = formatDate(weekDate);
-    if (weekDate > currentDate) {
-      weekBooleanObject[dayNames[i]] = undefined;
-    } else {
-      weekBooleanObject[dayNames[i]] = doneRecordsSet.has(formattedDate);
-    }
-  }
-
-  return weekBooleanObject;
-}

@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import QuestionTemplate from '~/components/molecules/exercise/QuestionTemplate';
-import { AfterLesson } from '~/components/molecules/lesson/AfterLesson';
-import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
+import { Loading } from '~/components/molecules/Loading';
+import QuestionTemplate from '~/components/organisms/exercise/QuestionTemplate';
+import { LessonResult } from '~/components/organisms/lesson/LessonResult';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
@@ -31,11 +31,11 @@ export default function Lesson() {
     };
   }, [isSuccess, data, clear, setQuestions, lessonId]);
 
-  if (isLoading) return <LoadingLesson />;
+  if (isLoading) return <Loading />;
   if (isCompleted && result)
     return (
       <View>
-        <AfterLesson data={result} />
+        <LessonResult data={result} />
       </View>
     );
 

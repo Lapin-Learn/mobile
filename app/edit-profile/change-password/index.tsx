@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useChangePassword } from '~/hooks/react-query/useUser';
 

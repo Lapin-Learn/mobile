@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 
-import ChoiceButton from '~/components/molecules/ChoiceButton';
+import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
+import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MultipleChoiceContent } from '~/lib/types/questions';
-
-import { ChoiceCheckBox } from '../../ChoiceCheckBox';
 
 interface MultipleChoiceProps extends MultipleChoiceContent {
   onAnswer: (isCorrect: boolean) => void;

@@ -3,13 +3,13 @@ import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 
+import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
-import AnswerModal from '../AnswerModal';
-import { LoadingLesson } from '../lesson/LoadingLesson';
-import PlatformView from '../PlatformView';
+import PlatformView from '../../templates/PlatformView';
 import AnswerInput from './answer-input/AnswerInput';
+import AnswerModal from './AnswerModal';
 import QuestionCard from './QuestionCard';
 
 export default function QuestionTemplate() {
@@ -32,11 +32,7 @@ export default function QuestionTemplate() {
   };
 
   if (isPendingMutation) {
-    return (
-      <View className='h-full'>
-        <LoadingLesson />
-      </View>
-    );
+    return <Loading />;
   }
 
   return (

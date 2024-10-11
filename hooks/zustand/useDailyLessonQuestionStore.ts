@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { AfterLessonProps } from '~/components/molecules/lesson/AfterLesson';
+import { LessonResultProps } from '~/components/organisms/lesson/LessonResult';
 import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
 import { IQuestion } from '~/lib/types/questions';
 import { getDuration } from '~/lib/utils';
@@ -17,7 +17,7 @@ type State = {
   isCompleted: boolean;
   learnerAnswer: number[] | null;
   startTime: number;
-  result: AfterLessonProps | null;
+  result: LessonResultProps | null;
 };
 
 type Action = {

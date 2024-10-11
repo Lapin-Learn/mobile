@@ -4,14 +4,13 @@ import { Text, View } from 'react-native';
 import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/types/questions';
 
-import ContentText from '../ContentText';
-import ReadingContainer from '../ReadingContainer';
-import { TrackAudio } from '../TrackAudio';
+import ReadingContainer from '../../molecules/exercise/ScrollableReadingContainer';
+import { TrackAudio } from '../../molecules/TrackAudio';
 
-interface QuestionCardProps {
+type QuestionCardProps = {
   data: IQuestion;
   isPaused?: boolean;
-}
+};
 export default function QuestionCard({ data, isPaused = false }: QuestionCardProps) {
   const { t } = useTranslation('question');
 
@@ -21,7 +20,7 @@ export default function QuestionCard({ data, isPaused = false }: QuestionCardPro
       {data.audioId && <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />}
       {!data.audioId && data.content.paragraph && (
         <ReadingContainer>
-          <ContentText>{data.content.paragraph}</ContentText>
+          <Text className='p-4 text-body leading-8'>{data.content.paragraph}</Text>
         </ReadingContainer>
       )}
       {data.contentType === ContentTypeEnum.MULTIPLE_CHOICE && (

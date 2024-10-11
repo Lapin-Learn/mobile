@@ -1,6 +1,6 @@
 import { SvgProps } from 'react-native-svg';
 
-import StreadDefault from '~/assets/images/streaks/streak_default.svg';
+import StreakDefault from '~/assets/images/streaks/streak_default.svg';
 import StreakDone from '~/assets/images/streaks/streak_done.svg';
 import StreakMiss from '~/assets/images/streaks/streak_miss.svg';
 
@@ -15,6 +15,6 @@ export default function StreakIcon({ variant, ...props }: StreakIconProps) {
     case 'miss':
       return <StreakMiss {...props} />;
     case 'neutral':
-      return <StreadDefault {...props} />;
+      return <StreakDefault {...props} />;
   }
 }

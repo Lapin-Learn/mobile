@@ -6,8 +6,8 @@ import { SafeAreaView, Text, View } from 'react-native';
 import CustomCalendar from '~/components/molecules/custom-calendar';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
+import PlatformView from '~/components/templates/PlatformView';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 

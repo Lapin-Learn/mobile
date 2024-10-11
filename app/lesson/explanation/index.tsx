@@ -5,7 +5,7 @@ import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import HTML from 'react-native-render-html';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
