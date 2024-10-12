@@ -2,9 +2,8 @@ import { router } from 'expo-router';
 import { Text, View } from 'moti';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '~/components/ui/Button';
 import { SkillEnum } from '~/lib/enums';
-
-import { Button } from '../ui/Button';
 
 export function PopupLesson({ skill }: { skill: SkillEnum }) {
   const { t } = useTranslation('translation');

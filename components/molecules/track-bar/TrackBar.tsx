@@ -2,11 +2,11 @@ import { Href, router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
-import XpTrackBar from '~/components/molecules/XpTrackBar';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
 import Carrots from './Carrots';
 import Streak from './Streak';
+import XpTrackBar from './XpTrackBar';
 
 export default function TrackBar() {
   const { data, isFetching, error } = useGameProfile();

@@ -42,8 +42,6 @@
     "new_password_placeholder": "Enter new password",
     "confirm_password": "Confirm Password",
     "confirm_password_placeholder": "Re-enter new password",
-    "save_button": "Save changes",
-    "limit_characters": "Password must be at least 8 characters long",
-    "password_not_match": "Passwords do not match"
+    "save_button": "Save changes"
   }
 }

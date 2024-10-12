@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 
 export default function Mission() {
   return (

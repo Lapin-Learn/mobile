@@ -3,7 +3,7 @@ import { Check } from 'lucide-react-native';
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import * as CheckboxPrimitive from '../primitives/checkbox';
+import * as CheckboxPrimitive from '../../primitives/checkbox';
 
 const choiceButtonVariants = cva(
   'h-10 w-10 shrink-0 rounded-sm border-2 disabled:cursor-not-allowed disabled:opacity-50 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',

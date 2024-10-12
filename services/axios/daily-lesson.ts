@@ -1,9 +1,9 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
 import {
-  IAfterLesson,
   IInstruction,
   ILessonQuestionsResponse,
+  ILessonResult,
   ILessonsResponse,
   IQuestionType,
 } from '~/lib/interfaces';
@@ -17,7 +17,7 @@ type LessonCompletionParams = {
   duration: number;
 };
 
-export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<any[]>) => {
+export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, skill] = queryKey;
 
   try {
@@ -31,7 +31,7 @@ export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<any[]>
   }
 };
 
-export const getLessons = async ({ queryKey }: QueryFunctionContext<any[]>) => {
+export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, questionTypeId] = queryKey;
 
   try {
@@ -43,7 +43,7 @@ export const getLessons = async ({ queryKey }: QueryFunctionContext<any[]>) => {
   }
 };
 
-export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<any[]>) => {
+export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, lessonId] = queryKey;
 
   try {
@@ -58,14 +58,14 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<any[
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
   try {
     const response = await api.post(`/lessons/completion`, { body: params });
-    return Promise.resolve(response as IAfterLesson);
+    return Promise.resolve(response as ILessonResult);
   } catch (error) {
     console.error('Error confirming lesson completion:', error);
     throw error;
   }
 };
 
-export const getInstruction = async ({ queryKey }: QueryFunctionContext<any[]>) => {
+export const getInstruction = async ({ queryKey }: QueryFunctionContext<unknown[]>) => {
   const [, questionTypeId] = queryKey;
   const response = await api.get<IInstruction>(`/daily-lessons/question-types/${questionTypeId}/instruction`);
   return response;

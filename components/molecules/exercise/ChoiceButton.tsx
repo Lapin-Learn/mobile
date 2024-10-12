@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import { Text } from 'react-native';
 
-import { Button, ButtonProps } from '../ui/Button';
+import { Button, ButtonProps } from '../../ui/Button';
 
 const choiceButtonVariants = cva('border-2 mb-3 w-full px-5 py-3', {
   variants: {

@@ -7,16 +7,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import CarrotIcon from '~/assets/images/carrot.svg';
+import TimerIcon from '~/assets/images/clock.svg';
 import FlashIcon from '~/assets/images/flash.svg';
-import TimerIcon from '~/assets/images/mingcute_time-line.svg';
+import { Modal } from '~/components/molecules/Modal';
+import { ProgressCircle } from '~/components/molecules/ProgressCircle';
 import { Button } from '~/components/ui/Button';
-import { useMilestone } from '~/hooks/zustand/useMilestone';
+import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
-import { Modal } from '../Modal';
-import { ProgressCircle } from '../ProgressCircle';
-
-export type AfterLessonProps = {
+export type LessonResultProps = {
   percent: number;
   exp: number;
   carrot: number;
@@ -24,14 +23,15 @@ export type AfterLessonProps = {
   [key: string]: number;
 };
 
+// TODO: Remove carrot if value = 0
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
   exp: { Component: FlashIcon, label: 'after.Experience' },
   carrot: { Component: CarrotIcon, label: 'after.Carrot' },
   timer: { Component: TimerIcon, label: 'after.Timer' },
 };
 
-export function AfterLesson({ data }: { data: AfterLessonProps }) {
-  const { milestones } = useMilestone();
+export function LessonResult({ data }: { data: LessonResultProps }) {
+  const { milestones } = useMilestoneStore();
 
   const { t } = useTranslation('lesson');
 
@@ -47,7 +47,7 @@ export function AfterLesson({ data }: { data: AfterLessonProps }) {
         router.back();
       }
     }
-  }, [isModalVisible]);
+  }, [isModalVisible, milestones.length]);
 
   return (
     <View className='w-full'>

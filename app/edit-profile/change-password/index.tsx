@@ -7,27 +7,27 @@ import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useChangePassword } from '~/hooks/react-query/useUser';
+
+const schema = z
+  .object({
+    oldPassword: z.string().min(8, 'change_password.limit_characters'),
+    newPassword: z.string().min(8, 'change_password.limit_characters'),
+    confirmPassword: z.string().min(8, 'change_password.limit_characters'),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: 'change_password.password_not_match',
+    path: ['confirmPassword'],
+  });
+
+type ChangePasswordFormField = z.infer<typeof schema>;
 
 export default function ChangePassword() {
   const { t } = useTranslation('profile');
   const changePasswordMutation = useChangePassword();
   const { isPending } = changePasswordMutation;
-
-  const schema = z
-    .object({
-      oldPassword: z.string().min(8, t('change_password.limit_characters')),
-      newPassword: z.string().min(8, t('change_password.limit_characters')),
-      confirmPassword: z.string().min(8, t('change_password.limit_characters')),
-    })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-      message: t('change_password.password_not_match'),
-      path: ['confirmPassword'],
-    });
-
-  type ChangePasswordFormField = z.infer<typeof schema>;
 
   const {
     control,

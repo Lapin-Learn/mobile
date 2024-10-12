@@ -1,9 +1,8 @@
 import { Text, View } from 'react-native';
 
+import RankIcon from '~/components/icons/RankIcon';
 import { RankEnum } from '~/lib/enums';
 import { formatNumber } from '~/lib/utils';
-
-import RankIcon from '../icons/RankIcon';
 
 type XpTrackBarProps = {
   level?: number;

@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { SkillEnum } from '~/lib/enums';
-import { IAfterLesson } from '~/lib/interfaces';
+import { ILessonResult } from '~/lib/interfaces';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 
-import { useMilestone } from '../zustand/useMilestone';
+import { useMilestoneStore } from '../zustand/useMilestoneStore';
 
 export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
   return useQuery({
@@ -24,6 +24,7 @@ export const useLessonQuestions = ({ lessonId }: { readonly lessonId: string }) 
   return useQuery({
     queryKey: ['lessonQuestions', lessonId],
     queryFn: getLessonQuestions,
+    staleTime: Infinity,
   });
 };
 
@@ -31,16 +32,17 @@ export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: st
   return useQuery({
     queryKey: ['instruction', questionTypeId],
     queryFn: getInstruction,
+    staleTime: Infinity,
   });
 };
 
 export const useLessonCompletion = () => {
-  const { setMilestones } = useMilestone();
+  const { setMilestones } = useMilestoneStore();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: confirmLessonCompletion,
-    onSuccess: (response: IAfterLesson) => {
+    onSuccess: (response: ILessonResult) => {
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
       queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
       setMilestones(response.milestones);

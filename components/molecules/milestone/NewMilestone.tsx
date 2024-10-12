@@ -16,7 +16,7 @@ import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/interfaces';
 import { formatNumber } from '~/lib/utils';
 
-import RadialGradientBackground from '../RadialGradient';
+import RadialGradientBackground from '../../templates/RadialGradientBackground';
 import { MilestoneProps } from './type';
 
 export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {

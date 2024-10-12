@@ -4,52 +4,53 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import HTML from 'react-native-render-html';
 
-import ChoiceButton from '~/components/molecules/ChoiceButton';
-import { ChoiceCheckBox } from '~/components/molecules/ChoiceCheckBox';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
-import { useGameStore } from '~/hooks/zustand';
-import { ContentTypeEnum } from '~/lib/enums';
+import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
-function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
-  if (answers.length === 0) return <View></View>;
-  if (answers.length === 1) {
-    return (
-      <View>
-        <ChoiceButton label={answers[0]} onPress={() => {}} />
-      </View>
-    );
-  }
+// TODO: extract to a separate component
+// function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
+//   if (answers.length === 0) return <View></View>;
+//   if (answers.length === 1) {
+//     return (
+//       <View>
+//         <ChoiceButton label={answers[0]} onPress={() => {}} />
+//       </View>
+//     );
+//   }
 
-  return (
-    <View>
-      {answers.map((item, index) => (
-        <ChoiceCheckBox key={index} label={item} checked={true} onPress={() => {}} onCheckedChange={() => {}} />
-      ))}
-    </View>
-  );
-}
+//   return (
+//     <View>
+//       {answers.map((item, index) => (
+//         <ChoiceCheckBox key={index} label={item} checked={true} onPress={() => {}} onCheckedChange={() => {}} />
+//       ))}
+//     </View>
+//   );
+// }
 
 export default function Explanation() {
   const { t } = useTranslation('question');
   const windowWidth = useWindowDimensions().width;
 
-  const { contentType, answer, explanation } = useGameStore();
+  const {
+    state: { currentQuestion },
+  } = useDailyLessonQuestionStore();
 
   const formattedExplanation = `
     <div style="font-size: 17px; line-height: 25.5px;">
-      ${explanation}
+      ${currentQuestion?.explanation || ''}
     </div>`;
 
-  const AnswerField = ({ answers }: { answers: string[] }) => {
-    switch (contentType) {
-      case ContentTypeEnum.MULTIPLE_CHOICE:
-        return <MultipleChoiceAnswer answers={answers} />;
-      default:
-        return <Text>{t('general.unsupportedQuestionType')}</Text>;
-    }
-  };
+  // TODO: refactor this to compatible with new hook useLesson
+  // const AnswerField = ({ answers }: { answers: string[] }) => {
+  //   switch (contentType) {
+  //     case ContentTypeEnum.MULTIPLE_CHOICE:
+  //       return <MultipleChoiceAnswer answers={answers} />;
+  //     default:
+  //       return <Text>{t('general.unsupportedQuestionType')}</Text>;
+  //   }
+  // };
 
   return (
     <PlatformView>
@@ -62,7 +63,7 @@ export default function Explanation() {
                 <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
               </View>
             </View>
-            <AnswerField answers={answer} />
+            {/* <AnswerField answers={answer} /> */}
           </View>
         </View>
       </ScrollView>

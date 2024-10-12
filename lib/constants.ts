@@ -16,3 +16,12 @@ export const NAV_THEME = {
     text: 'hsl(0 0% 98%)', // foreground
   },
 };
+
+export const QUERY_KEYS = {
+  list: 'list',
+  detail: 'detail',
+  streak: 'streak',
+  questionTypes: 'questionTypes',
+  instruction: 'instruction',
+  questions: 'questions',
+};

@@ -29,15 +29,15 @@ export default function Instruction() {
   return (
     <SafeAreaView>
       <NavigationBar headerTitle={currentQuestionType.name} headerLeftShown />
-      <View>
+      <ScrollView className='px-4'>
         {instruction ? (
-          <ScrollView className='px-4'>
+          <View className='mb-20'>
             <HTML source={{ html: instruction.content }} contentWidth={windowWidth} />
-          </ScrollView>
+          </View>
         ) : (
           <Text>Chưa có lý thuyết cho phần này</Text>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

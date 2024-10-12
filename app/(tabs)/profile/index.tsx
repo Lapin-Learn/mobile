@@ -8,8 +8,8 @@ import { Image, ScrollView, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import PlatformView from '~/components/molecules/PlatformView';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
 import { useSignOut } from '~/hooks/react-query/useAuth';

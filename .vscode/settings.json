@@ -19,5 +19,18 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "ithin",
+    "iextralight",
+    "ilight",
+    "inormal",
+    "imedium",
+    "isemibold",
+    "ibold",
+    "iextrabold",
+    "iblack",
+    "isemibold",
+    "lucide",
+  ]
 }
