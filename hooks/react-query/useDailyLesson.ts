@@ -42,8 +42,7 @@ export const useLessonCompletion = () => {
     mutationFn: confirmLessonCompletion,
     onSuccess: (response: IAfterLesson) => {
       queryClient.invalidateQueries({ queryKey: ['gameProfile'] });
-      response.milestones.find((m) => m.type === 'band_score_question_type_up') &&
-        queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
+      queryClient.invalidateQueries({ queryKey: ['questionTypes'] });
       setMilestones(response.milestones);
     },
     onError: (error) => {

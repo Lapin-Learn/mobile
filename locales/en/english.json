@@ -20,6 +20,7 @@
     "hour": "hour",
     "min": "minute",
     "theoryPractice": "Pratice theory",
+    "noLessonFound": "No lesson found",
     "practiceBtn": "Start now",
     "jumpNextBtn": "Jump to next band"
   },
