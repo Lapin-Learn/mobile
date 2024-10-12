@@ -1,6 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import { IStreakHistory } from '~/lib/interfaces';
+import { IStreakHistory } from '~/lib/types';
 
 import api from '../httpRequests';
 

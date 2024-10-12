@@ -10,7 +10,7 @@ import { Badge, badgeTextVariants } from '~/components/ui/Badge';
 import { Progress } from '~/components/ui/Progress';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { IQuestionType } from '~/lib/interfaces';
+import { IQuestionType } from '~/lib/types';
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);

@@ -105,43 +105,43 @@ class API {
     }
   }
 
-  async get<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
+  async get<T>(endpoint: string, { searchParams, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'GET',
       params: searchParams,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async post<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+  async post<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'POST',
       data: body,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async put<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+  async put<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'PUT',
       data: body,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
+  async delete<T>(endpoint: string, { searchParams, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'DELETE',
       params: searchParams,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async putImage<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+  async putImage<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.fileRequest<T>(endpoint, {
       method: 'PUT',
       data: body,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 }
