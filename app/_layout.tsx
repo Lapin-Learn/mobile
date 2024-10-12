@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import TrackPlayer from 'react-native-track-player';
 
 import { AppStack } from '~/components/AppStack';
+import StreakWidget from '~/components/molecules/StreakWidget';
 import { PortalHost } from '~/components/primitives/portal';
 import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
@@ -73,6 +74,7 @@ const RootLayout = () => {
             <StatusBar style={'light'} />
             <AppStack />
             <Toast />
+            <StreakWidget />
             <PortalHost />
           </AuthProvider>
         </I18nextProvider>
