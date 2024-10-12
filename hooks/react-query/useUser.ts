@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 
-import { IUserProfile } from '~/lib/interfaces';
+import { QUERY_KEYS } from '~/lib/constants';
+import { IUserProfile } from '~/lib/types';
 import {
   changePassword,
   createPreSignedUrl,
@@ -19,7 +20,7 @@ import { useSignOut } from './useAuth';
 export const useAccountIdentifier = () => {
   const signOut = useSignOut();
   const accountIdentifier = useQuery({
-    queryKey: ['accountIdentifier'],
+    queryKey: [QUERY_KEYS.profile.identifier],
     queryFn: getAccountIdentifier,
     staleTime: Infinity,
   });
@@ -42,7 +43,7 @@ export const useAccountIdentifier = () => {
 export const useUserProfile = () => {
   const signOut = useSignOut();
   const userProfile = useQuery({
-    queryKey: ['userProfile'],
+    queryKey: [QUERY_KEYS.profile.user],
     queryFn: getUserProfile,
     staleTime: Infinity,
   });
@@ -60,9 +61,8 @@ export const useUpdateUserProfile = () => {
     mutationFn: updateUserProfile,
     onSuccess: (returnData: IUserProfile) => {
       toast.show({ type: 'success', text1: 'Profile updated' });
-      queryClient.setQueryData(['userProfile'], returnData);
-      queryClient.setQueryData(['accountIdentifier'], returnData);
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+      queryClient.setQueryData([QUERY_KEYS.profile.identifier], returnData);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile.user] });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -105,7 +105,7 @@ export const useChangePassword = () => {
 export const useGameProfile = () => {
   const signOut = useSignOut();
   const gameProfile = useQuery({
-    queryKey: ['gameProfile'],
+    queryKey: [QUERY_KEYS.profile.game],
     queryFn: getGameProfile,
     staleTime: 0,
   });

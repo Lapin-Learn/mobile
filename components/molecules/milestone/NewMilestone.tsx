@@ -13,7 +13,7 @@ import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import { useUserProfile } from '~/hooks/react-query/useUser';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
-import { ILevel } from '~/lib/interfaces';
+import { ILevel } from '~/lib/types';
 import { formatNumber } from '~/lib/utils';
 
 import RadialGradientBackground from '../../templates/RadialGradientBackground';

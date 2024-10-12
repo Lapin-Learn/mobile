@@ -80,7 +80,7 @@ const useLessonStore = create<State & Action>((set, get) => ({
 }));
 
 export const useDailyLessonQuestionStore = () => {
-  const lessonCompletetionMutation = useLessonCompletion();
+  const lessonCompletionMutation = useLessonCompletion();
   const {
     lessonId,
     setQuestions,
@@ -104,7 +104,7 @@ export const useDailyLessonQuestionStore = () => {
       }
       return acc;
     }, 0);
-    return lessonCompletetionMutation.mutate(
+    return lessonCompletionMutation.mutate(
       {
         lessonId: Number(lessonId),
         correctAnswers,
@@ -124,7 +124,7 @@ export const useDailyLessonQuestionStore = () => {
     );
   };
 
-  const isPendingMutation = lessonCompletetionMutation.isPending;
+  const isPendingMutation = lessonCompletionMutation.isPending;
 
   return {
     state: {

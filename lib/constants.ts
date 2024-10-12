@@ -24,4 +24,10 @@ export const QUERY_KEYS = {
   questionTypes: 'questionTypes',
   instruction: 'instruction',
   questions: 'questions',
+  lessonQuestions: 'lessonQuestions',
+  profile: {
+    identifier: 'accountIdentifier',
+    user: 'userProfile',
+    game: 'gameProfile',
+  },
 };

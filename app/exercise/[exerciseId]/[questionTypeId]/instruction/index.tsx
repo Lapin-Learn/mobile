@@ -6,19 +6,19 @@ import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { useInstruction } from '~/hooks/react-query/useDailyLesson';
 import { useToast } from '~/hooks/useToast';
-import { useDailyLesson } from '~/hooks/zustand';
+import { useDailyLessonStore } from '~/hooks/zustand';
 
 export default function Instruction() {
   const windowWidth = useWindowDimensions().width;
-  const currentQuestionType = useDailyLesson((state) => state.currentQuestionType);
+  const { currentQuestionType } = useDailyLessonStore();
   const toast = useToast();
   const {
     data: instruction,
-    isPending,
+    isLoading,
     isError,
   } = useInstruction({ questionTypeId: currentQuestionType.id.toString() });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loading />;
   }
 

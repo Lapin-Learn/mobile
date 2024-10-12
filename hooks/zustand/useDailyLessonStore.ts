@@ -1,20 +1,19 @@
 import { create } from 'zustand';
 
-import { IQuestionType } from '~/lib/interfaces';
+import { IQuestionType } from '~/lib/types';
 
 type DailyLessonState = {
-  exerciseId: null;
-  questionTypeId: null;
-  currentQuestionType: IQuestionType;
+  exerciseId: string | null;
+  currentQuestionType: IQuestionType | null;
 };
 
 type DailyLessonActions = {
-  setCurrentQuestionType: (questionType: IQuestionType) => void;
+  setCurrentQuestionType: (currentQuestionType: DailyLessonState['currentQuestionType']) => void;
 };
 
-export const useDailyLesson = create<DailyLessonState & DailyLessonActions>((set) => ({
+export const useDailyLessonStore = create<DailyLessonState & DailyLessonActions>((set) => ({
   exerciseId: null,
-  questionTypeId: null,
   currentQuestionType: {} as IQuestionType,
-  setCurrentQuestionType: (questionType: IQuestionType) => set({ currentQuestionType: questionType }),
+  setCurrentQuestionType: (currentQuestionType: DailyLessonState['currentQuestionType']) =>
+    set({ currentQuestionType }),
 }));

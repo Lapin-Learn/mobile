@@ -1,4 +1,4 @@
-import { IMilestone } from '~/lib/interfaces';
+import { IMilestone } from '~/lib/types';
 
 export type MilestoneProps = {
   readonly current: IMilestone;

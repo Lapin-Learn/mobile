@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { IMilestone } from '~/lib/interfaces';
+import { IMilestone } from '~/lib/types';
 
 type MilestoneState = {
   milestones: IMilestone[];

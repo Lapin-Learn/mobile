@@ -21,7 +21,7 @@ import {
   useUserProfile,
 } from '~/hooks/react-query/useUser';
 import { useToast } from '~/hooks/useToast';
-import { IPresignedUrl } from '~/lib/interfaces';
+import { IPresignedUrl } from '~/lib/types';
 
 export default function Index() {
   const { t } = useTranslation('profile');
