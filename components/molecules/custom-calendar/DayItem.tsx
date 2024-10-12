@@ -35,9 +35,10 @@ const containerDayVariants = cva('flex size-9 flex-row items-center justify-cent
   },
 });
 
-export interface DayItemProps extends VariantProps<typeof textDayVariants>, VariantProps<typeof containerDayVariants> {
-  day: number;
-}
+export type DayItemProps = VariantProps<typeof textDayVariants> &
+  VariantProps<typeof containerDayVariants> & {
+    day: number;
+  };
 export default function DayItem({ day, outside, active }: DayItemProps) {
   return (
     <View className={cn('flex h-9 flex-1 flex-row items-center justify-center', '')}>

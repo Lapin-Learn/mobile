@@ -40,7 +40,7 @@ import type {
   SelectValueProps,
 } from './types';
 
-interface IRootContext extends SelectRootContext {
+type IRootContext = SelectRootContext & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   triggerPosition: LayoutPosition | null;
@@ -48,7 +48,7 @@ interface IRootContext extends SelectRootContext {
   contentLayout: LayoutRectangle | null;
   setContentLayout: (contentLayout: LayoutRectangle | null) => void;
   nativeID: string;
-}
+};
 
 const RootContext = React.createContext<IRootContext | null>(null);
 

@@ -63,25 +63,25 @@ export function useRelativePosition({
   ]);
 }
 
-export interface LayoutPosition {
+export type LayoutPosition = {
   pageY: number;
   pageX: number;
   width: number;
   height: number;
-}
+};
 
-interface GetPositionArgs {
+type GetPositionArgs = {
   dimensions: ScaledSize;
   avoidCollisions: boolean;
   triggerPosition: LayoutPosition;
   contentLayout: LayoutRectangle;
   insets?: Insets;
-}
+};
 
-interface GetSidePositionArgs extends GetPositionArgs {
+type GetSidePositionArgs = GetPositionArgs & {
   side: 'top' | 'bottom';
   sideOffset: number;
-}
+};
 
 function getSidePosition({
   side,
@@ -114,10 +114,10 @@ function getSidePosition({
   };
 }
 
-interface GetAlignPositionArgs extends GetPositionArgs {
+type GetAlignPositionArgs = GetPositionArgs & {
   align: 'start' | 'center' | 'end';
   alignOffset: number;
-}
+};
 
 function getAlignPosition({
   align,

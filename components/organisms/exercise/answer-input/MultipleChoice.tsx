@@ -8,10 +8,10 @@ import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MultipleChoiceContent } from '~/lib/types/questions';
 
-interface MultipleChoiceProps extends MultipleChoiceContent {
+type MultipleChoiceProps = MultipleChoiceContent & {
   onAnswer: (isCorrect: boolean) => void;
   result: Answer;
-}
+};
 
 export default function MultipleChoice({ options, answer, onAnswer, result }: MultipleChoiceProps) {
   const { t } = useTranslation('question');

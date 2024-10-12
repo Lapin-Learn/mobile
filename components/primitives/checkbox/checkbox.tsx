@@ -6,9 +6,9 @@ import type { ComponentPropsWithAsChild, PressableRef, SlottablePressableProps }
 
 import type { CheckboxIndicator, CheckboxRootProps } from './types';
 
-interface RootContext extends CheckboxRootProps {
+type RootContext = CheckboxRootProps & {
   nativeID?: string;
-}
+};
 
 const CheckboxContext = React.createContext<RootContext | null>(null);
 

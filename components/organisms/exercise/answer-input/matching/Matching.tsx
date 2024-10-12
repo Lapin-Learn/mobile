@@ -8,10 +8,10 @@ import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 
 import { AnswerColumn, Column } from './AnswerColumn';
 
-interface MatchingProps extends MatchingContent {
+type MatchingProps = MatchingContent & {
   onAnswer: (isCorrect: boolean) => void;
   result: Answer;
-}
+};
 
 const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps) => {
   const [selectingPairs, setSelectingPairs] = useState<PairAnswer>({
