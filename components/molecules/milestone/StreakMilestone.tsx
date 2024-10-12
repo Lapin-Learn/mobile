@@ -13,7 +13,7 @@ import { Loading } from '../Loading';
 import { getCurrentWeekBooleanObject } from './helpers';
 import { MilestoneProps } from './type';
 
-const WeekRecord = ({ streakRecords }: { readonly streakRecords: string[] }) => {
+const WeekRecord = ({ streakRecords }: { streakRecords: string[] }) => {
   const { t, i18n } = useTranslation();
 
   const DAYS_OF_WEEK: string[] = (t('calendar.days_of_week', { returnObjects: true }) as string[]) ?? [];

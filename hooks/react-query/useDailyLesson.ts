@@ -6,21 +6,21 @@ import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons
 
 import { useMilestoneStore } from '../zustand/useMilestoneStore';
 
-export const useQuestionTypes = ({ skill }: { readonly skill: SkillEnum }) => {
+export const useQuestionTypes = ({ skill }: { skill: SkillEnum }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.list, skill],
     queryFn: getQuestionTypes,
   });
 };
 
-export const useListLessons = ({ questionTypeId }: { readonly questionTypeId: string }) => {
+export const useListLessons = ({ questionTypeId }: { questionTypeId: string }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.detail, questionTypeId],
     queryFn: getLessons,
   });
 };
 
-export const useLessonQuestions = ({ lessonId }: { readonly lessonId: string }) => {
+export const useLessonQuestions = ({ lessonId }: { lessonId: string }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.lessonQuestions, lessonId],
     queryFn: getLessonQuestions,
@@ -28,7 +28,7 @@ export const useLessonQuestions = ({ lessonId }: { readonly lessonId: string }) 
   });
 };
 
-export const useInstruction = ({ questionTypeId }: { readonly questionTypeId: string }) => {
+export const useInstruction = ({ questionTypeId }: { questionTypeId: string }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.instruction, questionTypeId],
     queryFn: getInstruction,

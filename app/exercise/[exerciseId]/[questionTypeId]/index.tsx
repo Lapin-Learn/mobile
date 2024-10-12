@@ -18,11 +18,11 @@ import { ILesson, IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
 
 type CardProps = {
-  readonly t: (key: string) => string;
-  readonly item: ILesson;
-  readonly lessons: ILesson[];
-  readonly handlePrev: () => void;
-  readonly handleNext: () => void;
+  t: (key: string) => string;
+  item: ILesson;
+  lessons: ILesson[];
+  handlePrev: () => void;
+  handleNext: () => void;
 };
 
 const Card = ({ t, item, lessons, handlePrev, handleNext }: CardProps) => {
