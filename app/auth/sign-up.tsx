@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
-import LogoFB from '~/assets/images/facebook.svg';
+import LogoFacebook from '~/assets/images/facebook.svg';
 import LogoGoogle from '~/assets/images/google.svg';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -96,7 +96,7 @@ function OtherSignIn() {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      <LogoFB onPress={() => {}} width={32} height={32} />
+      <LogoFacebook onPress={() => {}} width={32} height={32} />
       <LogoGoogle
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);

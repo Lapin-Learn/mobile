@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
@@ -35,7 +35,6 @@ export default function UpdateProfile() {
   });
 
   const updateUserProfileMutation = useUpdateUserProfile();
-  const router = useRouter();
   const onSubmit = (data: FormField) => {
     updateUserProfileMutation.mutate(data, {
       onSuccess: () => {
