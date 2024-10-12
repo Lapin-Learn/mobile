@@ -6,7 +6,7 @@ import { Redirect } from 'expo-router';
 import { Loading } from '~/components/molecules/Loading';
 import { useAuth } from '~/hooks/zustand';
 
-export default function Index() {
+const Index = () => {
   const { status } = useAuth();
 
   if (status === 'idle') {
@@ -14,4 +14,6 @@ export default function Index() {
   } else {
     return <Redirect href='/(tabs)' />;
   }
-}
+};
+
+export default Index;

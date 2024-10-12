@@ -23,7 +23,7 @@ import {
 import { useToast } from '~/hooks/useToast';
 import { IPresignedUrl } from '~/lib/types';
 
-export default function Index() {
+const Index = () => {
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
@@ -164,4 +164,6 @@ export default function Index() {
       </ScrollView>
     </PlatformView>
   );
-}
+};
+
+export default Index;

@@ -64,15 +64,15 @@ const regionPopupClassNameSmall: Record<SkillEnum, string> = {
   writing: 'top-80 -right-16 mt-2',
 };
 
-function ActionSelectRegion({ region: Region }: { region: React.FC<SvgProps> }) {
+const ActionSelectRegion = ({ region: Region }: { region: React.FC<SvgProps> }) => {
   return <Region />;
-}
+};
 
-function ActionSelectRegionText({ region: RegionText }: { region: React.FC<SvgProps> }) {
+const ActionSelectRegionText = ({ region: RegionText }: { region: React.FC<SvgProps> }) => {
   return <RegionText />;
-}
+};
 
-export function Region({ name, selected, onSelect }: RegionProps) {
+export const Region = ({ name, selected, onSelect }: RegionProps) => {
   return (
     <>
       <View className={cn('absolute flex h-0 w-0 scale-90 items-center justify-center', regionClassName[name])}>
@@ -98,4 +98,4 @@ export function Region({ name, selected, onSelect }: RegionProps) {
       )}
     </>
   );
-}
+};

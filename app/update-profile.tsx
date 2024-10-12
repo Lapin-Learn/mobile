@@ -24,7 +24,7 @@ const schema = z.object({
 
 type FormField = z.infer<typeof schema>;
 
-export default function UpdateProfile() {
+const UpdateProfile = () => {
   const { t } = useTranslation('profile');
   const {
     control,
@@ -97,4 +97,6 @@ export default function UpdateProfile() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default UpdateProfile;

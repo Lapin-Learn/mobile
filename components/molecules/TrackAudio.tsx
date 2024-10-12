@@ -18,7 +18,7 @@ type TrackAudioProps = {
   checked?: boolean;
 };
 
-export function TrackAudio({ data, checked }: TrackAudioProps) {
+export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
   const [playerState, setPlayerState] = useState<State>(State.None);
   const { position, duration } = useProgress();
 
@@ -92,4 +92,4 @@ export function TrackAudio({ data, checked }: TrackAudioProps) {
       </View>
     </View>
   );
-}
+};

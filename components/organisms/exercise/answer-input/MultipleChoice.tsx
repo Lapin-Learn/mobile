@@ -13,7 +13,7 @@ type MultipleChoiceProps = MultipleChoiceContent & {
   result: Answer;
 };
 
-export default function MultipleChoice({ options, answer, onAnswer, result }: MultipleChoiceProps) {
+const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoiceProps) => {
   const { t } = useTranslation('question');
   const [selected, setSelected] = useState<number[]>([]);
 
@@ -97,4 +97,6 @@ export default function MultipleChoice({ options, answer, onAnswer, result }: Mu
       )}
     </>
   );
-}
+};
+
+export default MultipleChoice;

@@ -22,7 +22,7 @@ const schema = z
 
 type ResetPasswordFormField = z.infer<typeof schema>;
 
-export default function ResetPassword() {
+const ResetPassword = () => {
   const { t } = useTranslation('auth');
   const {
     control,
@@ -77,4 +77,6 @@ export default function ResetPassword() {
       </KeyboardAvoidingView>
     </PlatformView>
   );
-}
+};
+
+export default ResetPassword;

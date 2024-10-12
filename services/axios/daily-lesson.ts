@@ -13,7 +13,7 @@ type LessonCompletionParams = {
 };
 
 export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string[]>) => {
-  const [, skill] = queryKey;
+  const [, , skill] = queryKey;
 
   try {
     const response = await api.get<IQuestionType[]>(`daily-lessons/question-types`, {

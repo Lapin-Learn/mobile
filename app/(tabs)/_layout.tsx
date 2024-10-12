@@ -11,15 +11,17 @@ import IconProfileTab from '~/assets/images/tab-profile.svg';
 import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
 import { useAuth } from '~/hooks/zustand';
 
-function ActiveTabIcon({ icon: Icon, focused }: { icon: React.FC<SvgProps>; focused: boolean }) {
+type ActiveTabIconProps = { icon: React.FC<SvgProps>; focused: boolean };
+
+const ActiveTabIcon = ({ icon: Icon, focused }: ActiveTabIconProps) => {
   return (
     <View className={`${focused ? 'm-4 rounded border border-orange-500 bg-orange-50' : ''}`}>
       <Icon />
     </View>
   );
-}
+};
 
-export default function TabsLayout() {
+const TabsLayout = () => {
   const { status } = useAuth();
 
   const hideSplash = useCallback(async () => {
@@ -60,4 +62,6 @@ export default function TabsLayout() {
       <Tabs.Screen name='profile' />
     </Tabs>
   );
-}
+};
+
+export default TabsLayout;

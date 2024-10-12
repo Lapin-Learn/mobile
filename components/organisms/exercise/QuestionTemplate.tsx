@@ -12,7 +12,7 @@ import AnswerInput from './answer-input/AnswerInput';
 import AnswerModal from './AnswerModal';
 import QuestionCard from './QuestionCard';
 
-export default function QuestionTemplate() {
+const QuestionTemplate = () => {
   const {
     nextQuestion,
     answerQuestion,
@@ -59,4 +59,6 @@ export default function QuestionTemplate() {
       )}
     </PlatformView>
   );
-}
+};
+
+export default QuestionTemplate;

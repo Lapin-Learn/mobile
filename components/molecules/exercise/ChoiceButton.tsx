@@ -21,10 +21,12 @@ type ChoiceButtonProps = Omit<ButtonProps, 'variant'> &
   VariantProps<typeof choiceButtonVariants> & {
     label: string;
   };
-export default function ChoiceButton({ variant, label, ...props }: ChoiceButtonProps) {
+const ChoiceButton = ({ variant, label, ...props }: ChoiceButtonProps) => {
   return (
     <Button className={choiceButtonVariants({ variant })} {...props}>
       <Text className='text-center text-body text-neutral-900'>{label}</Text>
     </Button>
   );
-}
+};
+
+export default ChoiceButton;

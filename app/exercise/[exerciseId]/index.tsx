@@ -16,12 +16,8 @@ const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function QuestionTypeCard({
-  name,
-  progress,
-  imageId,
-  bandScoreRequires,
-}: Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>) {
+type QuestionTypeCardProps = Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>;
+const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: QuestionTypeCardProps) => {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
   const curReq = bandScoreRequires.find((req) => req.bandScore === bandScore);
   const { t } = useTranslation('translation');
@@ -48,9 +44,9 @@ function QuestionTypeCard({
       </View>
     </View>
   );
-}
+};
 
-export default function Exercise() {
+const Exercise = () => {
   const { exerciseId } = useLocalSearchParams<{ exerciseId: string }>();
   const { data: questionTypes, isLoading: questionTypesLoading } = useQuestionTypes({ skill: exerciseId as SkillEnum });
 
@@ -97,4 +93,6 @@ export default function Exercise() {
       </SafeAreaView>
     </GestureHandlerRootView>
   );
-}
+};
+
+export default Exercise;

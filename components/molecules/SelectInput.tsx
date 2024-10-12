@@ -20,7 +20,7 @@ type SelectProps = {
   placeholder: string;
 };
 
-export default function SelectInput({ defaultValue, onValueChange, options, placeholder }: SelectProps) {
+const SelectInput = ({ defaultValue, onValueChange, options, placeholder }: SelectProps) => {
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -46,4 +46,6 @@ export default function SelectInput({ defaultValue, onValueChange, options, plac
       </SelectContent>
     </Select>
   );
-}
+};
+
+export default SelectInput;

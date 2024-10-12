@@ -8,7 +8,7 @@ import Carrots from './Carrots';
 import Streak from './Streak';
 import XpTrackBar from './XpTrackBar';
 
-export default function TrackBar() {
+const TrackBar = () => {
   const { data, isFetching, error } = useGameProfile();
 
   if (isFetching) {
@@ -36,4 +36,5 @@ export default function TrackBar() {
       <XpTrackBar level={data.level.id} currentXp={data.xp} levelXp={data.level.xp} rank={data.rank} />
     </View>
   );
-}
+};
+export default TrackBar;

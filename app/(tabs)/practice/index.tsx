@@ -1,5 +1,7 @@
 import { Text } from 'react-native';
 
-export default function CustomHeader() {
+const CustomHeader = () => {
   return <Text>Practice</Text>;
-}
+};
+
+export default CustomHeader;

@@ -4,7 +4,11 @@ import IconLostStreak from '~/assets/images/lost-streak.svg';
 import IconStreak from '~/assets/images/streak.svg';
 import { cn, formatNumber } from '~/lib/utils';
 
-export default function Streak({ streak }: { streak: number }) {
+type StreakProps = {
+  streak: number;
+};
+
+const Streak = ({ streak }: StreakProps) => {
   return (
     <View className='flex flex-row items-center justify-center gap-[2px]'>
       {streak > 0 ? <IconStreak width={28} height={28} /> : <IconLostStreak width={28} height={28} />}
@@ -13,4 +17,6 @@ export default function Streak({ streak }: { streak: number }) {
       </Text>
     </View>
   );
-}
+};
+
+export default Streak;

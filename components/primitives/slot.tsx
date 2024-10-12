@@ -100,7 +100,7 @@ export { Image, Pressable, Text, View };
 // The code is licensed under the MIT License.
 // https://github.com/radix-ui/primitives/tree/main
 
-function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
+const composeRefs = <T,>(...refs: (React.Ref<T> | undefined)[]) => {
   return (node: T) =>
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
@@ -109,11 +109,11 @@ function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
         (ref as React.MutableRefObject<T>).current = node;
       }
     });
-}
+};
 
 type AnyProps = Record<string, any>;
 
-function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
+const mergeProps = (slotProps: AnyProps, childProps: AnyProps) => {
   // all child props should override
   const overrideProps = { ...childProps };
 
@@ -144,13 +144,13 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   }
 
   return { ...slotProps, ...overrideProps };
-}
+};
 
 type PressableStyle = RNPressableProps['style'];
 type ImageStyle = StyleProp<RNImageStyle>;
 type Style = PressableStyle | ImageStyle;
 
-function combineStyles(slotStyle?: Style, childValue?: Style) {
+const combineStyles = (slotStyle?: Style, childValue?: Style) => {
   if (typeof slotStyle === 'function' && typeof childValue === 'function') {
     return (state: PressableStateCallbackType) => {
       return StyleSheet.flatten([slotStyle(state), childValue(state)]);
@@ -168,8 +168,10 @@ function combineStyles(slotStyle?: Style, childValue?: Style) {
   }
 
   return StyleSheet.flatten([slotStyle, childValue].filter(Boolean));
-}
+};
 
-export function isTextChildren(children: React.ReactNode | ((state: PressableStateCallbackType) => React.ReactNode)) {
+export const isTextChildren = (
+  children: React.ReactNode | ((state: PressableStateCallbackType) => React.ReactNode)
+) => {
   return Array.isArray(children) ? children.every((child) => typeof child === 'string') : typeof children === 'string';
-}
+};

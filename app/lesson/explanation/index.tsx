@@ -10,7 +10,7 @@ import { Button } from '~/components/ui/Button';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
 // TODO: extract to a separate component
-// function MultipleChoiceAnswer({ answers }: { answers: string[] }) {
+// const MultipleChoiceAnswer = ({ answers }: { answers: string[] }) => {
 //   if (answers.length === 0) return <View></View>;
 //   if (answers.length === 1) {
 //     return (
@@ -29,7 +29,7 @@ import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 //   );
 // }
 
-export default function Explanation() {
+const Explanation = () => {
   const { t } = useTranslation('question');
   const windowWidth = useWindowDimensions().width;
 
@@ -82,4 +82,6 @@ export default function Explanation() {
       </View>
     </PlatformView>
   );
-}
+};
+
+export default Explanation;

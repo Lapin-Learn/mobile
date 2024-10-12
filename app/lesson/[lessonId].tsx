@@ -9,7 +9,7 @@ import { LessonResult } from '~/components/organisms/lesson/LessonResult';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
-export default function Lesson() {
+const Lesson = () => {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
   const { data, isLoading, isSuccess } = useLessonQuestions({ lessonId });
   const {
@@ -50,4 +50,6 @@ export default function Lesson() {
       )}
     </View>
   );
-}
+};
+
+export default Lesson;

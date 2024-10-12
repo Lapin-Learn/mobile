@@ -15,7 +15,7 @@ export type AnswerModalProps = {
   onPressContinue: () => void;
 };
 
-export default function AnswerModal({ type, correctAnswers, onPressContinue }: AnswerModalProps) {
+const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps) => {
   const [randomEncourage, setRandomEncourage] = useState<number>(0);
   const [showModal, setShowModal] = useState(true);
   const { t } = useTranslation('question');
@@ -87,4 +87,6 @@ export default function AnswerModal({ type, correctAnswers, onPressContinue }: A
       </View>
     </Modal>
   );
-}
+};
+
+export default AnswerModal;

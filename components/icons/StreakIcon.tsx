@@ -8,7 +8,7 @@ type StreakIconProps = {
   variant: 'done' | 'miss' | 'neutral';
 } & SvgProps;
 
-export default function StreakIcon({ variant, ...props }: StreakIconProps) {
+const StreakIcon = ({ variant, ...props }: StreakIconProps) => {
   switch (variant) {
     case 'done':
       return <StreakDone {...props} />;
@@ -17,4 +17,6 @@ export default function StreakIcon({ variant, ...props }: StreakIconProps) {
     case 'neutral':
       return <StreakDefault {...props} />;
   }
-}
+};
+
+export default StreakIcon;

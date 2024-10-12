@@ -1,5 +1,7 @@
 import { Text } from 'react-native';
 
-export default function Vocabulary() {
+const Vocabulary = () => {
   return <Text>Vocabulary</Text>;
-}
+};
+
+export default Vocabulary;

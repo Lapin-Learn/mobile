@@ -5,14 +5,14 @@ import { useSignOut } from '~/hooks/react-query/useAuth';
 import { AuthProps, hydrate, useAuth } from '~/hooks/zustand';
 import { getFirstLaunchAsync } from '~/services';
 
-async function checkIfFirstLaunch() {
+const checkIfFirstLaunch = async () => {
   try {
     const hasFirstLaunched = await getFirstLaunchAsync();
     return hasFirstLaunched;
   } catch {
     return false;
   }
-}
+};
 
 const AuthContext = createContext<AuthProps>({ token: { token_type: null, accessToken: null }, status: 'idle' });
 

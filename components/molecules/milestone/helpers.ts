@@ -1,8 +1,8 @@
-function formatDate(date: Date): string {
+const formatDate = (date: Date) => {
   return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
-}
+};
 
-function getCurrentWeekBooleanObject(doneRecords: string[], dayNames: string[]): Record<string, boolean | undefined> {
+const getCurrentWeekBooleanObject = (doneRecords: string[], dayNames: string[]) => {
   const currentDate = new Date();
   const currentDay = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
   const startOfWeek = new Date(currentDate);
@@ -23,6 +23,6 @@ function getCurrentWeekBooleanObject(doneRecords: string[], dayNames: string[]):
   }
 
   return weekBooleanObject;
-}
+};
 
 export { formatDate, getCurrentWeekBooleanObject };

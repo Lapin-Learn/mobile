@@ -11,7 +11,7 @@ import PlatformView from '~/components/templates/PlatformView';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
-export function generateTarget(days: number): { value: number; active: boolean }[] {
+export const generateTarget = (days: number) => {
   const base = 25;
   let max = 100;
 
@@ -33,9 +33,9 @@ export function generateTarget(days: number): { value: number; active: boolean }
   });
 
   return scaledColumns;
-}
+};
 
-export default function Streak() {
+const Streak = () => {
   const { t } = useTranslation();
   const { data, isFetching } = useGameProfile();
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
@@ -84,4 +84,6 @@ export default function Streak() {
       <SafeAreaView className='flex-0 bg-background' />
     </>
   );
-}
+};
+
+export default Streak;

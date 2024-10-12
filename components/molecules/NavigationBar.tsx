@@ -15,7 +15,7 @@ export type NavigationBarProps = ViewProps & {
   icon?: ForwardRefExoticComponent<LucideProps>;
 };
 
-export function NavigationBar({
+export const NavigationBar = ({
   noBar,
   title,
   headerTitle,
@@ -25,7 +25,7 @@ export function NavigationBar({
   onHeaderRightPress,
   icon: Icon = LucideMoveLeft,
   children,
-}: NavigationBarProps) {
+}: NavigationBarProps) => {
   return (
     <View className='px-4'>
       {noBar || (
@@ -60,4 +60,4 @@ export function NavigationBar({
       {children}
     </View>
   );
-}
+};

@@ -8,7 +8,7 @@ import { useInstruction } from '~/hooks/react-query/useDailyLesson';
 import { useToast } from '~/hooks/useToast';
 import { useDailyLessonStore } from '~/hooks/zustand';
 
-export default function Instruction() {
+const Instruction = () => {
   const windowWidth = useWindowDimensions().width;
   const { currentQuestionType } = useDailyLessonStore();
   const toast = useToast();
@@ -16,7 +16,7 @@ export default function Instruction() {
     data: instruction,
     isLoading,
     isError,
-  } = useInstruction({ questionTypeId: currentQuestionType.id.toString() });
+  } = useInstruction({ questionTypeId: currentQuestionType?.id.toString() ?? '' });
 
   if (isLoading) {
     return <Loading />;
@@ -28,7 +28,7 @@ export default function Instruction() {
 
   return (
     <SafeAreaView>
-      <NavigationBar headerTitle={currentQuestionType.name} headerLeftShown />
+      <NavigationBar headerTitle={currentQuestionType?.name} headerLeftShown />
       <ScrollView className='px-4'>
         {instruction ? (
           <View className='mb-20'>
@@ -40,4 +40,6 @@ export default function Instruction() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
+export default Instruction;

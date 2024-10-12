@@ -39,7 +39,7 @@ export type DayItemProps = VariantProps<typeof textDayVariants> &
   VariantProps<typeof containerDayVariants> & {
     day: number;
   };
-export default function DayItem({ day, outside, active }: DayItemProps) {
+const DayItem = ({ day, outside, active }: DayItemProps) => {
   return (
     <View className={cn('flex h-9 flex-1 flex-row items-center justify-center', '')}>
       <View
@@ -61,4 +61,6 @@ export default function DayItem({ day, outside, active }: DayItemProps) {
       />
     </View>
   );
-}
+};
+
+export default DayItem;

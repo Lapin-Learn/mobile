@@ -26,7 +26,7 @@ const schema = z
 
 type SignUpFormField = z.infer<typeof schema>;
 
-export default function SignUp() {
+const SignUp = () => {
   const { t } = useTranslation('auth');
 
   const {
@@ -90,9 +90,11 @@ export default function SignUp() {
       </View>
     </SafeAreaView>
   );
-}
+};
 
-function OtherSignIn() {
+export default SignUp;
+
+const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
@@ -106,4 +108,4 @@ function OtherSignIn() {
       />
     </View>
   );
-}
+};
