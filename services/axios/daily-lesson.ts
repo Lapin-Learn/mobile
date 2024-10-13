@@ -32,7 +32,7 @@ type ILessonsResponse = {
 };
 
 export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) => {
-  const [, questionTypeId] = queryKey;
+  const [, , questionTypeId] = queryKey;
 
   try {
     const response = await api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`);

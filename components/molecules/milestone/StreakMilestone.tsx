@@ -39,9 +39,7 @@ const WeekRecord = ({ streakRecords }: { streakRecords: string[] }) => {
 
 export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
-  // TODO: recheck, because startDate param is the string for BE to parse data
-  // 0 maybe equal to 1970-01-01, so it means we get all the streaks
-  const { data, isPending } = useStreaks({ startDate: '0' });
+  const { data, isPending } = useStreaks({});
 
   const [streakRecords, setStreakRecords] = useState<string[]>([]);
 
