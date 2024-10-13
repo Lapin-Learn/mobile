@@ -1,46 +1,76 @@
 import { Clock } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { AppState, ScrollView, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { ListMissions } from '~/components/molecules/mission/ListMissions';
-import { MissionsProps } from '~/components/molecules/mission/type';
+import { MissionProps } from '~/components/molecules/mission/type';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ProfileSection as MissionSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
 import { formatRemainingToDateTime } from '~/lib/utils';
 
-const dailyMissionData: MissionsProps = {
-  type: 'daily',
-  timestamp: (Date.now() + 1 * 60 * 1000).toString(),
-  data: [
-    { code: 'collect_carrots', value: '20', current: '10', target: '20' },
-    { code: 'exercise', value: '20', current: '5', target: '5' },
-    { code: 'learn_a_new_skill', value: '20', current: '1', target: '5' },
-  ],
-};
-
-const monthlyMissionData: MissionsProps = {
-  type: 'monthly',
-  timestamp: (Date.now() + 5 * 60 * 60 * 1000).toString(),
-  data: [
-    { code: 'take_a_new_course', value: '20', current: '10', target: '20' },
-    { code: 'learn_a_new_language', value: '20', current: '1', target: '5' },
-    { code: 'learn_a_new_skill', value: '20', current: '1', target: '5' },
-  ],
-};
+const missionData: MissionProps[] = [
+  {
+    interval: 'daily',
+    name: 'collect_carrots',
+    value: 20,
+    current: 10,
+    quantity: 20,
+  },
+  {
+    interval: 'daily',
+    name: 'exercise',
+    value: 20,
+    current: 5,
+    quantity: 5,
+  },
+  {
+    interval: 'daily',
+    name: 'learn_a_new_skill',
+    value: 20,
+    current: 1,
+    quantity: 5,
+  },
+  {
+    interval: 'monthly',
+    name: 'take_a_new_course',
+    value: 20,
+    current: 10,
+    quantity: 20,
+  },
+  {
+    interval: 'monthly',
+    name: 'learn_a_new_language',
+    value: 20,
+    current: 1,
+    quantity: 5,
+  },
+  {
+    interval: 'monthly',
+    name: 'learn_a_new_skill',
+    value: 20,
+    current: 1,
+    quantity: 5,
+  },
+];
 
 const monthIndex = new Date().getMonth();
+const NewDate = new Date().setHours(24, 0, 0, 0);
+const NewMonth = new Date().setMonth(monthIndex + 1, 0);
 
 const Mission = () => {
   const { t } = useTranslation('mission');
 
   const useCountdown = (initialTime: number) => {
-    const [remainingTime, setRemainingTime] = useState(initialTime);
-
+    const [remainingTime, setRemainingTime] = useState(initialTime - new Date().getTime());
     useEffect(() => {
       const interval = setInterval(() => {
+        AppState.addEventListener('change', () => {
+          setRemainingTime(initialTime - new Date().getTime());
+        });
+
         setRemainingTime((prevTime) => {
           if (prevTime <= 0) {
             clearInterval(interval);
@@ -56,8 +86,8 @@ const Mission = () => {
     return remainingTime;
   };
 
-  const remainingDailyTime = useCountdown(parseInt(dailyMissionData.timestamp) - new Date().getTime());
-  const remainingMonthlyTime = useCountdown(parseInt(monthlyMissionData.timestamp) - new Date().getTime());
+  const remainingDailyTime = useCountdown(NewDate);
+  const remainingMonthlyTime = useCountdown(NewMonth);
 
   const monthMission = t('month_mission', {
     month: (t('calendar.months', { returnObjects: true, ns: 'translation' }) as string[])[monthIndex],
@@ -90,7 +120,7 @@ const Mission = () => {
               </View>
             </MissionSection.Title>
             <MissionSection.Group className='bg-white'>
-              <ListMissions {...dailyMissionData} />
+              <ListMissions data={missionData.filter((item) => item.interval === 'daily')} />
             </MissionSection.Group>
           </MissionSection>
           <MissionSection className='px-4 pt-5'>
@@ -106,7 +136,7 @@ const Mission = () => {
               </View>
             </MissionSection.Title>
             <MissionSection.Group className='bg-white'>
-              <ListMissions {...monthlyMissionData} />
+              <ListMissions data={missionData.filter((item) => item.interval === 'monthly')} />
             </MissionSection.Group>
           </MissionSection>
         </ScrollView>

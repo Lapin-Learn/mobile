@@ -1,12 +1,8 @@
 export type MissionProps = {
-  code: string;
-  value: string;
-  current: string;
-  target: string;
-};
-
-export type MissionsProps = {
-  type: 'daily' | 'monthly';
-  timestamp: string;
-  data: MissionProps[];
+  interval: 'daily' | 'monthly';
+  name: string;
+  description?: string;
+  value: number;
+  current: number;
+  quantity: number;
 };

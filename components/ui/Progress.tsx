@@ -29,7 +29,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
         <Indicator value={value} className={indicatorClassName} />
         <View className='absolute inset-0 flex h-full w-full items-center justify-center'>
           <Text
-            className={`font-imedium text-caption-1 ${value && value < 50 ? 'text-neutral-500' : 'text-orange-50'}`}>
+            className={`font-imedium text-caption-2 ${value && value < 50 ? 'text-neutral-500' : 'text-orange-50'}`}>
             {label}
           </Text>
         </View>

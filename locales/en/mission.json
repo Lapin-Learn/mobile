@@ -1,7 +1,7 @@
 {
   "types": {
-    "daily": "Daily Mission",
-    "monthly": "Monthly Mission"
+    "daily": "Daily Missions",
+    "monthly": "Monthly Missions"
   },
   "time_units": {
     "second": {
