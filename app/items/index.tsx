@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 
-export default function Items() {
+const Items = () => {
   return (
     <PlatformView>
       <NavigationBar headerTitle={'Items'} headerLeftShown />
@@ -12,4 +12,6 @@ export default function Items() {
       </View>
     </PlatformView>
   );
-}
+};
+
+export default Items;

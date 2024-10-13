@@ -3,7 +3,7 @@ import { Text, TextInputProps, View } from 'react-native';
 
 import { FormInputProps, useFormInput } from '~/hooks/useFormInput';
 
-export function ControllerInput<T>({
+export const ControllerInput = <T,>({
   props,
   label,
   placeholder,
@@ -12,7 +12,7 @@ export function ControllerInput<T>({
   defaultLabel = '',
   options = [],
   ...rest
-}: FormInputProps<T> & TextInputProps) {
+}: FormInputProps<T> & TextInputProps) => {
   const { renderInput, field } = useFormInput({
     props,
     label,
@@ -40,4 +40,4 @@ export function ControllerInput<T>({
       {error && <Text className='text-red-500'>{t(String(error.message), { ns: 'validation' })}</Text>}
     </View>
   );
-}
+};

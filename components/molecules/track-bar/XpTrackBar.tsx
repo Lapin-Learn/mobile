@@ -11,12 +11,7 @@ type XpTrackBarProps = {
   rank?: RankEnum;
 };
 
-export default function XpTrackBar({
-  level = 1,
-  currentXp = 0,
-  levelXp = 100,
-  rank = RankEnum.BRONZE,
-}: XpTrackBarProps) {
+const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.BRONZE }: XpTrackBarProps) => {
   return (
     <View className='flex flex-row items-center justify-center'>
       <View className='flex flex-row items-center gap-1'>
@@ -37,4 +32,6 @@ export default function XpTrackBar({
       </View>
     </View>
   );
-}
+};
+
+export default XpTrackBar;

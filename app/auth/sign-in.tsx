@@ -21,7 +21,7 @@ const schema = z.object({
 
 type SignInFormField = z.infer<typeof schema>;
 
-export default function SignIn() {
+const SignIn = () => {
   const {
     control,
     handleSubmit,
@@ -85,9 +85,11 @@ export default function SignIn() {
       </View>
     </PlatformView>
   );
-}
+};
 
-function OtherSignIn() {
+export default SignIn;
+
+const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
@@ -101,4 +103,4 @@ function OtherSignIn() {
       />
     </View>
   );
-}
+};

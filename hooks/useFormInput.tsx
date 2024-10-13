@@ -21,7 +21,15 @@ export type FormInputProps<T = Record<string, string>> = {
   options?: { value: string; label: string }[];
 };
 
-export function useFormInput<T>({ props, label, placeholder, error, type, defaultLabel, options }: FormInputProps<T>) {
+export const useFormInput = <T,>({
+  props,
+  label,
+  placeholder,
+  error,
+  type,
+  defaultLabel,
+  options,
+}: FormInputProps<T>) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const { field } = useController(props);
   const { t } = useTranslation('profile');
@@ -107,4 +115,4 @@ export function useFormInput<T>({ props, label, placeholder, error, type, defaul
   };
 
   return { renderInput, label, error, field, placeholder };
-}
+};

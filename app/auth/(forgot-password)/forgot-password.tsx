@@ -16,7 +16,7 @@ const schema = z.object({
 
 type ForgotPasswordFormField = z.infer<typeof schema>;
 
-export default function ForgotPassword() {
+const ForgotPassword = () => {
   const { t } = useTranslation('auth');
 
   const {
@@ -68,4 +68,6 @@ export default function ForgotPassword() {
       </KeyboardAvoidingView>
     </PlatformView>
   );
-}
+};
+
+export default ForgotPassword;

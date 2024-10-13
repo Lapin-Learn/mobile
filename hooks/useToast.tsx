@@ -1,6 +1,6 @@
 import Toast from 'react-native-toast-message';
 
-export function useToast() {
+export const useToast = () => {
   const toast = Toast;
   return toast;
-}
+};

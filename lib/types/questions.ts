@@ -1,5 +1,5 @@
+import { IBucket } from '.';
 import { CEFRLevelEnum, ContentTypeEnum } from '../enums';
-import { IBucket } from '../interfaces';
 
 export type QuestionCard = {
   paragraph: string;

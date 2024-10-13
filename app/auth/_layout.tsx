@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
 
-export default function AuthLayout() {
+const AuthLayout = () => {
   const { status } = useAuth();
 
   const hideSplash = useCallback(async () => {
@@ -39,4 +39,6 @@ export default function AuthLayout() {
       <Stack.Screen name='(forgot-password)' options={{ headerShown: false }} />
     </Stack>
   );
-}
+};
+
+export default AuthLayout;

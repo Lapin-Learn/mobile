@@ -10,14 +10,14 @@ import { Region } from '~/components/molecules/region/Region';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
 import { SkillEnum } from '~/lib/enums';
 
-export default function Index() {
+const Index = () => {
   return (
     <SafeAreaView>
       <TrackBar />
       <Map />
     </SafeAreaView>
   );
-}
+};
 
 const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
   reading: { x: -75, y: -25 },
@@ -27,7 +27,7 @@ const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
   null: { x: 0, y: 0 },
 };
 
-function Map() {
+const Map = () => {
   const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
 
   const handleSelectRegion = (skill: SkillEnum | null) => {
@@ -64,4 +64,6 @@ function Map() {
       </MotiView>
     </Pressable>
   );
-}
+};
+
+export default Index;

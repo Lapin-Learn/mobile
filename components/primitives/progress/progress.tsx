@@ -48,10 +48,10 @@ Indicator.displayName = 'IndicatorProgress';
 
 export { Indicator, Root };
 
-function defaultGetValueLabel(value: number, max: number) {
+const defaultGetValueLabel = (value: number, max: number) => {
   return `${Math.round((value / max) * 100)}%`;
-}
+};
 
-function isValidValueNumber(value: any, max: number): value is number {
+const isValidValueNumber = (value: any, max: number): value is number => {
   return typeof value === 'number' && !isNaN(value) && value <= max && value >= 0;
-}
+};

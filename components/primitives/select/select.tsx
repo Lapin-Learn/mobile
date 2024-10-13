@@ -40,7 +40,7 @@ import type {
   SelectValueProps,
 } from './types';
 
-interface IRootContext extends SelectRootContext {
+type IRootContext = SelectRootContext & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   triggerPosition: LayoutPosition | null;
@@ -48,7 +48,7 @@ interface IRootContext extends SelectRootContext {
   contentLayout: LayoutRectangle | null;
   setContentLayout: (contentLayout: LayoutRectangle | null) => void;
   nativeID: string;
-}
+};
 
 const RootContext = React.createContext<IRootContext | null>(null);
 
@@ -75,10 +75,10 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & SelectRootProps>(
     const [contentLayout, setContentLayout] = React.useState<LayoutRectangle | null>(null);
     const [open, setOpen] = React.useState(false);
 
-    function onOpenChange(value: boolean) {
+    const onOpenChange = (value: boolean) => {
       setOpen(value);
       onOpenChangeProp?.(value);
-    }
+    };
 
     const Component = asChild ? Slot.View : View;
     return (
@@ -103,13 +103,13 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & SelectRootProps>(
 
 Root.displayName = 'RootNativeSelect';
 
-function useRootContext() {
+const useRootContext = () => {
   const context = React.useContext(RootContext);
   if (!context) {
     throw new Error('Select compound components cannot be rendered outside the Select component');
   }
   return context;
-}
+};
 
 const Trigger = React.forwardRef<SelectTriggerRef, SlottablePressableProps>(
   ({ asChild, onPress: onPressProp, disabled = false, ...props }, ref) => {
@@ -131,14 +131,14 @@ const Trigger = React.forwardRef<SelectTriggerRef, SlottablePressableProps>(
       },
     });
 
-    function onPress(ev: GestureResponderEvent) {
+    const onPress = (ev: GestureResponderEvent) => {
       if (disabled) return;
       augmentedRef.current?.measure((_x: any, _y: any, width: any, height: any, pageX: any, pageY: any) => {
         setTriggerPosition({ width, pageX, pageY: pageY, height });
       });
       onOpenChange(!open);
       onPressProp?.(ev);
-    }
+    };
 
     const Component = asChild ? Slot.Pressable : Pressable;
     return (
@@ -174,7 +174,7 @@ Value.displayName = 'ValueNativeSelect';
 /**
  * @warning when using a custom `<PortalHost />`, you might have to adjust the Content's sideOffset.
  */
-function Portal({ forceMount, hostName, children }: SelectPortalProps) {
+const Portal = ({ forceMount, hostName, children }: SelectPortalProps) => {
   const value = useRootContext();
 
   if (!value.triggerPosition) {
@@ -192,20 +192,20 @@ function Portal({ forceMount, hostName, children }: SelectPortalProps) {
       <RootContext.Provider value={value}>{children}</RootContext.Provider>
     </RNPPortal>
   );
-}
+};
 
 const Overlay = React.forwardRef<PressableRef, SlottablePressableProps & SelectOverlayProps>(
   ({ asChild, forceMount, onPress: OnPressProp, closeOnPress = true, ...props }, ref) => {
     const { open, onOpenChange, setTriggerPosition, setContentLayout } = useRootContext();
 
-    function onPress(ev: GestureResponderEvent) {
+    const onPress = (ev: GestureResponderEvent) => {
       if (closeOnPress) {
         setTriggerPosition(null);
         setContentLayout(null);
         onOpenChange(false);
       }
       OnPressProp?.(ev);
-    }
+    };
 
     if (!forceMount) {
       if (!open) {
@@ -271,10 +271,10 @@ const Content = React.forwardRef<ViewRef, SlottableViewProps & PositionedContent
       disablePositioningStyle,
     });
 
-    function onLayout(event: LayoutChangeEvent) {
+    const onLayout = (event: LayoutChangeEvent) => {
       setContentLayout(event.nativeEvent.layout);
       onLayoutProp?.(event);
-    }
+    };
 
     if (!forceMount) {
       if (!open) {
@@ -311,7 +311,7 @@ const Item = React.forwardRef<PressableRef, SlottablePressableProps & SelectItem
     ref
   ) => {
     const { onOpenChange, value, onValueChange, setTriggerPosition, setContentLayout } = useRootContext();
-    function onPress(ev: GestureResponderEvent) {
+    const onPress = (ev: GestureResponderEvent) => {
       if (closeOnPress) {
         setTriggerPosition(null);
         setContentLayout(null);
@@ -320,7 +320,7 @@ const Item = React.forwardRef<PressableRef, SlottablePressableProps & SelectItem
 
       onValueChange({ value: itemValue, label });
       onPressProp?.(ev);
-    }
+    };
 
     const Component = asChild ? Slot.Pressable : Pressable;
     return (
@@ -346,13 +346,13 @@ const Item = React.forwardRef<PressableRef, SlottablePressableProps & SelectItem
 
 Item.displayName = 'ItemNativeSelect';
 
-function useItemContext() {
+const useItemContext = () => {
   const context = React.useContext(ItemContext);
   if (!context) {
     throw new Error('Item compound components cannot be rendered outside of an Item component');
   }
   return context;
-}
+};
 
 const ItemText = React.forwardRef<TextRef, Omit<SlottableTextProps, 'children'>>(({ asChild, ...props }, ref) => {
   const { label } = useItemContext();
@@ -441,6 +441,6 @@ export {
 
 export type { Option, SelectTriggerRef } from './types';
 
-function onStartShouldSetResponder() {
+const onStartShouldSetResponder = () => {
   return true;
-}
+};

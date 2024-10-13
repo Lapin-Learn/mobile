@@ -17,7 +17,7 @@ const schema = z.object({
 
 type VerifyFormField = z.infer<typeof schema>;
 
-export default function Verify() {
+const Verify = () => {
   const { t } = useTranslation('auth');
   const { email } = useLocalSearchParams();
   const [time, setTime] = useState(5);
@@ -126,4 +126,6 @@ export default function Verify() {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+};
+
+export default Verify;

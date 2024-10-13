@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-export function AppStack() {
+export const AppStack = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name='index' />
@@ -17,4 +17,4 @@ export function AppStack() {
       <Stack.Screen name='streak' />
     </Stack>
   );
-}
+};

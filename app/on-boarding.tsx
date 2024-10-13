@@ -10,7 +10,7 @@ import { Button } from '~/components/ui/Button';
 import { cn } from '~/lib/utils';
 import { FIRST_LAUNCH } from '~/services';
 
-export default function OnBoarding() {
+const OnBoarding = () => {
   const { t } = useTranslation();
   const handleSkip = async () => {
     await SecureStore.setItemAsync(FIRST_LAUNCH, 'false');
@@ -41,4 +41,6 @@ export default function OnBoarding() {
       </View>
     </View>
   );
-}
+};
+
+export default OnBoarding;

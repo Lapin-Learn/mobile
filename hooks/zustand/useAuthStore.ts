@@ -7,10 +7,10 @@ import { TokenType } from '~/types';
 
 export type AuthStatus = 'idle' | 'signOut' | 'signIn';
 
-export interface AuthProps {
+export type AuthProps = {
   token: TokenType | null;
   status: AuthStatus;
-}
+};
 
 type AuthState = {
   token: AuthProps['token'];
@@ -22,12 +22,12 @@ type AuthState = {
   scheduleTokenCheck: (token: TokenType) => void;
 };
 
-interface DecodedToken {
+type DecodedToken = {
   userId: string;
   role: string;
   iat: number;
   exp: number;
-}
+};
 
 const authStore = createStore<AuthState>()((set, get) => ({
   token: null,

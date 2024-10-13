@@ -12,7 +12,7 @@ type RankIconProps = {
   name: RankEnum;
 } & SvgProps;
 
-export default function RankIcon({ name, ...props }: RankIconProps) {
+const RankIcon = ({ name, ...props }: RankIconProps) => {
   switch (name) {
     case RankEnum.BRONZE:
       return <Bronze {...props} />;
@@ -27,4 +27,6 @@ export default function RankIcon({ name, ...props }: RankIconProps) {
     case RankEnum.MASTER:
       return <Master {...props} />;
   }
-}
+};
+
+export default RankIcon;

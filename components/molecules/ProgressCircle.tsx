@@ -14,7 +14,7 @@ type ProgressCircleProps = {
   showsText?: boolean;
   lineCap?: 'round';
 };
-export function ProgressCircle({
+export const ProgressCircle = ({
   progress = 10,
   size = 160,
   thickness = 15,
@@ -24,7 +24,7 @@ export function ProgressCircle({
     color: '#247063',
   },
   lineCap = 'round',
-}: ProgressCircleProps) {
+}: ProgressCircleProps) => {
   const progressValue = progress > 100 ? 100 : progress;
 
   return (
@@ -44,4 +44,4 @@ export function ProgressCircle({
       )}
     </AnimatedCircularProgress>
   );
-}
+};

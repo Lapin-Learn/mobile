@@ -9,10 +9,10 @@ import { generateCalendar, parseActiveDays } from './helpers';
 
 const LIMIT_QUERY = subMonths(new Date(), 12); // Limit to 12 months
 
-interface CustomCalendarProps {
+type CustomCalendarProps = {
   onChangeMonth?: (date: Date) => void;
   activeDays?: Date[];
-}
+};
 
 const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
   const { t } = useTranslation();

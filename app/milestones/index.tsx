@@ -16,7 +16,7 @@ const MilestonesMap: {
   band_score_question_type_up: NewMilestone,
 };
 
-export default function Milestones() {
+const Milestones = () => {
   const { milestones } = useMilestoneStore();
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
@@ -37,4 +37,6 @@ export default function Milestones() {
   };
 
   return <Milestone current={sortedMilestones[currentMilestone]} handleNextMilestone={handleNextMilestone} />;
-}
+};
+
+export default Milestones;

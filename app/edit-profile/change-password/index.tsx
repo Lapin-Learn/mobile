@@ -24,7 +24,7 @@ const schema = z
 
 type ChangePasswordFormField = z.infer<typeof schema>;
 
-export default function ChangePassword() {
+const ChangePassword = () => {
   const { t } = useTranslation('profile');
   const changePasswordMutation = useChangePassword();
   const { isPending } = changePasswordMutation;
@@ -86,4 +86,6 @@ export default function ChangePassword() {
       </Button>
     </PlatformView>
   );
-}
+};
+
+export default ChangePassword;

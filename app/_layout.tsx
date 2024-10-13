@@ -37,7 +37,7 @@ TrackPlayer.registerPlaybackService(() => registerBackgroundService);
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const RootLayout = () => {
   const handleTrackPlayerLoaded = useCallback(() => {
     SplashScreen.hideAsync();
   }, []);
@@ -78,4 +78,6 @@ export default function RootLayout() {
       </QueryClientProvider>
     </ThemeProvider>
   );
-}
+};
+
+export default RootLayout;

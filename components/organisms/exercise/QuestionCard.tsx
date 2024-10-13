@@ -11,7 +11,7 @@ type QuestionCardProps = {
   data: IQuestion;
   isPaused?: boolean;
 };
-export default function QuestionCard({ data, isPaused = false }: QuestionCardProps) {
+const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
   const { t } = useTranslation('question');
 
   return (
@@ -28,4 +28,6 @@ export default function QuestionCard({ data, isPaused = false }: QuestionCardPro
       )}
     </View>
   );
-}
+};
+
+export default QuestionCard;

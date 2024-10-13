@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '~/components/ui/Button';
 import { SkillEnum } from '~/lib/enums';
 
-export function PopupLesson({ skill }: { skill: SkillEnum }) {
+type PopupLesson = {
+  skill: SkillEnum;
+};
+export const PopupLesson = ({ skill }: PopupLesson) => {
   const { t } = useTranslation('translation');
   const handleExercise = () => {
     return router.push(`/exercise/${skill}`);
@@ -17,6 +20,7 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
   return (
     <View className='w-[300px] items-center justify-center rounded-md bg-white px-4 py-4'>
       <View className='absolute -top-2.5 h-4 w-4 rotate-45 bg-white' />
+      {/* TODO */}
       {/* <View className='relative mt-5 h-2 w-full bg-orange-200'>
         <View className='absolute -top-5 mt-5 h-2 w-1/3 bg-orange-500' />
       </View> */}
@@ -36,4 +40,4 @@ export function PopupLesson({ skill }: { skill: SkillEnum }) {
       </View>
     </View>
   );
-}
+};

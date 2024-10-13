@@ -3,7 +3,7 @@ import { useLayoutEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Random() {
+const Random = () => {
   const { randomId } = useLocalSearchParams<{ randomId: string }>();
   const navigation = useNavigation();
 
@@ -18,4 +18,6 @@ export default function Random() {
       <View className='mt-12'></View>
     </SafeAreaView>
   );
-}
+};
+
+export default Random;

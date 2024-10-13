@@ -1,4 +1,4 @@
-import { IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/interfaces';
+import { IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/types';
 
 import api from '../httpRequests';
 

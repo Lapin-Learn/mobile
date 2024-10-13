@@ -7,13 +7,13 @@ type Option =
     }
   | undefined;
 
-interface SelectRootContext {
+type SelectRootContext = {
   value: Option;
   onValueChange: (option: Option) => void;
   disabled?: boolean;
-}
+};
 
-interface SelectRootProps {
+type SelectRootProps = {
   value?: Option;
   defaultValue?: Option;
   onValueChange?: (option: Option) => void;
@@ -31,13 +31,13 @@ interface SelectRootProps {
    * Platform: WEB ONLY
    */
   required?: boolean;
-}
+};
 
-interface SelectValueProps {
+type SelectValueProps = {
   placeholder: string;
-}
+};
 
-interface SelectPortalProps extends ForceMountable {
+type SelectPortalProps = ForceMountable & {
   children: React.ReactNode;
   /**
    * Platform: NATIVE ONLY
@@ -47,33 +47,33 @@ interface SelectPortalProps extends ForceMountable {
    * Platform: WEB ONLY
    */
   container?: HTMLElement | null | undefined;
-}
+};
 
-interface SelectOverlayProps extends ForceMountable {
+type SelectOverlayProps = ForceMountable & {
   closeOnPress?: boolean;
-}
+};
 
-interface SelectContentProps {
+type SelectContentProps = {
   /**
    * Platform: WEB ONLY
    */
   position?: 'popper' | 'item-aligned' | undefined;
-}
+};
 
-interface SelectItemProps {
+type SelectItemProps = {
   value: string;
   label: string;
   closeOnPress?: boolean;
-}
+};
 
-interface SelectSeparatorProps {
+type SelectSeparatorProps = {
   decorative?: boolean;
-}
+};
 
-interface SelectTriggerRef extends PressableRef {
+type SelectTriggerRef = PressableRef & {
   open: () => void;
   close: () => void;
-}
+};
 
 export type {
   Option,

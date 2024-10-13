@@ -1,12 +1,7 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 
-import {
-  IInstruction,
-  ILessonQuestionsResponse,
-  ILessonResult,
-  ILessonsResponse,
-  IQuestionType,
-} from '~/lib/interfaces';
+import { IInstruction, ILesson, ILessonResult, IQuestionType } from '~/lib/types';
+import { IQuestion } from '~/lib/types/questions';
 
 import api from '../httpRequests';
 
@@ -18,7 +13,7 @@ type LessonCompletionParams = {
 };
 
 export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string[]>) => {
-  const [, skill] = queryKey;
+  const [, , skill] = queryKey;
 
   try {
     const response = await api.get<IQuestionType[]>(`daily-lessons/question-types`, {
@@ -31,6 +26,11 @@ export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string
   }
 };
 
+type ILessonsResponse = {
+  lessons: ILesson[];
+  totalLearningDuration: number;
+};
+
 export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, questionTypeId] = queryKey;
 
@@ -41,6 +41,17 @@ export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) =
     console.error('Error fetching lessons:', error);
     throw error;
   }
+};
+
+type ILessonQuestionsResponse = {
+  id: number;
+  name: string;
+  order: number;
+  questionToLessons: {
+    order: number;
+    question: IQuestion;
+    questionId: string;
+  }[];
 };
 
 export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
@@ -57,8 +68,8 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<stri
 
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
   try {
-    const response = await api.post(`/lessons/completion`, { body: params });
-    return Promise.resolve(response as ILessonResult);
+    const response = await api.post<ILessonResult>(`/lessons/completion`, { body: params });
+    return response;
   } catch (error) {
     console.error('Error confirming lesson completion:', error);
     throw error;

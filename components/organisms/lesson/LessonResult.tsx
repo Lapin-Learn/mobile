@@ -30,7 +30,7 @@ const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: s
   timer: { Component: TimerIcon, label: 'after.Timer' },
 };
 
-export function LessonResult({ data }: { data: LessonResultProps }) {
+export const LessonResult = ({ data }: { data: LessonResultProps }) => {
   const { milestones } = useMilestoneStore();
 
   const { t } = useTranslation('lesson');
@@ -100,4 +100,4 @@ export function LessonResult({ data }: { data: LessonResultProps }) {
       </View>
     </View>
   );
-}
+};

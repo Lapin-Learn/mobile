@@ -12,24 +12,20 @@ import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text as UIText } from '~/components/ui/Text';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
-import { useDailyLesson } from '~/hooks/zustand';
+import { useDailyLessonStore } from '~/hooks/zustand';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { ILesson, IQuestionType } from '~/lib/interfaces';
+import { ILesson, IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
 
-function Card({
-  t,
-  item,
-  lessons,
-  handlePrev,
-  handleNext,
-}: {
-  readonly t: (key: string) => string;
-  readonly item: ILesson;
-  readonly lessons: ILesson[];
-  readonly handlePrev: () => void;
-  readonly handleNext: () => void;
-}) {
+type CardProps = {
+  t: (key: string) => string;
+  item: ILesson;
+  lessons: ILesson[];
+  handlePrev: () => void;
+  handleNext: () => void;
+};
+
+const Card = ({ t, item, lessons, handlePrev, handleNext }: CardProps) => {
   return (
     <View className='w-full gap-2 rounded-lg bg-neutral-50 px-4 py-5'>
       <View className='flex-row justify-between'>
@@ -59,16 +55,15 @@ function Card({
       </View>
     </View>
   );
-}
+};
 
-export default function QuestionType() {
-  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: string; questionTypeId: string }>();
-  const setCurrentQuestionType = useDailyLesson((state) => state.setCurrentQuestionType);
-  const { data: questionTypes } = useQuestionTypes({ skill: exerciseId as SkillEnum });
+const QuestionTypeScreen = () => {
+  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: SkillEnum; questionTypeId: string }>();
+  const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
+  const { setCurrentQuestionType } = useDailyLessonStore();
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
-  setCurrentQuestionType(currentQuestionType ? currentQuestionType : ({} as IQuestionType));
   const { bandScore } = currentQuestionType?.progress || { bandScore: 'pre_ielts' };
   const { data: lessons, isLoading: lessonsLoading } = useListLessons({ questionTypeId });
   const { t } = useTranslation('translation');
@@ -83,6 +78,10 @@ export default function QuestionType() {
     setCurrentLesson(lesson);
     ref.current?.setPage((lesson?.order || 1) - 1);
   }, [lessons]);
+
+  useEffect(() => {
+    setCurrentQuestionType(currentQuestionType ?? null);
+  }, [currentQuestionType, setCurrentQuestionType]);
 
   if (lessonsLoading) {
     return <Loading />;
@@ -159,4 +158,6 @@ export default function QuestionType() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default QuestionTypeScreen;

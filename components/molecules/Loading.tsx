@@ -8,7 +8,7 @@ import Spinner from '~/assets/images/spinner.svg';
 type LoadingProps = {
   hiddenText?: boolean;
 };
-export function Loading({ hiddenText = false }: LoadingProps) {
+export const Loading = ({ hiddenText = false }: LoadingProps) => {
   const { t } = useTranslation('lesson');
   const randomTip = Math.random() * Number(t('loading.tips.length'));
   return (
@@ -34,4 +34,4 @@ export function Loading({ hiddenText = false }: LoadingProps) {
       )}
     </View>
   );
-}
+};

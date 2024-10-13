@@ -12,7 +12,7 @@ type UseControllableStateParams<T> = {
 
 type SetStateFn<T> = (prevState?: T) => T;
 
-function useControllableState<T>({ prop, defaultProp, onChange = () => {} }: UseControllableStateParams<T>) {
+const useControllableState = <T,>({ prop, defaultProp, onChange = () => {} }: UseControllableStateParams<T>) => {
   const [uncontrolledProp, setUncontrolledProp] = useUncontrolledState({ defaultProp, onChange });
   const isControlled = prop !== undefined;
   const value = isControlled ? prop : uncontrolledProp;
@@ -32,9 +32,9 @@ function useControllableState<T>({ prop, defaultProp, onChange = () => {} }: Use
   );
 
   return [value, setValue] as const;
-}
+};
 
-function useUncontrolledState<T>({ defaultProp, onChange }: Omit<UseControllableStateParams<T>, 'prop'>) {
+const useUncontrolledState = <T,>({ defaultProp, onChange }: Omit<UseControllableStateParams<T>, 'prop'>) => {
   const uncontrolledState = React.useState<T | undefined>(defaultProp);
   const [value] = uncontrolledState;
   const prevValueRef = React.useRef(value);
@@ -48,7 +48,7 @@ function useUncontrolledState<T>({ defaultProp, onChange }: Omit<UseControllable
   }, [value, prevValueRef, handleChange]);
 
   return uncontrolledState;
-}
+};
 
 /**
  * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a

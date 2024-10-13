@@ -2,7 +2,7 @@ import { TextInput, TextInputProps } from 'react-native';
 
 import { cn } from '~/lib/utils';
 
-export default function CustomTextInput({ className, ...props }: TextInputProps) {
+const CustomTextInput = ({ className, ...props }: TextInputProps) => {
   return (
     <TextInput
       className={cn(
@@ -12,4 +12,6 @@ export default function CustomTextInput({ className, ...props }: TextInputProps)
       {...props}
     />
   );
-}
+};
+
+export default CustomTextInput;

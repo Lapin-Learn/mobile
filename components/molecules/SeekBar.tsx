@@ -6,7 +6,7 @@ import TrackPlayer, { useProgress } from 'react-native-track-player';
 
 const INITIAL_THUMB_SIZE = 14;
 
-export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress> }) {
+export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress> }) => {
   const { position, duration } = progress;
   const isSliding = useRef(false);
   const offset = useSharedValue(0);
@@ -64,10 +64,10 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
     };
   });
 
-  function handleLayout(event: LayoutChangeEvent): void {
+  const handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
     setBarWidth(width);
-  }
+  };
 
   return (
     <GestureHandlerRootView className='flex w-full grow items-center justify-center' onLayout={handleLayout}>
@@ -81,4 +81,4 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
       </GestureDetector>
     </GestureHandlerRootView>
   );
-}
+};

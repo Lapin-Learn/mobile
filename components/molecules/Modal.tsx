@@ -9,7 +9,7 @@ type CustomModalProps = ModalProps & {
   position?: 'center' | 'bottom';
 };
 
-function CustomModal({ onRequestClose, children, position = 'center', ...props }: CustomModalProps) {
+const CustomModal = ({ onRequestClose, children, position = 'center', ...props }: CustomModalProps) => {
   const [visible, setVisible] = useState(true);
   const exitButton = (
     <View className='flex items-end justify-end'>
@@ -37,5 +37,5 @@ function CustomModal({ onRequestClose, children, position = 'center', ...props }
       </View>
     </Modal>
   );
-}
+};
 export { CustomModal as Modal };

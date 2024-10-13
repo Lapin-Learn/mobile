@@ -6,7 +6,7 @@ type ReadingContainerProps = {
   children: React.ReactNode;
 };
 
-export default function ScrollableReadingContainer({ children }: ReadingContainerProps) {
+const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const [isTop, setIsTop] = useState(true);
   const [isBottom, setIsBottom] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -40,4 +40,5 @@ export default function ScrollableReadingContainer({ children }: ReadingContaine
       )}
     </View>
   );
-}
+};
+export default ScrollableReadingContainer;

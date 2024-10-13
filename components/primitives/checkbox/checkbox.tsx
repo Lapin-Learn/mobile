@@ -6,9 +6,9 @@ import type { ComponentPropsWithAsChild, PressableRef, SlottablePressableProps }
 
 import type { CheckboxIndicator, CheckboxRootProps } from './types';
 
-interface RootContext extends CheckboxRootProps {
+type RootContext = CheckboxRootProps & {
   nativeID?: string;
-}
+};
 
 const CheckboxContext = React.createContext<RootContext | null>(null);
 
@@ -30,24 +30,24 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
 
 Root.displayName = 'RootNativeCheckbox';
 
-function useCheckboxContext() {
+const useCheckboxContext = () => {
   const context = React.useContext(CheckboxContext);
   if (!context) {
     throw new Error('Checkbox compound components cannot be rendered outside the Checkbox component');
   }
   return context;
-}
+};
 
 const Trigger = React.forwardRef<PressableRef, SlottablePressableProps>(
   ({ asChild, onPress: onPressProp, ...props }, ref) => {
     const { disabled, checked, onCheckedChange, nativeID } = useCheckboxContext();
 
-    function onPress(ev: GestureResponderEvent) {
+    const onPress = (ev: GestureResponderEvent) => {
       if (disabled) return;
       const newValue = !checked;
       onCheckedChange(newValue);
       onPressProp?.(ev);
-    }
+    };
 
     const Component = asChild ? Slot.Pressable : Pressable;
     return (

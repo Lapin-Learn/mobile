@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
-interface RadialGradientProps {
+type RadialGradientProps = {
   children?: React.ReactNode;
   colors?: [string, string]; // Array of two colors
   cx?: string; // Horizontal focal point (percentage)
   cy?: string; // Vertical focal point (percentage)
   rx?: string; // Horizontal radius (percentage)
   ry?: string; // Vertical radius (percentage)
-}
+};
 
 const RadialGradientBackground: React.FC<RadialGradientProps & Partial<ViewProps>> = ({
   children,
