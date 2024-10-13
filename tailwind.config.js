@@ -69,7 +69,7 @@ module.exports = {
       fontSize: {
         'large-title': ['34px', { lineHeight: '51px' }],
         'title-1': ['28px', { lineHeight: '42px' }],
-        'title-2': ['22px', { lineHeight: '28px' }],
+        'title-2': ['22px', { lineHeight: '33px' }],
         'title-3': ['20px', { lineHeight: '25px' }],
         'title-4': ['17px', { lineHeight: '25.5px' }],
         headline: ['17px', { lineHeight: '22px' }],

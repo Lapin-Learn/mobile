@@ -136,7 +136,7 @@ const Index = () => {
           </View>
 
           <ProfileSection>
-            <ProfileSection.Title label={t('profile.basic_info')}>
+            <ProfileSection.Title label={t('profile.basic_info')} textClassName='text-title-4'>
               <Button variant='link' size='sm' onPress={handleEdit}>
                 <Text className='text-subhead text-orange-500'>{t('profile.edit')}</Text>
               </Button>
@@ -149,7 +149,7 @@ const Index = () => {
           </ProfileSection>
 
           <ProfileSection>
-            <ProfileSection.Title label={t('settings.title')} />
+            <ProfileSection.Title label={t('settings.title')} textClassName='text-title-4' />
             <ProfileSection.List
               data={settingsData.map((item) => ({ label: t(item.label), action: item.action }))}
               rightIcon={ChevronRight}

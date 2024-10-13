@@ -24,24 +24,25 @@ const ProfileSection: FC<ProfileProps> & {
   );
 };
 
-const Title: FC<ProfileProps & { label: string }> = ({ label, children }) => (
-  <View className='w-full flex-row items-center justify-between'>
-    <Text className='font-ibold text-title-4 text-black'>{label}</Text>
-    {children}
-  </View>
-);
+const Title: FC<ProfileProps & { label: string; textClassName?: string }> = ({ label, textClassName, ...props }) => {
+  return (
+    <View className={cn('w-full flex-row items-center justify-between', props.className)}>
+      <Text className={`font-ibold text-black ${textClassName}`}>{label}</Text>
+      {props.children}
+    </View>
+  );
+};
 
-const Group: FC<ProfileProps> = ({ children, className }) => <View className={cn('', className)}>{children}</View>;
+const Group: FC<ProfileProps> = ({ children, className }) => (
+  <View className={cn('overflow-hidden rounded border border-neutral-100', className)}>{children}</View>
+);
 
 const ListItem: FC<{
   label: string;
   onPress: () => void;
-  isFirst?: boolean;
-  isLast?: boolean;
   rightIcon?: ForwardRefExoticComponent<LucideProps>;
-}> = ({ label, onPress, isFirst, isLast, rightIcon: Icon = ChevronRight }) => (
-  <Item
-    className={cn('border border-t-0 border-neutral-100 p-4', isFirst && 'rounded-t border-t', isLast && 'rounded-b')}>
+}> = ({ label, onPress, rightIcon: Icon = ChevronRight }) => (
+  <Item className={cn('border-neutral-100 p-4')}>
     <TouchableOpacity onPress={onPress} className='w-full flex-row items-center justify-between'>
       <Text className='font-isemibold text-body'>{label}</Text>
       <Icon size={24} color={'#737373'} />
@@ -49,22 +50,20 @@ const ListItem: FC<{
   </Item>
 );
 
-const List: FC<{
-  data: { label: string; action: () => void }[];
-  className?: string;
-  rightIcon?: ForwardRefExoticComponent<LucideProps>;
-}> = ({ data, className, rightIcon }) => (
-  <Group className={cn('', className)}>
-    {data.map((item, index) => (
-      <ListItem
-        key={index}
-        label={item.label}
-        onPress={item.action}
-        isFirst={index === 0}
-        isLast={index === data.length - 1}
-        rightIcon={rightIcon}
-      />
+const List: FC<
+  ProfileProps & {
+    data?: { label: string; action: () => void }[];
+    rightIcon?: ForwardRefExoticComponent<LucideProps>;
+  }
+> = ({ data, rightIcon, ...props }) => (
+  <Group className={props.className}>
+    {data?.map((item, index) => (
+      <View key={index}>
+        <ListItem label={item.label} onPress={item.action} rightIcon={rightIcon} />
+        {index === data.length - 1 || <View className='border-t border-neutral-100' />}
+      </View>
     ))}
+    {props.children}
   </Group>
 );
 

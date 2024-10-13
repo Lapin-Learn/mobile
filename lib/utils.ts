@@ -8,6 +8,24 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
+export function formatRemainingToDateTime(remainingTime: number) {
+  const { t } = i18next;
+
+  const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+  const formatUnit = (value: number, unit: string) => {
+    return `${value} ${t(`time_units.${unit}.${value === 1 ? 'singular' : 'plural'}`, { ns: 'mission' })}`;
+  };
+
+  if (days > 0) return formatUnit(days, 'day');
+  if (hours > 0) return formatUnit(hours, 'hour');
+  if (minutes > 0) return formatUnit(minutes, 'minute');
+  return formatUnit(seconds, 'second');
+}
+
 export const formatLearningDuration = (duration: number) => {
   const { t, language: currentLanguage } = i18next;
   const hour = (duration / 3600).toFixed(1);

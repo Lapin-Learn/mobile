@@ -1,0 +1,53 @@
+{
+  "types": {
+    "daily": "Daily Mission",
+    "monthly": "Monthly Mission"
+  },
+  "time_units": {
+    "second": {
+      "singular": "second",
+      "plural": "seconds"
+    },
+    "minute": {
+      "singular": "minute",
+      "plural": "minutes"
+    },
+    "hour": {
+      "singular": "hour",
+      "plural": "hours"
+    },
+    "day": {
+      "singular": "day",
+      "plural": "days"
+    },
+    "week": {
+      "singular": "week",
+      "plural": "weeks"
+    },
+    "month": {
+      "singular": "month",
+      "plural": "months"
+    },
+    "year": {
+      "singular": "year",
+      "plural": "years"
+    }
+  },
+  "pluralization": {
+    "one": "{{count}} {{unit.singular}}",
+    "other": "{{count}} {{unit.plural}}"
+  },
+  "month_mission": "{{month}}",
+  "time_remaining": "{{time}} left",
+  "guildline": "Complete the monthly mission to receive rewards and badges!",
+  "daily": {
+    "collect_carrots": "Collect carrots",
+    "exercise": "Exercise",
+    "learn_a_new_skill": "Learn a new skill"
+  },
+  "monthly": {
+    "take_a_new_course": "Take a new course",
+    "learn_a_new_language": "Learn a new language",
+    "learn_a_new_skill": "Learn a new skill"
+  }
+}
