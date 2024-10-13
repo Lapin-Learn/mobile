@@ -1,4 +1,3 @@
-import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -6,42 +5,28 @@ import Carrot from '~/assets/images/carrot.svg';
 import MissionIcon from '~/components/icons/MissionIcon';
 import { ProfileSection as MissionSection } from '~/components/molecules/profile/ProfileSection';
 import { Progress } from '~/components/ui/Progress';
+import { cn } from '~/lib/utils';
 
-import { MissionProps } from './type';
+import { MissionsProps } from './type';
 
-export const ListMissions = ({ data = [] }: MissionProps) => {
+export const ListMissions = ({ type, data }: Pick<MissionsProps, 'type' | 'data'>) => {
   const { t } = useTranslation('mission');
   return data.map((item, index) => {
-    const progressValue = item.current / item.quantity;
+    const progressValue = parseInt(item.current) / parseInt(item.target);
     const isLastItem = index === data.length - 1;
 
     return (
-      <View key={index}>
-        {progressValue >= 1 && (
-          <MotiView
-            from={{ width: '0%' }}
-            animate={{ width: '100%' }}
-            transition={{
-              type: 'timing',
-              duration: 2000,
-            }}
-            className='absolute h-full w-full bg-yellow-100'
-          />
-        )}
+      <View key={index} className={cn(progressValue >= 1 ? 'bg-yellow-50' : '')}>
         <MissionSection.Item className='w-full gap-2 p-4'>
           <View className='grow flex-row gap-1'>
-            {item.interval === 'daily' ? (
-              <MissionIcon.Daily code={item.name} />
-            ) : (
-              <MissionIcon.Monthly code={item.name} />
-            )}
+            {type === 'daily' ? <MissionIcon.Daily code={item.code} /> : <MissionIcon.Monthly code={item.code} />}
             <View className='grow flex-col gap-1'>
-              <Text className='font-isemibold text-title-4'>{t(`${item.interval}.${item.name}`)}</Text>
+              <Text className='font-isemibold text-title-4'>{t(`${type}.${item.code}`)}</Text>
               <Progress
                 className='h-4 rounded-xl'
                 indicatorClassName='bg-orange-400'
                 value={progressValue * 100}
-                label={`${item.current}/${item.quantity}`}
+                label={`${item.current}/${item.target}`}
               />
             </View>
           </View>

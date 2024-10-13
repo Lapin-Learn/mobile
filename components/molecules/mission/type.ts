@@ -1,5 +1,12 @@
-import { IMission } from '~/lib/types';
-
 export type MissionProps = {
-  data?: IMission[];
+  code: string;
+  value: string;
+  current: string;
+  target: string;
+};
+
+export type MissionsProps = {
+  type: 'daily' | 'monthly';
+  timestamp: string;
+  data: MissionProps[];
 };

@@ -1,7 +1,41 @@
 {
   "types": {
     "daily": "Daily Missions",
-    "monthly": "Monthly Missions"
+    "monthly": "Monthly Mission"
+  },
+  "time_units": {
+    "second": {
+      "singular": "second",
+      "plural": "seconds"
+    },
+    "minute": {
+      "singular": "minute",
+      "plural": "minutes"
+    },
+    "hour": {
+      "singular": "hour",
+      "plural": "hours"
+    },
+    "day": {
+      "singular": "day",
+      "plural": "days"
+    },
+    "week": {
+      "singular": "week",
+      "plural": "weeks"
+    },
+    "month": {
+      "singular": "month",
+      "plural": "months"
+    },
+    "year": {
+      "singular": "year",
+      "plural": "years"
+    }
+  },
+  "pluralization": {
+    "one": "{{count}} {{unit.singular}}",
+    "other": "{{count}} {{unit.plural}}"
   },
   "month_mission": "{{month}}",
   "time_remaining": "{{time}} left",
