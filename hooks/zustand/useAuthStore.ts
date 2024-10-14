@@ -15,8 +15,8 @@ export type AuthProps = {
 type AuthState = {
   token: AuthProps['token'];
   status: AuthProps['status'];
-  signIn: (data: TokenType) => void;
-  signOut: () => void;
+  signIn: (data: TokenType) => Promise<void>;
+  signOut: () => Promise<void>;
   hydrate: () => void;
   checkTokenExpiration: () => void;
   scheduleTokenCheck: (token: TokenType) => void;
@@ -32,14 +32,14 @@ type DecodedToken = {
 const authStore = createStore<AuthState>()((set, get) => ({
   token: null,
   status: 'idle',
-  signIn: (data) => {
+  signIn: async (data) => {
     set({ token: data, status: 'signIn' });
-    setTokenAsync(data);
+    await setTokenAsync(data);
     get().scheduleTokenCheck(data);
   },
-  signOut: () => {
+  signOut: async () => {
     set({ token: null, status: 'signOut' });
-    removeTokenAsync();
+    await removeTokenAsync();
   },
   hydrate: async () => {
     try {

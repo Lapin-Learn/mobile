@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
 
 import { signIn as setNewToken, signOut } from '~/hooks/zustand';
+import { QUERY_KEYS } from '~/lib/constants';
 import { setTokenAsync } from '~/services';
 import {
   forgotPassword,
@@ -31,11 +32,15 @@ export const useSignUp = () => {
 
 export const useSignIn = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: signIn,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast.show({ type: 'success', text1: 'Welcome back' });
-      setNewToken(data);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.profile.identifier],
+      });
+      await setNewToken(data);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -85,7 +90,7 @@ export const useVerifySignUp = () => {
     mutationFn: verify,
     onSuccess: () => {
       router.dismissAll();
-      router.navigate('auth/sign-in' as Href);
+      router.navigate('/auth/sign-in' as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -112,7 +117,7 @@ export const useResetPassword = () => {
   const toast = useToast();
   return useMutation({
     mutationFn: resetPassword,
-    onSuccess: () => router.navigate('auth/sign-in' as Href),
+    onSuccess: () => router.navigate('/auth/sign-in' as Href),
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
     },
@@ -123,11 +128,10 @@ export const useSignOut = () => {
   const toast = useToast();
   const client = useQueryClient();
   return useMutation({
-    mutationFn: () => Promise.resolve(),
+    mutationFn: () => signOut(),
     onSuccess: () => {
-      signOut();
       client.clear();
-      router.replace('auth/sign-in' as Href);
+      router.replace('/auth/sign-in' as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });

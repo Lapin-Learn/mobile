@@ -23,6 +23,7 @@ const LIGHT_THEME: Theme = {
   colors: NAV_THEME.light,
 };
 
+// TODO: wrap ErrorBoundary with a custom error boundary component
 export { ErrorBoundary } from 'expo-router';
 
 const queryClient = new QueryClient({
