@@ -45,6 +45,7 @@ export const useLessonCompletion = () => {
     onSuccess: ({ milestones }) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile.game] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.questionTypes] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.streak] });
       setMilestones(milestones);
     },
     onError: (error) => {
