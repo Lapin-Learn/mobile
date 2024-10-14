@@ -25,6 +25,7 @@ export const QUERY_KEYS = {
   instruction: 'instruction',
   questions: 'questions',
   lessonQuestions: 'lessonQuestions',
+  missions: 'missions',
   profile: {
     identifier: 'accountIdentifier',
     user: 'userProfile',

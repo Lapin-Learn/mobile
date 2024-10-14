@@ -3,40 +3,6 @@
     "daily": "Nhiệm vụ hàng ngày",
     "monthly": "Nhiệm vụ hàng tháng"
   },
-  "time_units": {
-    "second": {
-      "singular": "giây",
-      "plural": "giây"
-    },
-    "minute": {
-      "singular": "phút",
-      "plural": "phút"
-    },
-    "hour": {
-      "singular": "giờ",
-      "plural": "giờ"
-    },
-    "day": {
-      "singular": "ngày",
-      "plural": "ngày"
-    },
-    "week": {
-      "singular": "tuần",
-      "plural": "tuần"
-    },
-    "month": {
-      "singular": "tháng",
-      "plural": "tháng"
-    },
-    "year": {
-      "singular": "năm",
-      "plural": "năm"
-    }
-  },
-  "pluralization": {
-    "one": "{{count}} {{unit.singular}}",
-    "other": "{{count}} {{unit.plural}}"
-  },
   "month_mission": "{{month}}",
   "time_remaining": "Còn {{time}}",
   "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được phần thưởng và huy hiệu nhé!",
