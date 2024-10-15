@@ -8,61 +8,7 @@ import { ListMissions } from '~/components/molecules/mission/ListMissions';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ProfileSection as MissionSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
-import { IMission } from '~/lib/types';
 import { formatRemainingToDateTime } from '~/lib/utils';
-
-const missionData: IMission[] = [
-  {
-    interval: 'daily',
-    name: 'collect_carrots',
-    description: '',
-    rewards: 20,
-    current: 10,
-    quantity: 20,
-  },
-  {
-    interval: 'daily',
-    name: 'exercise',
-    description: '',
-    rewards: 20,
-    current: 5,
-    quantity: 5,
-  },
-  {
-    interval: 'daily',
-    name: 'learn_a_new_skill',
-    description: '',
-    rewards: 20,
-    current: 1,
-    quantity: 5,
-  },
-  {
-    interval: 'monthly',
-    name: 'take_a_new_course',
-    description: '',
-
-    rewards: 20,
-    current: 10,
-    quantity: 20,
-  },
-  {
-    interval: 'monthly',
-    name: 'learn_a_new_language',
-    description: '',
-
-    rewards: 20,
-    current: 1,
-    quantity: 5,
-  },
-  {
-    interval: 'monthly',
-    name: 'learn_a_new_skill',
-    description: '',
-    rewards: 20,
-    current: 1,
-    quantity: 5,
-  },
-];
 
 const monthIndex = new Date().getMonth();
 const NewDate = new Date().setHours(24, 0, 0, 0);
@@ -120,7 +66,7 @@ const Mission = () => {
               label={t('types.daily')}
               className='items-end'
               textClassName='font-isemibold text-title-2 text-black'>
-              <View className='flex-row items-center gap-x-1'>
+              <View className='flex-row gap-x-1'>
                 <Clock size={20} color='#F17D53' />
                 <Text className='font-imedium text-subhead text-orange-400'>
                   {t('time_remaining', { time: formatRemainingToDateTime(remainingDailyTime) })}
@@ -136,7 +82,7 @@ const Mission = () => {
               label={t('types.monthly')}
               className='items-end'
               textClassName='font-isemibold text-title-2 text-black'>
-              <View className='flex-row items-center gap-x-1'>
+              <View className='flex-row gap-x-1'>
                 <Clock size={20} color='#F17D53' />
                 <Text className='font-imedium text-subhead text-orange-400'>
                   {t('time_remaining', { time: formatRemainingToDateTime(remainingMonthlyTime) })}

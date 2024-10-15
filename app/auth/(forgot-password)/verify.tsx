@@ -110,7 +110,7 @@ const Verify = () => {
             />
           </View>
           <View className='w-full gap-y-4'>
-            <Button onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending} size={'lg'}>
+            <Button onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending} size='lg'>
               <Text className='text-button'>{t('verify.checkOtpButton')}</Text>
             </Button>
             <View className='flex flex-row items-center justify-center gap-x-2.5'>

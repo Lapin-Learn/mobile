@@ -39,7 +39,7 @@ const QuestionTemplate = () => {
     <PlatformView className='flex'>
       <View className='mx-4 flex flex-row items-center justify-center gap-x-4 px-2'>
         <Pressable className='w-6' onPress={handleBack}>
-          <LucideMoveLeft color={'black'} />
+          <LucideMoveLeft color='black' />
         </Pressable>
         <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
       </View>

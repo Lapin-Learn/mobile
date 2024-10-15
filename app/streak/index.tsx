@@ -47,7 +47,7 @@ const Streak = () => {
   return (
     <>
       <PlatformView className='flex-1 bg-[#E7F4FE]'>
-        <NavigationBar headerTitle={'Streak'} headerLeftShown />
+        <NavigationBar headerTitle='Streak' headerLeftShown />
         <View className='flex gap-y-8 px-8 pb-4'>
           <View className='flex flex-row items-end justify-between'>
             <View className='gap-y-1'>

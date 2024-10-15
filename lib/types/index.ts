@@ -133,9 +133,9 @@ export type IMilestone = {
 };
 
 export type IMission = {
-  id: string;
+  interval: 'daily' | 'monthly';
   name: string;
-  value: number;
+  rewards: number;
   current: number;
   quantity: number;
 };

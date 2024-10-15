@@ -33,7 +33,7 @@ const OnBoarding = () => {
       <View className='w-full gap-y-2 px-4'>
         <Button className='flex-row items-center justify-center gap-x-1 px-4 py-3.5' onPress={handleGetStart}>
           <Text className='text-button'>{t('on_boarding.get_start')}</Text>
-          <LucideMoveRight color={'white'} />
+          <LucideMoveRight color='white' />
         </Button>
         <Button className='bg-white' onPress={handleSkip}>
           <Text className='font-isemibold text-body text-neutral-300'>{t('on_boarding.skip')}</Text>

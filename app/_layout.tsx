@@ -70,7 +70,7 @@ const RootLayout = () => {
         <I18nextProvider i18n={i18n}>
           <AuthProvider>
             {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
-            <StatusBar style={'light'} />
+            <StatusBar style='light' />
             <AppStack />
             <Toast />
             <PortalHost />

@@ -88,7 +88,7 @@ const UpdateProfile = () => {
           </ScrollView>
           <Button
             onPress={handleSubmit(onSubmit)}
-            size={'lg'}
+            size='lg'
             disabled={updateUserProfileMutation.isPending}
             className='absolute bottom-20 left-0 right-0'>
             <Text className='text-button'>{t('profile.done')}</Text>
