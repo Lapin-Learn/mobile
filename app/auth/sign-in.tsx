@@ -57,6 +57,7 @@ const SignIn = () => {
               label={t('signIn.password')}
               placeholder={t('signIn.passwordPlaceholder')}
               error={errors.password}
+              type='password'
             />
 
             <View className='flex flex-row justify-end'>

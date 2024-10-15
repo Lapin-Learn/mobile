@@ -5,52 +5,60 @@ import { AppState, ScrollView, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { ListMissions } from '~/components/molecules/mission/ListMissions';
-import { MissionProps } from '~/components/molecules/mission/type';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ProfileSection as MissionSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
+import { IMission } from '~/lib/types';
 import { formatRemainingToDateTime } from '~/lib/utils';
 
-const missionData: MissionProps[] = [
+const missionData: IMission[] = [
   {
     interval: 'daily',
     name: 'collect_carrots',
-    value: 20,
+    description: '',
+    rewards: 20,
     current: 10,
     quantity: 20,
   },
   {
     interval: 'daily',
     name: 'exercise',
-    value: 20,
+    description: '',
+    rewards: 20,
     current: 5,
     quantity: 5,
   },
   {
     interval: 'daily',
     name: 'learn_a_new_skill',
-    value: 20,
+    description: '',
+    rewards: 20,
     current: 1,
     quantity: 5,
   },
   {
     interval: 'monthly',
     name: 'take_a_new_course',
-    value: 20,
+    description: '',
+
+    rewards: 20,
     current: 10,
     quantity: 20,
   },
   {
     interval: 'monthly',
     name: 'learn_a_new_language',
-    value: 20,
+    description: '',
+
+    rewards: 20,
     current: 1,
     quantity: 5,
   },
   {
     interval: 'monthly',
     name: 'learn_a_new_skill',
-    value: 20,
+    description: '',
+    rewards: 20,
     current: 1,
     quantity: 5,
   },
@@ -95,7 +103,7 @@ const Mission = () => {
 
   return (
     <PlatformView className='bg-blue-100'>
-      <NavigationBar headerTitle={'Mission'} headerLeftShown />
+      <NavigationBar headerTitle='Mission' headerLeftShown />
       <View className='flex-0 flex w-full flex-row items-center justify-between p-4'>
         <View className='flex-1 items-start justify-start gap-y-2'>
           <View className='rounded bg-blue-50 px-3 py-1'>
@@ -112,8 +120,8 @@ const Mission = () => {
               label={t('types.daily')}
               className='items-end'
               textClassName='font-isemibold text-title-2 text-black'>
-              <View className='flex-row gap-x-1'>
-                <Clock className='h-5 w-5' color={'#F17D53'} />
+              <View className='flex-row items-center gap-x-1'>
+                <Clock size={20} color='#F17D53' />
                 <Text className='font-imedium text-subhead text-orange-400'>
                   {t('time_remaining', { time: formatRemainingToDateTime(remainingDailyTime) })}
                 </Text>
@@ -128,8 +136,8 @@ const Mission = () => {
               label={t('types.monthly')}
               className='items-end'
               textClassName='font-isemibold text-title-2 text-black'>
-              <View className='flex-row gap-x-1'>
-                <Clock className='h-5 w-5' color={'#F17D53'} />
+              <View className='flex-row items-center gap-x-1'>
+                <Clock size={20} color='#F17D53' />
                 <Text className='font-imedium text-subhead text-orange-400'>
                   {t('time_remaining', { time: formatRemainingToDateTime(remainingMonthlyTime) })}
                 </Text>

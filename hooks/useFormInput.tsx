@@ -5,11 +5,12 @@ import { FieldError, FieldValues, useController, UseControllerProps } from 'reac
 import { useTranslation } from 'react-i18next';
 import { Modal, Platform, Text, TextInputProps, TouchableOpacity, View } from 'react-native';
 
-import CustomTextInput from '~/components/molecules/CustomTextInput';
-import SelectInput from '~/components/molecules/SelectInput';
+import SelectInput from '~/components/molecules//form-input/SelectInput';
+import CustomTextInput from '~/components/molecules/form-input/CustomTextInput';
+import PasswordInput from '~/components/molecules/form-input/PasswordInput';
 import { Button } from '~/components/ui/Button';
 
-export type ControllerInputType = 'text' | 'email' | 'number' | 'date' | 'select';
+export type ControllerInputType = 'text' | 'email' | 'number' | 'date' | 'select' | 'password';
 
 export type FormInputProps<T = Record<string, string>> = {
   props: UseControllerProps<T & FieldValues>;
@@ -38,6 +39,8 @@ export const useFormInput = <T,>({
     switch (type) {
       case 'text':
         return <CustomTextInput placeholder={placeholder} {...inputProps} />;
+      case 'password':
+        return <PasswordInput placeholder={placeholder} {...inputProps} />;
       case 'number':
         return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='numeric' />;
       case 'email':

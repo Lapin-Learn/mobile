@@ -9,9 +9,9 @@ import { Progress } from '~/components/ui/Progress';
 
 import { MissionProps } from './type';
 
-export const ListMissions = ({ data }: { data: MissionProps[] }) => {
+export const ListMissions = ({ data = [] }: MissionProps) => {
   const { t } = useTranslation('mission');
-  return data?.map((item, index) => {
+  return data.map((item, index) => {
     const progressValue = item.current / item.quantity;
     const isLastItem = index === data.length - 1;
 

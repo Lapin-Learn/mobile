@@ -35,7 +35,7 @@ export const NavigationBar = ({
               onHeaderLeftPress()
             ) : (
               <Pressable
-                className='w-6'
+                className='w-fit'
                 onPress={() => {
                   if (router.canGoBack()) {
                     router.back();
@@ -43,7 +43,7 @@ export const NavigationBar = ({
                     router.dismiss();
                   }
                 }}>
-                <Icon color={'black'} />
+                <Icon color='black' />
               </Pressable>
             ))}
           {headerTitle && <Text className='font-ibold text-title-4 text-black'>{headerTitle}</Text>}

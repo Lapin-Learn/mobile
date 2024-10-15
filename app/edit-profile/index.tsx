@@ -7,7 +7,7 @@ import { Platform, SafeAreaView, Text, TouchableOpacity, View } from 'react-nati
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
-import CustomTextInput from '~/components/molecules/CustomTextInput';
+import CustomTextInput from '~/components/molecules/form-input/CustomTextInput';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';

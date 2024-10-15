@@ -62,6 +62,7 @@ const SignUp = () => {
               label={t('signUp.passwordLabel')}
               placeholder={t('signUp.passwordPlaceholder')}
               error={errors.password}
+              type='password'
             />
 
             <ControllerInput
