@@ -38,7 +38,7 @@ export default function StreakWidget() {
     }
 
     // Android
-    const value = `${streak} days`;
+    const value = `${streak}`;
     SharedStorage.set(JSON.stringify({ text: value }));
   }
 

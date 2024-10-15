@@ -1,38 +1,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.Lapinlearn.AppWidget.Container"
     android:id="@+id/appwidgetContainer"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="4dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/white"
+    android:background="@drawable/app_widget_background"
     android:theme="@style/AppTheme.AppWidgetContainer">
+    <ImageView
+        android:id="@+id/appwidgetImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/streak_icon" />
     <TextView
         android:id="@+id/appwidgetText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/appwidget_text"
-        android:padding="4dp"
+        android:padding="2dp"
         android:text="@string/appwidget_text"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold|italic" />
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold" />
     <TextView
         android:id="@+id/encourageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Lam bai chua 🔫"
-        android:padding="4dp"
-        android:text="Lam bai chua 🔫"
+        android:contentDescription="Giữ vững nhé!"
+        android:padding="2dp"
+        android:text="Giữ vững nhé!"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="bold|italic" />
-    <ImageView
-        android:id="@+id/appwidgetImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/example_appwidget_preview" />
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold|normal" />
 </LinearLayout>
