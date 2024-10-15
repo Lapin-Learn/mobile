@@ -131,3 +131,12 @@ export type IMilestone = {
   type: MilestonesEnum;
   newValue: ILevel | RankEnum | number;
 };
+
+export type IMission = {
+  id: string;
+  name: string;
+  description: string;
+  value: number;
+  current: number;
+  quantity: number;
+};

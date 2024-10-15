@@ -8,14 +8,29 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
-export const formatLearningDuration = (duration: number) => {
+export function formatUnit(value: number, unit: string) {
   const { t, language: currentLanguage } = i18next;
+
+  return `${value} ${t(`time_units.${unit}`)}${currentLanguage === 'en' && value > 1 ? 's' : ''}`;
+}
+
+export function formatRemainingToDateTime(remainingTime: number) {
+  const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+  if (days > 0) return formatUnit(days, 'day');
+  if (hours > 0) return formatUnit(hours, 'hour');
+  if (minutes > 0) return formatUnit(minutes, 'minute');
+  return formatUnit(seconds, 'second');
+}
+
+export const formatLearningDuration = (duration: number) => {
   const hour = (duration / 3600).toFixed(1);
   const min = (duration / 60).toFixed(0);
 
-  return duration > 3600
-    ? `${hour} ${t('questionType.hour')}${currentLanguage === 'en' && parseFloat(hour) > 1 ? 's' : ''}`
-    : `${min} ${t('questionType.min')}${currentLanguage === 'en' && parseFloat(min) > 1 ? 's' : ''}`;
+  return duration > 3600 ? formatUnit(parseFloat(hour), 'hour') : formatUnit(parseFloat(min), 'minute');
 };
 
 /**

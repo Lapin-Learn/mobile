@@ -17,9 +17,7 @@
   },
   "questionType": {
     "totalLearnedTime": "Total",
-    "hour": "hour",
-    "min": "minute",
-    "theoryPractice": "Pratice theory",
+    "theoryPractice": "Practice theory",
     "noLessonFound": "No lesson found",
     "practiceBtn": "Start now",
     "jumpNextBtn": "Jump to next band"
@@ -29,6 +27,15 @@
     "max": "This is the longest streak you have achieved!",
     "this": "Đây",
     "schedule": "Streak Schedule"
+  },
+  "time_units": {
+    "second": "second",
+    "minute": "minute",
+    "hour": "hour",
+    "day": "day",
+    "week": "week",
+    "month": "month",
+    "year": "year"
   },
   "calendar": {
     "days_of_week": ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],

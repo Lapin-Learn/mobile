@@ -1,0 +1,19 @@
+{
+  "types": {
+    "daily": "Daily Missions",
+    "monthly": "Monthly Missions"
+  },
+  "month_mission": "{{month}}",
+  "time_remaining": "{{time}} left",
+  "guildline": "Complete the monthly mission to receive rewards and badges!",
+  "daily": {
+    "collect_carrots": "Collect carrots",
+    "exercise": "Exercise",
+    "learn_a_new_skill": "Learn a new skill"
+  },
+  "monthly": {
+    "take_a_new_course": "Take a new course",
+    "learn_a_new_language": "Learn a new language",
+    "learn_a_new_skill": "Learn a new skill"
+  }
+}

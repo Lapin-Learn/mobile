@@ -21,16 +21,16 @@
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
-    "ithin",
-    "iextralight",
-    "ilight",
-    "inormal",
-    "imedium",
-    "isemibold",
+    "guildline",
+    "iblack",
     "ibold",
     "iextrabold",
-    "iblack",
+    "iextralight",
+    "ilight",
+    "imedium",
+    "inormal",
     "isemibold",
-    "lucide",
+    "ithin",
+    "lucide"
   ]
 }

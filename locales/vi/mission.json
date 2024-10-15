@@ -1,0 +1,19 @@
+{
+  "types": {
+    "daily": "Nhiệm vụ hàng ngày",
+    "monthly": "Nhiệm vụ hàng tháng"
+  },
+  "month_mission": "{{month}}",
+  "time_remaining": "Còn {{time}}",
+  "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được phần thưởng và huy hiệu nhé!",
+  "daily": {
+    "collect_carrots": "Thu thập cà rốt",
+    "exercise": "Tập thể dục",
+    "learn_a_new_skill": "Học một kỹ năng mới"
+  },
+  "monthly": {
+    "take_a_new_course": "Tham gia một khóa học mới",
+    "learn_a_new_language": "Học một ngôn ngữ mới",
+    "learn_a_new_skill": "Học một kỹ năng mới"
+  }
+}
