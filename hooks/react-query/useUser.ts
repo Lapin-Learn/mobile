@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 
 import { QUERY_KEYS } from '~/lib/constants';
 import { IUserProfile } from '~/lib/types';
@@ -19,17 +19,26 @@ import { useSignOut } from './useAuth';
 
 export const useAccountIdentifier = () => {
   const signOut = useSignOut();
+  const queryClient = useQueryClient();
   const accountIdentifier = useQuery({
     queryKey: [QUERY_KEYS.profile.identifier],
     queryFn: getAccountIdentifier,
     staleTime: Infinity,
   });
-
-  if (accountIdentifier.error?.message === 'Unauthorized') {
-    signOut.mutate();
+  const pathname = usePathname();
+  const { data: account, isSuccess } = accountIdentifier;
+  if (pathname.startsWith('/auth') || pathname === '/on-boarding') {
+    if (account) {
+      if (!account.dob || !account.fullName || !account.gender) router.replace('/update-profile');
+      else router.replace('/');
+    }
+    return;
   }
 
-  const { data: account, isSuccess } = accountIdentifier;
+  if (accountIdentifier.error?.message === 'Unauthorized') {
+    queryClient.setQueryData([QUERY_KEYS.profile.identifier], null);
+    signOut.mutate();
+  }
 
   if (
     accountIdentifier.error?.message === 'User not found' ||
@@ -103,16 +112,11 @@ export const useChangePassword = () => {
 };
 
 export const useGameProfile = () => {
-  const signOut = useSignOut();
   const gameProfile = useQuery({
     queryKey: [QUERY_KEYS.profile.game],
     queryFn: getGameProfile,
     staleTime: 0,
   });
-
-  if (gameProfile.error?.message === 'Unauthorized') {
-    signOut.mutate();
-  }
 
   return gameProfile;
 };

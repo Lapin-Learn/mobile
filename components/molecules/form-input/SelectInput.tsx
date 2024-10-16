@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Option } from '~/components/primitives/select';
 import {
   Select,
   SelectContent,
@@ -10,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/Select';
-
-import { Option } from '../primitives/select';
 
 type SelectProps = {
   defaultValue: { value: string; label: string };

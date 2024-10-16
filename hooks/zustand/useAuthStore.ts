@@ -2,10 +2,10 @@ import { jwtDecode } from 'jwt-decode';
 import { createStore, useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
-import { getTokenAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
+import { getTokenAsync, isFirstLaunchAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
 import { TokenType } from '~/types';
 
-export type AuthStatus = 'idle' | 'signOut' | 'signIn';
+export type AuthStatus = 'idle' | 'signOut' | 'signIn' | 'isFirstLaunch';
 
 export type AuthProps = {
   token: TokenType | null;
@@ -15,8 +15,8 @@ export type AuthProps = {
 type AuthState = {
   token: AuthProps['token'];
   status: AuthProps['status'];
-  signIn: (data: TokenType) => void;
-  signOut: () => void;
+  signIn: (data: TokenType) => Promise<void>;
+  signOut: () => Promise<void>;
   hydrate: () => void;
   checkTokenExpiration: () => void;
   scheduleTokenCheck: (token: TokenType) => void;
@@ -32,17 +32,23 @@ type DecodedToken = {
 const authStore = createStore<AuthState>()((set, get) => ({
   token: null,
   status: 'idle',
-  signIn: (data) => {
+  signIn: async (data) => {
     set({ token: data, status: 'signIn' });
-    setTokenAsync(data);
+    await setTokenAsync(data);
     get().scheduleTokenCheck(data);
   },
-  signOut: () => {
+  signOut: async () => {
     set({ token: null, status: 'signOut' });
-    removeTokenAsync();
+    await removeTokenAsync();
   },
   hydrate: async () => {
     try {
+      const hasFirstLaunched = await isFirstLaunchAsync();
+      if (hasFirstLaunched) {
+        set({ status: 'isFirstLaunch', token: null });
+        return;
+      }
+
       const currentToken = await getTokenAsync();
       if (currentToken !== null) {
         get().signIn(currentToken);

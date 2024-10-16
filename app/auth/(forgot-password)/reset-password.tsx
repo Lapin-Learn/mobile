@@ -55,6 +55,7 @@ const ResetPassword = () => {
                 label={t('resetPassword.passwordLabel')}
                 placeholder={t('resetPassword.passwordPlaceholder')}
                 error={errors.password}
+                type='password'
               />
 
               <ControllerInput
@@ -62,6 +63,7 @@ const ResetPassword = () => {
                 label={t('resetPassword.confirmPasswordLabel')}
                 placeholder={t('resetPassword.confirmPasswordPlaceholder')}
                 error={errors.confirmPassword}
+                type='password'
               />
             </View>
           </View>
@@ -69,7 +71,7 @@ const ResetPassword = () => {
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={resetPasswordMutation.isPending}
-            size={'lg'}
+            size='lg'
             className='w-full'>
             <Text className='text-button'>{t('resetPassword.resetButton')}</Text>
           </Button>

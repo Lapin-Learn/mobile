@@ -43,7 +43,7 @@ export const NavigationBar = ({
                     router.dismiss();
                   }
                 }}>
-                <Icon color={'black'} />
+                <Icon color='black' />
               </Pressable>
             ))}
           {headerTitle && <Text className='font-ibold text-title-4 text-black'>{headerTitle}</Text>}

@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
 import { LucideMoveRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -13,12 +13,12 @@ import { FIRST_LAUNCH } from '~/services';
 const OnBoarding = () => {
   const { t } = useTranslation();
   const handleSkip = async () => {
-    await SecureStore.setItemAsync(FIRST_LAUNCH, 'false');
+    await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
     router.push('/auth/sign-in');
   };
 
   const handleGetStart = async () => {
-    await SecureStore.setItemAsync(FIRST_LAUNCH, 'false');
+    await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
     router.push('/auth/sign-up');
   };
 
