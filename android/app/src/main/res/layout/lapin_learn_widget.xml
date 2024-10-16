@@ -12,7 +12,8 @@
         android:id="@+id/appwidgetImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/streak_icon" />
+        android:src="@drawable/streak_icon"
+        android:contentDescription="@string/app_widget_description"/>
     <TextView
         android:id="@+id/appwidgetText"
         android:layout_width="wrap_content"
@@ -28,9 +29,9 @@
         android:id="@+id/encourageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Giữ vững nhé!"
+        android:contentDescription="@string/app_widget_encouragement"
         android:padding="2dp"
-        android:text="Giữ vững nhé!"
+        android:text="@string/app_widget_encouragement"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"

@@ -14,6 +14,7 @@ import {
   verify,
 } from '~/services/axios/auth';
 
+import useStreakWidget from '../useStreakWidget';
 import { useToast } from '../useToast';
 
 export const useSignUp = () => {
@@ -127,12 +128,14 @@ export const useResetPassword = () => {
 export const useSignOut = () => {
   const toast = useToast();
   const client = useQueryClient();
+  const updateStreak = useStreakWidget();
   return useMutation({
     mutationFn: () => Promise.resolve(),
     onSuccess: () => {
       signOut();
       client.clear();
-      router.replace('/auth/sign-in' as Href);
+      router.replace('auth/sign-in' as Href);
+      updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
