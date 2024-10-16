@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, usePathname } from 'expo-router';
 
+import useStreakWidget from '~/hooks/useStreakWidget';
 import { QUERY_KEYS } from '~/lib/constants';
 import { IUserProfile } from '~/lib/types';
 import {
@@ -112,11 +113,14 @@ export const useChangePassword = () => {
 };
 
 export const useGameProfile = () => {
+  const updateStreak = useStreakWidget();
   const gameProfile = useQuery({
     queryKey: [QUERY_KEYS.profile.game],
     queryFn: getGameProfile,
     staleTime: 0,
   });
+
+  updateStreak.sendStreakToSharedStorage(gameProfile.data?.streak.current.toString() || '...');
 
   return gameProfile;
 };
