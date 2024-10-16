@@ -127,9 +127,21 @@ export type ILessonResult = {
   milestones: IMilestone[];
 };
 
+export type IMissionMilestone = {
+  current: number;
+  id: string;
+  mission: {
+    id: string;
+    quantity: number;
+    quest: Omit<IMission, 'interval'>;
+    type: 'daily' | 'monthly';
+  };
+  missionId: string;
+};
+
 export type IMilestone = {
   type: MilestonesEnum;
-  newValue: ILevel | RankEnum | number;
+  newValue: ILevel | RankEnum | number | IMissionMilestone[];
 };
 
 export type IMission = {

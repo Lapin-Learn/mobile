@@ -46,6 +46,7 @@ export enum MilestonesEnum {
   LEVEL_UP = 'level_up',
   RANK_UP = 'rank_up',
   BAND_SCORE_UP = 'band_score_question_type_up',
+  MISSION_COMPLETED = 'mission_completed',
 }
 
 export enum RankEnum {

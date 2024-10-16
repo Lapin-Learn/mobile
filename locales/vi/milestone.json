@@ -20,5 +20,8 @@
   "streak": {
     "day": "Ngày Streak!",
     "congratulation": "Kéo dài streak thành công! Hãy học hàng ngày để giữ streak nhé!"
+  },
+  "mission": {
+    "title": "Cập nhật nhiệm vụ hàng ngày!"
   }
 }

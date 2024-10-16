@@ -13,7 +13,7 @@ export const getStreak = async ({ queryKey }: QueryFunctionContext<any[]>) => {
     });
     return response;
   } catch (error) {
-    console.error('Error fetching question types:', error);
+    console.error('Error fetching streaks:', error);
     throw error;
   }
 };

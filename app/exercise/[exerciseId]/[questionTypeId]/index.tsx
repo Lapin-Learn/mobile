@@ -73,6 +73,9 @@ const QuestionTypeScreen = () => {
     lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0]
   );
 
+  console.log(lessons);
+  console.log(currentLesson);
+
   useEffect(() => {
     const lesson = lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0];
     setCurrentLesson(lesson);
@@ -126,7 +129,7 @@ const QuestionTypeScreen = () => {
         <View className='flex-grow flex-row items-center justify-center'>
           {lessons?.lessons.length ? (
             <PagerView
-              style={{ flex: 1, height: 210 }}
+              style={{ flex: 1, height: 250 }}
               initialPage={(currentLesson?.order || 1) - 1}
               pageMargin={16}
               orientation='horizontal'
