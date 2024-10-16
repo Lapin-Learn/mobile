@@ -2,10 +2,10 @@ import { jwtDecode } from 'jwt-decode';
 import { createStore, useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
-import { getTokenAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
+import { getTokenAsync, isFirstLaunchAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
 import { TokenType } from '~/types';
 
-export type AuthStatus = 'idle' | 'signOut' | 'signIn';
+export type AuthStatus = 'idle' | 'signOut' | 'signIn' | 'isFirstLaunch';
 
 export type AuthProps = {
   token: TokenType | null;
@@ -43,6 +43,12 @@ const authStore = createStore<AuthState>()((set, get) => ({
   },
   hydrate: async () => {
     try {
+      const hasFirstLaunched = await isFirstLaunchAsync();
+      if (hasFirstLaunched) {
+        set({ status: 'isFirstLaunch', token: null });
+        return;
+      }
+
       const currentToken = await getTokenAsync();
       if (currentToken !== null) {
         get().signIn(currentToken);

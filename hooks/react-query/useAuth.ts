@@ -128,8 +128,9 @@ export const useSignOut = () => {
   const toast = useToast();
   const client = useQueryClient();
   return useMutation({
-    mutationFn: () => signOut(),
+    mutationFn: () => Promise.resolve(),
     onSuccess: () => {
+      signOut();
       client.clear();
       router.replace('/auth/sign-in' as Href);
     },

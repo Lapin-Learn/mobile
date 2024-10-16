@@ -35,7 +35,7 @@ export const NavigationBar = ({
               onHeaderLeftPress()
             ) : (
               <Pressable
-                className='w-fit'
+                className='w-6'
                 onPress={() => {
                   if (router.canGoBack()) {
                     router.back();

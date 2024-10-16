@@ -70,6 +70,7 @@ const SignUp = () => {
               label={t('signUp.confirmPasswordLabel')}
               placeholder={t('signUp.confirmPasswordPlaceholder')}
               error={errors.confirmPassword}
+              type='password'
             />
           </View>
           <View className='gap-y-6'>

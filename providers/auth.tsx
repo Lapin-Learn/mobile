@@ -1,35 +1,29 @@
-import { router } from 'expo-router';
-import { ReactNode, useEffect, useState } from 'react';
+import { router, usePathname } from 'expo-router';
+import { ReactNode, useEffect } from 'react';
 
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import { hydrate, useAuth } from '~/hooks/zustand';
-import { isFirstLaunchAsync } from '~/services';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
   const { status } = useAuth();
   const signOut = useSignOut();
-  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean>(false);
-
-  const firstLaunch = async () => {
-    const hasFirstLaunched = await isFirstLaunchAsync();
-    setIsFirstLaunch(hasFirstLaunched);
-  };
 
   useEffect(() => {
-    firstLaunch();
     hydrate();
   }, []);
 
   useEffect(() => {
-    if (status === 'signOut') {
-      if (isFirstLaunch) {
-        router.push('/on-boarding');
-      } else {
+    if (status === 'isFirstLaunch') {
+      router.replace('/on-boarding');
+    } else if (status === 'signOut') {
+      if (pathname !== '/auth/sign-in') {
         signOut.mutate();
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, isFirstLaunch]);
+  }, [status]);
 
   return <>{children}</>;
 };
