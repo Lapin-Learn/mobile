@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
@@ -46,7 +46,15 @@ const QuestionTemplate = () => {
       {currentQuestion && (
         <View className='relative h-full px-4'>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
+          <ScrollView>
+            <View className='pb-10'>
+              <AnswerInput
+                onAnswer={answerQuestion}
+                result={learnerAnswers[currentQuestionIndex]}
+                {...currentQuestion}
+              />
+            </View>
+          </ScrollView>
         </View>
       )}
       {typeof learnerAnswers[currentQuestionIndex] === 'boolean' && (

@@ -16,7 +16,7 @@ const PasswordInput = ({ className, ...props }: TextInputProps) => {
         {...props}
         secureTextEntry={!showPassword}
       />
-      <Pressable onPress={() => setShowPassword(!showPassword)} className='absolute right-4 justify-center'>
+      <Pressable onPress={() => setShowPassword(!showPassword)} className='absolute right-3 justify-center'>
         {!showPassword ? <EyeIcon size={24} color='#b4b4b4' /> : <EyeOffIcon size={24} color='#b4b4b4' />}
       </Pressable>
     </View>

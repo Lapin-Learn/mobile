@@ -73,9 +73,6 @@ const QuestionTypeScreen = () => {
     lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0]
   );
 
-  console.log(lessons);
-  console.log(currentLesson);
-
   useEffect(() => {
     const lesson = lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0];
     setCurrentLesson(lesson);
