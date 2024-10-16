@@ -113,7 +113,6 @@ export const useChangePassword = () => {
 };
 
 export const useGameProfile = () => {
-  const signOut = useSignOut();
   const updateStreak = useStreakWidget();
   const gameProfile = useQuery({
     queryKey: [QUERY_KEYS.profile.game],
