@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import SharedGroupPreferences from 'react-native-shared-group-preferences';
 
 const group = 'group.streak';
@@ -15,7 +15,9 @@ const useStreakWidget = () => {
     }
 
     // Android
-    SharedStorage.set(JSON.stringify({ text: streak }));
+    if (Platform.OS === 'android') {
+      SharedStorage.set(JSON.stringify({ text: streak }));
+    }
   };
 
   return {
