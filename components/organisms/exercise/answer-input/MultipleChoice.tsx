@@ -45,51 +45,49 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
 
   return (
     <>
-      <View>
-        <ScrollView>
-          {answer.length === 1
-            ? options.map((option, index) => (
-                <ChoiceButton
-                  key={index}
-                  label={option}
-                  onPress={() => handlePress(index)}
-                  variant={
-                    result === 'notAnswered'
-                      ? selected.includes(index)
-                        ? 'selected'
+      <ScrollView>
+        {answer.length === 1
+          ? options.map((option, index) => (
+              <ChoiceButton
+                key={index}
+                label={option}
+                onPress={() => handlePress(index)}
+                variant={
+                  result === 'notAnswered'
+                    ? selected.includes(index)
+                      ? 'selected'
+                      : 'default'
+                    : answer.includes(index)
+                      ? 'correct'
+                      : selected.includes(index)
+                        ? 'incorrect'
                         : 'default'
-                      : answer.includes(index)
-                        ? 'correct'
-                        : selected.includes(index)
-                          ? 'incorrect'
-                          : 'default'
-                  }
-                />
-              ))
-            : options.map((option, index) => (
-                <ChoiceCheckBox
-                  key={index}
-                  label={option}
-                  onPress={() => handlePress(index)}
-                  variant={
-                    result === 'notAnswered'
-                      ? selected.includes(index)
-                        ? 'selected'
+                }
+              />
+            ))
+          : options.map((option, index) => (
+              <ChoiceCheckBox
+                key={index}
+                label={option}
+                onPress={() => handlePress(index)}
+                variant={
+                  result === 'notAnswered'
+                    ? selected.includes(index)
+                      ? 'selected'
+                      : 'default'
+                    : answer.includes(index)
+                      ? 'correct'
+                      : selected.includes(index)
+                        ? 'incorrect'
                         : 'default'
-                      : answer.includes(index)
-                        ? 'correct'
-                        : selected.includes(index)
-                          ? 'incorrect'
-                          : 'default'
-                  }
-                  checked={selected.includes(index)}
-                  onCheckedChange={() => {}}
-                />
-              ))}
-        </ScrollView>
-      </View>
+                }
+                checked={selected.includes(index)}
+                onCheckedChange={() => {}}
+              />
+            ))}
+      </ScrollView>
       {((answer.length === 1 && selected.length > 0) || selected.length > 1) && (
-        <View className='absolute bottom-0 left-0 right-0 p-4 pb-10'>
+        <View className='absolute bottom-0 left-0 right-0 pb-10'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>

@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
@@ -44,17 +44,11 @@ const QuestionTemplate = () => {
         <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
       </View>
       {currentQuestion && (
-        <View className='relative h-full px-4'>
+        <View className='relative flex h-full flex-col px-4'>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <ScrollView>
-            <View className='pb-10'>
-              <AnswerInput
-                onAnswer={answerQuestion}
-                result={learnerAnswers[currentQuestionIndex]}
-                {...currentQuestion}
-              />
-            </View>
-          </ScrollView>
+          <View className='flex-1 pb-10'>
+            <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
+          </View>
         </View>
       )}
       {typeof learnerAnswers[currentQuestionIndex] === 'boolean' && (

@@ -63,36 +63,34 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
 
   return (
     <>
-      <View>
-        <ScrollView>
-          <View className='gap-y-4'>
-            <AnswerColumn
-              column={Column.A}
-              title={columnA.title}
-              options={columnA.options}
-              selectingPairs={selectingPairs}
-              selectedPairs={selectedPairs}
-              setSelectingPairs={setSelectingPairs}
-              setSelectedPairs={setSelectedPairs}
-              correctness={correctness}
-              isChecking={result !== 'notAnswered'}
-            />
-            <AnswerColumn
-              column={Column.B}
-              title={columnB.title}
-              options={columnB.options}
-              selectingPairs={selectingPairs}
-              selectedPairs={selectedPairs}
-              setSelectingPairs={setSelectingPairs}
-              setSelectedPairs={setSelectedPairs}
-              correctness={correctness}
-              isChecking={result !== 'notAnswered'}
-            />
-          </View>
-        </ScrollView>
-      </View>
+      <ScrollView>
+        <View className='gap-y-4'>
+          <AnswerColumn
+            column={Column.A}
+            title={columnA.title}
+            options={columnA.options}
+            selectingPairs={selectingPairs}
+            selectedPairs={selectedPairs}
+            setSelectingPairs={setSelectingPairs}
+            setSelectedPairs={setSelectedPairs}
+            correctness={correctness}
+            isChecking={result !== 'notAnswered'}
+          />
+          <AnswerColumn
+            column={Column.B}
+            title={columnB.title}
+            options={columnB.options}
+            selectingPairs={selectingPairs}
+            selectedPairs={selectedPairs}
+            setSelectingPairs={setSelectingPairs}
+            setSelectedPairs={setSelectedPairs}
+            correctness={correctness}
+            isChecking={result !== 'notAnswered'}
+          />
+        </View>
+      </ScrollView>
       {selectedPairs.length === answer.length && (
-        <View className='absolute bottom-0 left-0 right-0 bg-background p-4 pb-10'>
+        <View className='absolute bottom-0 left-0 right-0 bg-background pb-10'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>
