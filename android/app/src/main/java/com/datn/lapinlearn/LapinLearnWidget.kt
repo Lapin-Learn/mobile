@@ -45,6 +45,12 @@ internal fun updateAppWidget(
         val appData = JSONObject(appString.toString())
         val views = RemoteViews(context.packageName, R.layout.lapin_learn_widget)
 
+        if(appData.getString("text") == "0") {
+            views.setInt(R.id.appwidgetContainer, "setBackgroundResource", R.drawable.app_widget_zero_streak_background)
+        } else {
+            views.setInt(R.id.appwidgetContainer, "setBackgroundResource", R.drawable.app_widget_background)
+        }
+
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         val pendingIntent = PendingIntent.getActivity(context, 0, intent,
@@ -54,24 +60,23 @@ internal fun updateAppWidget(
         views.setTextViewText(R.id.appwidgetText, appData.getString("text"))
         appWidgetManager.updateAppWidget(appWidgetId, views)
 
-
-        val rv = RemoteViews(context.packageName, R.layout.widget_layout)
-
-        val intentServiceCall = Intent(
-            context,
-            WidgetService::class.java
-        )
-        intentServiceCall.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds.get(i))
-
-
-        //Refresh
-        val refreshIntent = Intent(context, LapinLearnWidget::class.java)
-        refreshIntent.setAction(LapinLearnWidget.REFRESH_ACTION)
-        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-        intentServiceCall.setData(Uri.parse(intentServiceCall.toUri(Intent.URI_INTENT_SCHEME)))
-        val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        rv.setOnClickPendingIntent(R.id.ivRefreshWidget, pendingIntent)
+//        val rv = RemoteViews(context.packageName, R.layout.widget_layout)
+//
+//        val intentServiceCall = Intent(
+//            context,
+//            WidgetService::class.java
+//        )
+//        intentServiceCall.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds.get(i))
+//
+//
+//        //Refresh
+//        val refreshIntent = Intent(context, LapinLearnWidget::class.java)
+//        refreshIntent.setAction(LapinLearnWidget.REFRESH_ACTION)
+//        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+//        intentServiceCall.setData(Uri.parse(intentServiceCall.toUri(Intent.URI_INTENT_SCHEME)))
+//        val pendingIntent =
+//            PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        rv.setOnClickPendingIntent(R.id.ivRefreshWidget, pendingIntent)
 
     } catch (e: JSONException) {
         e.printStackTrace()
