@@ -9,11 +9,15 @@
   "daily": {
     "collect_carrots": "Thu thập cà rốt",
     "exercise": "Tập thể dục",
-    "learn_a_new_skill": "Học một kỹ năng mới"
+    "learn_a_new_skill": "Học một kỹ năng mới",
+    "complete_2_lessons_perfectly": "Hoàn thành 2 bài học hoàn hảo",
+    "complete_lesson": "Hoàn thành bài học",
+    "complete_lesson_with_percentage_score": "Hoàn thành bài học bằng hoặc hơn {{percentage}}"
   },
   "monthly": {
     "take_a_new_course": "Tham gia một khóa học mới",
     "learn_a_new_language": "Học một ngôn ngữ mới",
-    "learn_a_new_skill": "Học một kỹ năng mới"
+    "learn_a_new_skill": "Học một kỹ năng mới",
+    "complete": "Hoàn thành"
   }
 }

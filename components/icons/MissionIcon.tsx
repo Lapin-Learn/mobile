@@ -1,3 +1,4 @@
+import { Skeleton } from 'moti/skeleton';
 import { createContext, FC } from 'react';
 import { SvgProps } from 'react-native-svg';
 
@@ -36,7 +37,7 @@ const MissionIcon: FC<MissionIconProps> & {
 const createIconComponent = (mapping: IconMappingsProps) => {
   const IconComponent = ({ code, ...props }: { code: string | number } & SvgProps) => {
     const Icon = mapping[code];
-    return Icon ? <Icon {...props} /> : null;
+    return Icon ? <Icon {...props} /> : <Skeleton colorMode='light' width='100%' height='100%' />;
   };
   IconComponent.displayName = 'IconComponent';
   return IconComponent;

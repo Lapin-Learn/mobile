@@ -1,7 +1,7 @@
 {
   "types": {
     "daily": "Daily Missions",
-    "monthly": "Monthly Mission"
+    "monthly": "Monthly Missions"
   },
   "month_mission": "{{month}}",
   "time_remaining": "{{time}} left",
@@ -9,11 +9,14 @@
   "daily": {
     "collect_carrots": "Collect carrots",
     "exercise": "Exercise",
-    "learn_a_new_skill": "Learn a new skill"
+    "learn_a_new_skill": "Learn a new skill",
+    "complete_lesson": "Complete a lesson",
+    "complete_lesson_with_percentage_score": "Complete a lesson with a score of {{percentage}} or higher"
   },
   "monthly": {
     "take_a_new_course": "Take a new course",
     "learn_a_new_language": "Learn a new language",
-    "learn_a_new_skill": "Learn a new skill"
+    "learn_a_new_skill": "Learn a new skill",
+    "complete": "Complete"
   }
 }
