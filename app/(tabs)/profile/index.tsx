@@ -112,7 +112,7 @@ const Index = () => {
 
   return (
     <PlatformView>
-      <NavigationBar headerLeftShown />
+      <NavigationBar headerLeftShown={false} />
       <ScrollView>
         <View className='gap-y-10 p-4 pt-0'>
           <View className='items-center justify-center'>

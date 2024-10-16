@@ -45,7 +45,7 @@ const ListItem: FC<{
   <Item className={cn('border-neutral-100 p-4')}>
     <TouchableOpacity onPress={onPress} className='w-full flex-row items-center justify-between'>
       <Text className='font-isemibold text-body'>{label}</Text>
-      <Icon size={24} color={'#737373'} />
+      <Icon size={24} color='#737373' />
     </TouchableOpacity>
   </Item>
 );

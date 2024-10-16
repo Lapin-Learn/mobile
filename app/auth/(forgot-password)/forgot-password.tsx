@@ -61,7 +61,7 @@ const ForgotPassword = () => {
             className='w-full'
             onPress={handleSubmit(onSubmit)}
             disabled={forgotPasswordMutation.isPending}
-            size={'lg'}>
+            size='lg'>
             <Text className='text-button'>{t('forgotPassword.sendOtpButton')}</Text>
           </Button>
         </View>

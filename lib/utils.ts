@@ -8,6 +8,18 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
+export function convertMissionNameCategory(interval: string, name: string) {
+  const { t } = i18next;
+  const convertToLowerCaseAndContainUnderscore = name.toLowerCase().trimStart().replace(/ /g, '_');
+  const getPercentage = convertToLowerCaseAndContainUnderscore.split('_').pop();
+  if (isNaN(parseInt(getPercentage ?? '')))
+    return t(`${interval}.${convertToLowerCaseAndContainUnderscore}`, { ns: 'mission' });
+  else {
+    const getName = convertToLowerCaseAndContainUnderscore.split('_').slice(0, -1).join('_');
+    return t(`${interval}.${getName}`, { percentage: getPercentage, ns: 'mission' });
+  }
+}
+
 export function formatUnit(value: number, unit: string) {
   const { t, language: currentLanguage } = i18next;
 

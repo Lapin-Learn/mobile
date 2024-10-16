@@ -89,7 +89,7 @@ const Indicator = React.forwardRef<
       ref={ref}
       aria-disabled={disabled}
       aria-hidden={!(forceMount || checked)}
-      role={'presentation'}
+      role='presentation'
       {...props}
     />
   );

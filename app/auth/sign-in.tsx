@@ -68,7 +68,7 @@ const SignIn = () => {
           </View>
 
           <View className='gap-y-6'>
-            <Button onPress={handleSubmit(onSubmit)} size={'lg'} disabled={signInMutation.isPending}>
+            <Button onPress={handleSubmit(onSubmit)} size='lg' disabled={signInMutation.isPending}>
               <Text className='text-button'>{t('signIn.signIn')}</Text>
             </Button>
             <View className='flex flex-col items-center justify-center gap-y-[7px]'>

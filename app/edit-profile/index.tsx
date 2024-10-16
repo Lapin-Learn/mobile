@@ -100,7 +100,7 @@ const UpdateProfile = () => {
                 <CustomTextInput
                   className='h-12'
                   placeholder={t('placeholder.change_password')}
-                  value={'password'}
+                  value='password'
                   editable={false}
                   secureTextEntry
                   style={{ color: 'black' }}

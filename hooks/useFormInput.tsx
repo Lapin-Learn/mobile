@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { FieldError, FieldValues, useController, UseControllerProps } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Modal, Platform, Text, TextInputProps, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, Pressable, Text, TextInputProps, View } from 'react-native';
 
 import SelectInput from '~/components/molecules//form-input/SelectInput';
 import CustomTextInput from '~/components/molecules/form-input/CustomTextInput';
@@ -47,15 +47,17 @@ export const useFormInput = <T,>({
         return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='email-address' />;
       case 'date':
         return (
-          <TouchableOpacity className='w-full' onPress={() => setShowDatePicker(true)}>
-            <CustomTextInput
-              className={inputProps.className}
-              placeholder={placeholder}
-              value={field.value ? new Date(field.value).toLocaleDateString('en-GB') : ''}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              editable={false}
-            />
+          <Pressable className='w-full' onPress={() => setShowDatePicker(true)}>
+            <View pointerEvents='none'>
+              <CustomTextInput
+                className={inputProps.className}
+                placeholder={placeholder}
+                value={field.value ? new Date(field.value).toLocaleDateString('en-GB') : ''}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                editable={false}
+              />
+            </View>
             {showDatePicker &&
               (Platform.OS === 'ios' ? (
                 <Modal animationType='none' transparent={true} visible={true}>
@@ -97,7 +99,7 @@ export const useFormInput = <T,>({
                   }}
                 />
               ))}
-          </TouchableOpacity>
+          </Pressable>
         );
       case 'select':
         return (
