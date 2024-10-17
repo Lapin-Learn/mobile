@@ -14,14 +14,16 @@ export const MissionSection = ({ title, timeRemaining, missions }: MissionSectio
   const { t } = useTranslation('mission');
   return (
     <Section className='px-4 pt-5'>
-      <Section.Title label={title} className='items-end' textClassName='font-isemibold text-title-2 text-black'>
-        <View className='flex-row gap-x-1'>
-          <Clock size={20} color='#F17D53' />
-          <Text className='shrink font-imedium text-subhead text-orange-400'>
-            {t('time_remaining', { time: formatRemainingToDateTime(timeRemaining) })}
-          </Text>
-        </View>
-      </Section.Title>
+      {title && timeRemaining && (
+        <Section.Title label={title} className='items-end' textClassName='font-isemibold text-title-2 text-black'>
+          <View className='flex-row gap-x-1'>
+            <Clock size={20} color='#F17D53' />
+            <Text className='shrink font-imedium text-subhead text-orange-400'>
+              {t('time_remaining', { time: formatRemainingToDateTime(timeRemaining) })}
+            </Text>
+          </View>
+        </Section.Title>
+      )}
       <Section.Group className='bg-white'>
         <ListMissions data={missions} />
       </Section.Group>
@@ -29,9 +31,8 @@ export const MissionSection = ({ title, timeRemaining, missions }: MissionSectio
   );
 };
 
-export const ListMissions = ({ data }: { data?: MissionProps[] }) => {
-  const { t } = useTranslation('mission');
-  return data?.map((item, index) => {
+export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
+  return data.map((item, index) => {
     const progressValue = item.current / item.quantity;
     const isLastItem = index === data.length - 1;
 

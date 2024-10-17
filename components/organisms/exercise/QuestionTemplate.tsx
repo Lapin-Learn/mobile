@@ -44,9 +44,11 @@ const QuestionTemplate = () => {
         <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
       </View>
       {currentQuestion && (
-        <View className='relative h-full px-4'>
+        <View className='relative flex h-full flex-col px-4'>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
+          <View className='flex-1'>
+            <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
+          </View>
         </View>
       )}
       {typeof learnerAnswers[currentQuestionIndex] === 'boolean' && (

@@ -20,5 +20,8 @@
   "streak": {
     "day": "Day Streak!",
     "congratulation": "Keep your streak going! Keep learning daily to maintain your streak!"
+  },
+  "mission": {
+    "title": "Daily Quests update!"
   }
 }

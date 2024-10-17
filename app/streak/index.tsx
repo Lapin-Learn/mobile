@@ -50,12 +50,12 @@ const Streak = () => {
         <NavigationBar headerTitle='Streak' headerLeftShown />
         <View className='flex gap-y-8 px-8 pb-4'>
           <View className='flex flex-row items-end justify-between'>
-            <View className='gap-y-1'>
+            <View className='w-full flex-1 gap-y-1'>
               <View className='gap-y-1'>
                 <Text className={`font-iextrabold text-streak ${textStyle}`}>{data?.streak.current}</Text>
                 <Text className={`font-isemibold text-title-2 ${textStyle}`}>{t('streak.days')}</Text>
               </View>
-              <Text className='font-isemibold text-caption-1 text-dark'>
+              <Text className='w-full text-wrap font-isemibold text-caption-1 text-dark'>
                 {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
               </Text>
             </View>

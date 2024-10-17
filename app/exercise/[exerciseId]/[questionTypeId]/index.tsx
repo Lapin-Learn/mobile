@@ -126,7 +126,7 @@ const QuestionTypeScreen = () => {
         <View className='flex-grow flex-row items-center justify-center'>
           {lessons?.lessons.length ? (
             <PagerView
-              style={{ flex: 1, height: 210 }}
+              style={{ flex: 1, height: 250 }}
               initialPage={(currentLesson?.order || 1) - 1}
               pageMargin={16}
               orientation='horizontal'

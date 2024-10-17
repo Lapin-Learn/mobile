@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 
+import { MissionMilestone } from '~/components/molecules/milestone/MissionMilestone';
 import { NewMilestone } from '~/components/molecules/milestone/NewMilestone';
 import { StreakMilestone } from '~/components/molecules/milestone/StreakMilestone';
 import { MilestoneProps } from '~/components/molecules/milestone/type';
@@ -14,6 +15,7 @@ const MilestonesMap: {
   level_up: NewMilestone,
   rank_up: NewMilestone,
   band_score_question_type_up: NewMilestone,
+  mission_completed: MissionMilestone,
 };
 
 const Milestones = () => {
