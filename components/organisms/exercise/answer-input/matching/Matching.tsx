@@ -64,7 +64,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
   return (
     <>
       <ScrollView>
-        <View className='gap-y-4'>
+        <View className='mb-10 gap-y-4'>
           <AnswerColumn
             column={Column.A}
             title={columnA.title}

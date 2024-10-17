@@ -46,7 +46,7 @@ const QuestionTemplate = () => {
       {currentQuestion && (
         <View className='relative flex h-full flex-col px-4'>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <View className='flex-1 pb-10'>
+          <View className='flex-1'>
             <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
           </View>
         </View>
