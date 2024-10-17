@@ -71,24 +71,18 @@ export const refreshToken = async (refreshToken: string) => {
 };
 
 export const signInWithProvider = async (provider: ProviderNameEnum) => {
-  let idToken;
   if (provider === ProviderNameEnum.GOOGLE) {
-    idToken = await signInWithGoogle();
+    return await signInWithGoogle();
   }
-
-  const data = await api.post<AuthInfo>('auth/provider', {
-    headers: { Authorization: `Bearer ${idToken}` },
-  });
-
-  return data;
 };
 
 export const signInWithGoogle = async () => {
   const userInfo: SignInResponse = await GoogleSignin.signIn();
   if (!isCancelledResponse(userInfo)) {
     const googleCredential = auth.GoogleAuthProvider.credential(userInfo.data?.idToken || '');
-    const userCredential = await auth().signInWithCredential(googleCredential);
-    const idToken = await userCredential.user.getIdToken();
-    return idToken;
+    const data = await api.post<AuthInfo>('auth/provider/google', {
+      headers: { Authorization: `Bearer ${googleCredential.token}` },
+    });
+    return { authInfo: data, credential: googleCredential };
   }
 };
