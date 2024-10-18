@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native-google-signin/google-signin';
 
 import { ProviderNameEnum } from '~/lib/enums';
@@ -15,10 +15,10 @@ export type Session = {
 };
 
 export type AuthInfo = {
-  token_type: string;
+  tokenType: string;
   accessToken: string;
-  expires_in: number;
-  refresh_token: string;
+  expiresIn: number;
+  refreshToken: string;
 };
 
 export type AuthUser = { username: string; phone: string };
@@ -71,18 +71,23 @@ export const refreshToken = async (refreshToken: string) => {
 };
 
 export const signInWithProvider = async (provider: ProviderNameEnum) => {
+  let credential: FirebaseAuthTypes.AuthCredential | undefined;
   if (provider === ProviderNameEnum.GOOGLE) {
-    return await signInWithGoogle();
+    credential = await signInWithGoogle();
   }
+
+  if (credential) {
+    return await api.post<AuthInfo>('auth/provider', {
+      body: { credential: credential?.token, provider: credential?.providerId },
+    });
+  }
+  return undefined;
 };
 
 export const signInWithGoogle = async () => {
   const userInfo: SignInResponse = await GoogleSignin.signIn();
   if (!isCancelledResponse(userInfo)) {
-    const googleCredential = auth.GoogleAuthProvider.credential(userInfo.data?.idToken || '');
-    const data = await api.post<AuthInfo>('auth/provider/google', {
-      headers: { Authorization: `Bearer ${googleCredential.token}` },
-    });
-    return { authInfo: data, credential: googleCredential };
+    return auth.GoogleAuthProvider.credential(userInfo.data?.idToken || '');
   }
+  return undefined;
 };
