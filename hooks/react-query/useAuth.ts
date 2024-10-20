@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
 
@@ -56,9 +55,8 @@ export const useSignInWithProvider = () => {
     mutationFn: signInWithProvider,
     onSuccess: async (data) => {
       if (data) {
-        await auth().signInWithCredential(data.credential);
-        setNewToken(data.authInfo);
         toast.show({ type: 'success', text1: 'Welcome back' });
+        setNewToken(data);
       }
     },
     onError: (error) => {
