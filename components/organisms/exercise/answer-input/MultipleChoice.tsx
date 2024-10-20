@@ -7,6 +7,7 @@ import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MultipleChoiceContent } from '~/lib/types/questions';
+import { cn } from '~/lib/utils';
 
 type MultipleChoiceProps = MultipleChoiceContent & {
   onAnswer: (isCorrect: boolean) => void;
@@ -16,6 +17,7 @@ type MultipleChoiceProps = MultipleChoiceContent & {
 const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoiceProps) => {
   const { t } = useTranslation('question');
   const [selected, setSelected] = useState<number[]>([]);
+  const [isChecking, setIsChecking] = useState(false);
 
   const answerQuestion = () => {
     const isCorrect = selected.every((index) => answer.includes(index));
@@ -25,6 +27,14 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
   useEffect(() => {
     if (result === 'notAnswered') setSelected([]);
   }, [result]);
+
+  useEffect(() => {
+    if ((answer.length === 1 && selected.length > 0) || selected.length > 1) {
+      setIsChecking(true);
+    } else {
+      setIsChecking(false);
+    }
+  }, [selected, answer]);
 
   const handlePress = (index: number) => {
     setSelected((prev) => {
@@ -45,7 +55,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
 
   return (
     <>
-      <ScrollView>
+      <ScrollView className={cn('flex-1', isChecking && 'mb-12')}>
         {answer.length === 1
           ? options.map((option, index) => (
               <ChoiceButton
@@ -86,8 +96,8 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
               />
             ))}
       </ScrollView>
-      {((answer.length === 1 && selected.length > 0) || selected.length > 1) && (
-        <View className='absolute bottom-0 left-0 right-0 pb-10'>
+      {isChecking && (
+        <View className='absolute bottom-0 left-0 right-0'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>

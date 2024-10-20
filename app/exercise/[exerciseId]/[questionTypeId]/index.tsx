@@ -126,21 +126,16 @@ const QuestionTypeScreen = () => {
         <View className='flex-grow flex-row items-center justify-center'>
           {lessons?.lessons.length ? (
             <PagerView
-              style={{ flex: 1, height: 250 }}
+              style={{ flex: 1, height: '100%' }}
               initialPage={(currentLesson?.order || 1) - 1}
               pageMargin={16}
               orientation='horizontal'
               onPageSelected={(e) => setCurrentLesson(lessons.lessons[e.nativeEvent.position])}
               ref={ref}>
               {lessons.lessons.map((lesson) => (
-                <Card
-                  key={lesson.id}
-                  t={t}
-                  item={lesson}
-                  lessons={lessons.lessons}
-                  handlePrev={handlePrev}
-                  handleNext={handleNext}
-                />
+                <View className='flex justify-center' key={lesson.id}>
+                  <Card t={t} item={lesson} lessons={lessons.lessons} handlePrev={handlePrev} handleNext={handleNext} />
+                </View>
               ))}
             </PagerView>
           ) : (
