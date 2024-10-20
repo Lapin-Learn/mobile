@@ -78,7 +78,7 @@ export const confirmLessonCompletion = async (params: LessonCompletionParams) =>
 
 export const getInstruction = async ({ queryKey }: QueryFunctionContext<unknown[]>) => {
   try {
-    const [, questionTypeId] = queryKey;
+    const [, , questionTypeId] = queryKey;
     const response = await api.get<IInstruction>(`/daily-lessons/question-types/${questionTypeId}/instruction`);
     return response;
   } catch (error) {

@@ -3,6 +3,7 @@ import { Href, router } from 'expo-router';
 
 import { signIn as setNewToken, signOut } from '~/hooks/zustand';
 import { QUERY_KEYS } from '~/lib/constants';
+import { analytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
 import {
   forgotPassword,
@@ -24,6 +25,9 @@ export const useSignUp = () => {
     onSuccess: () => {
       toast.show({ type: 'success', text1: 'Sign up success' });
       router.push('/auth/sign-in');
+      analytics.logSignUp({
+        method: 'email',
+      });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -37,11 +41,14 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: async (data) => {
-      toast.show({ type: 'success', text1: 'Welcome back' });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.profile.identifier],
       });
       await setNewToken(data);
+      analytics.logLogin({
+        method: 'email',
+      });
+      toast.show({ type: 'success', text1: 'Welcome back' });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -55,6 +62,9 @@ export const useSignInWithProvider = () => {
     mutationFn: signInWithProvider,
     onSuccess: async (data) => {
       if (data) {
+        analytics.logLogin({
+          method: 'google',
+        });
         toast.show({ type: 'success', text1: 'Welcome back' });
         setNewToken(data);
       }
