@@ -43,6 +43,14 @@ const Milestones = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (sortedMilestones[currentMilestone].type === 'mission_completed') {
+        missionRewardMutation.mutate();
+      }
+    };
+  }, [missionRewardMutation]);
+
   return <Milestone current={sortedMilestones[currentMilestone]} handleNextMilestone={handleNextMilestone} />;
 };
 
