@@ -151,3 +151,8 @@ export type IMission = {
   current: number;
   quantity: number;
 };
+
+export type IMissionReward = {
+  bonusCarrot: number;
+  bonusXp: number;
+};

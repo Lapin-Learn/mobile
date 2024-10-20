@@ -5,6 +5,7 @@ import { MissionMilestone } from '~/components/molecules/milestone/MissionMilest
 import { NewMilestone } from '~/components/molecules/milestone/NewMilestone';
 import { StreakMilestone } from '~/components/molecules/milestone/StreakMilestone';
 import { MilestoneProps } from '~/components/molecules/milestone/type';
+import { useMissionReward } from '~/hooks/react-query/useMission';
 import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { MilestonesEnum } from '~/lib/enums';
 
@@ -20,6 +21,7 @@ const MilestonesMap: {
 
 const Milestones = () => {
   const { milestones } = useMilestoneStore();
+  const missionRewardMutation = useMissionReward();
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
 
@@ -31,12 +33,23 @@ const Milestones = () => {
   const Milestone = MilestonesMap[sortedMilestones[currentMilestone].type];
 
   const handleNextMilestone = () => {
+    if (sortedMilestones[currentMilestone].type === 'mission_completed') {
+      missionRewardMutation.mutate();
+    }
     if (currentMilestone < sortedMilestones.length - 1) {
       setCurrentMilestone((prev) => prev + 1);
     } else {
       router.back();
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (sortedMilestones[currentMilestone].type === 'mission_completed') {
+        missionRewardMutation.mutate();
+      }
+    };
+  }, [currentMilestone, missionRewardMutation, sortedMilestones]);
 
   return <Milestone current={sortedMilestones[currentMilestone]} handleNextMilestone={handleNextMilestone} />;
 };
