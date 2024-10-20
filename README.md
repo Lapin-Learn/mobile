@@ -2,27 +2,27 @@
 
 # Prebuild the app
 
-`npm run prebuild`
+`npx expo prebuild`
 
 # Prebuild the app for only the android
 
-`npm run prebuild --platform android`
+`npx expo prebuild --platform android`
 
 # Prebuild the app for only the ios
 
-`npm run prebuild --platform ios`
+`npx expo prebuild --platform ios`
 
 # Update the app when update the app.json
 
-`npm run prebuild --clean`
+`npx expo prebuild --clean`
 
 # Install the app
 
-`npm run install`
+`npm install`
 
 # Start the development server
 
-`npm start`
+`npm run start`
 
 # Start the development server clearing the cache
 
