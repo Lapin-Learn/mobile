@@ -3,7 +3,7 @@ import '~/global.css';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
+import { SplashScreen, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -15,8 +15,8 @@ import { PortalHost } from '~/components/primitives/portal';
 import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
-import { registerBackgroundService } from '~/lib/services';
-import AuthProvider from '~/providers/auth';
+import AuthProvider from '~/lib/providers/auth';
+import { analytics, registerBackgroundService } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -39,6 +39,7 @@ TrackPlayer.registerPlaybackService(() => registerBackgroundService);
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
+  const pathname = usePathname();
   const handleTrackPlayerLoaded = useCallback(() => {
     SplashScreen.hideAsync();
   }, []);
@@ -60,6 +61,13 @@ const RootLayout = () => {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    analytics.logScreenView({
+      screen_class: pathname,
+      screen_name: (pathname === '/' ? 'home' : pathname).replace('/', ''),
+    });
+  }, [pathname]);
 
   if (!loaded) {
     return null;

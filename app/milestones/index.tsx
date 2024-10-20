@@ -49,7 +49,7 @@ const Milestones = () => {
         missionRewardMutation.mutate();
       }
     };
-  }, [missionRewardMutation]);
+  }, [currentMilestone, missionRewardMutation, sortedMilestones]);
 
   return <Milestone current={sortedMilestones[currentMilestone]} handleNextMilestone={handleNextMilestone} />;
 };
