@@ -161,8 +161,9 @@ const Value = React.forwardRef<TextRef, SlottableTextProps & SelectValueProps>(
   ({ asChild, placeholder, ...props }, ref) => {
     const { value } = useRootContext();
     const Component = asChild ? Slot.Text : Text;
+    const placeholderStyle = value?.value ? {} : { color: '#929292' };
     return (
-      <Component ref={ref} {...props}>
+      <Component ref={ref} style={placeholderStyle} {...props}>
         {value?.label ?? placeholder}
       </Component>
     );

@@ -111,6 +111,7 @@ export const useFormInput = <T,>({
             onValueChange={(option) => field.onChange(option?.value)}
             options={options || []}
             placeholder={placeholder}
+            className={inputProps.className}
           />
         );
 
