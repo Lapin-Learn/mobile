@@ -73,6 +73,7 @@ const UpdateProfile = () => {
               />
 
               <ControllerInput
+                className='h-14'
                 type='select'
                 props={{ name: 'gender', control }}
                 label={t('profile.gender')}

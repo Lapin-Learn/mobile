@@ -11,15 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/Select';
+import { cn } from '~/lib/utils';
 
 type SelectProps = {
   defaultValue: { value: string; label: string };
   onValueChange?: (option: Option) => void;
   options: { value: string; label: string }[];
   placeholder: string;
+  className?: string;
 };
 
-const SelectInput = ({ defaultValue, onValueChange, options, placeholder }: SelectProps) => {
+const SelectInput = ({ defaultValue, onValueChange, options, placeholder, className }: SelectProps) => {
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -30,7 +32,8 @@ const SelectInput = ({ defaultValue, onValueChange, options, placeholder }: Sele
 
   return (
     <Select defaultValue={defaultValue} onValueChange={onValueChange}>
-      <SelectTrigger className='h-12 w-full rounded border border-neutral-200 bg-white p-3 placeholder:text-neutral-700'>
+      <SelectTrigger
+        className={cn('w-full rounded border border-neutral-200 bg-white p-3 placeholder:text-neutral-300', className)}>
         <SelectValue className='font-imedium text-subhead' placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent insets={contentInsets} className='w-full'>
