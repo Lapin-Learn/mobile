@@ -56,7 +56,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "./lib/plugins/withPodfile"
     ],
     "experiments": {
       "typedRoutes": true

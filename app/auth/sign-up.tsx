@@ -2,11 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Alert, SafeAreaView, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoFacebook from '~/assets/images/facebook.svg';
 import LogoGoogle from '~/assets/images/google.svg';
+import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
@@ -100,13 +101,12 @@ const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      <LogoFacebook onPress={() => {}} width={32} height={32} />
-      <LogoGoogle
+      <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} />
+      <IconPressable
+        Icon={LogoGoogle}
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
         }}
-        width={32}
-        height={32}
       />
     </View>
   );

@@ -25,7 +25,10 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
           </View>
           <View>
             <View className='h-[6px] rounded-full bg-gray-200'>
-              <View className='h-[6px] rounded-full bg-blue-300' style={{ width: `${(currentXp / levelXp) * 100}%` }} />
+              <View
+                className='h-[6px] rounded-full bg-blue-300'
+                style={{ width: `${currentXp > levelXp ? 100 : (currentXp / levelXp) * 100}%` }}
+              />
             </View>
           </View>
         </View>
