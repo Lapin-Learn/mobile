@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+import { refreshToken } from './axios/auth';
 import { getTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
@@ -32,6 +33,7 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const auth = await getTokenAsync();
     if (auth) {
+      console.log('auth.accessToken', auth.accessToken);
       config.headers.Authorization = `Bearer ${auth.accessToken}`;
     }
     return config;
@@ -45,7 +47,18 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
+  async (error) => {
+    if (error.response?.status === 401) {
+      const auth = await getTokenAsync();
+      if (auth && auth.refreshToken) {
+        await refreshToken(auth.refreshToken);
+        const newAuth = await getTokenAsync();
+        if (newAuth) {
+          error.config.headers.Authorization = `Bearer ${newAuth.accessToken}`;
+          return axiosInstance.request(error.config);
+        }
+      }
+    }
     return Promise.reject(formatError(error));
   }
 );
