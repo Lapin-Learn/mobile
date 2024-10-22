@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { refreshToken } from './axios/auth';
-import { getTokenAsync } from './utils';
+import { AuthInfo } from './axios/auth';
+import { getTokenAsync, setTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
 type EndpointOptions = Omit<AxiosRequestConfig, 'url' | 'method'> & {
@@ -49,9 +49,19 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error.response?.status === 401) {
+      console.log('unauthorized');
       const auth = await getTokenAsync();
       if (auth && auth.refreshToken) {
-        await refreshToken(auth.refreshToken);
+        console.log('Refreshing token:', auth.refreshToken);
+
+        const data = await api.post<AuthInfo>('auth/refresh', {
+          body: {
+            refreshToken: auth.refreshToken,
+          },
+        });
+        await setTokenAsync(data);
+        console.log('Refreshed token:', data);
+
         const newAuth = await getTokenAsync();
         if (newAuth) {
           error.config.headers.Authorization = `Bearer ${newAuth.accessToken}`;
