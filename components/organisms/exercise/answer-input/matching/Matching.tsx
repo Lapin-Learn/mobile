@@ -23,19 +23,13 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
   const { t } = useTranslation('question');
 
   const answerQuestion = () => {
-    let isCorrect: boolean = true;
-    for (let i = 0; i < selectedPairs.length; i++) {
-      const index = answer.findIndex((pair) => pair.columnA.includes(selectedPairs[i].columnA[0]));
-      if (index >= 0) {
-        if (selectedPairs[i].columnB[0] !== answer[index].columnB[0]) {
-          isCorrect = false;
-        } else {
-          correctness[index] = true;
-        }
-      } else {
-        isCorrect = false;
-      }
-    }
+    const answerRecord = answer.reduce<Record<string, string>>((acc, pair) => {
+      acc[pair.columnA[0]] = pair.columnB[0];
+      return acc;
+    }, {});
+    const correctness = selectedPairs.map((pair) => answerRecord[pair.columnA[0]] === pair.columnB[0]);
+    const isCorrect = correctness.every(Boolean);
+
     setCorrectness(correctness);
     onAnswer(isCorrect);
   };
@@ -90,7 +84,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
         </View>
       </ScrollView>
       {selectedPairs.length === answer.length && (
-        <View className='absolute bottom-0 left-0 right-0 bg-background pb-10'>
+        <View className='absolute bottom-0 left-0 right-0 mb-12 bg-background'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>

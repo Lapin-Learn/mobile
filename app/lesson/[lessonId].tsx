@@ -31,7 +31,7 @@ const Lesson = () => {
     };
   }, [isSuccess, data, clear, setQuestions, lessonId]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading || currentQuestion === null) return <Loading />;
   if (isCompleted && result)
     return (
       <View>
