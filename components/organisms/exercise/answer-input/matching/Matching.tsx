@@ -84,7 +84,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
         </View>
       </ScrollView>
       {selectedPairs.length === answer.length && (
-        <View className='absolute bottom-0 left-0 right-0 bg-background'>
+        <View className='absolute bottom-0 left-0 right-0 mb-12 bg-background'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>

@@ -55,7 +55,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
 
   return (
     <>
-      <ScrollView className={cn('flex-1', isChecking && 'mb-12')}>
+      <ScrollView className={cn('flex-1', isChecking ? 'mb-22' : 'mb-10')}>
         {answer.length === 1
           ? options.map((option, index) => (
               <ChoiceButton
@@ -97,7 +97,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
             ))}
       </ScrollView>
       {isChecking && (
-        <View className='absolute bottom-0 left-0 right-0'>
+        <View className='absolute bottom-0 left-0 right-0 mb-10'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>
