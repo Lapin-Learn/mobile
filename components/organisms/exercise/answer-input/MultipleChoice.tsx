@@ -97,7 +97,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
             ))}
       </ScrollView>
       {isChecking && (
-        <View className='absolute bottom-0 left-0 right-0 mb-10'>
+        <View className='absolute bottom-0 left-0 right-0 pb-10'>
           <Button className='bg-neutral-900' onPress={answerQuestion}>
             <Text className='text-button'>{t('general.check')}</Text>
           </Button>
