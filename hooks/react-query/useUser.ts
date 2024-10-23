@@ -33,15 +33,10 @@ export const useAccountIdentifier = () => {
       if (!account.dob || !account.fullName || !account.gender) router.replace('/update-profile');
       else router.replace('/');
     }
-    return;
-  }
-
-  if (accountIdentifier.error?.message === 'Unauthorized') {
+  } else if (accountIdentifier.error?.message === 'Unauthorized') {
     queryClient.setQueryData([QUERY_KEYS.profile.identifier], null);
     signOut.mutate();
-  }
-
-  if (
+  } else if (
     accountIdentifier.error?.message === 'User not found' ||
     (isSuccess && (!account.dob || !account.fullName || !account.gender))
   ) {
