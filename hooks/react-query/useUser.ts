@@ -30,18 +30,6 @@ export const useAccountIdentifier = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { data: account, isSuccess } = accountIdentifier;
-  if (pathname.startsWith('/auth') || pathname === '/on-boarding') {
-    if (account) {
-      if (!account.dob || !account.fullName || !account.gender) router.replace('/update-profile');
-      else router.replace('/');
-    }
-    return;
-  }
-
-  if (accountIdentifier.error?.message === 'Unauthorized') {
-    queryClient.setQueryData([QUERY_KEYS.profile.identifier], null);
-    signOut.mutate();
-  }
 
   useEffect(() => {
     if (

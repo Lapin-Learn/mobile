@@ -24,19 +24,19 @@ const ActiveTabIcon = ({ icon: Icon, focused }: ActiveTabIconProps) => {
 
 const TabsLayout = () => {
   const { status } = useAuth();
-  useAccountIdentifier();
+  const { isLoading } = useAccountIdentifier();
 
   const hideSplash = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
 
   useEffect(() => {
-    if (status !== 'idle') {
+    if (status !== 'idle' && !isLoading) {
       setTimeout(() => {
         hideSplash();
       }, 1000);
     }
-  }, [hideSplash, status]);
+  }, [hideSplash, status, isLoading]);
 
   return (
     <Tabs
