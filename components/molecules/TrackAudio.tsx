@@ -1,7 +1,8 @@
+import { useNavigation } from 'expo-router';
 import { PauseIcon, PlayIcon, RotateCcw } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import TrackPlayer, { Event, RepeatMode, State, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
+import { Platform, TouchableOpacity, View } from 'react-native';
+import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 
 import { Text } from '~/components/ui/Text';
 import { formatAudioTimer } from '~/lib/utils';
@@ -19,16 +20,29 @@ type TrackAudioProps = {
 };
 
 export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
+  const navigation = useNavigation();
   const [playerState, setPlayerState] = useState<State>(State.None);
   const { position, duration } = useProgress();
 
   useEffect(() => {
     const setupTrack = async () => {
-      TrackPlayer.reset();
-      TrackPlayer.add(data)
-        .then(() => {
-          TrackPlayer.play();
-          TrackPlayer.setRepeatMode(RepeatMode.Off);
+      if (Platform.OS === 'ios') {
+        await TrackPlayer.reset();
+      } else {
+        const queueItems = await TrackPlayer.getQueue();
+        for (let i = 0; i < queueItems.length; i++) {
+          await TrackPlayer.remove(0);
+        }
+        await TrackPlayer.removeUpcomingTracks();
+        await TrackPlayer.pause();
+      }
+
+      await TrackPlayer.add(data)
+        .then(async () => {
+          if (Platform.OS === 'android') {
+            await TrackPlayer.skipToNext();
+          }
+          await TrackPlayer.play();
         })
         .catch((err) => {
           console.error('err', err);
@@ -44,20 +58,38 @@ export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
     }
   }, [data, checked]);
 
+  useEffect(() => {
+    return () => {
+      navigation.addListener('beforeRemove', () => {
+        TrackPlayer.pause();
+        if (Platform.OS === 'ios') {
+          TrackPlayer.reset();
+        } else {
+          TrackPlayer.removeUpcomingTracks();
+        }
+      });
+    };
+  });
+
   useTrackPlayerEvents(events, (event) => {
     if (event.type === Event.PlaybackError) {
       console.warn('An error occured while playing the current track.');
     }
     if (event.type === Event.PlaybackState) {
       setPlayerState(event.state);
+      if (event.state === State.Ended) {
+        TrackPlayer.seekTo(100);
+        TrackPlayer.pause();
+      }
     }
   });
 
   const handleAction = (action: string) => () => {
     switch (action) {
       case 'play':
-        if (playerState === State.Ended) {
+        if (playerState === State.Ready) {
           TrackPlayer.seekTo(0);
+          return TrackPlayer.play();
         }
         if (playerState === State.Playing) {
           return TrackPlayer.pause();
