@@ -11,17 +11,18 @@ import RankIcon from '~/components/icons/RankIcon';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
-import { useUserProfile } from '~/hooks/react-query/useUser';
+import { useGameProfile } from '~/hooks/react-query/useUser';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/types';
 import { formatNumber } from '~/lib/utils';
 
 import RadialGradientBackground from '../../templates/RadialGradientBackground';
+import { Loading } from '../Loading';
 import { MilestoneProps } from './type';
 
 export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
-  const { data: learner } = useUserProfile();
+  const { data: learner, isFetching } = useGameProfile();
 
   const rankTranslation = {
     [RankEnum.BRONZE]: t('rank.bronze'),
@@ -31,6 +32,10 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
     [RankEnum.DIAMOND]: t('rank.diamond'),
     [RankEnum.MASTER]: t('rank.master'),
   };
+
+  if (isFetching) {
+    return <Loading />;
+  }
 
   return (
     <View className='w-full'>
@@ -86,15 +91,14 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                   </Text>
                 )}
                 <Progress
-                  value={((learner?.learnerProfile.xp || 0) / (learner?.learnerProfile.level.xp || 1)) * 100}
+                  value={((learner?.xp || 0) / (learner?.level.xp || 1)) * 100}
                   className='h-5 bg-[#F5CA98]'
                   indicatorClassName='rounded-full'
                 />
                 <View className='flex flex-row justify-between'>
-                  <Text className='text-body font-semibold'>Level {learner?.learnerProfile.levelId}</Text>
+                  <Text className='text-body font-semibold'>Level {learner?.level.id}</Text>
                   <Text className='text-body font-semibold'>
-                    {formatNumber(learner?.learnerProfile.xp || 0)}/
-                    {formatNumber(learner?.learnerProfile.level.xp || 0)} {t('level.xp')}
+                    {formatNumber(learner?.xp || 0)}/{formatNumber(learner?.level.xp || 0)} {t('level.xp')}
                   </Text>
                 </View>
               </View>
