@@ -41,7 +41,7 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
     <Modal animationType='slide' transparent={true} visible={showModal} onRequestClose={onPressContinue}>
       <View
         className={cn(
-          'absolute bottom-0 mb-10 flex w-screen justify-end gap-4 px-4 pt-4',
+          'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',
           type === 'correct' ? 'bg-green-50' : 'bg-red-50'
         )}>
         <View className='flex flex-row items-center justify-between'>
