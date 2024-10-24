@@ -4,7 +4,7 @@ import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native
 import { ProviderNameEnum } from '~/lib/enums';
 
 import api from '../httpRequests';
-import { setTokenAsync } from '../utils';
+import { removeTokenAsync, setTokenAsync } from '../utils';
 
 const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID;
 GoogleSignin.configure({
@@ -43,6 +43,11 @@ export const signUp = async (params: SignUpParams) => {
   return data;
 };
 
+export const signOut = async () => {
+  console.log('remove token');
+  await removeTokenAsync();
+};
+
 export const verify = async (params: VerifyParams) => {
   const data = await api.post<AuthInfo>('auth/otp', { body: params });
   return data;
@@ -57,12 +62,11 @@ export const resetPassword = async (params: { newPassword: string }) => {
 };
 
 export const refreshToken = async (refreshToken: string) => {
-  console.log('Refreshing token:', refreshToken);
   const data = await api.post<AuthInfo>('auth/refresh', {
     body: { refreshToken },
   });
   await setTokenAsync(data);
-  console.log('Refreshed token:', data);
+  console.log('Refreshed token:', data.accessToken.slice(-10));
   return data;
 };
 

@@ -35,6 +35,7 @@ export const useAccountIdentifier = () => {
     }
   } else if (accountIdentifier.error?.message === 'Unauthorized') {
     queryClient.setQueryData([QUERY_KEYS.profile.identifier], null);
+
     signOut.mutate();
   } else if (
     accountIdentifier.error?.message === 'User not found' ||

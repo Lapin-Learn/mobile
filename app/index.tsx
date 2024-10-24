@@ -8,7 +8,6 @@ import { useAuth } from '~/hooks/zustand';
 
 const Index = () => {
   const { status } = useAuth();
-
   if (status === 'idle') {
     return <Loading />;
   } else {
