@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { getTokenAsync } from './utils';
+import { AuthInfo } from './axios/auth';
+import { getTokenAsync, setTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
 type EndpointOptions = Omit<AxiosRequestConfig, 'url' | 'method'> & {
@@ -31,6 +32,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     const auth = await getTokenAsync();
+    console.log('auth.accessToken', auth?.accessToken?.slice(-10));
     if (auth) {
       config.headers.Authorization = `Bearer ${auth.accessToken}`;
     }
@@ -45,7 +47,34 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      console.log('unauthorized');
+      originalRequest._retry = true;
+      const auth = await getTokenAsync();
+      console.log('auth', auth?.accessToken?.slice(-10));
+      if (auth && auth.refreshToken) {
+        console.log('Refreshing token 1:', auth.refreshToken);
+
+        return api
+          .post<AuthInfo>('/auth/refresh', {
+            body: {
+              refreshToken: auth.refreshToken,
+            },
+          })
+          .then(async (data) => {
+            console.log('Refresh token success:', data.accessToken.slice(-10));
+            await setTokenAsync(data);
+            axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch((error) => {
+            console.error('Refresh token error:', error);
+            return Promise.reject(formatError(error));
+          });
+      }
+    }
     return Promise.reject(formatError(error));
   }
 );
