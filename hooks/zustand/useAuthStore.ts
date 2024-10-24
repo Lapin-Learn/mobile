@@ -1,8 +1,8 @@
-import { jwtDecode } from 'jwt-decode';
 import { createStore, useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
-import { getTokenAsync, isFirstLaunchAsync, removeTokenAsync, setTokenAsync } from '~/services/utils';
+import { signOut } from '~/services';
+import { getTokenAsync, isFirstLaunchAsync } from '~/services/utils';
 import { TokenType } from '~/types';
 
 export type AuthStatus = 'idle' | 'signOut' | 'signIn' | 'isFirstLaunch';
@@ -15,32 +15,12 @@ export type AuthProps = {
 type AuthState = {
   token: AuthProps['token'];
   status: AuthProps['status'];
-  signIn: (data: TokenType) => Promise<void>;
-  signOut: () => Promise<void>;
-  hydrate: () => void;
-  checkTokenExpiration: () => void;
-  scheduleTokenCheck: (token: TokenType) => void;
+  hydrate: () => Promise<void>;
 };
 
-type DecodedToken = {
-  userId: string;
-  role: string;
-  iat: number;
-  exp: number;
-};
-
-const authStore = createStore<AuthState>()((set, get) => ({
+const authStore = createStore<AuthState>()((set) => ({
   token: null,
-  status: 'idle',
-  signIn: async (data) => {
-    set({ token: data, status: 'signIn' });
-    await setTokenAsync(data);
-    get().scheduleTokenCheck(data);
-  },
-  signOut: async () => {
-    set({ token: null, status: 'signOut' });
-    await removeTokenAsync();
-  },
+  status: 'idle' as AuthStatus,
   hydrate: async () => {
     try {
       const hasFirstLaunched = await isFirstLaunchAsync();
@@ -50,33 +30,15 @@ const authStore = createStore<AuthState>()((set, get) => ({
       }
 
       const currentToken = await getTokenAsync();
+      console.log('hydrate successfully', currentToken?.accessToken);
       if (currentToken !== null) {
-        get().signIn(currentToken);
+        set({ status: 'signIn' });
       } else {
-        get().signOut();
+        signOut();
       }
     } catch (error) {
       console.error('Error hydrating token', error);
     }
-  },
-  checkTokenExpiration: () => {
-    const { token, signOut } = get();
-    if (token) {
-      const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token.accessToken || '');
-      const currentTime = Date.now() / 1000;
-      if (decodedToken.exp < currentTime) {
-        signOut();
-      } else {
-        const timeout = (decodedToken.exp - currentTime) * 1000;
-        setTimeout(() => get().checkTokenExpiration(), timeout);
-      }
-    }
-  },
-  scheduleTokenCheck: (token: TokenType) => {
-    const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token.accessToken || '');
-    const currentTime = Date.now() / 1000;
-    const timeout = (decodedToken.exp - currentTime) * 1000;
-    setTimeout(() => get().checkTokenExpiration(), timeout);
   },
 }));
 
@@ -104,5 +66,3 @@ export const useAuth = () => {
 
 // Hooks
 export const hydrate = () => authStore.getState().hydrate();
-export const signIn = (token: TokenType) => authStore.getState().signIn(token);
-export const signOut = () => authStore.getState().signOut();

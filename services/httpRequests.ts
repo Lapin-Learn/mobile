@@ -31,10 +31,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // console.log(config.url);
     const auth = await getTokenAsync();
+    console.log('auth.accessToken', auth?.accessToken?.slice(-10));
     if (auth) {
-      console.log('auth.accessToken', auth.accessToken);
       config.headers.Authorization = `Bearer ${auth.accessToken}`;
     }
     return config;
@@ -54,8 +53,9 @@ axiosInstance.interceptors.response.use(
       console.log('unauthorized');
       originalRequest._retry = true;
       const auth = await getTokenAsync();
+      console.log('auth', auth?.accessToken?.slice(-10));
       if (auth && auth.refreshToken) {
-        console.log('Refreshing token:', auth.refreshToken);
+        console.log('Refreshing token 1:', auth.refreshToken);
 
         return api
           .post<AuthInfo>('/auth/refresh', {
@@ -64,7 +64,7 @@ axiosInstance.interceptors.response.use(
             },
           })
           .then(async (data) => {
-            console.log('Refresh token success:', data);
+            console.log('Refresh token success:', data.accessToken.slice(-10));
             await setTokenAsync(data);
             axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
             return axiosInstance(originalRequest);
