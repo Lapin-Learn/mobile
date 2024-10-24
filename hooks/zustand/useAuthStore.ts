@@ -34,6 +34,7 @@ const authStore = createStore<AuthState>()((set) => ({
       if (currentToken !== null) {
         set({ status: 'signIn' });
       } else {
+        set({ status: 'signOut' });
         signOut();
       }
     } catch (error) {
