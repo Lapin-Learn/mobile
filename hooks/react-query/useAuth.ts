@@ -143,11 +143,11 @@ export const useSignOut = () => {
   const client = useQueryClient();
   const updateStreak = useStreakWidget();
   return useMutation({
-    mutationFn: () => Promise.resolve(),
+    mutationFn: signOut,
     onSuccess: () => {
-      signOut();
       client.clear();
-      router.replace('auth/sign-in' as Href);
+      console.log('sign out');
+      router.replace('/auth/sign-in');
       updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {

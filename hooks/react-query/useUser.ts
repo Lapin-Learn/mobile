@@ -20,8 +20,6 @@ import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
 
 export const useAccountIdentifier = () => {
-  const signOut = useSignOut();
-  const queryClient = useQueryClient();
   const accountIdentifier = useQuery({
     queryKey: [QUERY_KEYS.profile.identifier],
     queryFn: getAccountIdentifier,

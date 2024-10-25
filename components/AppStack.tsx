@@ -6,8 +6,8 @@ export const AppStack = () => {
       <Stack.Screen name='index' />
       <Stack.Screen name='on-boarding' />
       <Stack.Screen name='update-profile' />
-      <Stack.Screen name='(tabs)' />
       <Stack.Screen name='auth' />
+      <Stack.Screen name='(tabs)' />
       <Stack.Screen name='edit-profile' />
       <Stack.Screen name='firebaseauth' />
       <Stack.Screen name='exercise' />

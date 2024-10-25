@@ -1,10 +1,10 @@
 import { router } from 'expo-router';
 import { ReactNode, useEffect } from 'react';
 
-import { hydrate, useAuth } from '~/hooks/zustand';
+import { useAuth } from '~/hooks/zustand';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { status } = useAuth();
+  const { status, hydrate } = useAuth();
 
   useEffect(() => {
     hydrate();

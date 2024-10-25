@@ -32,6 +32,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     const auth = await getTokenAsync();
+    console.log(config.url);
     console.log('auth.accessToken', auth?.accessToken?.slice(-10));
     if (auth) {
       config.headers.Authorization = `Bearer ${auth.accessToken}`;
@@ -73,6 +74,8 @@ axiosInstance.interceptors.response.use(
             console.error('Refresh token error:', error);
             return Promise.reject(formatError(error));
           });
+      } else {
+        return Promise.reject(formatError(error));
       }
     }
     return Promise.reject(formatError(error));
