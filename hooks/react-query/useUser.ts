@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, usePathname } from 'expo-router';
+import { router, usePathname, useRouter } from 'expo-router';
+import { useEffect } from 'react';
 
 import useStreakWidget from '~/hooks/useStreakWidget';
 import { QUERY_KEYS } from '~/lib/constants';
@@ -27,6 +28,7 @@ export const useAccountIdentifier = () => {
     staleTime: Infinity,
   });
   const pathname = usePathname();
+  const router = useRouter();
   const { data: account, isSuccess } = accountIdentifier;
   if (pathname.startsWith('/auth') || pathname === '/on-boarding') {
     if (account) {
@@ -41,12 +43,14 @@ export const useAccountIdentifier = () => {
     signOut.mutate();
   }
 
-  if (
-    accountIdentifier.error?.message === 'User not found' ||
-    (isSuccess && (!account.dob || !account.fullName || !account.gender))
-  ) {
-    router.replace('/update-profile');
-  }
+  useEffect(() => {
+    if (
+      accountIdentifier.error?.message === 'User not found' ||
+      (isSuccess && (!account.dob || !account.fullName || !account.gender))
+    ) {
+      router.replace('/update-profile');
+    }
+  }, [accountIdentifier.error, isSuccess, account, router]);
 
   return accountIdentifier;
 };
