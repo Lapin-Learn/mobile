@@ -10,7 +10,7 @@ import { useAuth } from '~/hooks/zustand';
 const CustomRedirect = () => {
   const { isSuccess, data: account, isError } = useAccountIdentifier();
   if (isSuccess && account) {
-    // console.log('redirecting to /tabs/map');
+    console.log('redirecting to /tabs/map');
     return <Redirect href='/(tabs)/(map)' />;
   } else if (isError || (isSuccess && !account)) {
     // console.log('redirecting to /auth/sign-in');

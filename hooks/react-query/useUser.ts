@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, usePathname, useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 
 import useStreakWidget from '~/hooks/useStreakWidget';
@@ -25,7 +25,6 @@ export const useAccountIdentifier = () => {
     queryFn: getAccountIdentifier,
     staleTime: Infinity,
   });
-  const pathname = usePathname();
   const router = useRouter();
   const { data: account, isSuccess } = accountIdentifier;
 

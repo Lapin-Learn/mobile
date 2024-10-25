@@ -49,7 +49,7 @@ export const useSignIn = () => {
         method: 'email',
       });
       toast.show({ type: 'success', text1: 'Welcome back' });
-      router.push('/(map)');
+      router.push('/');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
