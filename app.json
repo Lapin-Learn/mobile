@@ -31,7 +31,7 @@
         "backgroundColor": "#F9F7F7"
       },
       "googleServicesFile": "./google-services.json",
-      "permissions": [""],
+      "permissions": ["android.permissions.READ_MEDIA_AUDIO", "android.permissions.ACCESS_NETWORK_STATE"],
       "package": "com.datn.lapinlearn"
     },
     "web": {
@@ -52,6 +52,9 @@
       [
         "expo-build-properties",
         {
+          "android": {
+            "usesCleartextTraffic": true
+          },
           "ios": {
             "useFrameworks": "static"
           }
