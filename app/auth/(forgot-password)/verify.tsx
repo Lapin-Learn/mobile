@@ -94,7 +94,11 @@ const Verify = () => {
                         const newCode = [...field.value];
                         newCode[i] = text;
                         field.onChange(newCode);
-                        if (text.length === 1) {
+                        if (text.length === 0) {
+                          if (i > 0) {
+                            codeRef.current[i - 1].focus();
+                          }
+                        } else if (text.length === 1) {
                           if (i < 5) {
                             codeRef.current[i + 1].focus();
                           } else {
@@ -117,7 +121,9 @@ const Verify = () => {
               <Text className='text-footnote text-neutral-900'>{t('verify.noOtp')}</Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
                 <Text className={cn('font-imedium text-footnote', time > 0 ? 'text-neutral-300' : 'text-orange-500')}>
-                  {t('verify.resendCode', { time: time > 0 ? time : '' })}
+                  {(time > 0 || resentMutation.isPending) &&
+                    t('verify.resendCodeWithTime', { time: time > 0 ? time : '' })}
+                  {time === 0 && !resentMutation.isPending && t('verify.resendCodeWithoutTime')}
                 </Text>
               </Pressable>
             </View>
