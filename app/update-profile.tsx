@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
+import { LogOut } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
@@ -8,6 +9,8 @@ import { z } from 'zod';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
+import { Colors } from '~/constants/Colors';
+import { useSignOut } from '~/hooks/react-query/useAuth';
 import { useUpdateUserProfile } from '~/hooks/react-query/useUser';
 import { GenderEnum } from '~/lib/enums';
 
@@ -26,6 +29,7 @@ type FormField = z.infer<typeof schema>;
 
 const UpdateProfile = () => {
   const { t } = useTranslation('profile');
+  const signOut = useSignOut();
   const {
     control,
     handleSubmit,
@@ -87,13 +91,15 @@ const UpdateProfile = () => {
               />
             </View>
           </ScrollView>
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            size='lg'
-            disabled={updateUserProfileMutation.isPending}
-            className='absolute bottom-20 left-0 right-0'>
-            <Text className='text-button'>{t('profile.done')}</Text>
-          </Button>
+          <View className='absolute bottom-20 left-0 right-0 flex gap-4'>
+            <Button onPress={handleSubmit(onSubmit)} size='lg' disabled={updateUserProfileMutation.isPending}>
+              <Text className='text-button'>{t('profile.done')}</Text>
+            </Button>
+            <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
+              <Text className='font-ibold text-body text-orange-500 '>{t('sign_out')}</Text>
+              <LogOut size={24} color={Colors.light['orange-500']} />
+            </Button>
+          </View>
         </View>
       </View>
     </SafeAreaView>

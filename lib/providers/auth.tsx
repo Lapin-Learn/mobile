@@ -1,13 +1,10 @@
-import { router, usePathname } from 'expo-router';
+import { router } from 'expo-router';
 import { ReactNode, useEffect } from 'react';
 
-import { useSignOut } from '~/hooks/react-query/useAuth';
-import { hydrate, useAuth } from '~/hooks/zustand';
+import { useAuth } from '~/hooks/zustand';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const pathname = usePathname();
-  const { status } = useAuth();
-  const signOut = useSignOut();
+  const { status, hydrate } = useAuth();
 
   useEffect(() => {
     hydrate();
@@ -16,10 +13,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (status === 'isFirstLaunch') {
       router.replace('/on-boarding');
-    } else if (status === 'signOut') {
-      if (pathname !== '/auth/sign-in') {
-        signOut.mutate();
-      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

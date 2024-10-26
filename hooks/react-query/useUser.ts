@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, usePathname, useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 
 import useStreakWidget from '~/hooks/useStreakWidget';
@@ -20,28 +20,14 @@ import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
 
 export const useAccountIdentifier = () => {
-  const signOut = useSignOut();
-  const queryClient = useQueryClient();
   const accountIdentifier = useQuery({
     queryKey: [QUERY_KEYS.profile.identifier],
     queryFn: getAccountIdentifier,
     staleTime: Infinity,
+    retry: false,
   });
-  const pathname = usePathname();
   const router = useRouter();
   const { data: account, isSuccess } = accountIdentifier;
-  if (pathname.startsWith('/auth') || pathname === '/on-boarding') {
-    if (account) {
-      if (!account.dob || !account.fullName || !account.gender) router.replace('/update-profile');
-      else router.replace('/');
-    }
-    return;
-  }
-
-  if (accountIdentifier.error?.message === 'Unauthorized') {
-    queryClient.setQueryData([QUERY_KEYS.profile.identifier], null);
-    signOut.mutate();
-  }
 
   useEffect(() => {
     if (

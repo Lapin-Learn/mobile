@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
 
-import { signIn as setNewToken, signOut } from '~/hooks/zustand';
 import { QUERY_KEYS } from '~/lib/constants';
 import { analytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
@@ -11,6 +10,7 @@ import {
   resetPassword,
   signIn,
   signInWithProvider,
+  signOut,
   signUp,
   verify,
 } from '~/services/axios/auth';
@@ -44,11 +44,12 @@ export const useSignIn = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.profile.identifier],
       });
-      await setNewToken(data);
+      await setTokenAsync(data);
       analytics.logLogin({
         method: 'email',
       });
       toast.show({ type: 'success', text1: 'Welcome back' });
+      router.push('/');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -66,7 +67,7 @@ export const useSignInWithProvider = () => {
           method: 'google',
         });
         toast.show({ type: 'success', text1: 'Welcome back' });
-        setNewToken(data);
+        await setTokenAsync(data);
       }
     },
     onError: (error) => {
@@ -142,11 +143,10 @@ export const useSignOut = () => {
   const client = useQueryClient();
   const updateStreak = useStreakWidget();
   return useMutation({
-    mutationFn: () => Promise.resolve(),
+    mutationFn: signOut,
     onSuccess: () => {
-      signOut();
       client.clear();
-      router.replace('auth/sign-in' as Href);
+      router.replace('/auth/sign-in');
       updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {

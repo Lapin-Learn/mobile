@@ -1,4 +1,4 @@
-import { Redirect, router, Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { ChevronLeft } from 'lucide-react-native';
 import { useCallback, useEffect } from 'react';
@@ -19,10 +19,6 @@ const AuthLayout = () => {
       }, 1000);
     }
   }, [hideSplash, status]);
-
-  if (status === 'signIn') {
-    return <Redirect href='/' />;
-  }
 
   return (
     <Stack>

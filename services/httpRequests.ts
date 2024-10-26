@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { router } from 'expo-router';
 
-import { getTokenAsync } from './utils';
+import { AuthInfo } from './axios/auth';
+import { getTokenAsync, setTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
 type EndpointOptions = Omit<AxiosRequestConfig, 'url' | 'method'> & {
@@ -45,7 +47,31 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const auth = await getTokenAsync();
+      if (auth && auth.refreshToken) {
+        return api
+          .post<AuthInfo>('/auth/refresh', {
+            body: {
+              refreshToken: auth.refreshToken,
+            },
+          })
+          .then(async (data) => {
+            await setTokenAsync(data);
+            axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch((error) => {
+            return Promise.reject(formatError(error));
+          });
+      } else {
+        router.replace('/auth/sign-in');
+        return Promise.reject(formatError(error));
+      }
+    }
     return Promise.reject(formatError(error));
   }
 );
