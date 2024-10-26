@@ -24,15 +24,5 @@ export const useAuth = create<AuthState & AuthAction>((set) => ({
       .catch((error) => {
         console.error('Error hydrating token', error);
       });
-
-    // const currentToken = await getTokenAsync();
-    // console.log('hydrate successfully', currentToken?.accessToken);
-    // if (currentToken && currentToken.accessToken && currentToken.refreshToken) {
-    //   set({ status: 'signIn' });
-    // } else {
-    //   set({ status: 'signOut' });
-    //   router.replace('/auth/sign-in');
-    //   signOut();
-    // }
   },
 }));

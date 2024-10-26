@@ -24,6 +24,7 @@ export const useAccountIdentifier = () => {
     queryKey: [QUERY_KEYS.profile.identifier],
     queryFn: getAccountIdentifier,
     staleTime: Infinity,
+    retry: false,
   });
   const router = useRouter();
   const { data: account, isSuccess } = accountIdentifier;

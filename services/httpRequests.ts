@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { router } from 'expo-router';
 
 import { AuthInfo } from './axios/auth';
 import { getTokenAsync, setTokenAsync } from './utils';
@@ -32,8 +33,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     const auth = await getTokenAsync();
-    console.log(config.url);
-    console.log('auth.accessToken', auth?.accessToken?.slice(-10));
     if (auth) {
       config.headers.Authorization = `Bearer ${auth.accessToken}`;
     }
@@ -51,13 +50,9 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
-      console.log('unauthorized');
       originalRequest._retry = true;
       const auth = await getTokenAsync();
-      console.log('auth', auth?.accessToken?.slice(-10));
       if (auth && auth.refreshToken) {
-        console.log('Refreshing token 1:', auth.refreshToken);
-
         return api
           .post<AuthInfo>('/auth/refresh', {
             body: {
@@ -65,16 +60,15 @@ axiosInstance.interceptors.response.use(
             },
           })
           .then(async (data) => {
-            console.log('Refresh token success:', data.accessToken.slice(-10));
             await setTokenAsync(data);
             axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
             return axiosInstance(originalRequest);
           })
           .catch((error) => {
-            console.error('Refresh token error:', error);
             return Promise.reject(formatError(error));
           });
       } else {
+        router.replace('/auth/sign-in');
         return Promise.reject(formatError(error));
       }
     }
