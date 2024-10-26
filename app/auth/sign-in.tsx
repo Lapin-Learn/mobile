@@ -2,10 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { z } from 'zod';
 
-import LogoFacebook from '~/assets/images/facebook.svg';
 import LogoGoogle from '~/assets/images/google.svg';
 import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
@@ -95,7 +94,8 @@ const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} />
+      {/* TODO: Sign in with facebook */}
+      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
       <IconPressable
         Icon={LogoGoogle}
         onPress={() => {
