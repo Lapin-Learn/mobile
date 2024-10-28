@@ -9,7 +9,7 @@ export type PlatformViewProps = {
 };
 const PlatformView: React.FC<PlatformViewProps> = ({ children, className, ...props }) => {
   return (
-    <SafeAreaView {...props} style={{ paddingTop: StatusBar.currentHeight }} className={cn('h-full', className)}>
+    <SafeAreaView {...props} style={{ paddingVertical: StatusBar.currentHeight }} className={cn('h-full', className)}>
       {children}
     </SafeAreaView>
   );

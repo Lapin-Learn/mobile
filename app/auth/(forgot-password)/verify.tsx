@@ -3,10 +3,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 import { cn } from '~/lib/utils';
@@ -20,7 +21,7 @@ type VerifyFormField = z.infer<typeof schema>;
 const Verify = () => {
   const { t } = useTranslation('auth');
   const { email } = useLocalSearchParams();
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(60);
   const codeRef = useRef<TextInput[]>([]);
 
   useEffect(() => {
@@ -63,11 +64,25 @@ const Verify = () => {
     setTime(60);
   };
 
+  const handleTextChange = (text: string, index: number, field: any) => {
+    const newCode = [...field.value];
+    newCode[index] = text;
+    field.onChange(newCode);
+    if (text && index < 5) {
+      codeRef.current[index + 1].focus();
+    } else if (text && index === 5) {
+      codeRef.current[index].blur();
+      handleSubmit(onSubmit)();
+    } else if (!text && index > 0) {
+      codeRef.current[index - 1].focus();
+    }
+  };
+
   return (
-    <SafeAreaView className='h-screen'>
+    <PlatformView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
-        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
+        <View className='w-full grow flex-col items-center justify-between px-4'>
           <View className='w-full gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap font-inormal text-callout text-neutral-500'>
@@ -90,23 +105,7 @@ const Verify = () => {
                       textAlign='center'
                       allowFontScaling={false}
                       onBlur={field.onBlur}
-                      onChangeText={(text) => {
-                        const newCode = [...field.value];
-                        newCode[i] = text;
-                        field.onChange(newCode);
-                        if (text.length === 0) {
-                          if (i > 0) {
-                            codeRef.current[i - 1].focus();
-                          }
-                        } else if (text.length === 1) {
-                          if (i < 5) {
-                            codeRef.current[i + 1].focus();
-                          } else {
-                            codeRef.current[i].blur();
-                            handleSubmit(onSubmit)();
-                          }
-                        }
-                      }}
+                      onChangeText={(text) => handleTextChange(text, i, field)}
                     />
                   ))}
                 </View>
@@ -130,7 +129,7 @@ const Verify = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </PlatformView>
   );
 };
 
