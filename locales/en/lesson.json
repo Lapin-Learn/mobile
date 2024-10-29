@@ -19,5 +19,11 @@
     "evidence": "The evidence is in the paragraph",
     "answer": "So the answer to the question:",
     "understood": "Understood"
+  },
+  "quit_lesson": {
+    "title": "Lesson is not completed",
+    "description": "You haven't finished this lesson. Are you sure you want to quit?",
+    "continue": "Continue lesson",
+    "quit": "Quit"
   }
 }

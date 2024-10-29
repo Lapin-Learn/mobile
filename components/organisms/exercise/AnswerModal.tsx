@@ -1,10 +1,11 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
+import { CustomModal } from '~/components/molecules/Modal';
 import { cn } from '~/lib/utils';
 
 import { Button } from '../../ui/Button';
@@ -38,7 +39,7 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
   );
 
   return (
-    <Modal animationType='slide' transparent={true} visible={showModal} onRequestClose={onPressContinue}>
+    <CustomModal visible={showModal} onRequestClose={onPressContinue}>
       <View
         className={cn(
           'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',
@@ -85,7 +86,7 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
           <Text className='text-button'>{t('general.continue')}</Text>
         </Button>
       </View>
-    </Modal>
+    </CustomModal>
   );
 };
 

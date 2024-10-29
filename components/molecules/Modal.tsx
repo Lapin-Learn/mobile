@@ -1,41 +1,81 @@
 import { CircleX } from 'lucide-react-native';
-import { useState } from 'react';
-import { Modal, ModalProps, TouchableOpacity, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Easing, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { cn } from '~/lib/utils';
-
-type CustomModalProps = ModalProps & {
+type CustomModalProps = {
+  visible?: boolean;
   onRequestClose?: () => void;
   position?: 'center' | 'bottom';
+  children: React.ReactNode;
 };
 
-const CustomModal = ({ onRequestClose, children, position = 'center', ...props }: CustomModalProps) => {
-  const [visible, setVisible] = useState(true);
+const CustomModal = ({ visible = false, onRequestClose, children, position = 'center' }: CustomModalProps) => {
+  const [isVisible, setIsVisible] = useState(visible);
+  const translateY = useRef(new Animated.Value(300)).current;
+
+  const slideIn = () => {
+    Animated.timing(translateY, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const slideOut = () => {
+    Animated.timing(translateY, {
+      toValue: 300,
+      duration: 300,
+      easing: Easing.in(Easing.ease),
+      useNativeDriver: true,
+    }).start(() => setIsVisible(false));
+  };
+
+  useEffect(() => {
+    if (visible) {
+      setIsVisible(true);
+      slideIn();
+    } else {
+      slideOut();
+    }
+  }, [visible]);
+
+  const handleRequestClose = () => {
+    if (onRequestClose) {
+      onRequestClose();
+    } else {
+      setIsVisible(false);
+    }
+  };
+
   const exitButton = (
-    <View className='flex items-end justify-end'>
-      <TouchableOpacity onPress={() => setVisible(false)}>
+    <View style={styles.exitButtonContainer}>
+      <TouchableOpacity onPress={handleRequestClose}>
         <CircleX size={24} color='black' />
       </TouchableOpacity>
     </View>
   );
+
+  const animatedStyle = {
+    transform: [{ translateY }],
+  };
+
+  if (!isVisible) return null;
+
   return (
-    <Modal
-      {...props}
-      animationType={props.animationType ?? 'slide'}
-      transparent={true}
-      visible={props.visible ?? visible}
-      onRequestClose={onRequestClose}>
-      <View className={cn('flex-1', position === 'center' ? 'items-center justify-center bg-black/50' : 'justify-end')}>
-        <View
-          className={cn(
-            'bg-background p-2 shadow-lg',
-            position === 'center' ? 'mx-3 rounded-2xl' : 'rounded-t-4xl px-4'
-          )}>
-          {position === 'center' ? exitButton : null}
-          <View className='my-2'>{children}</View>
-        </View>
-      </View>
-    </Modal>
+    <Animated.View style={animatedStyle}>
+      {position === 'center' ? exitButton : null}
+      {children}
+    </Animated.View>
   );
 };
-export { CustomModal as Modal };
+
+const styles = StyleSheet.create({
+  exitButtonContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+});
+
+export { CustomModal };

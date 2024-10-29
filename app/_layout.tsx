@@ -45,15 +45,15 @@ const RootLayout = () => {
   }, []);
   useSetupTrackPlayer({ onLoad: handleTrackPlayerLoaded });
   const [loaded] = useFonts({
-    'Inter_18pt-Light': require('../assets/fonts/Inter_18pt-Light.ttf'),
-    'Inter_18pt-ExtraLight': require('../assets/fonts/Inter_18pt-ExtraLight.ttf'),
-    'Inter_18pt-Thin': require('../assets/fonts/Inter_18pt-Thin.ttf'),
-    'Inter_18pt-Regular': require('../assets/fonts/Inter_18pt-Regular.ttf'),
-    'Inter_18pt-Medium': require('../assets/fonts/Inter_18pt-Medium.ttf'),
-    'Inter_18pt-SemiBold': require('../assets/fonts/Inter_18pt-SemiBold.ttf'),
-    'Inter_18pt-Bold': require('../assets/fonts/Inter_18pt-Bold.ttf'),
-    'Inter_18pt-ExtraBold': require('../assets/fonts/Inter_18pt-ExtraBold.ttf'),
-    'Inter_18pt-Black': require('../assets/fonts/Inter_18pt-Black.ttf'),
+    'Inter-Light': require('../assets/fonts/Inter_18pt-Light.ttf'),
+    'Inter-ExtraLight': require('../assets/fonts/Inter_18pt-ExtraLight.ttf'),
+    'Inter-Thin': require('../assets/fonts/Inter_18pt-Thin.ttf'),
+    'Inter-Regular': require('../assets/fonts/Inter_18pt-Regular.ttf'),
+    'Inter-Medium': require('../assets/fonts/Inter_18pt-Medium.ttf'),
+    'Inter-SemiBold': require('../assets/fonts/Inter_18pt-SemiBold.ttf'),
+    'Inter-Bold': require('../assets/fonts/Inter_18pt-Bold.ttf'),
+    'Inter-ExtraBold': require('../assets/fonts/Inter_18pt-ExtraBold.ttf'),
+    'Inter-Black': require('../assets/fonts/Inter_18pt-Black.ttf'),
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
   useEffect(() => {

@@ -48,9 +48,7 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
               )}
             </View>
             <View className='flex-1 flex-col gap-1'>
-              <Text className='font-isemibold text-title-4'>
-                {convertMissionNameCategory(item.interval, item.name)}
-              </Text>
+              <Text className='font-isemibold text-title-4'>{convertMissionNameCategory(item)}</Text>
               <Progress
                 className='h-4 rounded-xl'
                 indicatorClassName='bg-orange-400'
