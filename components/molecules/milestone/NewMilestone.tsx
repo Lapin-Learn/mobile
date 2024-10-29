@@ -1,4 +1,3 @@
-import { Share2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -107,11 +106,11 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               <Button onPress={handleNextMilestone}>
                 <Text className='text-button text-center'>{t('button.next')}</Text>
               </Button>
-              <Button variant='ghost' size='md' className='flex-row gap-2'>
+              {/* TODO: share social*/}
+              {/* <Button variant='ghost' size='md' className='flex-row gap-2'>
                 <Share2 width={24} height={24} color='#EE5D28' />
-                {/* TODO: share social*/}
                 <Text className='text-body font-bold text-primary'>{t('button.share')}</Text>
-              </Button>
+              </Button> */}
             </View>
           </View>
         </View>

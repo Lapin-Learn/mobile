@@ -1,13 +1,15 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Badge, badgeTextVariants } from '~/components/ui/Badge';
+import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
+import { Text } from '~/components/ui/Text';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
@@ -52,6 +54,19 @@ const Exercise = () => {
 
   if (questionTypesLoading) {
     return <Loading />;
+  }
+
+  if (exerciseId === SkillEnum.SPEAKING) {
+    return (
+      <SafeAreaView>
+        <View className='h-full items-center justify-center px-4 py-4'>
+          <Text className='text-center font-ibold text-large-title'>Speaking exercise is not available yet</Text>
+          <Button onPress={() => router.back()} className='mt-4'>
+            <Text className='text-center'>Go back</Text>
+          </Button>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   if (!questionTypes || questionTypes.length === 0) {
