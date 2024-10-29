@@ -11,6 +11,7 @@ export const ControllerInput = <T,>({
   type = 'text',
   defaultLabel = '',
   options = [],
+  onChangeText,
   ...rest
 }: FormInputProps<T> & TextInputProps) => {
   const { renderInput, field } = useFormInput({
@@ -31,7 +32,10 @@ export const ControllerInput = <T,>({
         <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
           {renderInput({
             value: field.value,
-            onChangeText: field.onChange,
+            onChangeText: (value: string) => {
+              field.onChange(value);
+              onChangeText && onChangeText(value);
+            },
             onBlur: field.onBlur,
             ...rest,
           })}

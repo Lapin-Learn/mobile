@@ -33,6 +33,7 @@ const SignUp = () => {
     control,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<SignUpFormField>({
     resolver: zodResolver(schema),
   });
@@ -63,6 +64,9 @@ const SignUp = () => {
               placeholder={t('signUp.passwordPlaceholder')}
               error={errors.password}
               type='password'
+              onChangeText={async () => {
+                await trigger('confirmPassword');
+              }}
             />
 
             <ControllerInput
@@ -84,7 +88,7 @@ const SignUp = () => {
           </View>
         </View>
         <View className='flex flex-row items-center justify-center gap-x-2.5'>
-          <Text className='text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
+          <Text className='font-inormal text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
           <Link replace href='/auth/sign-in'>
             <Text className='font-imedium text-footnote text-orange-500'>{t('signUp.signIn')}</Text>
           </Link>
