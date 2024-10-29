@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   continueButton: {
-    backgroundColor: '#37AEFF',
+    backgroundColor: '#ee5d28',
   },
   buttonText: {
     fontSize: 17,

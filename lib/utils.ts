@@ -1,6 +1,5 @@
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
 import i18next from '~/i18n';
@@ -13,22 +12,25 @@ export const cn = (...inputs: ClassValue[]) => {
 };
 
 export function convertMissionNameCategory(item: IMission) {
-  const { t } = useTranslation('mission');
+  const { t } = i18next;
   switch (item.category) {
     case MissionCategoryEnum.COMPLETE_LESSON_WITH_PERCENTAGE_SCORE:
       return t(`description.${item.category}`, {
         context: item.requirements === 100 ? 'PERFECT' : '',
         quantity: item.quantity,
         requirements: item.requirements,
+        ns: 'mission',
       });
     case MissionCategoryEnum.TOTAL_DURATION_OF_LEARN_DAILY_LESSON:
       return t(`description.${item.category}`, {
         requirements: formatLearningDuration(item.requirements),
+        ns: 'mission',
       });
     default:
       return t(`description.${item.category}`, {
         quantity: item.quantity,
         requirements: item.requirements,
+        ns: 'mission',
       });
   }
 }
