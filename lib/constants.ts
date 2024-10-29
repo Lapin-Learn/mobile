@@ -32,3 +32,10 @@ export const QUERY_KEYS = {
     game: 'gameProfile',
   },
 };
+
+export const AUTHEN_ERRORS: Record<string, string> = {
+  EMAIL_EXISTS: 'emailExists',
+  EMAIL_NOT_FOUND: 'emailNotFound',
+  INVALID_PASSWORD: 'invalidPassword',
+  INVALID_EMAIL: 'invalidEmail',
+};
