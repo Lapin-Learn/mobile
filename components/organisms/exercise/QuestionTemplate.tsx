@@ -1,8 +1,8 @@
-import { router } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
-import { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, Pressable, View } from 'react-native';
 
+import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
@@ -19,16 +19,26 @@ const QuestionTemplate = () => {
     mutation,
     state: { totalQuestion, learnerAnswers, isCompleted, currentQuestion, currentQuestionIndex, isPendingMutation },
   } = useDailyLessonQuestionStore();
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
     if (isCompleted && currentQuestionIndex === totalQuestion - 1) {
       mutation();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCompleted]);
 
+  useEffect(() => {
+    const backAction = () => {
+      setIsExiting(true);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove();
+  }, []);
+
   const handleBack = () => {
-    router.back();
+    setIsExiting(true);
   };
 
   if (isPendingMutation) {
@@ -59,6 +69,7 @@ const QuestionTemplate = () => {
           onPressContinue={nextQuestion}
         />
       )}
+      {isExiting && <ExitModal onClose={() => setIsExiting(false)} />}
     </PlatformView>
   );
 };

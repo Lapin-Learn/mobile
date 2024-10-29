@@ -6,18 +6,11 @@
   "month_mission": "{{month}}",
   "time_remaining": "Còn {{time}}",
   "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được phần thưởng và huy hiệu nhé!",
-  "daily": {
-    "collect_carrots": "Thu thập cà rốt",
-    "exercise": "Tập thể dục",
-    "learn_a_new_skill": "Học một kỹ năng mới",
-    "complete_2_lessons_perfectly": "Hoàn thành 2 bài học hoàn hảo",
-    "complete_lesson": "Hoàn thành bài học",
-    "complete_lesson_with_percentage_score": "Hoàn thành bài học bằng hoặc hơn {{percentage}}"
-  },
-  "monthly": {
-    "take_a_new_course": "Tham gia một khóa học mới",
-    "learn_a_new_language": "Học một ngôn ngữ mới",
-    "learn_a_new_skill": "Học một kỹ năng mới",
-    "complete_lesson": "Hoàn thành bài học"
+  "description": {
+    "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE": "Hoàn thành {{quantity}} bài học số điểm {{requirements}}% trở lên",
+    "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Hoàn thành {{quantity}} bài học hoàn hảo",
+    "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Luyện tập {{requirements}} kỹ năng khác nhau",
+    "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Học trong {{requirements}}",
+    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Học liên tiếp {{requirements}} ngày"
   }
 }

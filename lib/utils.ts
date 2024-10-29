@@ -1,22 +1,35 @@
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
 import i18next from '~/i18n';
+
+import { MissionCategoryEnum } from './enums';
+import { IMission } from './types';
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
-export function convertMissionNameCategory(interval: string, name: string) {
-  const { t } = i18next;
-  const convertToLowerCaseAndContainUnderscore = name.toLowerCase().trimStart().replace(/ /g, '_');
-  const getPercentage = convertToLowerCaseAndContainUnderscore.split('_').pop();
-  if (isNaN(parseInt(getPercentage ?? '')))
-    return t(`${interval}.${convertToLowerCaseAndContainUnderscore}`, { ns: 'mission' });
-  else {
-    const getName = convertToLowerCaseAndContainUnderscore.split('_').slice(0, -1).join('_');
-    return t(`${interval}.${getName}`, { percentage: getPercentage, ns: 'mission' });
+export function convertMissionNameCategory(item: IMission) {
+  const { t } = useTranslation('mission');
+  switch (item.category) {
+    case MissionCategoryEnum.COMPLETE_LESSON_WITH_PERCENTAGE_SCORE:
+      return t(`description.${item.category}`, {
+        context: item.requirements === 100 ? 'PERFECT' : '',
+        quantity: item.quantity,
+        requirements: item.requirements,
+      });
+    case MissionCategoryEnum.TOTAL_DURATION_OF_LEARN_DAILY_LESSON:
+      return t(`description.${item.category}`, {
+        requirements: formatLearningDuration(item.requirements),
+      });
+    default:
+      return t(`description.${item.category}`, {
+        quantity: item.quantity,
+        requirements: item.requirements,
+      });
   }
 }
 

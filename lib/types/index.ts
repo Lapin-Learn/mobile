@@ -1,4 +1,12 @@
-import { ActionNameEnum, BandScoreEnum, GenderEnum, MilestonesEnum, RankEnum, SkillEnum } from '../enums';
+import {
+  ActionNameEnum,
+  BandScoreEnum,
+  GenderEnum,
+  MilestonesEnum,
+  MissionCategoryEnum,
+  RankEnum,
+  SkillEnum,
+} from '../enums';
 
 // Common types
 export type IBucket = {
@@ -147,9 +155,12 @@ export type IMilestone = {
 export type IMission = {
   interval: 'daily' | 'monthly';
   name: string;
+  description: string;
   rewards: number;
   current: number;
   quantity: number;
+  requirements: number;
+  category: MissionCategoryEnum;
 };
 
 export type IMissionReward = {
