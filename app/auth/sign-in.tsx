@@ -2,16 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { z } from 'zod';
 
-import LogoFacebook from '~/assets/images/facebook.svg';
 import LogoGoogle from '~/assets/images/google.svg';
 import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
+import { Text } from '~/components/ui/Text';
 import { useSignIn, useSignInWithProvider } from '~/hooks/react-query/useAuth';
 import { ProviderNameEnum } from '~/lib/enums';
 
@@ -72,14 +72,14 @@ const SignIn = () => {
             <Button onPress={handleSubmit(onSubmit)} size='lg' disabled={signInMutation.isPending}>
               <Text className='text-button'>{t('signIn.signIn')}</Text>
             </Button>
-            <View className='flex flex-col items-center justify-center gap-y-[7px]'>
+            <View className='flex flex-col items-center justify-center gap-y-6'>
               <Text className='font-imedium text-subhead text-supporting-text'>{t('signIn.orSignInWith')}</Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
         <View className='flex flex-row items-center justify-center gap-x-2.5'>
-          <Text className='text-footnote text-neutral-900'>{t('signIn.noAccount')}</Text>
+          <Text className='font-inormal text-footnote text-neutral-900'>{t('signIn.noAccount')}</Text>
           <Link push href='/auth/sign-up'>
             <Text className='font-imedium text-footnote text-orange-500'>{t('signIn.signUp')}</Text>
           </Link>
@@ -93,15 +93,21 @@ export default SignIn;
 
 const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
+
+  const { t } = useTranslation('auth');
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} />
-      <IconPressable
-        Icon={LogoGoogle}
+      {/* TODO: Sign in with facebook */}
+      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
+      <Button
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
         }}
-      />
+        variant='outline'
+        className='flex flex-row justify-center gap-2 text-center'>
+        <IconPressable Icon={LogoGoogle} />
+        <Text className='w-fit'>{t('signIn.continueWith', { name: 'Google' })}</Text>
+      </Button>
     </View>
   );
 };

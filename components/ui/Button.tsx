@@ -10,7 +10,7 @@ const buttonVariants = cva('group flex items-center justify-center rounded', {
     variant: {
       default: 'bg-orange-500 py-3.5 px-5 active:opacity-90',
       destructive: 'bg-destructive active:opacity-90',
-      outline: 'm-auto',
+      outline: 'm-auto py-2.5 px-5 border-2 border-neutral-100',
       secondary: 'bg-secondary active:opacity-80',
       ghost: 'active:bg-accent',
       link: 'px-2.5 py-1 active:underline',

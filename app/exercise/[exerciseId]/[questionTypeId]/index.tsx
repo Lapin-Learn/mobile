@@ -146,9 +146,10 @@ const QuestionTypeScreen = () => {
           <Button size='lg' onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)} disabled={!currentLesson}>
             <UIText>{t('questionType.practiceBtn')}</UIText>
           </Button>
-          <Button size='lg' className='bg-neutral-900'>
+          {/* TODO: Jump to next band */}
+          {/* <Button size='lg' className='bg-neutral-900'>
             <UIText>{t('questionType.jumpNextBtn')}</UIText>
-          </Button>
+          </Button> */}
         </View>
       </View>
     </SafeAreaView>

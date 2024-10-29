@@ -1,7 +1,4 @@
 {
-  "multipleChoice": {
-    "title": "Đọc đoạn văn và chọn câu trả lời đúng"
-  },
   "general": {
     "check": "Kiểm tra",
     "correct": ["Chính xác!", "Tốt lắm!", "Rất tốt!"],

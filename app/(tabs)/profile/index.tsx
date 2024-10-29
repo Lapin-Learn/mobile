@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
-import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
+import { Camera, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -148,13 +148,14 @@ const Index = () => {
             </ProfileSection.Group>
           </ProfileSection>
 
-          <ProfileSection>
+          {/* TODO: Implement setting later */}
+          {/* <ProfileSection>
             <ProfileSection.Title label={t('settings.title')} textClassName='text-title-4' />
             <ProfileSection.List
               data={settingsData.map((item) => ({ label: t(item.label), action: item.action }))}
               rightIcon={ChevronRight}
             />
-          </ProfileSection>
+          </ProfileSection> */}
 
           <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
             <Text className='font-ibold text-body text-orange-500 '>{t('sign_out')}</Text>

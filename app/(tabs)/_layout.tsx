@@ -52,13 +52,15 @@ const TabsLayout = () => {
             profile: IconProfileTab,
           };
 
-          return <ActiveTabIcon icon={iconMapping[route.name]} focused={focused} />;
+          const IconComponent = iconMapping[route.name];
+
+          return IconComponent && <ActiveTabIcon icon={IconComponent} focused={focused} />;
         },
       })}>
-      <Tabs.Screen name='practice' />
+      <Tabs.Screen name='practice' options={{ tabBarButton: () => null }} />
       <Tabs.Screen name='mission' />
       <Tabs.Screen name='(map)' />
-      <Tabs.Screen name='vocabulary' />
+      <Tabs.Screen name='vocabulary' options={{ tabBarButton: () => null }} />
       <Tabs.Screen name='profile' />
     </Tabs>
   );

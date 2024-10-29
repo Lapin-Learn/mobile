@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Lapin Learn",
+    "owner": "lapinlearn",
+    "name": "lapinlearn",
     "slug": "lapinlearn",
     "version": "1.0.1.1",
     "orientation": "portrait",
