@@ -14,9 +14,9 @@ export const PopupLesson = ({ skill }: PopupLessonProps) => {
   const handleExercise = () => {
     return router.push(`/exercise/${skill}`);
   };
-  const handleRandom = () => {
-    return router.push(`/random/${skill}`);
-  };
+  // const handleRandom = () => {
+  //   return router.push(`/random/${skill}`);
+  // };
 
   return (
     <View className='w-[300px] items-center justify-center rounded-md bg-white p-4'>

@@ -77,7 +77,7 @@ const SignUp = () => {
             <Button onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
               <Text className='text-button'>{t('signUp.signUpButton')}</Text>
             </Button>
-            <View className='flex flex-col items-center justify-center gap-y-[7px]'>
+            <View className='flex flex-col items-center justify-center gap-y-6'>
               <Text className='font-imedium text-subhead text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
               <OtherSignIn />
             </View>
@@ -98,16 +98,20 @@ export default SignUp;
 
 const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
+  const { t } = useTranslation('auth');
   return (
     <View className='flex flex-row items-center justify-center gap-x-[35px]'>
       {/* TODO: Sign up with facebook */}
       {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
-      <IconPressable
-        Icon={LogoGoogle}
+      <Button
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
         }}
-      />
+        variant='outline'
+        className='flex flex-row justify-center gap-2 text-center'>
+        <IconPressable Icon={LogoGoogle} />
+        <Text className='w-fit'>{t('signIn.continueWith', { name: 'Google' })}</Text>
+      </Button>
     </View>
   );
 };
