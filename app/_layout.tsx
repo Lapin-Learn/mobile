@@ -1,5 +1,6 @@
 import '~/global.css';
 
+import messaging from '@react-native-firebase/messaging';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
@@ -16,6 +17,7 @@ import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import AuthProvider from '~/lib/providers/auth';
+import NotificationProvider from '~/lib/providers/notification';
 import { analytics, crashlytics, registerBackgroundService } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
@@ -40,10 +42,13 @@ SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
   const pathname = usePathname();
+
+  // Hide splash screen when TrackPlayer is loaded
   const handleTrackPlayerLoaded = useCallback(() => {
     SplashScreen.hideAsync();
   }, []);
   useSetupTrackPlayer({ onLoad: handleTrackPlayerLoaded });
+
   const [loaded] = useFonts({
     'Inter-Light': require('../assets/fonts/Inter_18pt-Light.ttf'),
     'Inter-ExtraLight': require('../assets/fonts/Inter_18pt-ExtraLight.ttf'),
@@ -56,12 +61,15 @@ const RootLayout = () => {
     'Inter-Black': require('../assets/fonts/Inter_18pt-Black.ttf'),
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  // Hide splash screen when fonts are loaded
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
+  // Configure analytics
   useEffect(() => {
     crashlytics.log('App mounted');
     crashlytics.setAttribute('screen_class', (pathname === '/' ? 'home' : pathname).replace('/', ''));
@@ -70,6 +78,10 @@ const RootLayout = () => {
       screen_name: (pathname === '/' ? 'home' : pathname).replace('/', ''),
     });
   }, [pathname]);
+
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
 
   if (!loaded) {
     return null;
@@ -86,11 +98,13 @@ const RootLayout = () => {
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <AuthProvider>
-            {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
-            <StatusBar style='light' />
-            <AppStack />
-            <Toast />
-            <PortalHost />
+            <NotificationProvider>
+              {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
+              <StatusBar style='light' />
+              <AppStack />
+              <Toast />
+              <PortalHost />
+            </NotificationProvider>
           </AuthProvider>
         </I18nextProvider>
       </QueryClientProvider>
