@@ -44,7 +44,6 @@ export const signUp = async (params: SignUpParams) => {
 };
 
 export const signOut = async () => {
-  console.log('remove token');
   await removeTokenAsync();
 };
 
@@ -66,7 +65,6 @@ export const refreshToken = async (refreshToken: string) => {
     body: { refreshToken },
   });
   await setTokenAsync(data);
-  console.log('Refreshed token:', data.accessToken.slice(-10));
   return data;
 };
 

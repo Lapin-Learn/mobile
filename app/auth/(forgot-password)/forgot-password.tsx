@@ -39,10 +39,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <PlatformView className='h-screen'>
+    <PlatformView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown />
-        <View className='w-full grow flex-col items-center justify-between px-4 pb-[21px]'>
+        <View className='w-full grow flex-col items-center justify-between px-4'>
           <View className='gap-y-10'>
             <View className='flex-row'>
               <Text className='w-full flex-wrap font-inormal text-callout text-neutral-500'>

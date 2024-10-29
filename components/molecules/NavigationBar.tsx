@@ -1,8 +1,10 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
 import { ForwardRefExoticComponent } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+
+import Styles from '~/constants/GlobalStyles';
 
 export type NavigationBarProps = ViewProps & {
   noBar?: boolean;
@@ -12,6 +14,7 @@ export type NavigationBarProps = ViewProps & {
   onHeaderLeftPress?: () => JSX.Element;
   headerRightShown?: boolean;
   onHeaderRightPress?: () => JSX.Element;
+  displayStyle?: 'center';
   icon?: ForwardRefExoticComponent<LucideProps>;
 };
 
@@ -24,40 +27,87 @@ export const NavigationBar = ({
   headerRightShown = false,
   onHeaderRightPress,
   icon: Icon = LucideMoveLeft,
+  displayStyle,
   children,
 }: NavigationBarProps) => {
   return (
-    <View className='px-4'>
+    <View style={styles.container}>
       {noBar || (
-        <View className='flex h-11 flex-row items-center justify-between'>
-          {headerLeftShown &&
-            (onHeaderLeftPress ? (
-              onHeaderLeftPress()
-            ) : (
-              <Pressable
-                className='w-6'
-                onPress={() => {
-                  if (router.canGoBack()) {
-                    router.back();
-                  } else {
-                    router.dismiss();
-                  }
-                }}>
-                <Icon color='black' />
-              </Pressable>
-            ))}
-          {headerTitle && <Text className='font-ibold text-title-4 text-black'>{headerTitle}</Text>}
+        <View style={[styles.navBar, displayStyle === 'center' ? styles.justifyCenter : styles.justifyBetween]}>
+          {displayStyle === 'center' ? (
+            <>{headerLeftShown && onHeaderLeftPress ? onHeaderLeftPress() : <View style={styles.placeholder} />}</>
+          ) : (
+            <>
+              {headerLeftShown &&
+                (onHeaderLeftPress ? (
+                  onHeaderLeftPress()
+                ) : (
+                  <Pressable
+                    style={styles.iconContainer}
+                    onPress={() => {
+                      if (router.canGoBack()) {
+                        router.back();
+                      } else {
+                        router.dismiss();
+                      }
+                    }}>
+                    <Icon color='black' />
+                  </Pressable>
+                ))}
+            </>
+          )}
+          {headerTitle && <Text style={styles.headerTitle}>{headerTitle}</Text>}
 
-          {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
+          {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View style={styles.placeholder} />}
+
+          <View />
         </View>
       )}
 
       {title && (
-        <View className='w-full items-start'>
-          <Text className='font-ibold text-large-title text-orange-900'>{title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
         </View>
       )}
       {children}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+  },
+  navBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 44,
+  },
+  justifyCenter: {
+    justifyContent: 'center',
+  },
+  justifyBetween: {
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    width: 24,
+  },
+  headerTitle: {
+    color: 'black',
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-4'],
+  },
+  placeholder: {
+    width: 24,
+    ...Styles.color.blue[500],
+  },
+  titleContainer: {
+    width: 'auto',
+    alignItems: 'flex-start',
+  },
+  title: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['large-title'],
+    ...Styles.color.orange[900],
+  },
+});

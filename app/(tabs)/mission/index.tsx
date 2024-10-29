@@ -31,7 +31,7 @@ const Mission = () => {
 
   return (
     <PlatformView className='bg-blue-100'>
-      <NavigationBar headerTitle='Mission' headerLeftShown />
+      <NavigationBar headerTitle='Mission' displayStyle='center' />
       <View className='flex-0 flex w-full flex-row items-center justify-between p-4'>
         <View className='flex-1 items-start justify-start gap-y-2'>
           <View className='rounded bg-blue-50 px-3 py-1'>
