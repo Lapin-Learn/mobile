@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import Styles from '~/constants/GlobalStyles';
+
 export const NAV_THEME = {
   light: {
     background: 'hsl(16 11% 97%)', // background
@@ -35,76 +37,17 @@ export const QUERY_KEYS = {
   },
 };
 
-export const AUTHEN_ERRORS: Record<string, string> = {
+export const AUTH_ERRORS: Record<string, string> = {
   EMAIL_EXISTS: 'emailExists',
   EMAIL_NOT_FOUND: 'emailNotFound',
-  INVALID_PASSWORD: 'invalidPassword',
-  INVALID_EMAIL: 'invalidEmail',
+  INVALID_PASSWORD: 'invalidAuth',
+  INVALID_EMAIL: 'invalidAuth',
 };
-
-export const FONTS = StyleSheet.create({
-  regular: {
-    fontFamily: 'Inter-Regular',
-  },
-  medium: {
-    fontFamily: 'Inter-Medium',
-  },
-  semibold: {
-    fontFamily: 'Inter-SemiBold',
-  },
-  bold: {
-    fontFamily: 'Inter-Bold',
-  },
-});
-
-export const TEXTS = StyleSheet.create({
-  footnote: {
-    fontSize: 13,
-    lineHeight: 18,
-  },
-  subhead: {
-    fontSize: 15,
-    lineHeight: 22.5,
-  },
-  body: {
-    fontSize: 16,
-    lineHeight: 21,
-  },
-  large: {
-    fontSize: 18,
-    lineHeight: 28,
-  },
-  title2: {
-    fontSize: 22,
-    lineHeight: 33,
-  },
-  title4: {
-    fontSize: 17,
-    lineHeight: 25.5,
-  },
-  largeTitle: {
-    fontSize: 34,
-    lineHeight: 51,
-  },
-});
 
 export const GLOBAL_STYLES = StyleSheet.create({
   textButton: {
-    ...FONTS.semibold,
-    ...TEXTS.body,
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
     color: 'white',
   },
 });
-
-export const COLORS = {
-  neutral: {
-    900: '#272727',
-  },
-  orange: {
-    500: '#ee5d28',
-  },
-  red: {
-    500: '#ff4b4b',
-  },
-  supportingText: '#929292',
-};

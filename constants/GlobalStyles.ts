@@ -176,6 +176,7 @@ const baseColors = {
     900: '#17496b',
   },
   dark: '#272727',
+  supportingText: '#929292',
 };
 
 type BaseColors = typeof baseColors;

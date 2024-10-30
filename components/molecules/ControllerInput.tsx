@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInputProps, View } from 'react-native';
 
+import Styles from '~/constants/GlobalStyles';
 import { FormInputProps, useFormInput } from '~/hooks/useFormInput';
-import { COLORS, FONTS, TEXTS } from '~/lib/constants';
 
 export const ControllerInput = <T,>({
   props,
@@ -28,7 +28,7 @@ export const ControllerInput = <T,>({
 
   return (
     <View style={styles.container}>
-      <Text style={StyleSheet.flatten([FONTS.semibold, TEXTS.large, { color: COLORS.neutral[900] }])}>{label}</Text>
+      <Text style={StyleSheet.flatten([Styles.font.semibold, Styles.color.neutral[900], styles.label])}>{label}</Text>
       <View style={styles.inputWrapper}>
         <View style={styles.inputContainer}>
           {renderInput({
@@ -42,7 +42,7 @@ export const ControllerInput = <T,>({
           })}
         </View>
       </View>
-      {error && <Text style={{ color: COLORS.red[500] }}>{t(String(error.message), { ns: 'validation' })}</Text>}
+      {error && <Text style={Styles.color.red[500]}>{t(String(error.message), { ns: 'validation' })}</Text>}
     </View>
   );
 };
@@ -67,5 +67,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
+  },
+  label: {
+    fontSize: 18,
+    lineHeight: 28,
   },
 });

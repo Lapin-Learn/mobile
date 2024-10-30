@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { AUTHEN_ERRORS, QUERY_KEYS } from '~/lib/constants';
+import { AUTH_ERRORS, QUERY_KEYS } from '~/lib/constants';
 import { analytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
 import {
@@ -54,7 +54,7 @@ export const useSignIn = () => {
       router.push('/');
     },
     onError: (error) => {
-      toast.show({ type: 'error', text1: t(`error.${AUTHEN_ERRORS[error.message]}`) });
+      toast.show({ type: 'error', text1: t(`error.${AUTH_ERRORS[error.message]}`) });
     },
   });
 };

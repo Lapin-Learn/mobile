@@ -10,9 +10,12 @@ import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { useSignInWithProvider, useSignUp } from '~/hooks/react-query/useAuth';
-import { COLORS, FONTS, GLOBAL_STYLES, TEXTS } from '~/lib/constants';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { ProviderNameEnum } from '~/lib/enums';
+
+const { font, fontSize, color } = Styles;
 
 const schema = z
   .object({
@@ -83,7 +86,7 @@ const SignUp = () => {
               <Text style={GLOBAL_STYLES.textButton}>{t('signUp.signUpButton')}</Text>
             </Button>
             <View style={containers.otherSignIn}>
-              <Text style={StyleSheet.flatten([FONTS.medium, TEXTS.subhead, { color: COLORS.supportingText }])}>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText])}>
                 {t('signUp.orSignUpWith')}
               </Text>
               <OtherSignIn />
@@ -91,11 +94,11 @@ const SignUp = () => {
           </View>
         </View>
         <View style={containers.doNotHaveAccount}>
-          <Text style={StyleSheet.flatten([FONTS.regular, TEXTS.footnote, { color: COLORS.neutral[900] }])}>
+          <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
             {t('signUp.alreadyHaveAccount')}
           </Text>
           <Link replace href='/auth/sign-in'>
-            <Text style={StyleSheet.flatten([FONTS.medium, TEXTS.footnote, { color: COLORS.orange[500] }])}>
+            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
               {t('signUp.signIn')}
             </Text>
           </Link>

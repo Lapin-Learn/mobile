@@ -28,6 +28,7 @@ const ResetPassword = () => {
     control,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<ResetPasswordFormField>({
     resolver: zodResolver(schema),
   });
@@ -56,6 +57,7 @@ const ResetPassword = () => {
                 placeholder={t('resetPassword.passwordPlaceholder')}
                 error={errors.password}
                 type='password'
+                onChangeText={async () => await trigger('confirmPassword')}
               />
 
               <ControllerInput

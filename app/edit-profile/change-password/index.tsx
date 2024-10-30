@@ -33,6 +33,7 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    trigger,
   } = useForm<ChangePasswordFormField>({
     resolver: zodResolver(schema),
   });
@@ -65,6 +66,7 @@ const ChangePassword = () => {
             placeholder={t('change_password.new_password_placeholder')}
             error={errors.newPassword}
             type='password'
+            onChangeText={async () => await trigger('confirmPassword')}
           />
           <ControllerInput
             props={{ name: 'confirmPassword', control }}

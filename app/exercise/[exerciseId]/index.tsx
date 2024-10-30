@@ -10,10 +10,12 @@ import { Badge, badgeTextVariants } from '~/components/ui/Badge';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
-import { COLORS, FONTS, TEXTS } from '~/lib/constants';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
+
+const { font, fontSize, color } = Styles;
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -35,7 +37,7 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
           </Text>
         </Badge>
       </View>
-      <Text style={StyleSheet.flatten([FONTS.semibold, TEXTS.title2, { color: COLORS.neutral[900] }])}>{name}</Text>
+      <Text style={StyleSheet.flatten([font.semibold, fontSize['title-2'], color.neutral[900]])}>{name}</Text>
       <View style={card.textWrapper}>
         <View style={card.textContainer}>
           <Text style={texts.supportingText}>{t('questionTypes.experience')}</Text>
@@ -61,7 +63,7 @@ const Exercise = () => {
     return (
       <SafeAreaView>
         <View style={StyleSheet.flatten([containers.main, containers.noContent, styles.contentContainer])}>
-          <Text style={StyleSheet.flatten([texts.center, FONTS.bold, TEXTS.largeTitle])}>
+          <Text style={StyleSheet.flatten([texts.center, font.bold, fontSize['large-title']])}>
             Speaking exercise is not available yet
           </Text>
           <Button onPress={() => router.back()}>
@@ -142,7 +144,7 @@ const texts = StyleSheet.create({
   center: {
     textAlign: 'center',
   },
-  supportingText: StyleSheet.flatten([FONTS.medium, TEXTS.subhead, { color: COLORS.supportingText }]),
+  supportingText: StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText]),
 });
 
 const card = StyleSheet.create({

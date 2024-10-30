@@ -12,8 +12,9 @@ import FlashIcon from '~/assets/images/flash.svg';
 import { CustomModal } from '~/components/molecules/Modal';
 import { ProgressCircle } from '~/components/molecules/ProgressCircle';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
-import { FONTS, GLOBAL_STYLES, TEXTS } from '~/lib/constants';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
 export type LessonResultProps = {
@@ -23,6 +24,8 @@ export type LessonResultProps = {
   timer: number;
   [key: string]: number;
 };
+
+const { font, fontSize } = Styles;
 
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
   exp: { Component: FlashIcon, label: 'after.Experience' },
@@ -67,7 +70,7 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
           <View style={styles.modalContent}>
             <View style={styles.progressContainer}>
               <ProgressCircle size={160} progress={data.percent as number} showsText />
-              <Text style={StyleSheet.flatten([FONTS.bold, TEXTS.title2])}>
+              <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
                 {t(`after.encourages.${Math.floor(randomEncourage)}`)}
               </Text>
             </View>
@@ -81,10 +84,10 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                       <View style={styles.tickerItemContent}>
                         <Component width={24} height={24} />
                         <View>
-                          <Text style={StyleSheet.flatten([FONTS.bold, TEXTS.title2])}>
+                          <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
                             {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}
                             &nbsp;
-                            <Text style={StyleSheet.flatten([FONTS.medium, TEXTS.title4])}>
+                            <Text style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
                               {key === 'exp' ? 'xp' : ''}
                             </Text>
                           </Text>
