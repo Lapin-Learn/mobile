@@ -1,0 +1,196 @@
+import { useState } from 'react';
+import { ControllerRenderProps } from 'react-hook-form';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+
+import Styles, { Colors } from '~/constants/GlobalStyles';
+
+type FillInTheBlankInputProps = {
+  index: number;
+  field: ControllerRenderProps<
+    {
+      answer: string[];
+    },
+    'answer'
+  >;
+  onChange: (text: string, index: number, field: any) => void;
+  answer: string;
+  isCorrect: boolean | null;
+};
+
+const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...rest }: FillInTheBlankInputProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const hasText = Boolean(field.value[index]);
+
+  const styleForBlank = {
+    indexCircle: [
+      styles.indexCircle,
+      isCorrect === null
+        ? hasText
+          ? styles.indexCircleWithText
+          : styles.indexCircleWithoutText
+        : isCorrect === true
+          ? styles.indexCircleWithCorrect
+          : styles.indexCircleWithIncorrect,
+    ],
+    indexText: [
+      styles.indexText,
+      isCorrect === null
+        ? hasText
+          ? styles.indexTextWithText
+          : styles.indexTextWithoutText
+        : isCorrect === true
+          ? styles.indexTextWithCorrect
+          : styles.indexTextWithIncorrect,
+    ],
+    inputBlank: [
+      styles.input,
+      isCorrect === null
+        ? [
+            styles.inputWidth,
+            isFocused
+              ? hasText
+                ? styles.inputFocusedWithText
+                : styles.inputFocusedWithoutText
+              : hasText
+                ? styles.inputUnfocusedWithText
+                : styles.inputUnfocusedWithoutText,
+          ]
+        : [styles.inputWidthWhenChecked, isCorrect ? styles.inputCorrect : styles.inputIncorrect],
+    ],
+    inputIncorrectCorespondingCorrect: [
+      styles.input,
+      isCorrect === null
+        ? [
+            isFocused
+              ? hasText
+                ? styles.inputFocusedWithText
+                : styles.inputFocusedWithoutText
+              : styles.inputUnfocusedWithoutText,
+            styles.inputWidth,
+          ]
+        : [styles.inputWidthWhenChecked, styles.inputCorrect],
+    ],
+  };
+
+  return (
+    <View style={[styles.containerAlign, styles.container]}>
+      <View style={styleForBlank.indexCircle}>
+        <Text style={styleForBlank.indexText}>{index + 1}</Text>
+      </View>
+      <View style={styles.container}>
+        <TextInput
+          {...rest}
+          style={styleForBlank.inputBlank}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder={isCorrect === null ? 'Enter the answer' : ''}
+          placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
+          textAlign='center'
+          // for subtracting the length of the answer and adding 2 for the space
+          maxLength={answer.length + 2}
+          readOnly={isCorrect !== null}
+          value={field.value[index]}
+          onChangeText={(text) => onChange(text, index, field)}
+        />
+        {isCorrect === false && (
+          <TextInput
+            {...rest}
+            style={styleForBlank.inputIncorrectCorespondingCorrect}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            textAlign='center'
+            readOnly={isCorrect !== null}
+            multiline
+            value={answer}
+            onChangeText={(text) => onChange(text, index, field)}
+          />
+        )}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    rowGap: 4,
+  },
+  containerAlign: {
+    alignSelf: 'flex-start',
+  },
+  indexCircle: {
+    height: 32,
+    width: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indexCircleWithoutText: {
+    ...Styles.backgroundColor.blue[100],
+  },
+  indexCircleWithText: {
+    ...Styles.backgroundColor.blue[600],
+  },
+  indexCircleWithCorrect: {
+    ...Styles.backgroundColor.green[400],
+  },
+  indexCircleWithIncorrect: {
+    ...Styles.backgroundColor.red[400],
+  },
+  indexText: {
+    textAlign: 'center',
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+  },
+  indexTextWithText: {
+    ...Styles.color.blue[50],
+  },
+  indexTextWithoutText: {
+    ...Styles.color.blue[600],
+  },
+  indexTextWithCorrect: {
+    ...Styles.color.green[50],
+  },
+  indexTextWithIncorrect: {
+    ...Styles.color.red[50],
+  },
+  input: {
+    borderBottomWidth: 1,
+    textAlign: 'center',
+  },
+  inputWidth: {
+    width: 120,
+  },
+  inputWidthWhenChecked: {
+    width: 'auto',
+  },
+  inputFocusedWithText: {
+    ...Styles.color.blue[600],
+    borderBottomColor: Colors.blue[600],
+  },
+  inputFocusedWithoutText: {
+    ...Styles.color.blue[600],
+    borderBottomColor: Colors.blue[600],
+  },
+  inputUnfocusedWithText: {
+    color: 'black',
+    borderBottomColor: 'black',
+  },
+  inputUnfocusedWithoutText: {
+    ...Styles.color.neutral[200],
+    borderBottomColor: Colors.neutral[200],
+  },
+  inputCorrect: {
+    ...Styles.color.green[600],
+    borderBottomColor: Colors.green[600],
+  },
+  inputIncorrect: {
+    ...Styles.color.red[600],
+    borderBottomColor: Colors.red[600],
+    textDecorationLine: 'line-through',
+  },
+});
+
+export default FillInTheBlankInput;

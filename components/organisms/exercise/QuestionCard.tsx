@@ -19,7 +19,8 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
           <Text className='p-4 text-body leading-8'>{data.content.paragraph}</Text>
         </ReadingContainer>
       )}
-      {data.contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
+      {(data.contentType === ContentTypeEnum.MULTIPLE_CHOICE ||
+        data.contentType === ContentTypeEnum.FILL_IN_THE_BLANK) && (
         <Text className='font-ibold text-title-4'>{data.content.question}</Text>
       )}
     </View>
