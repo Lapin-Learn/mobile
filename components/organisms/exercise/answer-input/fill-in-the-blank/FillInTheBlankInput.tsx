@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import Styles, { Colors } from '~/constants/GlobalStyles';
 
@@ -18,7 +19,9 @@ type FillInTheBlankInputProps = {
 };
 
 const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...rest }: FillInTheBlankInputProps) => {
+  const { t } = useTranslation('question');
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<TextInput>(null);
   const hasText = Boolean(field.value[index]);
 
   const styleForBlank = {
@@ -77,16 +80,22 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
 
   return (
     <View style={[styles.containerAlign, styles.container]}>
-      <View style={styleForBlank.indexCircle}>
-        <Text style={styleForBlank.indexText}>{index + 1}</Text>
-      </View>
       <View style={styles.container}>
+        <Pressable
+          onPress={() => {
+            inputRef.current?.focus();
+          }}>
+          <View style={styleForBlank.indexCircle}>
+            <Text style={styleForBlank.indexText}>{index + 1}</Text>
+          </View>
+        </Pressable>
         <TextInput
           {...rest}
+          ref={inputRef}
           style={styleForBlank.inputBlank}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder={isCorrect === null ? 'Enter the answer' : ''}
+          placeholder={isCorrect === null ? t('fillInTheBlank.enterTheAnswer') : ''}
           placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
           textAlign='center'
           // for subtracting the length of the answer and adding 2 for the space

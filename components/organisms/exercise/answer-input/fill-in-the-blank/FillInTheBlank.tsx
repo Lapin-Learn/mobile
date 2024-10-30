@@ -46,11 +46,11 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   const [isChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
-    field.value.forEach((value) => {
-      if (value.length > 0) {
-        setIsChecking(true);
-      }
-    });
+    if (field.value.some((value) => value.length > 0)) {
+      setIsChecking(true);
+    } else {
+      setIsChecking(false);
+    }
   }, [field.value]);
 
   const answerQuestion = () => {
@@ -84,7 +84,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
         <KeyboardAvoidingView
           behavior='position'
           style={styles.keyboardAvoidingView}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
           <View style={styles.contentContainer}>
             <FillInTheBlankContentRenderer
               content={content}
