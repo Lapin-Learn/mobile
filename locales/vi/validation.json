@@ -5,5 +5,8 @@
   },
   "limit_characters": "{{name}} phải dài {{min}} ký tự trở lên",
   "required": "{{name}} bắt buộc",
-  "invalid": "{{name}} không hợp lệ"
+  "error":{
+    "email": "Email không hợp lệ",
+    "code": "Mã không hợp lệ"
+  }
 }

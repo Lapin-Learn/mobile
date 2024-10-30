@@ -13,7 +13,7 @@ import { useForgotPassword } from '~/hooks/react-query/useAuth';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
 const schema = z.object({
-  email: z.string().email('Invalid email'),
+  email: z.string().email('error.email'),
 });
 
 type ForgotPasswordFormField = z.infer<typeof schema>;

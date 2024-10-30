@@ -50,7 +50,7 @@ export const useSignIn = () => {
       analytics.logLogin({
         method: 'email',
       });
-      toast.show({ type: 'success', text1: 'Welcome back' });
+      toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
       router.push('/');
     },
     onError: (error) => {
@@ -159,11 +159,12 @@ export const useSignOut = () => {
 };
 
 export const useRefreshToken = () => {
+  const { t } = useTranslation('auth');
   const toast = useToast();
   return useMutation({
     mutationFn: refreshToken,
     onSuccess: () => {
-      toast.show({ type: 'success', text1: 'Token refreshed' });
+      toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });

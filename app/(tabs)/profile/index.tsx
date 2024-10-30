@@ -36,7 +36,6 @@ const Index = () => {
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [image, setImage] = useState('https://via.placeholder.com/48');
   const toast = useToast();
-  const [result, setResult] = useState<WebBrowser.WebBrowserResult | null>(null);
 
   const handleEdit = () => {
     router.push('/edit-profile' as Href);
@@ -117,8 +116,7 @@ const Index = () => {
     {
       label: 'terms.privacy_policy',
       action: async () => {
-        const result = await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
-        setResult(result);
+        await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
       },
     },
   ];

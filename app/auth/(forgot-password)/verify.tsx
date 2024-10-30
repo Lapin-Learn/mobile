@@ -14,7 +14,7 @@ import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/us
 import { GLOBAL_STYLES } from '~/lib/constants';
 
 const schema = z.object({
-  code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
+  code: z.array(z.string().length(1, 'error.code')).length(6, 'error.code'),
 });
 
 type VerifyFormField = z.infer<typeof schema>;

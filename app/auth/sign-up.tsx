@@ -19,12 +19,12 @@ const { font, fontSize, color } = Styles;
 
 const schema = z
   .object({
-    email: z.string().email('Invalid email'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
+    email: z.string().email('error.email'),
+    password: z.string().min(8, 'change_password.limit_characters'),
+    confirmPassword: z.string().min(8, 'change_password.limit_characters'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'change_password.password_not_match',
     path: ['confirmPassword'],
   });
 
