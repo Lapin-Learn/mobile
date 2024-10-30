@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { Button } from '~/components/ui/Button';
@@ -77,15 +77,23 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   return (
     <>
-      <ScrollView style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}>
-        <View style={styles.contentContainer}>
-          <FillInTheBlankContentRenderer
-            content={content}
-            fieldState={field}
-            onTextChange={handleTextChange}
-            hasSubmission={result !== 'notAnswered'}
-          />
-        </View>
+      <ScrollView
+        style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}
+        contentContainerStyle={styles.scrollViewContent}
+        keyboardShouldPersistTaps='handled'>
+        <KeyboardAvoidingView
+          behavior='position'
+          style={styles.keyboardAvoidingView}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+          <View style={styles.contentContainer}>
+            <FillInTheBlankContentRenderer
+              content={content}
+              fieldState={field}
+              onTextChange={handleTextChange}
+              hasSubmission={result !== 'notAnswered'}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
       {isChecking && (
         <View style={styles.buttonContainer}>
@@ -101,6 +109,13 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   scrollView: {
     flex: 1,
     marginBottom: 40,

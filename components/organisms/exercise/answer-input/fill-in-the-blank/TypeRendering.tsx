@@ -1,5 +1,5 @@
 import { ControllerRenderProps } from 'react-hook-form';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { FillInTheBlankContentType } from '~/lib/types/questions';
@@ -61,21 +61,19 @@ const ParagraphRenderer = ({
     if (element.type === 'text' && element.text) {
       children.push(<TextRenderer key={`text-${element.text}`} text={element.text} />);
     } else if (element.type === 'blank' && element.text) {
-      console.log('blankCounter', blankCounter.current);
-
       children.push(
         <BlankRenderer
           key={`blank-${blankCounter.current}`}
-          index={blankCounter.current} // Use current value for the index
+          index={blankCounter.current}
           fieldState={fieldState}
           onTextChange={onTextChange}
           correctAnswer={element.text}
           isAnswerCorrect={hasSubmission ? fieldState.value[blankCounter.current] === element.text : null}
         />
       );
-      blankCounter.current += 1; // Increment after using the current value
+      blankCounter.current += 1;
     } else if (element.type === 'break') {
-      children.push(<TextRenderer key={`break-${Math.random()}`} text={'\n'} />);
+      children.push(<Text key={`break-${Math.random()}`} style={[styles.textInput, { flex: 1 }]} />);
     }
   });
 
@@ -105,7 +103,7 @@ const FillInTheBlankContentRenderer = ({
               key={`paragraph-${index}`}
               elements={element.content}
               fieldState={fieldState}
-              blankCounter={blankCounter} // Pass the counter as a prop
+              blankCounter={blankCounter}
               onTextChange={onTextChange}
               hasSubmission={hasSubmission}
             />
@@ -124,7 +122,7 @@ const FillInTheBlankContentRenderer = ({
             />
           );
         } else if (element.type === 'break') {
-          return <TextRenderer key={`break-${index}`} text={'\n'} />;
+          return <Text key={`break-${index}`}>{'\n'}</Text>;
         }
         throw new Error(`Unknown element type: ${element.type}`);
       })}
