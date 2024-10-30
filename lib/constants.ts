@@ -1,3 +1,7 @@
+import { StyleSheet } from 'react-native';
+
+import Styles from '~/constants/GlobalStyles';
+
 export const NAV_THEME = {
   light: {
     background: 'hsl(16 11% 97%)', // background
@@ -32,3 +36,18 @@ export const QUERY_KEYS = {
     game: 'gameProfile',
   },
 };
+
+export const AUTH_ERRORS: Record<string, string> = {
+  EMAIL_EXISTS: 'emailExists',
+  EMAIL_NOT_FOUND: 'emailNotFound',
+  INVALID_PASSWORD: 'invalidAuth',
+  INVALID_EMAIL: 'invalidAuth',
+};
+
+export const GLOBAL_STYLES = StyleSheet.create({
+  textButton: {
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+    color: 'white',
+  },
+});

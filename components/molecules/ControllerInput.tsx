@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Text, TextInputProps, View } from 'react-native';
+import { StyleSheet, Text, TextInputProps, View } from 'react-native';
 
+import Styles from '~/constants/GlobalStyles';
 import { FormInputProps, useFormInput } from '~/hooks/useFormInput';
 
 export const ControllerInput = <T,>({
@@ -11,6 +12,7 @@ export const ControllerInput = <T,>({
   type = 'text',
   defaultLabel = '',
   options = [],
+  onChangeText,
   ...rest
 }: FormInputProps<T> & TextInputProps) => {
   const { renderInput, field } = useFormInput({
@@ -25,19 +27,49 @@ export const ControllerInput = <T,>({
   const { t } = useTranslation();
 
   return (
-    <View className='w-full flex-col items-start justify-start gap-1'>
-      <Text className='font-isemibold text-lg text-neutral-900'>{label}</Text>
-      <View className='flex w-full flex-row gap-x-1'>
-        <View className='flex w-full grow flex-row items-center justify-center rounded-md'>
+    <View style={styles.container}>
+      <Text style={StyleSheet.flatten([Styles.font.semibold, Styles.color.neutral[900], styles.label])}>{label}</Text>
+      <View style={styles.inputWrapper}>
+        <View style={styles.inputContainer}>
           {renderInput({
             value: field.value,
-            onChangeText: field.onChange,
+            onChangeText: (value: string) => {
+              field.onChange(value);
+              onChangeText && onChangeText(value);
+            },
             onBlur: field.onBlur,
             ...rest,
           })}
         </View>
       </View>
-      {error && <Text className='text-red-500'>{t(String(error.message), { ns: 'validation' })}</Text>}
+      {error && <Text style={Styles.color.red[500]}>{t(String(error.message), { ns: 'validation' })}</Text>}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: 4,
+  },
+  inputWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    gap: 4,
+  },
+  inputContainer: {
+    width: '100%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  label: {
+    fontSize: 18,
+    lineHeight: 28,
+  },
+});

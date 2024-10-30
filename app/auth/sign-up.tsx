@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
@@ -10,8 +10,12 @@ import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { useSignInWithProvider, useSignUp } from '~/hooks/react-query/useAuth';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { ProviderNameEnum } from '~/lib/enums';
+
+const { font, fontSize, color } = Styles;
 
 const schema = z
   .object({
@@ -33,6 +37,7 @@ const SignUp = () => {
     control,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<SignUpFormField>({
     resolver: zodResolver(schema),
   });
@@ -44,12 +49,12 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView className='h-screen'>
+    <SafeAreaView style={styles.container}>
       <NavigationBar title={t('signUp.title')} />
-      <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
-        <Text className='w-full font-inormal text-callout text-neutral-500'>{t('signUp.subtitle')}</Text>
-        <View className='gap-y-20'>
-          <View className='flex gap-y-4'>
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>{t('signUp.subtitle')}</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
             <ControllerInput
               props={{ name: 'email', control }}
               label={t('signUp.emailLabel')}
@@ -63,6 +68,9 @@ const SignUp = () => {
               placeholder={t('signUp.passwordPlaceholder')}
               error={errors.password}
               type='password'
+              onChangeText={async () => {
+                await trigger('confirmPassword');
+              }}
             />
 
             <ControllerInput
@@ -73,26 +81,81 @@ const SignUp = () => {
               type='password'
             />
           </View>
-          <View className='gap-y-6'>
+          <View style={styles.gapY6}>
             <Button onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
-              <Text className='text-button'>{t('signUp.signUpButton')}</Text>
+              <Text style={GLOBAL_STYLES.textButton}>{t('signUp.signUpButton')}</Text>
             </Button>
-            <View className='flex flex-col items-center justify-center gap-y-6'>
-              <Text className='font-imedium text-subhead text-supporting-text'>{t('signUp.orSignUpWith')}</Text>
+            <View style={containers.otherSignIn}>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText])}>
+                {t('signUp.orSignUpWith')}
+              </Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
-        <View className='flex flex-row items-center justify-center gap-x-2.5'>
-          <Text className='text-footnote text-neutral-900'>{t('signUp.alreadyHaveAccount')}</Text>
+        <View style={containers.doNotHaveAccount}>
+          <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
+            {t('signUp.alreadyHaveAccount')}
+          </Text>
           <Link replace href='/auth/sign-in'>
-            <Text className='font-imedium text-footnote text-orange-500'>{t('signUp.signIn')}</Text>
+            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+              {t('signUp.signIn')}
+            </Text>
           </Link>
         </View>
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
+  content: {
+    width: '100%',
+    flexGrow: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+  },
+  subtitle: {
+    width: '100%',
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    lineHeight: 21,
+    color: '#5c5c5c',
+  },
+  formContainer: {
+    rowGap: 80,
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    gap: 16,
+  },
+  gapY6: {
+    rowGap: 24,
+  },
+  flexColCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flexRowCenter: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+const containers = StyleSheet.create({
+  otherSignIn: StyleSheet.flatten([styles.flexColCenter, styles.gapY6]),
+  doNotHaveAccount: StyleSheet.flatten([styles.flexRowCenter, { gap: 10 }]),
+});
 
 export default SignUp;
 

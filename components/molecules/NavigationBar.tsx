@@ -16,7 +16,6 @@ export type NavigationBarProps = ViewProps & {
   onHeaderRightPress?: () => JSX.Element;
   displayStyle?: 'center';
   icon?: ForwardRefExoticComponent<LucideProps>;
-  isTab?: boolean;
 };
 
 export const NavigationBar = ({
@@ -27,7 +26,6 @@ export const NavigationBar = ({
   onHeaderLeftPress,
   headerRightShown = false,
   onHeaderRightPress,
-  isTab = false,
   icon: Icon = LucideMoveLeft,
   displayStyle,
   children,
@@ -61,8 +59,6 @@ export const NavigationBar = ({
           {headerTitle && <Text style={styles.headerTitle}>{headerTitle}</Text>}
 
           {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View style={styles.placeholder} />}
-
-          <View />
         </View>
       )}
 
