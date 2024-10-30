@@ -24,7 +24,8 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
           <Text style={styles.paragraph}>{data.content.paragraph}</Text>
         </ReadingContainer>
       )}
-      {data.contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
+      {(data.contentType === ContentTypeEnum.MULTIPLE_CHOICE ||
+        data.contentType === ContentTypeEnum.FILL_IN_THE_BLANK) && (
         <Text style={styles.question}>{data.content.question}</Text>
       )}
     </View>
