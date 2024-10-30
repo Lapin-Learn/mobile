@@ -45,6 +45,9 @@ internal fun updateAppWidget(
         if(appData.getString("text") == "0") {
             views.setInt(R.id.appwidgetContainer, "setBackgroundResource", R.drawable.app_widget_zero_streak_background)
             views.setTextViewText(R.id.encourageText, context.getString(R.string.app_widget_practice_more))
+        } else if(appData.getString("text") == "...") {
+            views.setInt(R.id.appwidgetContainer, "setBackgroundResource", R.drawable.app_widget_zero_streak_background)
+            views.setTextViewText(R.id.encourageText, context.getString(R.string.app_widget_no_data))
         } else {
             views.setInt(R.id.appwidgetContainer, "setBackgroundResource", R.drawable.app_widget_background)
             views.setTextViewText(R.id.encourageText, context.getString(R.string.app_widget_encouragement))
