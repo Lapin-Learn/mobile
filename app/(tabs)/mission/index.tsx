@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, ScrollView, Text, View } from 'react-native';
+import { AppState, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { Loading } from '~/components/molecules/Loading';
 import { MissionSection } from '~/components/molecules/mission/MissionSection';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
+import Styles from '~/constants/GlobalStyles';
 import { useMissions } from '~/hooks/react-query/useMission';
 
 const Mission = () => {
@@ -32,16 +33,18 @@ const Mission = () => {
   return (
     <PlatformView className='bg-blue-100'>
       <NavigationBar headerTitle='Mission' displayStyle='center' />
-      <View className='flex-0 flex w-full flex-row items-center justify-between p-4'>
-        <View className='flex-1 items-start justify-start gap-y-2'>
-          <View className='rounded bg-blue-50 px-3 py-1'>
-            <Text className='font-isemibold text-subhead text-blue-700'>{monthMission}</Text>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerLeft}>
+          <View style={StyleSheet.flatten([styles.monthMissionContainer, Styles.backgroundColor.blue[50]])}>
+            <Text style={StyleSheet.flatten([Styles.font.semibold, Styles.fontSize.subhead, Styles.color.blue[700]])}>
+              {monthMission}
+            </Text>
           </View>
-          <Text className='shrink font-imedium text-subhead text-blue-700'>{t('guildline')}</Text>
+          <Text style={styles.guidelineText}>{t('guildline')}</Text>
         </View>
         <MissionIcon.Month code={monthIndex + 1} />
       </View>
-      <View className='flex-1 bg-background pb-4'>
+      <View style={styles.scrollViewContainer}>
         <ScrollView>
           {dailyMissions?.length > 0 && (
             <MissionSection title={t('types.daily')} timeRemaining={remainingDailyTime} missions={dailyMissions} />
@@ -82,5 +85,37 @@ const useCountdown = (targetTime: number) => {
 
   return remainingTime;
 };
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 4,
+    padding: 16,
+  },
+  headerLeft: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    gap: 8,
+  },
+  monthMissionContainer: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  guidelineText: {
+    flexShrink: 1,
+    ...Styles.font.medium,
+    ...Styles.fontSize.subhead,
+    ...Styles.color.blue[700],
+  },
+  scrollViewContainer: {
+    height: '100%',
+    ...Styles.backgroundColor.background,
+  },
+});
 
 export default Mission;

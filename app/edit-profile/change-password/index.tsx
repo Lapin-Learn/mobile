@@ -2,13 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Platform, SafeAreaView, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import { useChangePassword } from '~/hooks/react-query/useUser';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
 const schema = z
   .object({
@@ -49,10 +50,10 @@ const ChangePassword = () => {
   };
 
   return (
-    <SafeAreaView className={`h-full ${Platform.OS === 'android' ? 'py-11' : ''}`}>
+    <SafeAreaView style={[styles.safeAreaView, Platform.OS === 'android' && styles.androidPadding]}>
       <NavigationBar headerTitle={t('change_password.title')} headerLeftShown icon={X} />
-      <View className='m-4 flex gap-y-6'>
-        <View className='flex gap-4'>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
           <ControllerInput
             props={{ name: 'oldPassword', control }}
             label={t('change_password.old_password')}
@@ -80,7 +81,7 @@ const ChangePassword = () => {
           {isPending ? (
             <ActivityIndicator color='white' />
           ) : (
-            <Text className='text-button'>{t('change_password.save_button')}</Text>
+            <Text style={GLOBAL_STYLES.textButton}>{t('change_password.save_button')}</Text>
           )}
         </Button>
       </View>
@@ -89,3 +90,21 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+
+const styles = StyleSheet.create({
+  safeAreaView: {
+    height: '100%',
+  },
+  androidPadding: {
+    paddingTop: 44,
+  },
+  container: {
+    margin: 16,
+    flex: 1,
+    gap: 24,
+  },
+  inputContainer: {
+    flex: 1,
+    gap: 16,
+  },
+});
