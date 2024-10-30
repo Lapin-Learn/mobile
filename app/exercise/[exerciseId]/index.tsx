@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,6 +11,7 @@ import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
+import { COLORS, FONTS, TEXTS } from '~/lib/constants';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
 
@@ -25,20 +26,20 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
   const { t } = useTranslation('translation');
 
   return (
-    <View className='flex flex-col gap-2 rounded-lg border-2 border-neutral-100 p-4'>
-      <View className='flex w-full flex-row items-start justify-between'>
-        <Image className='h-12 w-12 rounded-full' source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
+    <View style={card.wrapper}>
+      <View style={card.container}>
+        <Image style={card.image} source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
         <Badge>
           <Text className={badgeTextVariants({ variant: 'default' })}>
             {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
           </Text>
         </Badge>
       </View>
-      <Text className='font-isemibold text-title-2 text-neutral-900'>{name}</Text>
-      <View className='flex gap-2'>
-        <View className='flex flex-row justify-between'>
-          <Text className='font-imedium text-subhead text-supporting-text'>{t('questionTypes.experience')}</Text>
-          <Text className='font-imedium text-subhead text-supporting-text'>
+      <Text style={StyleSheet.flatten([FONTS.semibold, TEXTS.title2, { color: COLORS.neutral[900] }])}>{name}</Text>
+      <View style={card.textWrapper}>
+        <View style={card.textContainer}>
+          <Text style={texts.supportingText}>{t('questionTypes.experience')}</Text>
+          <Text style={texts.supportingText}>
             {t('questionTypes.xp')} {totalLearningXP}/{curReq?.requireXP}
           </Text>
         </View>
@@ -59,10 +60,12 @@ const Exercise = () => {
   if (exerciseId === SkillEnum.SPEAKING) {
     return (
       <SafeAreaView>
-        <View className='h-full items-center justify-center px-4 py-4'>
-          <Text className='text-center font-ibold text-large-title'>Speaking exercise is not available yet</Text>
-          <Button onPress={() => router.back()} className='mt-4'>
-            <Text className='text-center'>Go back</Text>
+        <View style={StyleSheet.flatten([containers.main, containers.noContent, styles.contentContainer])}>
+          <Text style={StyleSheet.flatten([texts.center, FONTS.bold, TEXTS.largeTitle])}>
+            Speaking exercise is not available yet
+          </Text>
+          <Button onPress={() => router.back()}>
+            <Text style={texts.center}>Go back</Text>
           </Button>
         </View>
       </SafeAreaView>
@@ -72,7 +75,7 @@ const Exercise = () => {
   if (!questionTypes || questionTypes.length === 0) {
     return (
       <SafeAreaView>
-        <View className='h-full items-center justify-center'>
+        <View style={containers.noContent}>
           <Text>No question types found for this skill</Text>
         </View>
       </SafeAreaView>
@@ -81,9 +84,9 @@ const Exercise = () => {
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaView className='flex flex-col'>
+      <SafeAreaView style={styles.areaView}>
         <NavigationBar title={capitalizeFirstLetter(exerciseId)} headerLeftShown />
-        <View className='px-4 py-6'>
+        <View style={containers.main}>
           <FlatList
             data={questionTypes}
             keyExtractor={(item) => item.id.toString()}
@@ -101,8 +104,7 @@ const Exercise = () => {
               </Pressable>
             )}
             showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View className='h-5' />}
-            className='mb-80'
+            contentContainerStyle={styles.contentContainer}
           />
         </View>
       </SafeAreaView>
@@ -111,3 +113,66 @@ const Exercise = () => {
 };
 
 export default Exercise;
+
+const styles = StyleSheet.create({
+  areaView: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+  contentContainer: {
+    gap: 20,
+  },
+});
+
+const containers = StyleSheet.create({
+  main: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+    flex: 1,
+  },
+  noContent: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+const texts = StyleSheet.create({
+  center: {
+    textAlign: 'center',
+  },
+  supportingText: StyleSheet.flatten([FONTS.medium, TEXTS.subhead, { color: COLORS.supportingText }]),
+});
+
+const card = StyleSheet.create({
+  wrapper: {
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#cccccc',
+    padding: 16,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  image: {
+    width: 48,
+    height: 48,
+    borderRadius: 9999,
+  },
+  textWrapper: {
+    display: 'flex',
+    gap: 8,
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});

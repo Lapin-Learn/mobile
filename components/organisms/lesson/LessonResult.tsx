@@ -9,10 +9,11 @@ import { SvgProps } from 'react-native-svg';
 import CarrotIcon from '~/assets/images/carrot.svg';
 import TimerIcon from '~/assets/images/clock.svg';
 import FlashIcon from '~/assets/images/flash.svg';
-import { Modal } from '~/components/molecules/Modal';
+import { CustomModal } from '~/components/molecules/Modal';
 import { ProgressCircle } from '~/components/molecules/ProgressCircle';
 import { Button } from '~/components/ui/Button';
 import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
+import { FONTS, GLOBAL_STYLES, TEXTS } from '~/lib/constants';
 import { convertSecondsToMinutes } from '~/lib/utils';
 
 export type LessonResultProps = {
@@ -23,7 +24,6 @@ export type LessonResultProps = {
   [key: string]: number;
 };
 
-// TODO: Remove carrot if value = 0
 const tickerComponents: Record<string, { Component: React.FC<SvgProps>; label: string }> = {
   exp: { Component: FlashIcon, label: 'after.Experience' },
   carrot: { Component: CarrotIcon, label: 'after.Carrot' },
@@ -50,10 +50,10 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
   }, [isModalVisible, milestones.length]);
 
   return (
-    <View className='w-full'>
-      <View className='w-full'>
+    <View style={styles.container}>
+      <View style={styles.fullSize}>
         <LinearGradient start={{ x: 0.5, y: 1 }} end={{ x: 0.5, y: 0 }} colors={['#3A8A7D', '#20534D']}>
-          <View className='h-full w-full'>
+          <View style={styles.fullSize}>
             <LottieView
               style={{ ...StyleSheet.absoluteFillObject }}
               resizeMode='cover'
@@ -63,27 +63,30 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
             />
           </View>
         </LinearGradient>
-
-        <Modal position='bottom' visible={isModalVisible}>
-          <View className='mb-4 mt-15 flex flex-col items-center justify-start gap-y-14'>
-            <View className='flex items-center justify-center gap-y-5'>
+        <CustomModal position='bottom' visible={isModalVisible}>
+          <View style={styles.modalContent}>
+            <View style={styles.progressContainer}>
               <ProgressCircle size={160} progress={data.percent as number} showsText />
-              <Text className='text-title-2 font-bold'>{t(`after.encourages.${Math.floor(randomEncourage)}`)}</Text>
+              <Text style={StyleSheet.flatten([FONTS.bold, TEXTS.title2])}>
+                {t(`after.encourages.${Math.floor(randomEncourage)}`)}
+              </Text>
             </View>
-            <View className='w-full gap-y-6'>
-              <View className='flex w-full flex-row items-center justify-start gap-x-4'>
+            <View style={styles.tickerContainer}>
+              <View style={styles.tickerRow}>
                 {Object.keys(tickerComponents).map((key) => {
                   const { Component, label } = tickerComponents[key];
                   return (
-                    <View key={key} className='flex flex-1 items-start gap-y-2 rounded bg-neutral-50 p-3'>
+                    <View key={key} style={styles.tickerItem}>
                       <Text>{t(label)}</Text>
-                      <View className='flex-row items-center gap-x-1'>
+                      <View style={styles.tickerItemContent}>
                         <Component width={24} height={24} />
                         <View>
-                          <Text className='text-title-2 font-bold'>
+                          <Text style={StyleSheet.flatten([FONTS.bold, TEXTS.title2])}>
                             {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}
                             &nbsp;
-                            <Text className='text-title-4 font-medium'>{key === 'exp' ? 'xp' : ''}</Text>
+                            <Text style={StyleSheet.flatten([FONTS.medium, TEXTS.title4])}>
+                              {key === 'exp' ? 'xp' : ''}
+                            </Text>
                           </Text>
                         </View>
                       </View>
@@ -92,12 +95,67 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                 })}
               </View>
               <Button onPress={() => setIsModalVisible(false)}>
-                <Text className='text-button'>{t('after.receive-reward')}</Text>
+                <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
             </View>
           </View>
-        </Modal>
+        </CustomModal>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+  fullSize: {
+    height: '100%',
+    width: '100%',
+  },
+  modalContent: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 56,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    backgroundColor: '#f9f7f7',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    paddingTop: 60,
+  },
+  progressContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  tickerContainer: {
+    width: '100%',
+    gap: 24,
+  },
+  tickerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 16,
+  },
+  tickerItem: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 8,
+    borderRadius: 8,
+    backgroundColor: '#efefef',
+    padding: 12,
+  },
+  tickerItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+});
