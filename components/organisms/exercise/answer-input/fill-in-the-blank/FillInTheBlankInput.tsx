@@ -34,6 +34,7 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
     ],
     indexText: [
       styles.indexText,
+      styles.text,
       isCorrect === null
         ? hasText
           ? styles.indexTextWithText
@@ -44,6 +45,7 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
     ],
     inputBlank: [
       styles.input,
+      styles.text,
       isCorrect === null
         ? [
             styles.inputWidth,
@@ -57,8 +59,9 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
           ]
         : [styles.inputWidthWhenChecked, isCorrect ? styles.inputCorrect : styles.inputIncorrect],
     ],
-    inputIncorrectCorespondingCorrect: [
+    inputIncorrectCorrespondingCorrect: [
       styles.input,
+      styles.text,
       isCorrect === null
         ? [
             isFocused
@@ -95,7 +98,7 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
         {isCorrect === false && (
           <TextInput
             {...rest}
-            style={styleForBlank.inputIncorrectCorespondingCorrect}
+            style={styleForBlank.inputIncorrectCorrespondingCorrect}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             textAlign='center'
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    rowGap: 4,
+    gap: 4,
   },
   containerAlign: {
     alignSelf: 'flex-start',
@@ -126,6 +129,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text: {
+    ...Styles.fontSize.body,
   },
   indexCircleWithoutText: {
     ...Styles.backgroundColor.blue[100],
@@ -159,9 +165,10 @@ const styles = StyleSheet.create({
   input: {
     borderBottomWidth: 1,
     textAlign: 'center',
+    paddingTop: 1,
   },
   inputWidth: {
-    width: 120,
+    width: 140,
   },
   inputWidthWhenChecked: {
     width: 'auto',

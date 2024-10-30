@@ -47,18 +47,13 @@ type MatchingQuestion = BaseQuestion & {
   content: QuestionCard & MatchingContent;
 };
 
-// type FillInTheBlankMark = {
-//   type: 'blank';
-// };
-type FillInTheBlankAnswer = {
-  answer: string;
+export type FillInTheBlankContentType = FillInTheBlankContent & {
+  type: 'text' | 'blank' | 'paragraph' | 'break';
+  text?: string;
 };
+
 export type FillInTheBlankContent = {
-  content: {
-    type: 'text' | 'blank';
-    text?: string;
-    content?: FillInTheBlankContent;
-  }[];
+  content: FillInTheBlankContentType[];
 };
 
 type FillInTheBlankQuestion = BaseQuestion & {

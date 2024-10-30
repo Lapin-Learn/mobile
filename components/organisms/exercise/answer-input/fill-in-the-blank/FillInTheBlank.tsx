@@ -2,29 +2,41 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
-import { FillInTheBlankContent } from '~/lib/types/questions';
+import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/questions';
 
-import FillInTheBlankInput from './FillInTheBlankInput';
+import FillInTheBlankContentRenderer from './TypeRendering';
 
 type FillInTheBlankProps = FillInTheBlankContent & {
   onAnswer: (isCorrect: boolean) => void;
   result: Answer;
 };
 
+const getBlankAnswer = (content: FillInTheBlankContentType[]): (string | undefined)[] => {
+  return content.flatMap((item) => {
+    if (item.type === 'blank') {
+      return item.text;
+    } else if (item.type === 'paragraph' && item.content) {
+      return getBlankAnswer(item.content);
+    } else {
+      return [];
+    }
+  });
+};
+
 const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
-  const blankContent = content.filter((item) => item.type === 'blank');
+  const blankContent = getBlankAnswer(content);
   const schema = z.object({
     answer: z.array(z.string()).length(blankContent.length),
   });
 
   type FormField = z.infer<typeof schema>;
-  const { control, handleSubmit } = useForm<FormField>({
+  const { control, handleSubmit, reset } = useForm<FormField>({
     defaultValues: { answer: Array(blankContent.length).fill('') },
     resolver: zodResolver(schema),
   });
@@ -32,8 +44,6 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   const { field } = useController({ name: 'answer', control });
   const { t } = useTranslation('question');
   const [isChecking, setIsChecking] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  let blankIndex = 0;
 
   useEffect(() => {
     field.value.forEach((value) => {
@@ -44,12 +54,15 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   }, [field.value]);
 
   const answerQuestion = () => {
-    const isCorrect = field.value.every((value, index) => value === blankContent[index].text);
+    const isCorrect = field.value.every((value, index) => value === blankContent[index]);
     onAnswer(isCorrect);
   };
 
   useEffect(() => {
-    if (result === 'notAnswered') field.onChange(Array(blankContent.length).fill(''));
+    if (result === 'notAnswered') {
+      reset();
+      setIsChecking(false);
+    }
   }, [result]);
 
   const handleTextChange = (text: string, index: number, field: any) => {
@@ -59,7 +72,6 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   };
 
   const onSubmit: SubmitHandler<FormField> = () => {
-    setIsSubmitted((prev) => !prev);
     answerQuestion();
   };
 
@@ -67,29 +79,12 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
     <>
       <ScrollView style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}>
         <View style={styles.contentContainer}>
-          {content.map((item, index) => {
-            if (item.type === 'blank') {
-              blankIndex += 1;
-            }
-            if (item.type === 'text') {
-              return (
-                <View key={index} style={styles.container}>
-                  <TextInput readOnly value={item.text} multiline textBreakStrategy='simple' style={styles.textInput} />
-                </View>
-              );
-            } else if (item.type === 'blank') {
-              return (
-                <FillInTheBlankInput
-                  key={index}
-                  index={blankIndex - 1}
-                  field={field}
-                  onChange={handleTextChange}
-                  answer={item.text ?? ''}
-                  isCorrect={isSubmitted ? field.value[blankIndex - 1] === item.text : null}
-                />
-              );
-            }
-          })}
+          <FillInTheBlankContentRenderer
+            content={content}
+            fieldState={field}
+            onTextChange={handleTextChange}
+            hasSubmission={result !== 'notAnswered'}
+          />
         </View>
       </ScrollView>
       {isChecking && (
