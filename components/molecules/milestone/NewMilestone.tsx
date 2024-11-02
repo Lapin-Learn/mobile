@@ -1,3 +1,4 @@
+import { Share2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -11,6 +12,7 @@ import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
+import { useShare } from '~/hooks/useShare';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/types';
 import { formatNumber } from '~/lib/utils';
@@ -22,6 +24,7 @@ import { MilestoneProps } from './type';
 export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
   const { data: learner, isFetching } = useGameProfile();
+  const { handleShare } = useShare();
 
   const rankTranslation = {
     [RankEnum.BRONZE]: t('rank.bronze'),
@@ -106,11 +109,19 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               <Button onPress={handleNextMilestone}>
                 <Text className='text-button text-center'>{t('button.next')}</Text>
               </Button>
-              {/* TODO: share social*/}
-              {/* <Button variant='ghost' size='md' className='flex-row gap-2'>
+              {/* TODO: Share level up*/}
+              <Button
+                variant='ghost'
+                size='md'
+                className='flex-row gap-2'
+                onPress={() => {
+                  current.type === MilestonesEnum.LEVEL_UP
+                    ? alert('Level Up')
+                    : handleShare(current.newValue as RankEnum);
+                }}>
                 <Share2 width={24} height={24} color='#EE5D28' />
                 <Text className='text-body font-bold text-primary'>{t('button.share')}</Text>
-              </Button> */}
+              </Button>
             </View>
           </View>
         </View>
