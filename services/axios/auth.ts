@@ -34,6 +34,7 @@ type SignUpParams = Pick<AccountIdentifier, 'email' | 'password'>;
 type VerifyParams = { email: string; otp: string };
 
 export const signIn = async (params: SignInParams) => {
+  console.log(params);
   const data = await api.post<AuthInfo>('auth/signin', { body: params });
   return data;
 };

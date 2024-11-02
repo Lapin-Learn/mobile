@@ -3,6 +3,22 @@ import messaging from '@react-native-firebase/messaging';
 import { PermissionsAndroid } from 'react-native';
 
 import { sendFcmToken } from '~/services/axios/notification';
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 2000; // 2 seconds
+const getFcmTokenWithRetry = async (retries = 0): Promise<string | null> => {
+  try {
+    const fcmToken = await messaging().getToken();
+    return fcmToken;
+  } catch (error) {
+    console.error('Error getting FCM token:', error);
+    if ((error as { code: string }).code === 'messaging/unknown' && retries < MAX_RETRIES) {
+      console.log(`Retrying to get FCM token... (${retries + 1}/${MAX_RETRIES})`);
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
+      return getFcmTokenWithRetry(retries + 1);
+    }
+    return null;
+  }
+};
 
 export const requestPermission = async () => {
   let isGrantedNotification = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -33,9 +49,14 @@ export const requestPermission = async () => {
 };
 
 const upsertToken = async () => {
-  const fcmToken = await messaging().getToken();
-  console.log('FCM Token:', fcmToken);
-  if (fcmToken) {
-    await sendFcmToken({ token: fcmToken });
+  try {
+    const fcmToken = await getFcmTokenWithRetry();
+    if (fcmToken) {
+      await sendFcmToken({ token: fcmToken });
+    } else {
+      console.log('Failed to get FCM token after retries');
+    }
+  } catch (error) {
+    console.error(error);
   }
 };

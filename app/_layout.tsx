@@ -1,6 +1,5 @@
 import '~/global.css';
 
-import messaging from '@react-native-firebase/messaging';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
@@ -79,10 +78,17 @@ const RootLayout = () => {
     });
   }, [pathname]);
 
-  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-    console.log('Message handled in the background!', remoteMessage);
-  });
+  // messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  //   console.log('Message handled in the background!', remoteMessage);
+  // });
 
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+  //     console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
   if (!loaded) {
     return null;
   }
