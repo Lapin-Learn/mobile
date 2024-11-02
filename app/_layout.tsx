@@ -16,7 +16,7 @@ import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import AuthProvider from '~/lib/providers/auth';
-import { analytics, registerBackgroundService } from '~/lib/services';
+import { analytics, crashlytics, registerBackgroundService } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -63,6 +63,8 @@ const RootLayout = () => {
   }, [loaded]);
 
   useEffect(() => {
+    crashlytics.log('App mounted');
+    crashlytics.setAttribute('screen_class', (pathname === '/' ? 'home' : pathname).replace('/', ''));
     analytics.logScreenView({
       screen_class: pathname,
       screen_name: (pathname === '/' ? 'home' : pathname).replace('/', ''),
@@ -72,6 +74,13 @@ const RootLayout = () => {
   if (!loaded) {
     return null;
   }
+  if (__DEV__) {
+    crashlytics.setCrashlyticsCollectionEnabled(true);
+    analytics.setAnalyticsCollectionEnabled(true);
+  } else {
+    // TODO: set up crashlytics and analytics for production
+  }
+
   return (
     <ThemeProvider value={LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>

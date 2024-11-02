@@ -3,7 +3,7 @@ import { Href, router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { AUTH_ERRORS, QUERY_KEYS } from '~/lib/constants';
-import { analytics } from '~/lib/services';
+import { analytics, crashlytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
 import {
   forgotPassword,
@@ -20,6 +20,7 @@ import useStreakWidget from '../useStreakWidget';
 import { useToast } from '../useToast';
 
 export const useSignUp = () => {
+  const { t } = useTranslation('auth');
   const toast = useToast();
   return useMutation({
     mutationFn: signUp,
@@ -31,7 +32,7 @@ export const useSignUp = () => {
       });
     },
     onError: (error) => {
-      toast.show({ type: 'error', text1: error.message });
+      toast.show({ type: 'error', text1: t(`error.${AUTH_ERRORS[error.message]}`) });
     },
   });
 };
@@ -42,13 +43,19 @@ export const useSignIn = () => {
   const { t } = useTranslation('auth');
   return useMutation({
     mutationFn: signIn,
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.profile.identifier],
       });
       await setTokenAsync(data);
       analytics.logLogin({
         method: 'email',
+      });
+      crashlytics.setUserId(data.accessToken);
+      crashlytics.setAttributes({
+        method: 'email',
+        role: 'user',
+        email: variables.email,
       });
       toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
       router.push('/');
@@ -75,6 +82,7 @@ export const useSignInWithProvider = () => {
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
+      crashlytics.recordError(error);
     },
   });
 };
@@ -168,6 +176,7 @@ export const useRefreshToken = () => {
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
+      crashlytics.recordError(error);
     },
   });
 };

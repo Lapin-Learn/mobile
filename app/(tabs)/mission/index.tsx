@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AppState, Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { Loading } from '~/components/molecules/Loading';
@@ -9,6 +9,7 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
 import { useMissions } from '~/hooks/react-query/useMission';
+import { crashlytics } from '~/lib/services';
 
 const Mission = () => {
   const { t } = useTranslation('mission');
@@ -33,6 +34,16 @@ const Mission = () => {
   return (
     <PlatformView style={{ ...Styles.backgroundColor.blue[100] }}>
       <NavigationBar headerTitle='Mission' displayStyle='center' />
+      <Button
+        title='Mission'
+        onPress={() => {
+          console.log('Mission button clicked');
+          crashlytics.log('Mission button clicked');
+          crashlytics.setUserId('123456789');
+          crashlytics.recordError(new Error('Mission button clicked'));
+          crashlytics.crash();
+        }}
+      />
       <View style={styles.headerContainer}>
         <View style={styles.headerLeft}>
           <View style={StyleSheet.flatten([styles.monthMissionContainer, Styles.backgroundColor.blue[50]])}>

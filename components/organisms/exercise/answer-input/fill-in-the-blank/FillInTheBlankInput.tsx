@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   inputUnfocusedWithoutText: {
-    ...Styles.color.neutral[200],
-    borderBottomColor: Colors.neutral[200],
+    ...Styles.color.neutral[300],
+    borderBottomColor: Colors.neutral[300],
   },
   inputCorrect: {
     ...Styles.color.green[600],

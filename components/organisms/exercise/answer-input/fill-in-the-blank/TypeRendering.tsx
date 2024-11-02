@@ -141,5 +141,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     ...Styles.fontSize.body,
+    color: 'black',
   },
 });
