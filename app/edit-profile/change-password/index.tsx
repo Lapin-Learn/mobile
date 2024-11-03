@@ -2,11 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { useChangePassword } from '~/hooks/react-query/useUser';
 import { GLOBAL_STYLES } from '~/lib/constants';
@@ -50,55 +51,55 @@ const ChangePassword = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.safeAreaView, Platform.OS === 'android' && styles.androidPadding]}>
+    <PlatformView>
       <NavigationBar headerTitle={t('change_password.title')} headerLeftShown icon={X} />
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <ControllerInput
-            props={{ name: 'oldPassword', control }}
-            label={t('change_password.old_password')}
-            placeholder={t('change_password.old_password_placeholder')}
-            error={errors.oldPassword}
-            type='password'
-          />
-          <ControllerInput
-            props={{ name: 'newPassword', control }}
-            label={t('change_password.new_password')}
-            placeholder={t('change_password.new_password_placeholder')}
-            error={errors.newPassword}
-            type='password'
-            onChangeText={async () => await trigger('confirmPassword')}
-          />
-          <ControllerInput
-            props={{ name: 'confirmPassword', control }}
-            label={t('change_password.confirm_password')}
-            placeholder={t('change_password.confirm_password_placeholder')}
-            error={errors.confirmPassword}
-            type='password'
-          />
+      <KeyboardAvoidingView
+        behavior='padding'
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <ControllerInput
+              props={{ name: 'oldPassword', control }}
+              label={t('change_password.old_password')}
+              placeholder={t('change_password.old_password_placeholder')}
+              error={errors.oldPassword}
+              type='password'
+            />
+            <ControllerInput
+              props={{ name: 'newPassword', control }}
+              label={t('change_password.new_password')}
+              placeholder={t('change_password.new_password_placeholder')}
+              error={errors.newPassword}
+              type='password'
+              onChangeText={async () => await trigger('confirmPassword')}
+            />
+            <ControllerInput
+              props={{ name: 'confirmPassword', control }}
+              label={t('change_password.confirm_password')}
+              placeholder={t('change_password.confirm_password_placeholder')}
+              error={errors.confirmPassword}
+              type='password'
+            />
+          </View>
+          <Button disabled={isButtonDisabled} onPress={handleSubmit(onSubmit)} size='lg'>
+            {isPending ? (
+              <ActivityIndicator color='white' />
+            ) : (
+              <Text style={GLOBAL_STYLES.textButton}>{t('change_password.save_button')}</Text>
+            )}
+          </Button>
         </View>
-        <Button disabled={isButtonDisabled} onPress={handleSubmit(onSubmit)} size='lg'>
-          {isPending ? (
-            <ActivityIndicator color='white' />
-          ) : (
-            <Text style={GLOBAL_STYLES.textButton}>{t('change_password.save_button')}</Text>
-          )}
-        </Button>
-      </View>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    </PlatformView>
   );
 };
 
 export default ChangePassword;
 
 const styles = StyleSheet.create({
-  safeAreaView: {
-    height: '100%',
-  },
-  androidPadding: {
-    paddingTop: 44,
-  },
   container: {
+    height: '100%',
     margin: 16,
     flex: 1,
     gap: 24,
