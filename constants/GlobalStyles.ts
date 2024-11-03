@@ -176,6 +176,10 @@ const baseColors = {
   supportingText: '#929292',
   background: '#f9f7f7',
   white: '#ffffff',
+  border: '#e0e0e0',
+  secondary: '#f2f2f2',
+  destructive: '#ff4b4b',
+  foreground: '#f0f0f0',
 };
 
 type BaseColors = typeof baseColors;
