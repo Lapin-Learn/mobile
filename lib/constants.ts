@@ -46,7 +46,7 @@ export const AUTH_ERRORS: Record<string, string> = {
 
 export const GLOBAL_STYLES = StyleSheet.create({
   textButton: {
-    ...Styles.font.bold,
+    ...Styles.font.semibold,
     ...Styles.fontSize.body,
     color: 'white',
   },
