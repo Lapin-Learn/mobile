@@ -9,4 +9,5 @@
   <string name="app_widget_description" translatable="false">Streak</string>
   <string name="app_widget_encouragement">Keep it up!</string>
   <string name="app_widget_practice_more">Practice now!</string>
+  <string name="app_widget_no_data">No data</string>
 </resources>

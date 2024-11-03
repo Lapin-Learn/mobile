@@ -3,4 +3,5 @@
     <string name="add_widget">Thêm tiện ích</string>
     <string name="app_widget_encouragement">Giữ vững nhé!</string>
     <string name="app_widget_practice_more">Luyện tập nào!</string>
+    <string name="app_widget_no_data">Không có dữ liệu</string>
 </resources>
