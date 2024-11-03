@@ -4,7 +4,6 @@ import * as React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Styles from '~/constants/GlobalStyles';
-import { cn } from '~/lib/utils';
 import * as SelectPrimitive from '../primitives/select';
 
 type Option = SelectPrimitive.Option;
@@ -18,7 +17,7 @@ const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, style, ...props }, ref) => (
+>(({ children, style, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     style={StyleSheet.flatten([selectTriggerStyles.root, props.disabled ? { opacity: 0.5 } : {}, style])}
@@ -36,15 +35,14 @@ const selectTriggerStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 12,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: 'rgb(240, 240, 240)',
-    ...Styles.backgroundColor.background,
+    ...Styles.borderColor.border,
+    ...Styles.color.background,
     paddingHorizontal: 12,
     paddingVertical: 8,
     fontSize: 14,
     lineHeight: 20,
-    color: 'rgb(146, 146, 146)',
   },
 });
 
@@ -61,14 +59,7 @@ const SelectContent = React.forwardRef<
             position={position}
             style={StyleSheet.flatten([selectContentStyles.root, props.style])}
             {...props}>
-            <SelectPrimitive.Viewport
-              className={cn(
-                'p-1',
-                position === 'popper' &&
-                  'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]'
-              )}>
-              {children}
-            </SelectPrimitive.Viewport>
+            {children}
           </SelectPrimitive.Content>
         </Animated.View>
       </SelectPrimitive.Overlay>
