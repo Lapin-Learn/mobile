@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Badge, badgeTextVariants } from '~/components/ui/Badge';
+import { Badge, badgeTextStyles } from '~/components/ui/Badge';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
@@ -32,7 +32,7 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
       <View style={card.container}>
         <Image style={card.image} source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
         <Badge>
-          <Text className={badgeTextVariants({ variant: 'default' })}>
+          <Text style={StyleSheet.flatten([badgeTextStyles.root, badgeTextStyles.default])}>
             {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
           </Text>
         </Badge>
