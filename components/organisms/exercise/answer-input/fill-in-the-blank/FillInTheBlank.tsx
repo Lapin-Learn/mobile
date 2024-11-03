@@ -2,9 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
+import PlatformKeyboardAvoid from '~/components/templates/PlatformKeyboardAvoid';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
@@ -77,14 +78,18 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   return (
     <>
-      <ScrollView
-        style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}
-        contentContainerStyle={styles.scrollViewContent}
-        keyboardShouldPersistTaps='handled'>
-        <KeyboardAvoidingView
+      <PlatformKeyboardAvoid>
+        <ScrollView
+          bounces={false}
+          style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}
+          contentContainerStyle={styles.scrollViewContent}
+          contentInsetAdjustmentBehavior='always'
+          overScrollMode='always'
+          showsVerticalScrollIndicator={true}>
+          {/* <KeyboardAvoidingView
           behavior='position'
           style={styles.keyboardAvoidingView}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}> */}
           <View style={styles.contentContainer}>
             <FillInTheBlankContentRenderer
               content={content}
@@ -93,8 +98,8 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
               hasSubmission={result !== 'notAnswered'}
             />
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </PlatformKeyboardAvoid>
       {isChecking && (
         <View style={styles.buttonContainer}>
           <Button style={styles.button} onPress={handleSubmit(onSubmit)}>
