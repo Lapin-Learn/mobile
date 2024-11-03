@@ -31,7 +31,7 @@ const Mission = () => {
   const monthlyMissions = missionData?.filter((item) => item.interval === 'monthly') || [];
 
   return (
-    <PlatformView className='bg-blue-100'>
+    <PlatformView style={{ ...Styles.backgroundColor.blue[100] }}>
       <NavigationBar headerTitle='Mission' displayStyle='center' />
       <View style={styles.headerContainer}>
         <View style={styles.headerLeft}>

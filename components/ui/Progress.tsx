@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Extrapolation,
+  StyleProps,
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
@@ -17,9 +18,7 @@ type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Roo
   label?: string;
   value?: number | null;
   indicatorClassName?: string;
-  indicatorStyle?: {
-    [key: string]: string;
-  };
+  indicatorStyle?: StyleProps;
 };
 
 const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
