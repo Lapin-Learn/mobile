@@ -78,11 +78,7 @@ const ResetPassword = () => {
             </View>
           </View>
 
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            disabled={resetPasswordMutation.isPending}
-            size='lg'
-            style={styles.button}>
+          <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={resetPasswordMutation.isPending}>
             <Text style={GLOBAL_STYLES.textButton}>{t('resetPassword.resetButton')}</Text>
           </Button>
         </View>
@@ -115,8 +111,5 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     gap: 16,
-  },
-  button: {
-    width: '100%',
   },
 });

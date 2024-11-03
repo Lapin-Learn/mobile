@@ -36,10 +36,10 @@ const MissionIcon: FC<MissionIconProps> & {
 const createIconComponent = (mapping: IconMappingsProps) => {
   const IconComponent = ({ code, ...props }: { code: string | number } & SvgProps) => {
     const Icon = mapping[code];
-    return OctoberIcon;
+    return Icon ? <Icon {...props} /> : <DailyTestIcon {...props} />;
   };
   IconComponent.displayName = 'IconComponent';
-  return OctoberIcon;
+  return IconComponent;
 };
 
 const Month = createIconComponent(iconMappings.month);

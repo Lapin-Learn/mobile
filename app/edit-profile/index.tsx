@@ -192,8 +192,6 @@ const styles = StyleSheet.create({
   changePasswordButton: {
     position: 'absolute',
     right: 12,
-    top: '50%',
-    transform: [{ translateY: -12 }], //cannot use translateY: '-50%'
   },
   changePasswordText: { ...Styles.font.normal, ...Styles.fontSize.subhead, ...Styles.color.orange['500'] },
   passwordLabel: {
@@ -206,6 +204,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     borderRadius: 12,
+    alignItems: 'center',
   },
   changePassword: {
     display: 'flex',
