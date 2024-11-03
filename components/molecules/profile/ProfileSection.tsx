@@ -1,8 +1,9 @@
 import { ChevronRight, LucideProps } from 'lucide-react-native';
 import { FC, ForwardRefExoticComponent, createContext } from 'react';
-import { Text, TouchableOpacity, View, ViewProps } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ViewProps } from 'react-native';
+import { StyleProps } from 'react-native-reanimated';
 
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
 const ProfileContext = createContext({});
 
@@ -14,27 +15,53 @@ const ProfileSection: FC<ProfileProps> & {
   Group: typeof Group;
   List: typeof List;
   ListItem: typeof ListItem;
-} = ({ children, className, ...props }: ProfileProps) => {
+} = ({ children, style, ...props }: ProfileProps) => {
   return (
     <ProfileContext.Provider value={{}}>
-      <View className={cn('w-full flex-col gap-y-2', className)} {...props}>
+      <View style={StyleSheet.flatten([{ flexDirection: 'column', width: '100%', rowGap: 8 }, style])} {...props}>
         {children}
       </View>
     </ProfileContext.Provider>
   );
 };
 
-const Title: FC<ProfileProps & { label: string; textClassName?: string }> = ({ label, textClassName, ...props }) => {
+const Title: FC<ProfileProps & { label: string; textStyle?: StyleProps }> = ({ label, textStyle = {}, ...props }) => {
   return (
-    <View className={cn('w-full flex-row items-center justify-between', props.className)}>
-      <Text className={`font-ibold text-black ${textClassName}`}>{label}</Text>
+    <View style={StyleSheet.flatten([titleStyles.root, props.style])}>
+      <Text style={StyleSheet.flatten([titleStyles.label, textStyle])}>{label}</Text>
       {props.children}
     </View>
   );
 };
 
-const Group: FC<ProfileProps> = ({ children, className }) => (
-  <View className={cn('overflow-hidden rounded border border-neutral-100', className)}>{children}</View>
+const titleStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  label: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-4'],
+    ...Styles.color.dark,
+  },
+});
+
+const Group: FC<ProfileProps> = ({ children, style }) => (
+  <View
+    style={StyleSheet.flatten([
+      {
+        borderWidth: 1,
+        ...Styles.borderColor.neutral[100],
+        overflow: 'hidden',
+        borderRadius: 8,
+        padding: 16,
+      },
+      style,
+    ])}>
+    {children}
+  </View>
 );
 
 const ListItem: FC<{
@@ -42,38 +69,75 @@ const ListItem: FC<{
   onPress: () => void;
   rightIcon?: ForwardRefExoticComponent<LucideProps>;
 }> = ({ label, onPress, rightIcon: Icon = ChevronRight }) => (
-  <Item className={cn('border-neutral-100 p-4')}>
-    <TouchableOpacity onPress={onPress} className='w-full flex-row items-center justify-between'>
-      <Text className='font-isemibold text-body'>{label}</Text>
+  <Item style={{ ...Styles.borderColor.neutral[100], padding: 16 }}>
+    <TouchableOpacity onPress={onPress} style={listItemStyles.root}>
+      <Text style={listItemStyles.label}>{label}</Text>
       <Icon size={24} color='#737373' />
     </TouchableOpacity>
   </Item>
 );
 
+const listItemStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  label: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.body,
+  },
+});
 const List: FC<
   ProfileProps & {
     data?: { label: string; action: () => void }[];
     rightIcon?: ForwardRefExoticComponent<LucideProps>;
   }
 > = ({ data, rightIcon, ...props }) => (
-  <Group className={props.className}>
+  <Group style={props.style}>
     {data?.map((item, index) => (
       <View key={index}>
         <ListItem label={item.label} onPress={item.action} rightIcon={rightIcon} />
-        {index === data.length - 1 || <View className='border-t border-neutral-100' />}
+        {index === data.length - 1 || (
+          <View
+            style={{
+              borderTopWidth: 1,
+              borderTopColor: Styles.color.neutral[100].color,
+            }}
+          />
+        )}
       </View>
     ))}
     {props.children}
   </Group>
 );
 
-const Item: FC<ProfileProps & { label?: string; value?: string }> = ({ label, value, className, children }) => (
-  <View className={cn('flex flex-row justify-between', className)}>
-    {label && <Text className='text-title-4 text-supporting-text'>{label}</Text>}
-    {value && <Text className='text-title-4 text-neutral-900'>{value}</Text>}
+const Item: FC<ProfileProps & { label?: string; value?: string }> = ({ label, value, style, children }) => (
+  <View style={StyleSheet.flatten([itemStyles.root, style])}>
+    {label && <Text style={itemStyles.label}>{label}</Text>}
+    {value && <Text style={itemStyles.value}>{value}</Text>}
     {children}
   </View>
 );
+
+const itemStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  label: {
+    ...Styles.font.normal,
+    ...Styles.fontSize['title-4'],
+    ...Styles.color.supportingText,
+  },
+  value: {
+    ...Styles.font.normal,
+    ...Styles.fontSize['title-4'],
+    ...Styles.color.dark,
+  },
+});
 
 ProfileSection.Title = Title;
 ProfileSection.Item = Item;

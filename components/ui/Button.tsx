@@ -118,7 +118,8 @@ type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
 };
 
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-  ({ variant = 'default', size = 'default', disabled = false, ...props }, ref) => {
+  // eslint-disable-next-line react/prop-types
+  ({ style, variant = 'default', size = 'default', disabled = false, ...props }, ref) => {
     return (
       <TextClassContext.Provider
         value={StyleSheet.flatten([buttonTextStyles.root, buttonTextStyles[variant], buttonTextSizeStyles[size]])}>
@@ -128,6 +129,7 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
             buttonStyles[variant],
             buttonSizeStyles[size],
             disabled && buttonStyles.disabled,
+            style,
           ])}
           ref={ref}
           role='button'

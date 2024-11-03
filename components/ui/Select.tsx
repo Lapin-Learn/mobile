@@ -49,7 +49,7 @@ const selectTriggerStyles = StyleSheet.create({
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { portalHost?: string }
->(({ className, children, position = 'popper', portalHost, ...props }, ref) => {
+>(({ children, position = 'popper', portalHost, ...props }, ref) => {
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
       <SelectPrimitive.Overlay style={Platform.OS !== 'web' ? StyleSheet.absoluteFill : undefined}>

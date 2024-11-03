@@ -77,7 +77,7 @@ const ChangePassword = () => {
             type='password'
           />
         </View>
-        <Button disabled={isButtonDisabled} onPress={handleSubmit(onSubmit)}>
+        <Button disabled={isButtonDisabled} onPress={handleSubmit(onSubmit)} size='lg'>
           {isPending ? (
             <ActivityIndicator color='white' />
           ) : (
