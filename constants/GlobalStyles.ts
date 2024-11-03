@@ -1,36 +1,27 @@
-const fontFamily = 'sans-serif';
-
 const font: {
   [key in 'normal' | 'italic' | 'medium' | 'semibold' | 'bold' | 'black']: {
     fontFamily: string;
-    fontWeight: any;
     fontStyle?: 'italic';
   };
 } = {
   normal: {
-    fontFamily: `Inter_18pt-Regular, ${fontFamily}`,
-    fontWeight: 400,
+    fontFamily: `Inter-Regular`,
   },
   italic: {
-    fontFamily: `Inter_18pt-Italic, ${fontFamily}`,
-    fontWeight: 400,
+    fontFamily: `Inter-Italic`,
     fontStyle: 'italic',
   },
   medium: {
-    fontFamily: `Inter_18pt-Medium, ${fontFamily}`,
-    fontWeight: 500,
+    fontFamily: `Inter-Medium`,
   },
   semibold: {
-    fontFamily: `Inter_18pt-SemiBold, ${fontFamily}`,
-    fontWeight: 600,
+    fontFamily: `Inter-SemiBold`,
   },
   bold: {
-    fontFamily: `Inter_18pt-Bold, ${fontFamily}`,
-    fontWeight: 700,
+    fontFamily: `Inter-Bold`,
   },
   black: {
-    fontFamily: `Inter_18pt-Black, ${fontFamily}`,
-    fontWeight: 'black',
+    fontFamily: `Inter-Black`,
   },
 };
 
@@ -178,6 +169,7 @@ const baseColors = {
   dark: '#272727',
   supportingText: '#929292',
   background: '#f9f7f7',
+  white: '#ffffff',
 };
 
 type BaseColors = typeof baseColors;

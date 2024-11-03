@@ -1,66 +1,126 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
-const textDayVariants = cva('text-center font-ibold text-headline', {
-  variants: {
-    variant: {
-      default: 'text-dark',
-      active: 'text-orange-700',
-    },
-    outside: {
-      false: 'opacity-100',
-      true: 'opacity-50',
-    },
-  },
-  defaultVariants: {
-    variant: 'default',
-    outside: false,
-  },
-});
-
-const containerDayVariants = cva('flex size-9 flex-row items-center justify-center', {
-  variants: {
-    active: {
-      default: 'rounded-none',
-      first: 'rounded-l-full bg-[#FCE3B4]',
-      last: 'rounded-r-full bg-[#FCE3B4]',
-      middle: 'bg-[#FCE3B4]',
-      single: 'rounded-full bg-[#FCE3B4]',
-    },
-  },
-  defaultVariants: {
-    active: 'default',
-  },
-});
-
-export type DayItemProps = VariantProps<typeof textDayVariants> &
-  VariantProps<typeof containerDayVariants> & {
-    day: number;
-  };
-const DayItem = ({ day, outside, active }: DayItemProps) => {
+export type DayItemProps = {
+  outside?: boolean;
+  active?: 'default' | 'single' | 'last' | 'middle' | 'first';
+  day: number;
+  today?: boolean;
+};
+const DayItem = ({ day, outside = false, active = 'default', today = false }: DayItemProps) => {
   return (
-    <View className={cn('flex h-9 flex-1 flex-row items-center justify-center', '')}>
+    <View style={StyleSheet.flatten([styles.container])}>
       <View
-        className={cn(
-          'h-full w-full flex-1',
-          !['first', 'single', 'default'].includes(active as string) ? 'bg-[#FCE3B4]' : ''
-        )}
+        style={StyleSheet.flatten([
+          styles.dayItem,
+          !['first', 'single', 'default'].includes(active as string) ? styles.activeBackground : {},
+        ])}
       />
-      <View className={containerDayVariants({ active })}>
-        <Text className={textDayVariants({ variant: active === 'default' ? 'default' : 'active', outside })}>
+      <View
+        style={StyleSheet.flatten([
+          containerDayVariantStyles.root,
+          today ? styles.today : {},
+          containerDayVariantStyles[active],
+        ])}>
+        <Text
+          style={StyleSheet.flatten([
+            textDayVariantsStyles.root,
+            today ? textDayVariantsStyles.today : {},
+            textDayVariantsStyles[active === 'default' ? 'default' : 'active'],
+            textDayVariantsStyles[outside ? 'outside' : 'inside'],
+          ])}>
           {day}
         </Text>
       </View>
       <View
-        className={cn(
-          'h-full w-full flex-1',
-          !['last', 'single', 'default'].includes(active as string) ? 'bg-[#FCE3B4]' : ''
-        )}
+        style={StyleSheet.flatten([
+          styles.dayItem,
+          !['last', 'single', 'default'].includes(active as string) ? styles.activeBackground : {},
+        ])}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: 36,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayItem: {
+    height: '100%',
+    width: '100%',
+    flex: 1,
+  },
+  activeBackground: {
+    backgroundColor: '#FCE3B4',
+  },
+  today: {
+    borderRadius: 9999,
+    backgroundColor: Styles.color.neutral[200].color,
+  },
+});
+
+const textDayVariantsStyles = StyleSheet.create({
+  root: {
+    ...Styles.font.bold,
+    ...Styles.fontSize.headline,
+    alignItems: 'center',
+    color: Styles.color.dark.color,
+  },
+  outside: {
+    opacity: 0.5,
+  },
+  inside: {
+    opacity: 1,
+  },
+  default: {},
+  active: {
+    color: Styles.color.orange[700].color,
+  },
+  today: {
+    color: Styles.color.white.color,
+  },
+});
+
+const containerDayVariantStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    height: 36,
+    width: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  default: {
+    borderRadius: 9999,
+  },
+  first: {
+    borderTopLeftRadius: 9999,
+    borderBottomLeftRadius: 9999,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    ...styles.activeBackground,
+  },
+  last: {
+    borderTopRightRadius: 9999,
+    borderBottomRightRadius: 9999,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    ...styles.activeBackground,
+  },
+  middle: {
+    ...styles.activeBackground,
+  },
+  single: {
+    borderRadius: 9999,
+    ...styles.activeBackground,
+  },
+});
 
 export default DayItem;
