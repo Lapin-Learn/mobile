@@ -109,19 +109,16 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               <Button onPress={handleNextMilestone}>
                 <Text className='text-button text-center'>{t('button.next')}</Text>
               </Button>
-              {/* TODO: Share level up*/}
-              <Button
-                variant='ghost'
-                size='md'
-                className='flex-row gap-2'
-                onPress={() => {
-                  current.type === MilestonesEnum.LEVEL_UP
-                    ? alert('Level Up')
-                    : handleShare(current.newValue as RankEnum);
-                }}>
-                <Share2 width={24} height={24} color='#EE5D28' />
-                <Text className='text-body font-bold text-primary'>{t('button.share')}</Text>
-              </Button>
+              {current.type === MilestonesEnum.RANK_UP && (
+                <Button
+                  variant='ghost'
+                  size='md'
+                  className='flex-row gap-2'
+                  onPress={() => handleShare(current.newValue as RankEnum)}>
+                  <Share2 width={24} height={24} color='#EE5D28' />
+                  <Text className='text-body font-bold text-primary'>{t('button.share')}</Text>
+                </Button>
+              )}
             </View>
           </View>
         </View>

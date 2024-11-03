@@ -22,7 +22,6 @@ export const useShare = () => {
 
       const asset = Asset.fromModule(image);
       await asset.downloadAsync();
-
       if (!asset.localUri) {
         throw new Error('Failed to get local URI for asset');
       }
@@ -30,7 +29,6 @@ export const useShare = () => {
       return asset.localUri;
     } catch (error) {
       console.error('Error loading image:', error);
-      throw error;
     }
   };
 
@@ -43,8 +41,7 @@ export const useShare = () => {
 
       const isAvailable = await Sharing.isAvailableAsync();
       if (!isAvailable) {
-        alert('Sharing is not available on this platform');
-        return;
+        throw new Error('Sharing not available');
       }
 
       await Sharing.shareAsync(uri, {
@@ -54,7 +51,6 @@ export const useShare = () => {
       });
     } catch (error) {
       console.error('Error sharing:', error);
-      alert('Error sharing image');
     }
   };
 
