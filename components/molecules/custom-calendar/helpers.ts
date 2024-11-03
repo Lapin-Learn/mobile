@@ -63,6 +63,7 @@ const generateCalendar = (startDay: Date) => {
 
 const parseActiveDays = (originalDays: DayProps[], activeDays: Date[] = []) => {
   activeDays.sort((a, b) => a.getTime() - b.getTime());
+  activeDays = Array.from(new Set(activeDays.map((d) => d.getTime()))).map((time) => new Date(time));
   const newDays = [...originalDays];
   let i = 0;
   let j = 0;

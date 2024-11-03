@@ -1,13 +1,14 @@
 import { startOfMonth, subMonths } from 'date-fns';
 import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import CustomCalendar from '~/components/molecules/custom-calendar';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
 import PlatformView from '~/components/templates/PlatformView';
+import Styles from '~/constants/GlobalStyles';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
@@ -40,22 +41,26 @@ const Streak = () => {
   const { data, isFetching } = useGameProfile();
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
-  const textStyle = data?.streak.current === 0 ? 'text-[#849EBC]' : 'text-blue';
+  const textStyle = data?.streak.current === 0 ? 'broken' : 'extended';
   const isLongestStreak = data?.streak.current === data?.streak.record;
   if (isFetching) return <Loading />;
 
   return (
     <>
-      <PlatformView className='flex-1 bg-[#E7F4FE]'>
+      <PlatformView style={styles.platformView}>
         <NavigationBar headerTitle='Streak' headerLeftShown />
-        <View className='flex gap-y-8 px-8 pb-4'>
-          <View className='flex flex-row items-end justify-between'>
-            <View className='w-full flex-1 gap-y-1'>
-              <View className='gap-y-1'>
-                <Text className={`font-iextrabold text-streak ${textStyle}`}>{data?.streak.current}</Text>
-                <Text className={`font-isemibold text-title-2 ${textStyle}`}>{t('streak.days')}</Text>
+        <View style={styles.recordStreakContainer}>
+          <View style={styles.recordStreakSection}>
+            <View style={styles.recordStreakTitleSection}>
+              <View>
+                <Text style={StyleSheet.flatten([styles.recordStreakTitle1, textStyles[textStyle]])}>
+                  {data?.streak.current}
+                </Text>
+                <Text style={StyleSheet.flatten([styles.recordStreakTitle2, textStyles[textStyle]])}>
+                  {t('streak.days')}
+                </Text>
               </View>
-              <Text className='w-full text-wrap font-isemibold text-caption-1 text-dark'>
+              <Text style={styles.recordStreakCaption}>
                 {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
               </Text>
             </View>
@@ -66,24 +71,106 @@ const Streak = () => {
               style={{ width: 100, height: 125 }}
             />
           </View>
-          <View className='flex flex-row items-center justify-between'>
+          <View style={styles.targetStreakList}>
             {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
               <TargetStreak key={index} width={74} height={80} active={active}>
-                <View className='h-full w-full items-center justify-center '>
-                  <Text className='font-isemibold text-title-2 text-white'>{value}</Text>
+                <View style={styles.targetStreakItem}>
+                  <Text style={styles.targetStreakText}>{value}</Text>
                 </View>
               </TargetStreak>
             ))}
           </View>
         </View>
-        <View className='flex flex-1 grow gap-y-4 bg-background px-4 pt-4'>
-          <Text className='font-isemibold text-title-2'>{t('streak.schedule')}</Text>
+        <View style={styles.streakHistorySection}>
+          <Text style={styles.streakHistoryHeader}>{t('streak.schedule')}</Text>
           <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} />
         </View>
       </PlatformView>
-      <SafeAreaView className='flex-0 bg-background' />
+      <SafeAreaView style={styles.bottomArea} />
     </>
   );
 };
 
+const textStyles = StyleSheet.create({
+  extended: {
+    color: Styles.color.blue.DEFAULT.color,
+  },
+  broken: {
+    color: '#849EBC',
+  },
+});
+
+const styles = StyleSheet.create({
+  recordStreakContainer: {
+    display: 'flex',
+    rowGap: 32,
+    paddingHorizontal: 32,
+    paddingBottom: 16,
+  },
+  recordStreakSection: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  recordStreakTitleSection: {
+    width: '100%',
+    flex: 1,
+    rowGap: 16,
+  },
+  recordStreakTitle1: {
+    ...Styles.font.black,
+    ...Styles.fontSize.streak,
+    marginBottom: 4,
+  },
+  recordStreakTitle2: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-2'],
+  },
+  recordStreakCaption: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize['caption-1'],
+    color: Styles.color.dark.color,
+    width: '100%',
+    flexWrap: 'wrap',
+  },
+  targetStreakList: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  targetStreakItem: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  targetStreakText: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-2'],
+    color: Styles.color.white.color,
+  },
+  platformView: {
+    flex: 1,
+    backgroundColor: '#E7F4FE',
+  },
+  bottomArea: {
+    flex: 0,
+    backgroundColor: Styles.color.background.color,
+  },
+  streakHistoryHeader: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-2'],
+  },
+  streakHistorySection: {
+    display: 'flex',
+    flex: 1,
+    flexGrow: 1,
+    rowGap: 16,
+    backgroundColor: Styles.color.background.color,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+});
 export default Streak;
