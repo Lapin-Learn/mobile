@@ -6,21 +6,27 @@ const font: {
 } = {
   normal: {
     fontFamily: `Inter-Regular`,
+    fontFamily: `Inter-Regular`,
   },
   italic: {
+    fontFamily: `Inter-Italic`,
     fontFamily: `Inter-Italic`,
     fontStyle: 'italic',
   },
   medium: {
     fontFamily: `Inter-Medium`,
+    fontFamily: `Inter-Medium`,
   },
   semibold: {
+    fontFamily: `Inter-SemiBold`,
     fontFamily: `Inter-SemiBold`,
   },
   bold: {
     fontFamily: `Inter-Bold`,
+    fontFamily: `Inter-Bold`,
   },
   black: {
+    fontFamily: `Inter-Black`,
     fontFamily: `Inter-Black`,
   },
 };
