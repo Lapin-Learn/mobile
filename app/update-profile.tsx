@@ -10,8 +10,10 @@ import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
+import Styles from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import { useUpdateUserProfile } from '~/hooks/react-query/useUser';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
@@ -48,12 +50,32 @@ const UpdateProfile = () => {
   };
 
   return (
-    <SafeAreaView className='h-full'>
+    <SafeAreaView style={{ height: '100%' }}>
       <NavigationBar title={t('profile.basic_info')} />
-      <View className='h-full w-full grow flex-col items-center justify-between px-4 pb-8 pt-10'>
-        <View className='gap-y-20'>
-          <ScrollView className='h-full'>
-            <View className='flex h-full gap-y-4'>
+      <View
+        style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 8,
+          paddingBottom: 16,
+          paddingTop: 20,
+        }}>
+        <View style={{ gap: 80 }}>
+          <ScrollView
+            style={{
+              height: '100%',
+            }}>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                columnGap: 16,
+              }}>
               <ControllerInput
                 props={{ name: 'username', control }}
                 label={t('profile.username')}
@@ -77,7 +99,7 @@ const UpdateProfile = () => {
               />
 
               <ControllerInput
-                className='h-[54px]'
+                style={{ height: 54 }}
                 type='select'
                 props={{ name: 'gender', control }}
                 label={t('profile.gender')}
@@ -91,12 +113,15 @@ const UpdateProfile = () => {
               />
             </View>
           </ScrollView>
-          <View className='absolute bottom-20 left-0 right-0 flex gap-4'>
+          <View style={{ position: 'absolute', bottom: 80, left: 0, right: 0, display: 'flex', gap: 16 }}>
             <Button onPress={handleSubmit(onSubmit)} size='lg' disabled={updateUserProfileMutation.isPending}>
-              <Text className='text-button'>{t('profile.done')}</Text>
+              <Text style={GLOBAL_STYLES.textButton}>{t('profile.done')}</Text>
             </Button>
-            <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
-              <Text className='font-ibold text-body text-orange-500 '>{t('sign_out')}</Text>
+            <Button
+              onPress={() => signOut.mutate()}
+              variant='link'
+              style={{ flexDirection: 'row', rowGap: 4, paddingVertical: 14, paddingHorizontal: 20 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 16, ...Styles.color.orange[500] }}>{t('sign_out')}</Text>
               <LogOut size={24} color={Colors.light['orange-500']} />
             </Button>
           </View>
