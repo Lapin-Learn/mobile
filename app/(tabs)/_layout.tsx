@@ -1,7 +1,7 @@
 import { ParamListBase, RouteProp } from '@react-navigation/native';
 import { SplashScreen, Tabs } from 'expo-router';
 import { useCallback, useEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import IconMapTab from '~/assets/images/tab-map.svg';
@@ -9,13 +9,14 @@ import IconMissionTab from '~/assets/images/tab-mission.svg';
 import IconPracticeTab from '~/assets/images/tab-practice.svg';
 import IconProfileTab from '~/assets/images/tab-profile.svg';
 import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
+import Styles from '~/constants/GlobalStyles';
 import { useAuth } from '~/hooks/zustand';
 
 type ActiveTabIconProps = { icon: React.FC<SvgProps>; focused: boolean };
 
 const ActiveTabIcon = ({ icon: Icon, focused }: ActiveTabIconProps) => {
   return (
-    <View className={`${focused ? 'm-4 rounded border border-orange-500 bg-orange-50' : ''}`}>
+    <View style={focused ? styles.active : {}}>
       <Icon />
     </View>
   );
@@ -65,5 +66,15 @@ const TabsLayout = () => {
     </Tabs>
   );
 };
+
+const styles = StyleSheet.create({
+  active: {
+    margin: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Styles.color.orange[500].color,
+    backgroundColor: Styles.color.orange[50].color,
+  },
+});
 
 export default TabsLayout;

@@ -3,7 +3,7 @@ import 'react-native-reanimated';
 
 import { MotiView } from 'moti';
 import { useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Region } from '~/components/molecules/region/Region';
@@ -39,9 +39,9 @@ const Map = () => {
   };
 
   return (
-    <Pressable className='h-full' onPress={() => setCurrentSkill(null)}>
+    <Pressable style={{ height: '100%' }} onPress={() => setCurrentSkill(null)}>
       <MotiView
-        className='-mt-5 flex items-center justify-center'
+        style={styles.motiView}
         from={{
           translateX: 0,
           translateY: 0,
@@ -65,5 +65,14 @@ const Map = () => {
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  motiView: {
+    marginTop: -5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Index;
