@@ -6,21 +6,27 @@ const font: {
 } = {
   normal: {
     fontFamily: `Inter-Regular`,
+    fontFamily: `Inter-Regular`,
   },
   italic: {
+    fontFamily: `Inter-Italic`,
     fontFamily: `Inter-Italic`,
     fontStyle: 'italic',
   },
   medium: {
     fontFamily: `Inter-Medium`,
+    fontFamily: `Inter-Medium`,
   },
   semibold: {
+    fontFamily: `Inter-SemiBold`,
     fontFamily: `Inter-SemiBold`,
   },
   bold: {
     fontFamily: `Inter-Bold`,
+    fontFamily: `Inter-Bold`,
   },
   black: {
+    fontFamily: `Inter-Black`,
     fontFamily: `Inter-Black`,
   },
 };
@@ -170,10 +176,6 @@ const baseColors = {
   supportingText: '#929292',
   background: '#f9f7f7',
   white: '#ffffff',
-  border: '#e0e0e0',
-  secondary: '#f2f2f2',
-  destructive: '#ff4b4b',
-  foreground: '#f0f0f0',
 };
 
 type BaseColors = typeof baseColors;
