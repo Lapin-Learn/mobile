@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    columnGap: 16,
+    gap: 16,
     paddingHorizontal: 8,
   },
   currentQuestion: {

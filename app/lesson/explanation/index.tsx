@@ -7,7 +7,9 @@ import HTML from 'react-native-render-html';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
 // TODO: extract to a separate component
 // const MultipleChoiceAnswer = ({ answers }: { answers: string[] }) => {
@@ -56,9 +58,16 @@ const Explanation = () => {
     <PlatformView>
       <ScrollView>
         <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View className='m-4 mb-20 flex grow flex-col justify-between'>
-          <View className='gap-y-8'>
-            <View className='gap-y-3'>
+        <View
+          style={{
+            margin: 16,
+            marginBottom: 80,
+            flexDirection: 'column',
+            flexGrow: 1,
+            justifyContent: 'space-between',
+          }}>
+          <View style={{ gap: 36 }}>
+            <View style={{ gap: 12 }}>
               <View>
                 <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
               </View>
@@ -67,9 +76,20 @@ const Explanation = () => {
           </View>
         </View>
       </ScrollView>
-      <View className='absolute bottom-0 left-0 right-0 bg-background p-4 pb-10'>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          ...Styles.backgroundColor.white,
+          padding: 16,
+          paddingBottom: 40,
+        }}>
         <Button
-          className='bg-neutral-900'
+          style={{
+            ...Styles.backgroundColor.neutral[900],
+          }}
           onPress={() => {
             if (router.canGoBack()) {
               router.back();
@@ -77,7 +97,7 @@ const Explanation = () => {
               router.dismiss();
             }
           }}>
-          <Text className='text-button'>{t('explanation.understood')}</Text>
+          <Text style={GLOBAL_STYLES.textButton}>{t('explanation.understood')}</Text>
         </Button>
       </View>
     </PlatformView>
