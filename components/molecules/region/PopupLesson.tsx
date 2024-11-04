@@ -25,12 +25,12 @@ export const PopupLesson = ({ skill }: PopupLessonProps) => {
     <View style={styles.container}>
       <View style={styles.arrow} />
       {/* TODO: skill progress */}
-      {/* <View style={{}} className='relative mt-5 h-2 w-full bg-orange-200'>
-        <View style={{}} className='absolute -top-5 mt-5 h-2 w-1/3 bg-orange-500' />
+      {/* <View style={{}}>
+        <View style={{}}/>
       </View>
-      <View style={{}} className='mb-5 mt-2 flex w-full flex-row items-center justify-between'>
-        <Text style={{}} className='font-ibold text-subhead text-blue-900'>{t('list.level', { level: 1 })}</Text>
-        <Text style={{}} className='font-ibold text-subhead text-blue-900'>
+      <View style={{}}>
+        <Text style={{}}>{t('list.level', { level: 1 })}</Text>
+        <Text style={{}}>
           {t('list.progress', { current: 80, total: 2000 })}
         </Text>
       </View> */}
@@ -39,8 +39,8 @@ export const PopupLesson = ({ skill }: PopupLessonProps) => {
           <Text style={styles.buttonText}>{t('list.exerciseButton', { xp: 25 })}</Text>
         </Button>
         {/* TODO: random exercises */}
-        {/* <Button style={{}} className='bg-orange-50' onPress={handleRandom}>
-          <Text style={{}} className='text-button font-isemibold text-subhead text-orange-500'>{t('list.randomButton')}</Text>
+        {/* <Button style={{}} onPress={handleRandom}>
+          <Text style={{}}>{t('list.randomButton')}</Text>
         </Button> */}
       </View>
     </View>
