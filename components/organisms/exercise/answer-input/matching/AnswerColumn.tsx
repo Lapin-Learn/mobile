@@ -90,7 +90,7 @@ export const AnswerColumn = ({
   };
 
   return (
-    <View style={{ rowGap: 4 }}>
+    <View style={{ gap: 4 }}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.list}>
         {options.map((value, index) => {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     ...Styles.fontSize['title-4'],
   },
   list: {
-    rowGap: 8,
+    gap: 8,
   },
 });
 
