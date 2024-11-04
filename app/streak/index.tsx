@@ -103,7 +103,7 @@ const textStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   recordStreakContainer: {
     display: 'flex',
-    rowGap: 32,
+    gap: 32,
     paddingHorizontal: 32,
     paddingBottom: 16,
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   recordStreakTitleSection: {
     width: '100%',
     flex: 1,
-    rowGap: 16,
+    gap: 16,
   },
   recordStreakTitle1: {
     ...Styles.font.black,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexGrow: 1,
-    rowGap: 16,
+    gap: 16,
     backgroundColor: Styles.color.background.color,
     paddingHorizontal: 16,
     paddingTop: 16,

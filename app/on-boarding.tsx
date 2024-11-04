@@ -24,19 +24,19 @@ const OnBoarding = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.onboardingContainer}>
+      <View style={[styles.onboardingContainer, styles.widthFull]}>
         <Onboarding />
       </View>
-      <NavigationBar noBar={true} title={t('on_boarding.title')} style={styles.navigationBar}>
+      <NavigationBar noBar={true} title={t('on_boarding.title')} style={styles.widthFull}>
         <Text style={styles.description}>{t('on_boarding.description')}</Text>
       </NavigationBar>
-      <View style={styles.buttonContainer}>
-        <Button style={styles.getStartButton} onPress={handleGetStart}>
-          <Text style={styles.getStartButtonText}>{t('on_boarding.get_start')}</Text>
+      <View style={[styles.buttonContainer, styles.widthFull]}>
+        <Button size='lg' style={styles.getStartButton} onPress={handleGetStart}>
+          <Text style={[styles.getStartButtonTextColor, styles.buttonText]}>{t('on_boarding.get_start')}</Text>
           <LucideMoveRight color='white' />
         </Button>
-        <Button style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipButtonText}>{t('on_boarding.skip')}</Text>
+        <Button size='lg' style={styles.skipButton} onPress={handleSkip}>
+          <Text style={[styles.skipButtonTextColor, styles.buttonText]}>{t('on_boarding.skip')}</Text>
         </Button>
       </View>
     </View>
@@ -47,16 +47,13 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     justifyContent: 'space-between',
-    paddingBottom: 16,
-    alignItems: 'center',
+    paddingBottom: 32,
   },
   onboardingContainer: {
     height: 444,
-    width: '100%',
-    justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  navigationBar: {
+  widthFull: {
     width: '100%',
   },
   description: {
@@ -64,28 +61,24 @@ const styles = StyleSheet.create({
     ...Styles.color.supportingText,
   },
   buttonContainer: {
-    width: '100%',
     gap: 8,
     paddingHorizontal: 16,
   },
   getStartButton: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     gap: 4,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
   },
-  getStartButtonText: {
-    ...Styles.fontSize.body,
-    color: 'white',
-  },
-  skipButton: {
-    backgroundColor: 'white',
-  },
-  skipButtonText: {
+  buttonText: {
     ...Styles.font.semibold,
     ...Styles.fontSize.body,
+  },
+  getStartButtonTextColor: {
+    ...Styles.color.white,
+  },
+  skipButton: {
+    ...Styles.backgroundColor.white,
+  },
+  skipButtonTextColor: {
     ...Styles.color.neutral[300],
   },
 });

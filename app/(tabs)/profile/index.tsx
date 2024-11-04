@@ -174,14 +174,14 @@ const Index = () => {
 
 const styles = StyleSheet.create({
   profileGroup: {
-    rowGap: 10,
+    gap: 10,
     borderRadius: 8,
     borderWidth: 1,
     ...Styles.borderColor.neutral[100],
     padding: 16,
   },
   root: {
-    rowGap: 40,
+    gap: 40,
     padding: 16,
     paddingTop: 0,
   },
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   buttonSignOut: {
     display: 'flex',
     flexDirection: 'row',
-    columnGap: 4,
+    gap: 4,
     paddingHorizontal: 20,
     paddingVertical: 14,
     alignItems: 'center',
