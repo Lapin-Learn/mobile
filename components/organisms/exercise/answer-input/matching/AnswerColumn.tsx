@@ -1,8 +1,8 @@
-import { cva } from 'class-variance-authority';
 import { Dispatch, SetStateAction } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { PairAnswer } from '~/lib/types/questions';
 
 /**
@@ -15,44 +15,25 @@ export enum Column {
   B = 'columnB',
 }
 
-const buttonVariants = cva('overflow-hidden border bg-background text-center text-body text-neutral-900', {
-  variants: {
-    variant: {
-      default: 'border-neutral-300',
-      selected: 'border-orange-500',
-      correct: 'border-green-400',
-      incorrect: 'border-red-400',
-    },
+const viewStyles = StyleSheet.create({
+  root: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  defaultVariants: {
-    variant: 'default',
+  default: {},
+  selected: {
+    ...Styles.backgroundColor.orange[500],
   },
-});
-
-const textVariants = cva('text-center text-body text-neutral-900', {
-  variants: {
-    variant: {
-      default: '',
-      correct: 'text-green-700',
-      incorrect: 'text-red-700',
-    },
+  correct: {
+    ...Styles.backgroundColor.green[400],
   },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
-
-const viewVariants = cva('absolute right-0 top-0 h-6 w-6 items-center justify-center', {
-  variants: {
-    variant: {
-      default: '',
-      selected: 'bg-orange-500',
-      correct: 'bg-green-400',
-      incorrect: 'bg-red-400',
-    },
-  },
-  defaultVariants: {
-    variant: 'default',
+  incorrect: {
+    ...Styles.backgroundColor.red[400],
   },
 });
 
@@ -109,31 +90,38 @@ export const AnswerColumn = ({
   };
 
   return (
-    <View className='gap-y-2'>
-      <Text className='text-title-4 font-bold'>{title}</Text>
-      <View className='gap-y-3'>
+    <View style={{ rowGap: 4 }}>
+      <Text style={styles.title}>{title}</Text>
+      <View style={styles.list}>
         {options.map((value, index) => {
           const pairIndex = findIndexOfPair(value);
           const isCorrect = pairIndex ? correctness[pairIndex - 1] : false;
           return (
             <Button
               key={index}
-              className={buttonVariants({
-                variant: pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default',
-              })}
+              style={StyleSheet.flatten([
+                buttonStyles.root,
+                buttonStyles[pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default'],
+              ])}
               onPress={() => handlePress(value, column)}>
               <Text
-                className={textVariants({
-                  variant: isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'default',
-                })}>
+                style={StyleSheet.flatten([
+                  textStyles.root,
+                  textStyles[isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'default'],
+                ])}>
                 {value}
               </Text>
               {selectedPairs && (
                 <View
-                  className={viewVariants({
-                    variant: pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default',
-                  })}>
-                  <Text className='text-center text-white'>{findIndexOfPair(value)}</Text>
+                  style={StyleSheet.flatten([
+                    viewStyles.root,
+                    viewStyles[
+                      pairIndex ? (isChecking ? (isCorrect ? 'correct' : 'incorrect') : 'selected') : 'default'
+                    ],
+                  ])}>
+                  <Text style={{ ...Styles.fontSize['caption-1'], color: 'white', textAlign: 'center' }}>
+                    {findIndexOfPair(value)}
+                  </Text>
                 </View>
               )}
             </Button>
@@ -143,3 +131,53 @@ export const AnswerColumn = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-4'],
+  },
+  list: {
+    rowGap: 8,
+  },
+});
+
+const buttonStyles = StyleSheet.create({
+  root: {
+    overflow: 'hidden',
+    borderWidth: 1,
+    ...Styles.backgroundColor.background,
+    textAlign: 'center',
+    ...Styles.font.normal,
+    ...Styles.fontSize.body,
+  },
+  default: {
+    ...Styles.borderColor.neutral[100],
+  },
+  selected: {
+    ...Styles.borderColor.orange[500],
+  },
+  correct: {
+    ...Styles.borderColor.green[400],
+  },
+  incorrect: {
+    ...Styles.borderColor.red[400],
+  },
+});
+
+const textStyles = StyleSheet.create({
+  root: {
+    textAlign: 'center',
+    ...Styles.font.normal,
+    ...Styles.fontSize.body,
+  },
+  default: {
+    ...Styles.color.neutral[900],
+  },
+  correct: {
+    ...Styles.color.green[700],
+  },
+  incorrect: {
+    ...Styles.color.red[700],
+  },
+});
