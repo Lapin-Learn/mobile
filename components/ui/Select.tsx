@@ -145,6 +145,7 @@ const selectItemStyles = StyleSheet.create({
     paddingVertical: 6,
     paddingLeft: 32,
     paddingRight: 4,
+    backgroundColor: 'white',
   },
   text: {
     ...Styles.font.medium,

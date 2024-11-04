@@ -40,7 +40,7 @@ export const MissionSection = ({ title, timeRemaining, missions }: MissionSectio
 const missionSectionStyles = StyleSheet.create({
   remainingTime: {
     flexDirection: 'row',
-    gap: 4,
+    columnGap: 4,
     alignItems: 'center',
   },
   remainingTimeText: {
@@ -55,7 +55,7 @@ const sectionStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    gap: 8,
+    rowGap: 8,
   },
   title: {
     display: 'flex',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   missionInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    columnGap: 4,
     flex: 1,
     flexGrow: 1,
     width: '100%',

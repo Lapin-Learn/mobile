@@ -1,9 +1,10 @@
 import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 
 import Spinner from '~/assets/images/spinner.svg';
+import Styles from '~/constants/GlobalStyles';
 
 type LoadingProps = {
   hiddenText?: boolean;
@@ -12,7 +13,7 @@ export const Loading = ({ hiddenText = false }: LoadingProps) => {
   const { t } = useTranslation('lesson');
   const randomTip = Math.random() * Number(t('loading.tips.length'));
   return (
-    <View className='mx-9 flex h-full flex-col items-center justify-center gap-y-8'>
+    <View style={styles.root}>
       <MotiView
         from={{
           rotate: '0deg',
@@ -29,9 +30,23 @@ export const Loading = ({ hiddenText = false }: LoadingProps) => {
         }}>
         <Spinner />
       </MotiView>
-      {!hiddenText && (
-        <Text className='text-center font-isemibold text-body'>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>
-      )}
+      {!hiddenText && <Text style={styles.text}>{t(`loading.tips.${Math.floor(randomTip)}`)}</Text>}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    rowGap: 32,
+    marginHorizontal: 36,
+  },
+  text: {
+    textAlign: 'center',
+    ...Styles.fontSize.body,
+    ...Styles.font.semibold,
+  },
+});

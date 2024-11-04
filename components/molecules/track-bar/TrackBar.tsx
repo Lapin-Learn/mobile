@@ -1,5 +1,5 @@
 import { Href, router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -13,7 +13,10 @@ const TrackBar = () => {
 
   if (isFetching) {
     return (
-      <View className='h-screen'>
+      <View
+        style={{
+          height: '100%',
+        }}>
         <Loading />
       </View>
     );
@@ -26,7 +29,7 @@ const TrackBar = () => {
   if (!data) return null;
 
   return (
-    <View className='z-50 m-4 flex flex-row items-center justify-center gap-6'>
+    <View style={styles.root}>
       <Pressable onPress={() => router.push('/streak' as Href)}>
         <Streak streak={data.streak.current} />
       </Pressable>
@@ -37,4 +40,16 @@ const TrackBar = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    zIndex: 50,
+    margin: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 24,
+  },
+});
 export default TrackBar;
