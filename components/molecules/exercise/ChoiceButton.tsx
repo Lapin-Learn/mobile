@@ -1,32 +1,54 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+
+import Styles from '~/constants/GlobalStyles';
 
 import { Button, ButtonProps } from '../../ui/Button';
 
-const choiceButtonVariants = cva('border-2 mb-3 w-full px-5 py-3', {
-  variants: {
-    variant: {
-      default: 'border-neutral-200 bg-background',
-      correct: 'border-green-400 bg-green-50 text-green-700',
-      incorrect: 'border-red-400 bg-red-50 text-red-700',
-      selected: 'border-orange-500 bg-background',
-    },
-  },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
-
-type ChoiceButtonProps = Omit<ButtonProps, 'variant'> &
-  VariantProps<typeof choiceButtonVariants> & {
-    label: string;
-  };
-const ChoiceButton = ({ variant, label, ...props }: ChoiceButtonProps) => {
+type ChoiceButtonProps = Omit<ButtonProps, 'variant'> & {
+  variant?: 'default' | 'correct' | 'incorrect' | 'selected';
+  label: string;
+};
+const ChoiceButton = ({ variant = 'default', label, ...props }: ChoiceButtonProps) => {
   return (
-    <Button className={choiceButtonVariants({ variant })} {...props}>
-      <Text className='text-center text-body text-neutral-900'>{label}</Text>
+    <Button style={StyleSheet.flatten([buttonStyles.root, buttonStyles[variant]])} {...props}>
+      <Text style={textStyle.root}>{label}</Text>
     </Button>
   );
 };
+
+const textStyle = StyleSheet.create({
+  root: {
+    textAlign: 'center',
+    ...Styles.font.normal,
+    ...Styles.fontSize.body,
+    ...Styles.color.neutral[900],
+  },
+});
+
+const buttonStyles = StyleSheet.create({
+  root: {
+    borderWidth: 2,
+    marginBottom: 12,
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  default: {
+    ...Styles.borderColor.neutral[100],
+    ...Styles.backgroundColor.background,
+  },
+  correct: {
+    ...Styles.borderColor.green[400],
+    ...Styles.backgroundColor.green[50],
+  },
+  incorrect: {
+    ...Styles.borderColor.red[400],
+    ...Styles.backgroundColor.red[50],
+  },
+  selected: {
+    ...Styles.borderColor.orange[500],
+    ...Styles.backgroundColor.background,
+  },
+});
 
 export default ChoiceButton;

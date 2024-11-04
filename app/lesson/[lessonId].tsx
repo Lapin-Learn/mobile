@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import QuestionTemplate from '~/components/organisms/exercise/QuestionTemplate';
@@ -44,12 +44,21 @@ const Lesson = () => {
       {currentQuestion ? (
         <QuestionTemplate />
       ) : (
-        <View className='flex h-full items-center justify-center'>
+        <View style={styles.noQuestionFoundContainer}>
           <Text>{t('general.noQuestionFound')}</Text>
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  noQuestionFoundContainer: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Lesson;

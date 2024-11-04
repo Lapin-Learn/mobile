@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { MultipleChoiceContent } from '~/lib/types/questions';
-import { cn } from '~/lib/utils';
 
 type MultipleChoiceProps = MultipleChoiceContent & {
   onAnswer: (isCorrect: boolean) => void;
@@ -55,7 +55,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
 
   return (
     <>
-      <ScrollView className={cn('flex-1', isChecking ? 'mb-22' : 'mb-10')}>
+      <ScrollView style={[{ flex: 1 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
         {answer.length === 1
           ? options.map((option, index) => (
               <ChoiceButton
@@ -97,14 +97,25 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
             ))}
       </ScrollView>
       {isChecking && (
-        <View className='absolute bottom-0 left-0 right-0 pb-10'>
-          <Button className='bg-neutral-900' onPress={answerQuestion}>
-            <Text className='text-button'>{t('general.check')}</Text>
+        <View style={styles.buttonView}>
+          <Button variant='black' size='lg' onPress={answerQuestion}>
+            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
         </View>
       )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 40,
+    marginHorizontal: 16,
+  },
+});
 
 export default MultipleChoice;
