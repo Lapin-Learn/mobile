@@ -3,14 +3,15 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
-import { cn } from '~/lib/utils';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'Invalid code')).length(6, 'Invalid code'),
@@ -82,24 +83,33 @@ const Verify = () => {
     <PlatformView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
-        <View className='w-full grow flex-col items-center justify-between px-4'>
-          <View className='w-full gap-y-10'>
-            <View className='flex-row'>
-              <Text className='w-full flex-wrap font-inormal text-callout text-neutral-500'>
-                {t('verify.instruction', { email: maskEmail(email as string) })}
+        <View style={styles.container}>
+          <View style={styles.instructionContainer}>
+            <View style={styles.instructionTextContainer}>
+              <Text
+                style={StyleSheet.flatten([
+                  styles.instructionText,
+                  Styles.font.normal,
+                  Styles.fontSize.callout,
+                  Styles.color.neutral[500],
+                ])}>
+                {t('verify.instruction')}
+                <Text style={{ ...Styles.color.orange[900] }}>{maskEmail(email as string)}</Text>
               </Text>
             </View>
             <Controller
               control={control}
               name='code'
               render={({ field }) => (
-                <View className='flex flex-row items-center justify-center gap-x-4'>
+                <View style={styles.codeInputContainer}>
                   {field.value.map((_, i) => (
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
-                      className='h-12 w-12 rounded border border-neutral-200 bg-white p-3 font-imedium text-subhead placeholder:font-isemibold placeholder:text-title-2 placeholder:text-neutral-700'
+                      style={styles.codeInput}
+                      placeholderTextColor={Styles.color.neutral[700].color}
                       maxLength={1}
+                      textAlignVertical='center'
                       keyboardType='numeric'
                       value={field.value[i]}
                       textAlign='center'
@@ -112,14 +122,26 @@ const Verify = () => {
               )}
             />
           </View>
-          <View className='w-full gap-y-4'>
-            <Button onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending} size='lg'>
-              <Text className='text-button'>{t('verify.checkOtpButton')}</Text>
+          <View style={styles.buttonContainer}>
+            <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending}>
+              <Text style={GLOBAL_STYLES.textButton}>{t('verify.checkOtpButton')}</Text>
             </Button>
-            <View className='flex flex-row items-center justify-center gap-x-2.5'>
-              <Text className='text-footnote text-neutral-900'>{t('verify.noOtp')}</Text>
+            <View style={styles.resendContainer}>
+              <Text
+                style={{
+                  ...Styles.fontSize.footnote,
+                  ...Styles.color.neutral[900],
+                }}>
+                {t('verify.noOtp')}
+              </Text>
               <Pressable onPress={handleResendCode} disabled={time > 0}>
-                <Text className={cn('font-imedium text-footnote', time > 0 ? 'text-neutral-300' : 'text-orange-500')}>
+                <Text
+                  style={[
+                    Styles.fontSize.footnote,
+                    Styles.font.medium,
+                    Styles.color.orange[500],
+                    time > 0 && Styles.color.neutral[300],
+                  ]}>
                   {(time > 0 || resentMutation.isPending) &&
                     t('verify.resendCodeWithTime', { time: time > 0 ? time : '' })}
                   {time === 0 && !resentMutation.isPending && t('verify.resendCodeWithoutTime')}
@@ -134,3 +156,59 @@ const Verify = () => {
 };
 
 export default Verify;
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    flexGrow: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  instructionContainer: {
+    gap: 40,
+  },
+  instructionTextContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  instructionText: {
+    width: '100%',
+    flexWrap: 'wrap',
+  },
+  codeInputContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  codeInput: {
+    height: 48,
+    width: 48,
+    borderRadius: 8,
+    borderWidth: 1,
+    ...Styles.backgroundColor.white,
+    ...Styles.borderColor.neutral[200],
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-2'],
+    textAlignVertical: 'center',
+    padding: 12,
+    textAlign: 'center',
+  },
+  codeInputPlaceholder: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-2'],
+    ...Styles.color.neutral[700],
+  },
+  buttonContainer: {
+    width: '100%',
+    gap: 16,
+  },
+  resendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+});

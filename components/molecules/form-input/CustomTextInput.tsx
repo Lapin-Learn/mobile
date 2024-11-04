@@ -1,17 +1,28 @@
-import { TextInput, TextInputProps } from 'react-native';
+import { StyleSheet, TextInput, TextInputProps } from 'react-native';
 
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
-const CustomTextInput = ({ className, ...props }: TextInputProps) => {
+const CustomTextInput = ({ style, ...props }: TextInputProps) => {
   return (
     <TextInput
-      className={cn(
-        'w-full rounded border border-neutral-200 bg-white p-3 font-imedium text-subhead placeholder:text-neutral-300',
-        className
-      )}
+      style={StyleSheet.flatten([styles.root, style])}
+      placeholderTextColor={Styles.color.neutral[300].color}
       {...props}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    width: '100%',
+    borderRadius: 8,
+    borderWidth: 1,
+    ...Styles.borderColor.neutral[200],
+    backgroundColor: 'white',
+    padding: 12,
+    ...Styles.font.medium,
+    ...Styles.fontSize.subhead,
+  },
+});
 
 export default CustomTextInput;

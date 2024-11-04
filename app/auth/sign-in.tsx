@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
@@ -11,9 +11,12 @@ import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
-import { Text } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { useSignIn, useSignInWithProvider } from '~/hooks/react-query/useAuth';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { ProviderNameEnum } from '~/lib/enums';
+
+const { font, fontSize, color } = Styles;
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -42,10 +45,10 @@ const SignIn = () => {
     <PlatformView>
       <NavigationBar title={t('signIn.welcomeBack')} />
 
-      <View className='w-full grow flex-col items-center justify-between px-4 pb-8'>
-        <Text className='w-full font-inormal text-callout text-neutral-500'>{t('signIn.enterDetails')}</Text>
-        <View className='gap-y-20'>
-          <View className='flex gap-y-4'>
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>{t('signIn.enterDetails')}</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
             <ControllerInput
               props={{ name: 'email', control }}
               label={t('signIn.email')}
@@ -61,27 +64,35 @@ const SignIn = () => {
               type='password'
             />
 
-            <View className='flex flex-row justify-end'>
+            <View style={styles.forgotPassword}>
               <Link push href='/auth/(forgot-password)'>
-                <Text className='font-imedium text-subhead text-orange-500'>{t('signIn.forgotPassword')}</Text>
+                <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.orange[500]])}>
+                  {t('signIn.forgotPassword')}
+                </Text>
               </Link>
             </View>
           </View>
 
-          <View className='gap-y-6'>
-            <Button onPress={handleSubmit(onSubmit)} size='lg' disabled={signInMutation.isPending}>
-              <Text className='text-button'>{t('signIn.signIn')}</Text>
+          <View style={styles.gapY6}>
+            <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={signInMutation.isPending}>
+              <Text style={GLOBAL_STYLES.textButton}>{t('signIn.signIn')}</Text>
             </Button>
-            <View className='flex flex-col items-center justify-center gap-y-6'>
-              <Text className='font-imedium text-subhead text-supporting-text'>{t('signIn.orSignInWith')}</Text>
+            <View style={containers.otherSignIn}>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText])}>
+                {t('signIn.orSignInWith')}
+              </Text>
               <OtherSignIn />
             </View>
           </View>
         </View>
-        <View className='flex flex-row items-center justify-center gap-x-2.5'>
-          <Text className='font-inormal text-footnote text-neutral-900'>{t('signIn.noAccount')}</Text>
+        <View style={containers.doNotHaveAccount}>
+          <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
+            {t('signIn.noAccount')}
+          </Text>
           <Link push href='/auth/sign-up'>
-            <Text className='font-imedium text-footnote text-orange-500'>{t('signIn.signUp')}</Text>
+            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+              {t('signIn.signUp')}
+            </Text>
           </Link>
         </View>
       </View>
@@ -89,25 +100,94 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
-
 const OtherSignIn = () => {
   const signInWithProvider = useSignInWithProvider();
-
   const { t } = useTranslation('auth');
+
   return (
-    <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      {/* TODO: Sign in with facebook */}
+    <View style={otherSignInStyles.container}>
+      {/* TODO: Sign up with Facebook */}
       {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
       <Button
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
         }}
         variant='outline'
-        className='flex flex-row justify-center gap-2 text-center'>
+        size='lg'
+        style={otherSignInStyles.googleButton}>
         <IconPressable Icon={LogoGoogle} />
-        <Text className='w-fit'>{t('signIn.continueWith', { name: 'Google' })}</Text>
+        <Text>{t('signIn.continueWith', { name: 'Google' })}</Text>
       </Button>
     </View>
   );
 };
+
+export default SignIn;
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
+  content: {
+    width: '100%',
+    flexGrow: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+  },
+  subtitle: {
+    width: '100%',
+    ...Styles.font.normal,
+    ...Styles.fontSize.callout,
+    ...Styles.color.neutral[500],
+  },
+  formContainer: {
+    gap: 80,
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    gap: 16,
+  },
+  gapY6: {
+    gap: 24,
+  },
+  flexColCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flexRowCenter: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  forgotPassword: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+});
+
+const containers = StyleSheet.create({
+  otherSignIn: StyleSheet.flatten([styles.flexColCenter, styles.gapY6]),
+  doNotHaveAccount: StyleSheet.flatten([styles.flexRowCenter, { gap: 10 }]),
+});
+
+const otherSignInStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 35,
+  },
+  googleButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+});

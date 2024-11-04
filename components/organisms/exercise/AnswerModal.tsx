@@ -1,12 +1,13 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import IconCrossCircle from '~/assets/images/cross-circle.svg';
 import { CustomModal } from '~/components/molecules/Modal';
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
 import { Button } from '../../ui/Button';
 
@@ -41,53 +42,117 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
   return (
     <CustomModal visible={showModal} onRequestClose={onPressContinue}>
       <View
-        className={cn(
-          'absolute bottom-0 flex w-screen justify-end gap-4 px-4 pb-10 pt-4',
-          type === 'correct' ? 'bg-green-50' : 'bg-red-50'
-        )}>
-        <View className='flex flex-row items-center justify-between'>
-          {type === 'correct' ? (
-            <View className='flex flex-row items-center gap-2'>
-              <IconCheckmarkCircle width={24} height={24} />
-              <Text className='font-ibold text-title-2 text-green-900'>
-                {t(`general.correct.${Math.floor(randomEncourage)}`)}
-              </Text>
-            </View>
-          ) : (
-            <View className='flex flex-row items-center gap-2'>
-              <IconCrossCircle width={24} height={24} />
-              <Text className='font-ibold text-title-2 text-red-900'>
-                {t(`general.incorrect.${Math.floor(randomEncourage)}`)}
-              </Text>
-            </View>
-          )}
+        style={StyleSheet.flatten([
+          styles.root,
+          type === 'correct'
+            ? {
+                ...Styles.backgroundColor.green[50],
+              }
+            : {
+                ...Styles.backgroundColor.red[50],
+              },
+        ])}>
+        <View style={styles.textContainer}>
+          <View style={styles.titleContainer}>
+            {type === 'correct' ? (
+              <>
+                <IconCheckmarkCircle width={24} height={24} />
+                <Text style={StyleSheet.flatten([styles.title, styles.correctTitle])}>
+                  {t(`general.correct.${Math.floor(randomEncourage)}`)}
+                </Text>
+              </>
+            ) : (
+              <>
+                <IconCrossCircle width={24} height={24} />
+                <Text style={StyleSheet.flatten([styles.title, styles.incorrectTitle])}>
+                  {t(`general.incorrect.${Math.floor(randomEncourage)}`)}
+                </Text>
+              </>
+            )}
+          </View>
           <Pressable
             onPress={() => {
               // Close modal and navigate to explanation page
               if (setShowModal) setShowModal(false);
               router.push('/lesson/explanation');
             }}>
-            <Text className={cn('text-subhead underline', type === 'correct' ? 'text-green-700' : 'text-red-700')}>
+            <Text
+              style={{
+                ...Styles.font.normal,
+                ...Styles.fontSize.subhead,
+                textDecorationLine: 'underline',
+                color: type === 'correct' ? Styles.color.green[700].color : Styles.color.red[700].color,
+              }}>
               {t('general.explanation')}
             </Text>
           </Pressable>
         </View>
         {type === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
           <View>
-            <Text className='font-isemibold text-body text-neutral-900'>{t('general.correctAnswer')}</Text>
+            <Text style={styles.correctAnswers}>{t('general.correctAnswer')}</Text>
             {correctAnswers?.map((answer, index) => (
-              <Text key={index} className='text-body text-neutral-900'>
+              <Text key={index} style={styles.correctAnswers}>
                 {`\u2022 ${answer}`}
               </Text>
             ))}
           </View>
         )}
-        <Button className={`${type === 'correct' ? 'bg-green-500' : 'bg-red-500'}`} onPress={onPressContinue}>
-          <Text className='text-button'>{t('general.continue')}</Text>
+        <Button
+          style={
+            type === 'correct'
+              ? {
+                  ...Styles.backgroundColor.green[500],
+                }
+              : {
+                  ...Styles.backgroundColor.red[500],
+                }
+          }
+          onPress={onPressContinue}>
+          <Text style={GLOBAL_STYLES.textButton}>{t('general.continue')}</Text>
         </Button>
       </View>
     </CustomModal>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    position: 'absolute',
+    bottom: 0,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    gap: 16,
+    paddingTop: 16,
+    paddingBottom: 40,
+    paddingHorizontal: 16,
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  title: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-2'],
+  },
+  correctTitle: {
+    ...Styles.color.green[900],
+  },
+  incorrectTitle: {
+    ...Styles.color.red[900],
+  },
+  correctAnswers: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.body,
+  },
+});
 
 export default AnswerModal;

@@ -4,7 +4,7 @@ import { Camera, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -12,6 +12,7 @@ import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
+import Styles from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import {
   useCreatePreSignedUrl,
@@ -114,34 +115,38 @@ const Index = () => {
     <PlatformView>
       <NavigationBar headerLeftShown={false} />
       <ScrollView>
-        <View className='gap-y-10 p-4 pt-0'>
-          <View className='items-center justify-center'>
-            <View className='items-end justify-end'>
-              <View className='h-22 w-22 overflow-hidden rounded-full'>
+        <View style={styles.root}>
+          <View style={styles.avatarSection}>
+            <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+              <View style={styles.avatar}>
                 {isAvatarChanged ? (
                   <Skeleton width='100%' height='100%' colorMode='light' />
                 ) : (
-                  <Image className='h-full w-full' source={{ uri: image }} />
+                  <Image style={{ width: '100%', height: '100%' }} source={{ uri: image }} />
                 )}
               </View>
-              <Button
-                variant='link'
-                className='absolute z-10 m-0 h-6 w-6 items-center justify-center rounded-full bg-white p-0'
-                onPress={handleChangeAvatar}>
+              <Button variant='link' style={styles.avatarButton} onPress={handleChangeAvatar}>
                 <Camera size={16} color={Colors.light['orange-500']} />
               </Button>
             </View>
-            <Text className='font-ibold text-title-1 text-black'>{profileData[1].value}</Text>
-            <Text className='text-body text-supporting-text'>{profileData[2].value}</Text>
+            <Text style={styles.username}>{profileData[1].value}</Text>
+            <Text style={styles.email}>{profileData[2].value}</Text>
           </View>
 
           <ProfileSection>
-            <ProfileSection.Title label={t('profile.basic_info')} textClassName='text-title-4'>
-              <Button variant='link' size='sm' onPress={handleEdit}>
-                <Text className='text-subhead text-orange-500'>{t('profile.edit')}</Text>
+            <ProfileSection.Title label={t('profile.basic_info')} textStyle={{ ...Styles.fontSize['title-4'] }}>
+              <Button variant='link' size='sm' onPress={handleEdit} style={{ width: 'auto' }}>
+                <Text
+                  style={{
+                    ...Styles.font.normal,
+                    ...Styles.fontSize.subhead,
+                    ...Styles.color.orange['500'],
+                  }}>
+                  {t('profile.edit')}
+                </Text>
               </Button>
             </ProfileSection.Title>
-            <ProfileSection.Group className='gap-y-2.5 rounded border border-neutral-100 p-4'>
+            <ProfileSection.Group style={styles.profileGroup}>
               {profileData.map((item, index) => (
                 <ProfileSection.Item key={index} label={t(item.label)} value={item.value} />
               ))}
@@ -150,15 +155,15 @@ const Index = () => {
 
           {/* TODO: Implement setting later */}
           {/* <ProfileSection>
-            <ProfileSection.Title label={t('settings.title')} textClassName='text-title-4' />
+            <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] />
             <ProfileSection.List
               data={settingsData.map((item) => ({ label: t(item.label), action: item.action }))}
               rightIcon={ChevronRight}
             />
           </ProfileSection> */}
 
-          <Button onPress={() => signOut.mutate()} variant='link' className='flex-row gap-x-1 px-5 py-3.5'>
-            <Text className='font-ibold text-body text-orange-500 '>{t('sign_out')}</Text>
+          <Button onPress={() => signOut.mutate()} variant='link' style={styles.buttonSignOut}>
+            <Text style={styles.buttonSignOutText}>{t('sign_out')}</Text>
             <LogOut size={24} color={Colors.light['orange-500']} />
           </Button>
         </View>
@@ -167,4 +172,64 @@ const Index = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  profileGroup: {
+    gap: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    ...Styles.borderColor.neutral[100],
+    padding: 16,
+  },
+  root: {
+    gap: 40,
+    padding: 16,
+    paddingTop: 0,
+  },
+  avatar: {
+    height: 88,
+    width: 88,
+    borderRadius: 999,
+    overflow: 'hidden',
+  },
+  username: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-1'],
+    ...Styles.color.dark,
+  },
+  email: {
+    ...Styles.color.supportingText,
+    ...Styles.fontSize.body,
+  },
+  avatarButton: {
+    position: 'absolute',
+    margin: 0,
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 999,
+    backgroundColor: 'white',
+    padding: 0,
+  },
+  avatarSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonSignOut: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 4,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonSignOutText: {
+    ...Styles.color.orange['500'],
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+  },
+});
 export default Index;

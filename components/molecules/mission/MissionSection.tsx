@@ -1,35 +1,81 @@
 import { Clock } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Carrot from '~/assets/images/carrot.svg';
 import { default as MissionIcon } from '~/components/icons/MissionIcon';
 import { ProfileSection as Section } from '~/components/molecules/profile/ProfileSection';
 import { Progress } from '~/components/ui/Progress';
-import { cn, convertMissionNameCategory, formatRemainingToDateTime } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
+import { convertMissionNameCategory, formatRemainingToDateTime } from '~/lib/utils';
 
 import { MissionProps, MissionSectionProps } from './type';
 
 export const MissionSection = ({ title, timeRemaining, missions }: MissionSectionProps) => {
   const { t } = useTranslation('mission');
   return (
-    <Section className='px-4 pt-5'>
+    <Section style={{ paddingHorizontal: 16, paddingTop: 16 }}>
       {title && timeRemaining && (
-        <Section.Title label={title} className='items-end' textClassName='font-isemibold text-title-2 text-black'>
-          <View className='flex-row gap-x-1'>
-            <Clock size={20} color='#F17D53' />
-            <Text className='shrink font-imedium text-subhead text-orange-400'>
+        <Section.Title
+          label={title}
+          style={{
+            alignItems: 'flex-end',
+          }}
+          textStyle={sectionStyles.label}>
+          <View style={missionSectionStyles.remainingTime}>
+            <Clock size={16} color='#F17D53' />
+            <Text style={missionSectionStyles.remainingTimeText}>
               {t('time_remaining', { time: formatRemainingToDateTime(timeRemaining) })}
             </Text>
           </View>
         </Section.Title>
       )}
-      <Section.Group className='bg-white'>
+      <Section.Group style={{ backgroundColor: 'white', paddingVertical: 0 }}>
         <ListMissions data={missions} />
       </Section.Group>
     </Section>
   );
 };
+
+const missionSectionStyles = StyleSheet.create({
+  remainingTime: {
+    flexDirection: 'row',
+    gap: 4,
+    alignItems: 'center',
+  },
+  remainingTimeText: {
+    ...Styles.font.medium,
+    ...Styles.fontSize['caption-1'],
+    ...Styles.color.orange[400],
+  },
+});
+
+const sectionStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    gap: 8,
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  label: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-3'],
+    ...Styles.color.dark,
+  },
+  group: {
+    borderWidth: 1,
+    ...Styles.borderColor.neutral[100],
+    overflow: 'hidden',
+    borderRadius: 8,
+    padding: 16,
+  },
+});
 
 export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
   return data.map((item, index) => {
@@ -37,33 +83,80 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
     const isLastItem = index === data.length - 1;
 
     return (
-      <View key={index} className={cn(progressValue >= 1 ? 'bg-yellow-100' : '')}>
-        <Section.Item className='flex-0 w-full items-center justify-between gap-2 p-4'>
-          <View className='flex-1 flex-row items-center gap-1'>
-            <View className='h-12 w-12 overflow-hidden rounded'>
+      <View key={index} style={[progressValue >= 1 ? { ...Styles.backgroundColor.yellow[100] } : null]}>
+        <Section.Item style={styles.root}>
+          <View style={styles.missionInfo}>
+            <View style={{ height: 48, width: 48 }}>
               {item.interval === 'daily' ? (
                 <MissionIcon.Daily code={item.name} />
               ) : (
                 <MissionIcon.Monthly code={item.name} />
               )}
             </View>
-            <View className='flex-1 flex-col gap-1'>
-              <Text className='font-isemibold text-title-4'>{convertMissionNameCategory(item)}</Text>
-              <Progress
-                className='h-4 rounded-xl'
-                indicatorClassName='bg-orange-400'
-                value={progressValue * 100}
-                label={`${item.current}/${item.quantity}`}
-              />
-            </View>
+            <Section.Title
+              label={convertMissionNameCategory(item)}
+              textStyle={{ ...Styles.fontSize.subhead }}
+              style={{
+                flex: 1,
+                flexGrow: 1,
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                gap: 4,
+              }}>
+              <View style={{ width: '100%' }}>
+                <Progress
+                  style={{
+                    height: 16,
+                  }}
+                  indicatorStyle={{
+                    ...Styles.backgroundColor.orange[400],
+                  }}
+                  value={progressValue * 100}
+                  label={`${item.current}/${item.quantity}`}
+                />
+              </View>
+            </Section.Title>
           </View>
-          <View className='flex-row items-center justify-center px-1'>
-            <Text className='font-isemibold text-subhead text-dark'>+{item.rewards}</Text>
+          <View style={styles.reward}>
+            <Text style={styles.rewardText}>+{item.rewards}</Text>
             <Carrot width={18} height={18} />
           </View>
         </Section.Item>
-        {!isLastItem && <View className='border-t border-neutral-100' />}
+        {!isLastItem && <View style={{ borderTopWidth: 1, ...Styles.borderColor.neutral[100] }} />}
       </View>
     );
   });
 };
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 0,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 16,
+  },
+  missionInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    flex: 1,
+    flexGrow: 1,
+    width: '100%',
+  },
+  rewardText: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.subhead,
+    ...Styles.color.dark,
+  },
+  reward: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+    width: 56,
+  },
+});

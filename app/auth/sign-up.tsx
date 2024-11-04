@@ -82,7 +82,7 @@ const SignUp = () => {
             />
           </View>
           <View style={styles.gapY6}>
-            <Button onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
+            <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={signUpMutation.isPending}>
               <Text style={GLOBAL_STYLES.textButton}>{t('signUp.signUpButton')}</Text>
             </Button>
             <View style={containers.otherSignIn}>
@@ -108,6 +108,29 @@ const SignUp = () => {
   );
 };
 
+const OtherSignIn = () => {
+  const signInWithProvider = useSignInWithProvider();
+  const { t } = useTranslation('auth');
+
+  return (
+    <View style={otherSignInStyles.container}>
+      {/* TODO: Sign up with Facebook */}
+      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
+      <Button
+        onPress={() => {
+          signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
+        }}
+        variant='outline'
+        style={otherSignInStyles.googleButton}>
+        <IconPressable Icon={LogoGoogle} />
+        <Text>{t('signIn.continueWith', { name: 'Google' })}</Text>
+      </Button>
+    </View>
+  );
+};
+
+export default SignUp;
+
 const styles = StyleSheet.create({
   container: {
     height: '100%',
@@ -129,14 +152,14 @@ const styles = StyleSheet.create({
     color: '#5c5c5c',
   },
   formContainer: {
-    rowGap: 80,
+    gap: 80,
   },
   inputContainer: {
     flexDirection: 'column',
     gap: 16,
   },
   gapY6: {
-    rowGap: 24,
+    gap: 24,
   },
   flexColCenter: {
     display: 'flex',
@@ -157,24 +180,17 @@ const containers = StyleSheet.create({
   doNotHaveAccount: StyleSheet.flatten([styles.flexRowCenter, { gap: 10 }]),
 });
 
-export default SignUp;
-
-const OtherSignIn = () => {
-  const signInWithProvider = useSignInWithProvider();
-  const { t } = useTranslation('auth');
-  return (
-    <View className='flex flex-row items-center justify-center gap-x-[35px]'>
-      {/* TODO: Sign up with facebook */}
-      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
-      <Button
-        onPress={() => {
-          signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
-        }}
-        variant='outline'
-        className='flex flex-row justify-center gap-2 text-center'>
-        <IconPressable Icon={LogoGoogle} />
-        <Text className='w-fit'>{t('signIn.continueWith', { name: 'Google' })}</Text>
-      </Button>
-    </View>
-  );
-};
+const otherSignInStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 35,
+  },
+  googleButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+});

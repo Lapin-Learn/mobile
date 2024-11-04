@@ -14,8 +14,7 @@
   "quoteProps": "as-needed",
   "htmlWhitespaceSensitivity": "ignore",
   "singleAttributePerLine": false,
-  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
-  "tailwindFunctions": ["clsx", "tw", "cn"],
-  "tailwindPreserveWhitespace": true,
-  "tailwindPreserveDuplicates": true
+  "plugins": [
+    "prettier-plugin-organize-imports"
+  ]
 }

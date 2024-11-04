@@ -1,15 +1,7 @@
-import type { ClassValue } from 'clsx';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
 import i18next from '~/i18n';
 
 import { MissionCategoryEnum } from './enums';
 import { IMission } from './types';
-
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
 
 export function convertMissionNameCategory(item: IMission) {
   const { t } = i18next;

@@ -1,5 +1,6 @@
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+import Styles from '~/constants/GlobalStyles';
 import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/types/questions';
 
@@ -12,18 +13,38 @@ type QuestionCardProps = {
 };
 const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
   return (
-    <View className='mb-2 mt-2 gap-3'>
-      {data.audioId && <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />}
+    <View style={styles.root}>
+      {data.audioId && (
+        <View style={{ paddingHorizontal: 16 }}>
+          <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />
+        </View>
+      )}
       {!data.audioId && data.content.paragraph && (
         <ReadingContainer>
-          <Text className='p-4 text-body leading-8'>{data.content.paragraph}</Text>
+          <Text style={styles.paragraph}>{data.content.paragraph}</Text>
         </ReadingContainer>
       )}
       {data.contentType === ContentTypeEnum.MULTIPLE_CHOICE && (
-        <Text className='font-ibold text-title-4'>{data.content.question}</Text>
+        <Text style={styles.question}>{data.content.question}</Text>
       )}
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  root: {
+    marginVertical: 8,
+    gap: 12,
+  },
+  paragraph: {
+    ...Styles.font.normal,
+    ...Styles.fontSize.body,
+    lineHeight: 28,
+  },
+  question: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.body,
+    marginHorizontal: 16,
+  },
+});
 export default QuestionCard;

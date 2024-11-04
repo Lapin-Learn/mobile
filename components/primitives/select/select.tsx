@@ -408,18 +408,6 @@ const Separator = React.forwardRef<ViewRef, SlottableViewProps & SelectSeparator
 
 Separator.displayName = 'SeparatorNativeSelect';
 
-const ScrollUpButton = ({ children }: { children?: React.ReactNode; className?: string }) => {
-  return children;
-};
-
-const ScrollDownButton = ({ children }: { children?: React.ReactNode; className?: string }) => {
-  return children;
-};
-
-const Viewport = ({ children }: { children?: React.ReactNode; className?: string }) => {
-  return children;
-};
-
 export {
   Content,
   Group,
@@ -430,12 +418,9 @@ export {
   Overlay,
   Portal,
   Root,
-  ScrollDownButton,
-  ScrollUpButton,
   Separator,
   Trigger,
   Value,
-  Viewport,
   useItemContext,
   useRootContext,
 };

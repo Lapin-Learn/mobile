@@ -1,5 +1,5 @@
 import { MotiView } from 'moti';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import ListeningText from '~/assets/images/listening-text.svg';
@@ -11,7 +11,6 @@ import Speaking from '~/assets/images/speaking.svg';
 import WritingText from '~/assets/images/writing-text.svg';
 import Writing from '~/assets/images/writing.svg';
 import { SkillEnum } from '~/lib/enums';
-import { cn } from '~/lib/utils';
 
 import { PopupLesson } from './PopupLesson';
 
@@ -21,7 +20,6 @@ type RegionProps = {
   onSelect: () => void;
 };
 
-// Move outside the component to avoid unnecessary re-renders
 const regionMapping: Record<SkillEnum, React.FC<SvgProps>> = {
   reading: Reading,
   listening: Listening,
@@ -36,32 +34,30 @@ const textMapping: Record<SkillEnum, React.FC<SvgProps>> = {
   writing: WritingText,
 };
 
-const regionClassName: Record<SkillEnum, string> = {
-  reading: 'top-56 right-18',
-  listening: 'top-14 left-16',
-  speaking: 'top-64 left-28',
-  writing: 'top-80 right-24',
+const createRegionStyles = (top: number, horizontal: number, isLeft: boolean, padding?: number) => ({
+  top: 28 * top + (padding ?? 0),
+  [isLeft ? 'left' : 'right']: 14 * horizontal + (padding ?? 0),
+});
+
+const regionStyle: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+  reading: createRegionStyles(6, 10, true),
+  listening: createRegionStyles(2, 8, false),
+  speaking: createRegionStyles(8, -9, true),
+  writing: createRegionStyles(9, -12, false),
 };
 
-const regionTextClassName: Record<SkillEnum, string> = {
-  reading: 'top-44 left-20',
-  listening: 'top-48 right-16',
-  speaking: 'top-60 left-36',
-  writing: 'top-80 left-24 mt-2',
+const regionTextStyle: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+  reading: createRegionStyles(6, 6, true),
+  listening: createRegionStyles(6, 5, false),
+  speaking: createRegionStyles(7, 10, true, 7),
+  writing: createRegionStyles(10, 6, true, 12),
 };
 
-const regionPopupClassNameLarge: Record<SkillEnum, string> = {
-  reading: 'top-52 right-14 mt-4',
-  listening: 'top-14 left-18 mt-2',
-  speaking: 'top-64 left-1 mt-2',
-  writing: 'top-80 right-22 mt-4',
-};
-
-const regionPopupClassNameSmall: Record<SkillEnum, string> = {
-  reading: 'top-44 -left-60 mt-2',
-  listening: 'top-48 -left-28',
-  speaking: 'top-60 -left-24',
-  writing: 'top-80 -right-16 mt-2',
+const regionPopupStyleSmall: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+  reading: createRegionStyles(6, -9, false, 18),
+  listening: createRegionStyles(6, -12, false, 4),
+  speaking: createRegionStyles(7, -13, true, 20),
+  writing: createRegionStyles(10, -3, false, 24),
 };
 
 const ActionSelectRegion = ({ region: Region }: { region: React.FC<SvgProps> }) => {
@@ -75,10 +71,11 @@ const ActionSelectRegionText = ({ region: RegionText }: { region: React.FC<SvgPr
 export const Region = ({ name, selected, onSelect }: RegionProps) => {
   return (
     <>
-      <View className={cn('absolute flex h-0 w-0 scale-90 items-center justify-center', regionClassName[name])}>
+      <View style={[styles.baseRegion, regionStyle[name]]}>
         <Pressable onPress={onSelect}>
           <ActionSelectRegion region={regionMapping[name]} />
-          <View className={cn('absolute z-50', regionTextClassName[name])}>
+
+          <View style={[styles.baseText, regionTextStyle[name]]}>
             <MotiView
               from={{ opacity: 0 }}
               animate={{ opacity: !selected ? 1 : 0 }}
@@ -88,14 +85,31 @@ export const Region = ({ name, selected, onSelect }: RegionProps) => {
           </View>
         </Pressable>
       </View>
-      {selected && (
-        <View
-          className={cn('absolute z-50 flex scale-90 items-center justify-center', regionPopupClassNameLarge[name])}>
-          <View className={cn('absolute', regionPopupClassNameSmall[name])}>
-            <PopupLesson skill={name} />
+      <View style={[styles.basePopup, regionStyle[name]]}>
+        {selected && (
+          <View style={[styles.baseText, regionPopupStyleSmall[name]]}>
+            <View>
+              <PopupLesson skill={name} />
+            </View>
           </View>
-        </View>
-      )}
+        )}
+      </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  baseRegion: {
+    height: 0,
+    position: 'absolute',
+    transform: [{ scale: 0.9 }],
+  },
+  baseText: {
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+  basePopup: {
+    zIndex: 999,
+    transform: [{ scale: 0.9 }],
+  },
+});
