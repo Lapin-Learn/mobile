@@ -14,10 +14,8 @@ import Styles from '~/constants/GlobalStyles';
 import * as ProgressPrimitive from '../primitives/progress';
 
 type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
-  className?: string;
   label?: string;
   value?: number | null;
-  indicatorClassName?: string;
   indicatorStyle?: StyleProps;
 };
 

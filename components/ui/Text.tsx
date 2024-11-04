@@ -4,7 +4,6 @@ import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-nati
 import Styles from '~/constants/GlobalStyles';
 type TextProps = RNTextProps & {
   asChild?: boolean;
-  className?: string;
 };
 
 const TextClassContext = React.createContext<
