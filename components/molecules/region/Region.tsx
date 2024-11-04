@@ -39,21 +39,21 @@ const createRegionStyles = (top: number, horizontal: number, isLeft: boolean, pa
   [isLeft ? 'left' : 'right']: 14 * horizontal + (padding ?? 0),
 });
 
-const regionClassName: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+const regionStyle: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
   reading: createRegionStyles(6, 10, true),
   listening: createRegionStyles(2, 8, false),
   speaking: createRegionStyles(8, -9, true),
   writing: createRegionStyles(9, -12, false),
 };
 
-const regionTextClassName: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+const regionTextStyle: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
   reading: createRegionStyles(6, 6, true),
   listening: createRegionStyles(6, 5, false),
   speaking: createRegionStyles(7, 10, true, 7),
   writing: createRegionStyles(10, 6, true, 12),
 };
 
-const regionPopupClassNameSmall: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
+const regionPopupStyleSmall: Record<SkillEnum, ReturnType<typeof createRegionStyles>> = {
   reading: createRegionStyles(6, -9, false, 18),
   listening: createRegionStyles(6, -12, false, 4),
   speaking: createRegionStyles(7, -13, true, 20),
@@ -71,11 +71,11 @@ const ActionSelectRegionText = ({ region: RegionText }: { region: React.FC<SvgPr
 export const Region = ({ name, selected, onSelect }: RegionProps) => {
   return (
     <>
-      <View style={[styles.baseRegion, regionClassName[name]]}>
+      <View style={[styles.baseRegion, regionStyle[name]]}>
         <Pressable onPress={onSelect}>
           <ActionSelectRegion region={regionMapping[name]} />
 
-          <View style={[styles.baseText, regionTextClassName[name]]}>
+          <View style={[styles.baseText, regionTextStyle[name]]}>
             <MotiView
               from={{ opacity: 0 }}
               animate={{ opacity: !selected ? 1 : 0 }}
@@ -85,9 +85,9 @@ export const Region = ({ name, selected, onSelect }: RegionProps) => {
           </View>
         </Pressable>
       </View>
-      <View style={[styles.basePopup, regionClassName[name]]}>
+      <View style={[styles.basePopup, regionStyle[name]]}>
         {selected && (
-          <View style={[styles.baseText, regionPopupClassNameSmall[name]]}>
+          <View style={[styles.baseText, regionPopupStyleSmall[name]]}>
             <View>
               <PopupLesson skill={name} />
             </View>

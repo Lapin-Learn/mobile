@@ -7,7 +7,6 @@ import Styles from '~/constants/GlobalStyles';
 import * as CheckboxPrimitive from '../primitives/checkbox';
 
 type CheckboxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {
-  className?: string;
   checked?: boolean;
 };
 
