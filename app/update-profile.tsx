@@ -74,7 +74,7 @@ const UpdateProfile = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                gap: 16,
+                columnGap: 16,
               }}>
               <ControllerInput
                 props={{ name: 'username', control }}
@@ -120,15 +120,8 @@ const UpdateProfile = () => {
             <Button
               onPress={() => signOut.mutate()}
               variant='link'
-              style={{ flexDirection: 'row', gap: 4, paddingVertical: 14, paddingHorizontal: 20 }}>
-              <Text
-                style={{
-                  ...Styles.font.bold,
-                  ...Styles.fontSize.body,
-                  ...Styles.color.orange[500],
-                }}>
-                {t('sign_out')}
-              </Text>
+              style={{ flexDirection: 'row', rowGap: 4, paddingVertical: 14, paddingHorizontal: 20 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 16, ...Styles.color.orange[500] }}>{t('sign_out')}</Text>
               <LogOut size={24} color={Colors.light['orange-500']} />
             </Button>
           </View>

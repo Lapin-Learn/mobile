@@ -65,7 +65,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
   return (
     <>
       <ScrollView>
-        <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
+        <View style={[{ rowGap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           <AnswerColumn
             column={Column.A}
             title={columnA.title}

@@ -18,7 +18,7 @@ const ProfileSection: FC<ProfileProps> & {
 } = ({ children, style, ...props }: ProfileProps) => {
   return (
     <ProfileContext.Provider value={{}}>
-      <View style={StyleSheet.flatten([{ flexDirection: 'column', width: '100%', gap: 8 }, style])} {...props}>
+      <View style={StyleSheet.flatten([{ flexDirection: 'column', width: '100%', rowGap: 8 }, style])} {...props}>
         {children}
       </View>
     </ProfileContext.Provider>

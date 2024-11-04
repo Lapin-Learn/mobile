@@ -11,6 +11,7 @@ import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/types';
 import { formatNumber } from '~/lib/utils';
@@ -37,7 +38,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
   }
 
   return (
-    <View className='w-full'>
+    <View style={{ width: '100%' }}>
       <RadialGradientBackground>
         <View className='relative flex h-full items-center'>
           <MotiView
@@ -91,8 +92,8 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                 )}
                 <Progress
                   value={((learner?.xp || 0) / (learner?.level.xp || 1)) * 100}
-                  className='h-5 bg-[#F5CA98]'
-                  indicatorClassName='rounded-full'
+                  style={{ height: 20, backgroundColor: '#F5CA98' }}
+                  indicatorStyle={{ borderRadius: 999 }}
                 />
                 <View className='flex flex-row justify-between'>
                   <Text className='text-body font-semibold'>Level {learner?.level.id}</Text>
@@ -104,7 +105,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
             </View>
             <View className='flex gap-4'>
               <Button onPress={handleNextMilestone}>
-                <Text className='text-button text-center'>{t('button.next')}</Text>
+                <Text style={GLOBAL_STYLES.textButton}>{t('button.next')}</Text>
               </Button>
               {/* TODO: share social*/}
               {/* <Button variant='ghost' size='md' className='flex-row gap-2'>

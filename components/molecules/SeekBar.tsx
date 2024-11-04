@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { LayoutChangeEvent } from 'react-native';
+import { LayoutChangeEvent, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
+
+import Styles from '~/constants/GlobalStyles';
 
 const INITIAL_THUMB_SIZE = 14;
 
@@ -70,15 +72,50 @@ export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress>
   };
 
   return (
-    <GestureHandlerRootView className='flex w-full grow items-center justify-center' onLayout={handleLayout}>
+    <GestureHandlerRootView style={styles.root} onLayout={handleLayout}>
       <GestureDetector gesture={tapGesture}>
-        <Animated.View className='h-2 w-full items-start justify-center overflow-hidden rounded-xl bg-neutral-100'>
+        <Animated.View style={styles.seekBar}>
           <GestureDetector gesture={panGesture}>
-            <Animated.View style={[thumbStyle]} className='absolute z-10 h-3.5 w-3.5 rounded-full bg-background' />
+            <Animated.View style={[thumbStyle, styles.seekbarThumb]} />
           </GestureDetector>
-          <Animated.View style={[sliderStyle]} className='h-2 rounded-xl bg-orange-400' />
+          <Animated.View style={[styles.seekBarCurrent, sliderStyle]} />
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seekBar: {
+    height: 8,
+    width: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 999,
+    position: 'relative',
+    ...Styles.backgroundColor.neutral[100],
+  },
+  seekBarCurrent: {
+    height: 8,
+    position: 'absolute',
+    borderRadius: 999,
+    top: 0,
+    left: 0,
+    ...Styles.backgroundColor.orange[400],
+  },
+  seekbarThumb: {
+    position: 'absolute',
+    zIndex: 10,
+    height: 14,
+    width: 14,
+    borderRadius: 999,
+    ...Styles.backgroundColor.background,
+  },
+});

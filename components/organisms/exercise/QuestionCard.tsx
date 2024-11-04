@@ -14,7 +14,11 @@ type QuestionCardProps = {
 const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
   return (
     <View style={styles.root}>
-      {data.audioId && <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />}
+      {data.audioId && (
+        <View style={{ paddingHorizontal: 16 }}>
+          <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />
+        </View>
+      )}
       {!data.audioId && data.content.paragraph && (
         <ReadingContainer>
           <Text style={styles.paragraph}>{data.content.paragraph}</Text>

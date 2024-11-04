@@ -84,6 +84,7 @@ const formatError = (error: any | AxiosError): APIError => {
     message = error.response.data.message;
   }
 
+  console.error(error);
   return { status, message };
 };
 
