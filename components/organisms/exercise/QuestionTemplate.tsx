@@ -42,7 +42,11 @@ const QuestionTemplate = () => {
   };
 
   if (isPendingMutation) {
-    return <Loading />;
+    return (
+      <PlatformView>
+        <Loading />
+      </PlatformView>
+    );
   }
 
   return (

@@ -10,6 +10,7 @@ import RankIcon from '~/components/icons/RankIcon';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
@@ -40,15 +41,11 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
   return (
     <View style={{ width: '100%' }}>
       <RadialGradientBackground>
-        <View className='relative flex h-full items-center'>
+        <View style={{ position: 'relative', display: 'flex', height: '100%', alignItems: 'center' }}>
           <MotiView
-            className='absolute -bottom-32 flex items-center'
-            from={{
-              rotate: '0deg',
-            }}
-            animate={{
-              rotate: '360deg',
-            }}
+            style={{ position: 'absolute', bottom: -128, alignItems: 'center' }}
+            from={{ rotate: '0deg' }}
+            animate={{ rotate: '360deg' }}
             transition={{
               loop: true,
               repeatReverse: false,
@@ -58,19 +55,36 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
             }}>
             <MilestonesBackground />
           </MotiView>
-          <View className='absolute flex h-full w-full justify-between px-4 pb-4'>
+          <View
+            style={{
+              position: 'absolute',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'space-between',
+              paddingHorizontal: 16,
+              paddingBottom: 16,
+            }}>
             <View />
-            <View className='flex gap-10'>
-              <View className='flex w-full items-center'>
+            <View style={{ gap: 40 }}>
+              <View style={{ alignItems: 'center', width: '100%' }}>
                 {current.type === MilestonesEnum.LEVEL_UP ? (
-                  <View className='relative flex items-center justify-center'>
+                  <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
                     <MilestoneLevel />
-                    <Text className='absolute text-7xl font-extrabold drop-shadow-lg color-white [text-shadow:_4px_4px_4px_#D48A00]'>
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        fontSize: 72,
+                        ...Styles.font.extrabold,
+                        ...Styles.color.white,
+                        textShadowColor: '#D48A00',
+                        textShadowOffset: { width: 4, height: 4 },
+                        textShadowRadius: 4,
+                      }}>
                       {(current.newValue as ILevel).id}
                     </Text>
                   </View>
                 ) : (
-                  <View className='relative flex items-center justify-center'>
+                  <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
                     <MilestoneRank />
                     <RankIcon
                       name={(current.newValue as RankEnum) || RankEnum.BRONZE}
@@ -81,12 +95,18 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                   </View>
                 )}
               </View>
-              <Text className='text-center text-large-title font-bold'>
+              <Text style={{ textAlign: 'center', ...Styles.font.bold, ...Styles.fontSize['large-title'] }}>
                 {current.type === MilestonesEnum.LEVEL_UP ? t('gain-new-level') : t('gain-new-rank')}
               </Text>
-              <View className='flex gap-2 px-12'>
+              <View style={{ gap: 8, paddingHorizontal: 48 }}>
                 {current.type === MilestonesEnum.RANK_UP && (
-                  <Text className='pb-1 text-center text-title-2 font-semibold'>
+                  <Text
+                    style={{
+                      paddingBottom: 4,
+                      textAlign: 'center',
+                      ...Styles.font.semibold,
+                      ...Styles.fontSize['title-2'],
+                    }}>
                     {t('rank.title')} {rankTranslation[current.newValue as RankEnum]}
                   </Text>
                 )}
@@ -95,22 +115,22 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                   style={{ height: 20, backgroundColor: '#F5CA98' }}
                   indicatorStyle={{ borderRadius: 999 }}
                 />
-                <View className='flex flex-row justify-between'>
-                  <Text className='text-body font-semibold'>Level {learner?.level.id}</Text>
-                  <Text className='text-body font-semibold'>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body }}>Level {learner?.level.id}</Text>
+                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body }}>
                     {formatNumber(learner?.xp || 0)}/{formatNumber(learner?.level.xp || 0)} {t('level.xp')}
                   </Text>
                 </View>
               </View>
             </View>
-            <View className='flex gap-4'>
+            <View style={{ gap: 16 }}>
               <Button onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('button.next')}</Text>
               </Button>
               {/* TODO: share social*/}
-              {/* <Button variant='ghost' size='md' className='flex-row gap-2'>
+              {/* <Button variant='ghost' size='md' style={{}} ssName='flex-row gap-2'>
                 <Share2 width={24} height={24} color='#EE5D28' />
-                <Text className='text-body font-bold text-primary'>{t('button.share')}</Text>
+                <Text style={{}} csName='text-body font-bold text-primary'>{t('button.share')}</Text>
               </Button> */}
             </View>
           </View>
