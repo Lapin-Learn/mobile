@@ -48,6 +48,6 @@ export const GLOBAL_STYLES = StyleSheet.create({
   textButton: {
     ...Styles.font.semibold,
     ...Styles.fontSize.body,
-    color: 'white',
+    ...Styles.color.white,
   },
 });

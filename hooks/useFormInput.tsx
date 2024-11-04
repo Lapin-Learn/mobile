@@ -9,6 +9,7 @@ import SelectInput from '~/components/molecules//form-input/SelectInput';
 import CustomTextInput from '~/components/molecules/form-input/CustomTextInput';
 import PasswordInput from '~/components/molecules/form-input/PasswordInput';
 import { Button } from '~/components/ui/Button';
+import Styles from '~/constants/GlobalStyles';
 
 export type ControllerInputType = 'text' | 'email' | 'number' | 'date' | 'select' | 'password';
 
@@ -47,10 +48,10 @@ export const useFormInput = <T,>({
         return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='email-address' />;
       case 'date':
         return (
-          <Pressable className='w-full' onPress={() => setShowDatePicker(true)}>
+          <Pressable style={{ width: '100%' }} onPress={() => setShowDatePicker(true)}>
             <View pointerEvents='none'>
               <CustomTextInput
-                className={inputProps.className}
+                style={inputProps.style}
                 placeholder={placeholder}
                 value={field.value ? new Date(field.value).toLocaleDateString('en-GB') : ''}
                 onChangeText={field.onChange}
@@ -61,10 +62,46 @@ export const useFormInput = <T,>({
             {showDatePicker &&
               (Platform.OS === 'ios' ? (
                 <Modal animationType='none' transparent={true} visible={true}>
-                  <View className='absolute bottom-0 left-0 right-0 w-full items-center justify-end bg-background'>
-                    <View className='flex w-full items-end justify-center bg-white py-1'>
-                      <Button variant={'link'} className='w-20' onPress={() => setShowDatePicker(false)}>
-                        <Text className='text-title-4 text-blue-500'>{t('profile.done')}</Text>
+                  <View
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      width: '100%',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      shadowColor: 'black',
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      ...Styles.backgroundColor.background,
+                    }}>
+                    <View
+                      style={{
+                        width: '100%',
+                        flexDirection: 'row-reverse',
+                        paddingVertical: 4,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#00000011',
+
+                        ...Styles.backgroundColor.background,
+                      }}>
+                      <Button
+                        style={{ width: 'auto' }}
+                        variant='link'
+                        size='md'
+                        onPress={() => setShowDatePicker(false)}>
+                        <Text
+                          style={{
+                            ...Styles.font.normal,
+                            ...Styles.fontSize['title-4'],
+                            ...Styles.color.blue[500],
+                          }}>
+                          {t('profile.done')}
+                        </Text>
                       </Button>
                     </View>
                     <View>

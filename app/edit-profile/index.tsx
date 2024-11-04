@@ -16,7 +16,6 @@ import { useUpdateUserProfile, useUserProfile } from '~/hooks/react-query/useUse
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { GenderEnum } from '~/lib/enums';
 
-// TODO
 const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
   email: z.string().email('Invalid email'),

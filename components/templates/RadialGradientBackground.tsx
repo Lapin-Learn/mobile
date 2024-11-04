@@ -18,10 +18,10 @@ const RadialGradientBackground: React.FC<RadialGradientProps & Partial<ViewProps
   cy = '24.89%', // Vertical focal point
   rx = '162.79%', // Horizontal radius
   ry = '75.11%', // Vertical radius
-  className,
+  style,
 }) => {
   return (
-    <View className={className}>
+    <View style={style}>
       <Svg height='100%' width='100%' style={StyleSheet.absoluteFill}>
         <Defs>
           <RadialGradient id='grad' cx={cx} cy={cy} rx={rx} ry={ry} fx={cx} fy={cy} gradientUnits='userSpaceOnUse'>

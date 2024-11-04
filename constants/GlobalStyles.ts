@@ -1,5 +1,5 @@
 const font: {
-  [key in 'normal' | 'italic' | 'medium' | 'semibold' | 'bold' | 'black']: {
+  [key in 'normal' | 'italic' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'extralight' | 'black']: {
     fontFamily: string;
     fontStyle?: 'italic';
   };
@@ -19,6 +19,12 @@ const font: {
   },
   bold: {
     fontFamily: `Inter-Bold`,
+  },
+  extrabold: {
+    fontFamily: `Inter-ExtraBold`,
+  },
+  extralight: {
+    fontFamily: `Inter-ExtraLight`,
   },
   black: {
     fontFamily: `Inter-Black`,
@@ -175,6 +181,7 @@ const baseColors = {
   background: '#f9f7f7',
   white: '#ffffff',
   border: '#e0e0e0',
+  primary: 'hsl(16 85% 55%)',
   secondary: '#f2f2f2',
   destructive: '#ff4b4b',
   foreground: '#f0f0f0',

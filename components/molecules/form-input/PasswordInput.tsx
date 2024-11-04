@@ -8,7 +8,12 @@ const PasswordInput = ({ style, ...props }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View style={styles.root}>
-      <TextInput style={StyleSheet.flatten([styles.input, style])} {...props} secureTextEntry={!showPassword} />
+      <TextInput
+        style={StyleSheet.flatten([styles.input, style])}
+        placeholderTextColor={Styles.color.neutral[300].color}
+        {...props}
+        secureTextEntry={!showPassword}
+      />
       <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.toggleButton}>
         {!showPassword ? <EyeIcon size={24} color='#b4b4b4' /> : <EyeOffIcon size={24} color='#b4b4b4' />}
       </Pressable>
@@ -35,7 +40,7 @@ const styles = StyleSheet.create({
   },
   toggleButton: {
     position: 'absolute',
-    right: 3,
+    right: 12,
     justifyContent: 'center',
   },
 });
