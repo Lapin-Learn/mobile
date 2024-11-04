@@ -143,14 +143,14 @@ const styles = StyleSheet.create({
     ...Styles.color.neutral[500],
   },
   formContainer: {
-    rowGap: 80,
+    gap: 80,
   },
   inputContainer: {
     flexDirection: 'column',
     gap: 16,
   },
   gapY6: {
-    rowGap: 24,
+    gap: 24,
   },
   flexColCenter: {
     display: 'flex',
