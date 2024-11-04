@@ -1,6 +1,6 @@
 import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { BackHandler, Pressable, View } from 'react-native';
+import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 
 import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
@@ -46,17 +46,17 @@ const QuestionTemplate = () => {
   }
 
   return (
-    <PlatformView className='flex'>
-      <View className='mx-4 flex flex-row items-center justify-center gap-x-4 px-2'>
-        <Pressable className='w-6' onPress={handleBack}>
+    <PlatformView>
+      <View style={styles.progress}>
+        <Pressable style={{ width: 24 }} onPress={handleBack}>
           <LucideMoveLeft color='black' />
         </Pressable>
         <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
       </View>
       {currentQuestion && (
-        <View className='relative flex h-full flex-col px-4'>
+        <View style={styles.currentQuestion}>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <View className='flex-1'>
+          <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16 }}>
             <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
           </View>
         </View>
@@ -73,5 +73,23 @@ const QuestionTemplate = () => {
     </PlatformView>
   );
 };
+
+const styles = StyleSheet.create({
+  progress: {
+    marginHorizontal: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 16,
+    paddingHorizontal: 8,
+  },
+  currentQuestion: {
+    position: 'relative',
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+  },
+});
 
 export default QuestionTemplate;

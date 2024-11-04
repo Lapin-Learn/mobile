@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
-import { cn } from '~/lib/utils';
 
 import { AnswerColumn, Column } from './AnswerColumn';
 
@@ -65,7 +65,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
   return (
     <>
       <ScrollView>
-        <View className={cn('gap-y-4', isChecking ? 'mb-22' : 'mb-10')}>
+        <View style={[{ rowGap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           <AnswerColumn
             column={Column.A}
             title={columnA.title}
@@ -91,14 +91,25 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
         </View>
       </ScrollView>
       {isChecking && (
-        <View className='absolute bottom-0 left-0 right-0 bg-background pb-10'>
-          <Button className='bg-neutral-900' onPress={answerQuestion}>
-            <Text className='text-button'>{t('general.check')}</Text>
+        <View style={styles.buttonView}>
+          <Button variant='black' size='lg' onPress={answerQuestion}>
+            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
         </View>
       )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 40,
+    marginHorizontal: 16,
+  },
+});
 
 export default Matching;
