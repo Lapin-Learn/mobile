@@ -1,8 +1,11 @@
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import RankIcon from '~/components/icons/RankIcon';
+import Styles from '~/constants/GlobalStyles';
 import { RankEnum } from '~/lib/enums';
 import { formatNumber } from '~/lib/utils';
+
+import { styles } from './styles';
 
 type XpTrackBarProps = {
   level?: number;
@@ -13,21 +16,23 @@ type XpTrackBarProps = {
 
 const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.BRONZE }: XpTrackBarProps) => {
   return (
-    <View className='flex flex-row items-center justify-center'>
-      <View className='flex flex-row items-center gap-1'>
+    <View style={styles.root}>
+      <View style={StyleSheet.flatten([styles.root, { gap: 1 }])}>
         <RankIcon name={rank} width={24} height={24} />
-        <View className='w-40'>
-          <View className='flex flex-row items-center justify-between'>
-            <Text className='text-subhead font-bold text-blue-700'>Lv. {level}</Text>
-            <Text className='text-caption-2 text-blue-700'>
+        <View style={{ width: 120 }}>
+          <View style={StyleSheet.flatten([styles.root, { gap: 1, justifyContent: 'space-between' }])}>
+            <Text style={trackBarStyles.textLevel}>Lv. {level}</Text>
+            <Text style={trackBarStyles.textXp}>
               {formatNumber(currentXp)}/{formatNumber(levelXp)}
             </Text>
           </View>
           <View>
-            <View className='h-[6px] rounded-full bg-gray-200'>
+            <View style={trackBarStyles.trackBar}>
               <View
-                className='h-[6px] rounded-full bg-blue-300'
-                style={{ width: `${currentXp > levelXp ? 100 : (currentXp / levelXp) * 100}%` }}
+                style={[
+                  trackBarStyles.trackBarProgress,
+                  { width: `${currentXp > levelXp ? 100 : (currentXp / levelXp) * 100}%` },
+                ]}
               />
             </View>
           </View>
@@ -37,4 +42,26 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
   );
 };
 
+const trackBarStyles = StyleSheet.create({
+  textLevel: {
+    ...Styles.fontSize['caption-1'],
+    ...Styles.font.bold,
+    ...Styles.color.blue[700],
+  },
+  textXp: {
+    ...Styles.fontSize['caption-1'],
+    ...Styles.font.normal,
+    ...Styles.color.blue[700],
+  },
+  trackBar: {
+    height: 6,
+    borderRadius: 999,
+    ...Styles.backgroundColor.neutral[200],
+  },
+  trackBarProgress: {
+    height: 6,
+    borderRadius: 999,
+    ...Styles.backgroundColor.blue[300],
+  },
+});
 export default XpTrackBar;

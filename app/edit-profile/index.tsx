@@ -177,14 +177,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 24,
     height: '100%',
-    gap: 24,
+    rowGap: 24,
     justifyContent: 'space-between',
     paddingBottom: 24,
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 16,
+    rowGap: 16,
   },
   controllerInput: {
     height: 48,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   changePassword: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 4,
+    rowGap: 4,
   },
 });
 export default UpdateProfile;

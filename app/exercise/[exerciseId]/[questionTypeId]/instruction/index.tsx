@@ -29,9 +29,9 @@ const Instruction = () => {
   return (
     <SafeAreaView>
       <NavigationBar headerTitle={currentQuestionType?.name} headerLeftShown />
-      <ScrollView style={{ paddingHorizontal: 16 }}>
+      <ScrollView className='px-4'>
         {instruction ? (
-          <View style={{ marginBottom: 80 }}>
+          <View className='mb-20'>
             <HTML source={{ html: instruction.content }} contentWidth={windowWidth} />
           </View>
         ) : (

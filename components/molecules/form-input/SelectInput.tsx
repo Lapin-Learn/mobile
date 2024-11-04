@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Option } from '~/components/primitives/select';
@@ -11,17 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/Select';
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
 type SelectProps = {
   defaultValue: { value: string; label: string };
   onValueChange?: (option: Option) => void;
   options: { value: string; label: string }[];
   placeholder: string;
-  className?: string;
+  style?: StyleProp<TextStyle>;
 };
 
-const SelectInput = ({ defaultValue, onValueChange, options, placeholder, className }: SelectProps) => {
+const SelectInput = ({ defaultValue, onValueChange, options, placeholder, style }: SelectProps) => {
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -32,16 +32,15 @@ const SelectInput = ({ defaultValue, onValueChange, options, placeholder, classN
 
   return (
     <Select defaultValue={defaultValue} onValueChange={onValueChange}>
-      <SelectTrigger
-        className={cn('w-full rounded border border-neutral-200 bg-white p-3 placeholder:text-neutral-300', className)}>
-        <SelectValue className='font-imedium text-subhead' placeholder={placeholder} />
+      <SelectTrigger style={StyleSheet.flatten([styles.trigger, style])}>
+        <SelectValue style={styles.value} placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent insets={contentInsets} className='w-full'>
+      <SelectContent insets={contentInsets} style={styles.content}>
         <SelectGroup>
           {options.map((item, index) => (
             <View key={item.value}>
-              <SelectItem className='font-imedium text-subhead' value={item.value} label={item.label} />
-              {index < options.length - 1 && <SelectSeparator className='my-1' />}
+              <SelectItem value={item.value} label={item.label} />
+              {index < options.length - 1 && <SelectSeparator style={{ marginVertical: 4 }} />}
             </View>
           ))}
         </SelectGroup>
@@ -49,5 +48,21 @@ const SelectInput = ({ defaultValue, onValueChange, options, placeholder, classN
     </Select>
   );
 };
+
+const styles = StyleSheet.create({
+  trigger: {
+    width: '100%',
+    borderRadius: 8,
+    borderWidth: 1,
+    ...Styles.borderColor.neutral[200],
+    backgroundColor: 'white',
+    padding: 12,
+  },
+  value: {
+    ...Styles.fontSize.subhead,
+    ...Styles.font.medium,
+  },
+  content: { width: '100%', backgroundColor: 'white', borderRadius: 8, paddingVertical: 4 },
+});
 
 export default SelectInput;

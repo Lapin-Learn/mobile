@@ -1,10 +1,11 @@
 import { useNavigation } from 'expo-router';
 import { PauseIcon, PlayIcon, RotateCcw } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { Platform, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 
 import { Text } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { formatAudioTimer } from '~/lib/utils';
 
 import { SeekBar } from './SeekBar';
@@ -107,21 +108,41 @@ export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
     const Component = repeat ? RotateCcw : playerState === State.Playing ? PauseIcon : PlayIcon;
     return (
       <TouchableOpacity onPress={handleAction(repeat ? 'repeat' : playerState === State.Playing ? 'pause' : 'play')}>
-        <Component className='h-4 w-4' color='black' />
+        <Component style={{ height: 24, width: 24 }} color='black' />
       </TouchableOpacity>
     );
   };
 
   return (
-    <View className='flex w-full flex-row items-center justify-between gap-x-4 rounded-md border border-black p-4'>
-      <View className='flex-row gap-x-2'>
+    <View style={styles.root}>
+      <View style={{ display: 'flex', flexDirection: 'row', columnGap: 4 }}>
         <Action />
         <Action repeat />
       </View>
       <SeekBar progress={useProgress(500)} />
-      <View className='w-14'>
-        <Text className='text-center font-isemibold text-body'>{formatAudioTimer(duration - position)}</Text>
+      <View style={{ width: 56 }}>
+        <Text style={styles.time}>{formatAudioTimer(duration - position)}</Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    ...Styles.borderColor.neutral[200],
+    padding: 16,
+  },
+  time: {
+    ...Styles.fontSize.body,
+    ...Styles.font.semibold,
+    textAlign: 'center',
+  },
+});

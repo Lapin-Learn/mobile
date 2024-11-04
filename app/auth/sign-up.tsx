@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
     color: '#5c5c5c',
   },
   formContainer: {
-    gap: 80,
+    rowGap: 80,
   },
   inputContainer: {
     flexDirection: 'column',
     gap: 16,
   },
   gapY6: {
-    gap: 24,
+    rowGap: 24,
   },
   flexColCenter: {
     display: 'flex',
