@@ -1,3 +1,4 @@
+import { Share2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -12,6 +13,7 @@ import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
+import { useShare } from '~/hooks/useShare';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { MilestonesEnum, RankEnum } from '~/lib/enums';
 import { ILevel } from '~/lib/types';
@@ -24,6 +26,7 @@ import { MilestoneProps } from './type';
 export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) => {
   const { t } = useTranslation('milestone');
   const { data: learner, isFetching } = useGameProfile();
+  const { handleShare } = useShare();
 
   const rankTranslation = {
     [RankEnum.BRONZE]: t('rank.bronze'),
@@ -127,11 +130,18 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               <Button onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('button.next')}</Text>
               </Button>
-              {/* TODO: share social*/}
-              {/* <Button variant='ghost' size='md' style={{}} ssName='flex-row gap-2'>
-                <Share2 width={24} height={24} color='#EE5D28' />
-                <Text style={{}} csName='text-body font-bold text-primary'>{t('button.share')}</Text>
-              </Button> */}
+              {current.type === MilestonesEnum.RANK_UP && (
+                <Button
+                  variant='ghost'
+                  size='md'
+                  style={{ display: 'flex', flexDirection: 'row', gap: 8 }}
+                  onPress={() => handleShare(current.newValue as RankEnum)}>
+                  <Share2 width={24} height={24} color='#EE5D28' />
+                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body, ...Styles.color.dark }}>
+                    {t('button.share')}
+                  </Text>
+                </Button>
+              )}
             </View>
           </View>
         </View>
