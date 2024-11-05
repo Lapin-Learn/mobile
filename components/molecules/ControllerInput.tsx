@@ -42,7 +42,11 @@ export const ControllerInput = <T,>({
           })}
         </View>
       </View>
-      {error && <Text style={Styles.color.red[500]}>{t(String(error.message), { ns: 'validation' })}</Text>}
+      {error && (
+        <Text style={Styles.color.red[500]}>
+          {t(error.type === 'invalid_type' ? 'required' : (error.message ?? ''), { ns: 'validation', name: label })}
+        </Text>
+      )}
     </View>
   );
 };

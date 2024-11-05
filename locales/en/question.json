@@ -14,5 +14,8 @@
     "evidence": "The evidence is in the paragraph",
     "answer": "So the answer to the question:",
     "understood": "Understood"
+  },
+  "fillInTheBlank": {
+    "enterTheAnswer": "Nhập câu trả lời"
   }
 }

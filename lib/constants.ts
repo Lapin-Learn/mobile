@@ -34,6 +34,7 @@ export const QUERY_KEYS = {
     identifier: 'accountIdentifier',
     user: 'userProfile',
     game: 'gameProfile',
+    privacy: 'privacyPolicy',
   },
 };
 

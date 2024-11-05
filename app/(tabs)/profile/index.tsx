@@ -1,6 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
-import { Camera, LogOut } from 'lucide-react-native';
+import * as WebBrowser from 'expo-web-browser';
+import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -111,6 +112,15 @@ const Index = () => {
     { label: 'settings.privacy_settings', action: () => {} },
   ];
 
+  const termsData = [
+    {
+      label: 'terms.privacy_policy',
+      action: async () => {
+        await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
+      },
+    },
+  ];
+
   return (
     <PlatformView>
       <NavigationBar headerLeftShown={false} />
@@ -162,6 +172,16 @@ const Index = () => {
             />
           </ProfileSection> */}
 
+          <ProfileSection>
+            <ProfileSection.Title
+              label={t('terms.title', { ns: 'translation' })}
+              textStyle={{ ...Styles.fontSize['title-4'] }}
+            />
+            <ProfileSection.List
+              data={termsData.map((item) => ({ label: t(item.label, { ns: 'translation' }), action: item.action }))}
+              rightIcon={ChevronRight}
+            />
+          </ProfileSection>
           <Button onPress={() => signOut.mutate()} variant='link' style={styles.buttonSignOut}>
             <Text style={styles.buttonSignOutText}>{t('sign_out')}</Text>
             <LogOut size={24} color={Colors.light['orange-500']} />

@@ -19,8 +19,8 @@ import { ProviderNameEnum } from '~/lib/enums';
 const { font, fontSize, color } = Styles;
 
 const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  email: z.string().email('error.email'),
+  password: z.string().min(8, 'change_password.limit_characters'),
 });
 
 type SignInFormField = z.infer<typeof schema>;

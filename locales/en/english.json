@@ -53,5 +53,9 @@
       "November",
       "December"
     ]
+  },
+  "terms": {
+    "title": "Terms",
+    "privacy_policy": "Privacy Policy"
   }
 }

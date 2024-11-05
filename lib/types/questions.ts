@@ -47,4 +47,18 @@ type MatchingQuestion = BaseQuestion & {
   content: QuestionCard & MatchingContent;
 };
 
-export type IQuestion = MultipleChoiceQuestion | MatchingQuestion;
+export type FillInTheBlankContentType = FillInTheBlankContent & {
+  type: 'text' | 'blank' | 'paragraph' | 'break';
+  text?: string;
+};
+
+export type FillInTheBlankContent = {
+  content: FillInTheBlankContentType[];
+};
+
+type FillInTheBlankQuestion = BaseQuestion & {
+  contentType: ContentTypeEnum.FILL_IN_THE_BLANK;
+  content: QuestionCard & FillInTheBlankContent;
+};
+
+export type IQuestion = MultipleChoiceQuestion | MatchingQuestion | FillInTheBlankQuestion;

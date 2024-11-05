@@ -226,4 +226,5 @@ const Styles: StyleProps = {
   borderColor: borderColor,
 };
 
+export { baseColors as Colors };
 export default Styles;

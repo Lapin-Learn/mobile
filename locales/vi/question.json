@@ -14,5 +14,8 @@
     "evidence": "Dẫn chứng nằm ở đoạn",
     "answer": "Vậy đáp án cho câu hỏi:",
     "understood": "Đã hiểu"
+  },
+  "fillInTheBlank": {
+    "enterTheAnswer": "Nhập câu trả lời"
   }
 }
