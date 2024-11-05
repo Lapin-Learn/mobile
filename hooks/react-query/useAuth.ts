@@ -61,7 +61,8 @@ export const useSignIn = () => {
       router.push('/');
     },
     onError: (error) => {
-      toast.show({ type: 'error', text1: t(`error.${AUTH_ERRORS[error.message]}`) });
+      const errMes = AUTH_ERRORS[error.message];
+      toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : error.message });
     },
   });
 };
