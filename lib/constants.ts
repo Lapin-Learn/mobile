@@ -46,6 +46,15 @@ export const AUTH_ERRORS: Record<string, string> = {
 };
 
 export const GLOBAL_STYLES = StyleSheet.create({
+  checkButtonView: {
+    ...Styles.backgroundColor.background,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 40,
+    marginHorizontal: 16,
+  },
   textButton: {
     ...Styles.font.semibold,
     ...Styles.fontSize.body,

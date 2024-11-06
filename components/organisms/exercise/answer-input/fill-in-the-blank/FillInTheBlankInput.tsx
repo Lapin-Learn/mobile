@@ -98,9 +98,8 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
           placeholder={isCorrect === null ? t('fillInTheBlank.enterTheAnswer') : ''}
           placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
           textAlign='center'
-          // for subtracting the length of the answer and adding 2 for the space
-          maxLength={answer.length + 2}
           readOnly={isCorrect !== null}
+          autoCapitalize='none'
           value={field.value[index]}
           onChangeText={(text) => onChange(text, index, field)}
         />
@@ -175,6 +174,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'center',
     paddingTop: 1,
+    ...Styles.font.normal,
   },
   inputWidth: {
     width: 140,
