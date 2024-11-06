@@ -1,6 +1,15 @@
 import { ChevronsDown, ChevronsUp } from 'lucide-react-native';
-import { useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, View } from 'react-native';
+import { useRef, useState } from 'react';
+import {
+  Animated,
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  PanResponder,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 
@@ -12,6 +21,9 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const [isTop, setIsTop] = useState(true);
   const [isBottom, setIsBottom] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
+  const scrollViewHeight = useRef(new Animated.Value(280)).current;
+  const screenHeight = Dimensions.get('window').height;
+  const maxHeight = screenHeight * 0.6;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
@@ -22,25 +34,38 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
     setIsScrollable(contentSize.height > layoutMeasurement.height);
   };
 
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (event, gestureState) => {
+        const newHeight = Math.max(100, Math.min(280 + gestureState.dy, maxHeight));
+        scrollViewHeight.setValue(newHeight);
+      },
+      onPanResponderRelease: () => {},
+    })
+  ).current;
+
   return (
     <View style={{ position: 'relative' }}>
-      <ScrollView
-        style={styles.scrollView}
-        onScroll={handleScroll}
-        scrollEnabled={isScrollable}
-        scrollEventThrottle={16}
-        onContentSizeChange={(_, contentHeight) => {
-          setIsScrollable(contentHeight > 280);
-        }}>
-        {children}
-      </ScrollView>
+      <Animated.View style={{ height: scrollViewHeight }}>
+        <ScrollView
+          style={styles.scrollView}
+          onScroll={handleScroll}
+          scrollEnabled={isScrollable}
+          scrollEventThrottle={16}
+          onContentSizeChange={(_, contentHeight) => {
+            setIsScrollable(contentHeight > 280);
+          }}>
+          {children}
+        </ScrollView>
+      </Animated.View>
       {isScrollable && (
         <View style={styles.arrowsContainer}>
           <ChevronsUp color={isTop ? '#cccccc' : '#5c5c5c'} />
           <ChevronsDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
         </View>
       )}
-      <View style={styles.dragHandlerContainer}>
+      <View style={styles.dragHandlerContainer} {...panResponder.panHandlers}>
         <View style={styles.dragHandler} />
       </View>
     </View>
@@ -58,7 +83,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   scrollView: {
-    maxHeight: 280,
     flexGrow: 0,
     paddingHorizontal: 16,
   },
