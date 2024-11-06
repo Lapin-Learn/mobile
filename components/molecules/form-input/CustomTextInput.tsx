@@ -7,6 +7,7 @@ const CustomTextInput = ({ style, ...props }: TextInputProps) => {
     <TextInput
       style={StyleSheet.flatten([styles.root, style])}
       placeholderTextColor={Styles.color.neutral[300].color}
+      autoCapitalize='none'
       {...props}
     />
   );

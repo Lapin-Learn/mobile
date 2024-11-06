@@ -99,6 +99,7 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
           placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
           textAlign='center'
           readOnly={isCorrect !== null}
+          autoCapitalize='none'
           value={field.value[index]}
           onChangeText={(text) => onChange(text, index, field)}
         />
