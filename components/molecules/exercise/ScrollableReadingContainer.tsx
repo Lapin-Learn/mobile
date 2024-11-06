@@ -21,9 +21,10 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const [isTop, setIsTop] = useState(true);
   const [isBottom, setIsBottom] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
-  const scrollViewHeight = useRef(new Animated.Value(280)).current;
   const screenHeight = Dimensions.get('window').height;
+  const minHeight = screenHeight * 0.1;
   const maxHeight = screenHeight * 0.6;
+  const scrollViewHeight = useRef(new Animated.Value(minHeight)).current;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
@@ -38,7 +39,7 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gestureState) => {
-        const newHeight = Math.max(100, Math.min(280 + gestureState.dy, maxHeight));
+        const newHeight = Math.max(minHeight, Math.min(280 + gestureState.dy, maxHeight));
         scrollViewHeight.setValue(newHeight);
       },
       onPanResponderRelease: () => {},
