@@ -22,9 +22,8 @@ const getFcmTokenWithRetry = async (retries = 0): Promise<string | null> => {
 
 export const requestPermission = async () => {
   let isGrantedNotification = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-  const isRequestFirstTime = (await AsyncStorage.getItem('isRequestFirstTime')) || 'true';
 
-  if (isRequestFirstTime === 'true') {
+  if (!isGrantedNotification) {
     const permissionAppGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
     await AsyncStorage.setItem('isRequestFirstTime', 'false');
     if (permissionAppGranted === PermissionsAndroid.RESULTS.GRANTED) {

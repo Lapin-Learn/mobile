@@ -29,15 +29,19 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     setAppState(nextAppState);
   };
 
+  // TODO: Handle opening the screen from the notification
   const handleNavigate = (screen?: string) => {
     if (screen) router.push(screen as Href);
   };
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppStateChange);
     checkNotificationPermission().then(() => {
       console.log('Notification permission granted');
     });
+  }, [status, account]);
+
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
 
     // Set up the notification handler for the app
     Notifications.setNotificationHandler({
