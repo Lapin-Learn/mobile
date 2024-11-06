@@ -76,7 +76,8 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                     <Text
                       style={{
                         position: 'absolute',
-                        fontSize: 72,
+                        fontSize: 64,
+                        lineHeight: 64,
                         ...Styles.font.extrabold,
                         ...Styles.color.white,
                         textShadowColor: '#D48A00',

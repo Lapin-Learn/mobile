@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
@@ -42,15 +42,14 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
 
   const randomEncourage = Math.random() * Number(t('after.encourages.length'));
 
-  useEffect(() => {
-    if (!isModalVisible) {
-      if (milestones.length) {
-        router.replace('/milestones');
-      } else {
-        router.back();
-      }
+  const handleNextMilestone = () => {
+    setIsModalVisible(false);
+    if (milestones.length) {
+      router.replace('/milestones');
+    } else {
+      router.back();
     }
-  }, [isModalVisible, milestones.length]);
+  };
 
   return (
     <View style={styles.container}>
@@ -97,7 +96,7 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                   );
                 })}
               </View>
-              <Button onPress={() => setIsModalVisible(false)}>
+              <Button onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
             </View>

@@ -6,14 +6,27 @@ import { useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/region/Region';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
+import { Text } from '~/components/ui/Text';
+import { useGameProfile } from '~/hooks/react-query/useUser';
 import { SkillEnum } from '~/lib/enums';
 
 const Index = () => {
+  const { data, isFetching, error } = useGameProfile();
+
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+
   return (
     <SafeAreaView>
-      <TrackBar />
+      <TrackBar data={data} />
       <Map />
     </SafeAreaView>
   );

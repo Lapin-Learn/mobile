@@ -1,31 +1,17 @@
 import { Href, router } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Loading } from '~/components/molecules/Loading';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 
 import Carrots from './Carrots';
 import Streak from './Streak';
 import XpTrackBar from './XpTrackBar';
 
-const TrackBar = () => {
-  const { data, isFetching, error } = useGameProfile();
+type TrackBarProps = {
+  data: ReturnType<typeof useGameProfile>['data'];
+};
 
-  if (isFetching) {
-    return (
-      <View
-        style={{
-          height: '100%',
-        }}>
-        <Loading />
-      </View>
-    );
-  }
-
-  if (error) {
-    return <Text>{error.message}</Text>;
-  }
-
+const TrackBar = ({ data }: TrackBarProps) => {
   if (!data) return null;
 
   return (
