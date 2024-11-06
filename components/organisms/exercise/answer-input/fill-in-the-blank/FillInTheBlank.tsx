@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AvoidSoftInput } from 'react-native-avoid-softinput';
 import { z } from 'zod';
 
-import PlatformKeyboardAvoid from '~/components/templates/PlatformKeyboardAvoid';
 import { Button } from '~/components/ui/Button';
-import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/questions';
 
 import FillInTheBlankContentRenderer from './TypeRendering';
@@ -54,8 +55,22 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
     }
   }, [field.value]);
 
+  // For keyboard avoiding
+  const onFocusEffect = useCallback(() => {
+    AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+    return () => {
+      AvoidSoftInput.setEnabled(false);
+      AvoidSoftInput.setShouldMimicIOSBehavior(false);
+    };
+  }, []);
+  useFocusEffect(onFocusEffect);
+
   const answerQuestion = () => {
-    const isCorrect = field.value.every((value, index) => value === blankContent[index]);
+    const percentageCorrect = field.value.reduce((acc, value, index) => {
+      return value === blankContent[index] ? acc + 1 : acc;
+    }, 0);
+    const isCorrect = percentageCorrect / blankContent.length >= 0.6;
     onAnswer(isCorrect);
   };
 
@@ -72,40 +87,22 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
     field.onChange(newAnswer);
   };
 
-  const onSubmit: SubmitHandler<FormField> = () => {
-    answerQuestion();
-  };
+  const onSubmit: SubmitHandler<FormField> = () => answerQuestion();
 
   return (
     <>
-      <PlatformKeyboardAvoid>
-        <ScrollView
-          bounces={false}
-          style={[styles.scrollView, isChecking && styles.scrollViewWithChecking]}
-          contentContainerStyle={styles.scrollViewContent}
-          contentInsetAdjustmentBehavior='always'
-          overScrollMode='always'
-          showsVerticalScrollIndicator={true}>
-          {/* <KeyboardAvoidingView
-          behavior='position'
-          style={styles.keyboardAvoidingView}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}> */}
-          <View style={styles.contentContainer}>
-            <FillInTheBlankContentRenderer
-              content={content}
-              fieldState={field}
-              onTextChange={handleTextChange}
-              hasSubmission={result !== 'notAnswered'}
-            />
-          </View>
-        </ScrollView>
-      </PlatformKeyboardAvoid>
+      <ScrollView style={isChecking ? styles.scrollViewWithChecking : styles.scrollView}>
+        <FillInTheBlankContentRenderer
+          content={content}
+          fieldState={field}
+          onTextChange={handleTextChange}
+          hasSubmission={result !== 'notAnswered'}
+        />
+      </ScrollView>
       {isChecking && (
-        <View style={styles.buttonContainer}>
-          <Button style={styles.button} onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.buttonText} className='text-button'>
-              {t('general.check')}
-            </Text>
+        <View style={GLOBAL_STYLES.checkButtonView}>
+          <Button variant='black' size='lg' onPress={handleSubmit(onSubmit)}>
+            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
         </View>
       )}
@@ -114,18 +111,12 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 };
 
 const styles = StyleSheet.create({
-  keyboardAvoidingView: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
   scrollView: {
     flex: 1,
     marginBottom: 40,
   },
   scrollViewWithChecking: {
+    flex: 1,
     marginBottom: 88,
   },
   contentContainer: {
@@ -140,23 +131,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     rowGap: 4,
-  },
-  textInput: {
-    padding: 0,
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingBottom: 40,
-  },
-  button: {
-    ...Styles.backgroundColor.neutral[900],
-  },
-  buttonText: {
-    fontSize: 16,
-    color: 'white',
   },
 });
 

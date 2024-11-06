@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
@@ -91,7 +91,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
         </View>
       </ScrollView>
       {isChecking && (
-        <View style={styles.buttonView}>
+        <View style={GLOBAL_STYLES.checkButtonView}>
           <Button variant='black' size='lg' onPress={answerQuestion}>
             <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
@@ -100,16 +100,5 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonView: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingBottom: 40,
-    marginHorizontal: 16,
-  },
-});
 
 export default Matching;

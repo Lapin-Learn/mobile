@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
@@ -97,7 +97,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
             ))}
       </ScrollView>
       {isChecking && (
-        <View style={styles.buttonView}>
+        <View style={GLOBAL_STYLES.checkButtonView}>
           <Button variant='black' size='lg' onPress={answerQuestion}>
             <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
@@ -106,16 +106,5 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonView: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingBottom: 40,
-    marginHorizontal: 16,
-  },
-});
 
 export default MultipleChoice;

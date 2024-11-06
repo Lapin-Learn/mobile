@@ -1,5 +1,5 @@
 import { ControllerRenderProps } from 'react-hook-form';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { FillInTheBlankContentType } from '~/lib/types/questions';
@@ -14,7 +14,9 @@ const TextRenderer = ({ text }: { text: string }) => {
   }
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-      <TextInput key={`text-${text}`} readOnly style={styles.textInput} value={text} />
+      <Text key={`text-${text}`} allowFontScaling style={styles.textInput}>
+        {text}
+      </Text>
     </View>
   );
 };
@@ -111,14 +113,15 @@ const FillInTheBlankContentRenderer = ({
         } else if (element.type === 'text' && element.text) {
           return <TextRenderer key={`text-${index}`} text={element.text} />;
         } else if (element.type === 'blank' && element.text) {
+          const blankIndex = blankCounter.current++;
           return (
             <BlankRenderer
-              key={`blank-${blankCounter.current}`}
-              index={blankCounter.current}
+              key={`blank-${blankIndex}`}
+              index={blankIndex}
               fieldState={fieldState}
               onTextChange={onTextChange}
               correctAnswer={element.text}
-              isAnswerCorrect={hasSubmission ? fieldState.value[blankCounter.current] === element.text : null}
+              isAnswerCorrect={hasSubmission ? fieldState.value[blankIndex] === element.text : null}
             />
           );
         } else if (element.type === 'break') {
@@ -140,7 +143,8 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   textInput: {
+    height: 'auto',
     ...Styles.fontSize.body,
-    color: 'black',
+    ...Styles.color.black,
   },
 });

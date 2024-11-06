@@ -56,7 +56,6 @@ const Group: FC<ProfileProps> = ({ children, style }) => (
         ...Styles.borderColor.neutral[100],
         overflow: 'hidden',
         borderRadius: 8,
-        padding: 16,
       },
       style,
     ])}>
@@ -79,6 +78,7 @@ const ListItem: FC<{
 
 const listItemStyles = StyleSheet.create({
   root: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
