@@ -1,9 +1,9 @@
-import { IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/types';
+import { IAccountIdentifer, IGameProfile, IPresignedUrl, IUserProfile } from '~/lib/types';
 
 import api from '../httpRequests';
 
 export const getAccountIdentifier = async () => {
-  const data = await api.get<Pick<IUserProfile, 'username' | 'fullName' | 'gender' | 'dob' | 'email'>>('users/account');
+  const data = await api.get<IAccountIdentifer>('users/account');
   return data;
 };
 export const getUserProfile = async () => {

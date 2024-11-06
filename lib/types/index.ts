@@ -56,6 +56,8 @@ export type IUserProfile = {
   avatar?: IImage;
 };
 
+export type IAccountIdentifer = Pick<IUserProfile, 'username' | 'fullName' | 'gender' | 'dob' | 'email'>;
+
 export type ILearnerProfile = {
   id: string;
   rank: RankEnum;

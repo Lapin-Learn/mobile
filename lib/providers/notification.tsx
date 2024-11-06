@@ -4,15 +4,22 @@ import { Href, router } from 'expo-router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 
+import { useAccountIdentifier } from '~/hooks/react-query/useUser';
+
 import { requestPermission } from '../utils/permissions';
 
 type NotificationResponse = Notifications.NotificationResponse;
 
 const NotificationProvider = ({ children }: PropsWithChildren) => {
   const [appState, setAppState] = useState(AppState.currentState);
+  const { data: account, status } = useAccountIdentifier();
 
   const checkNotificationPermission = async () => {
-    await requestPermission();
+    if (status === 'success') {
+      if (account) {
+        await requestPermission();
+      }
+    }
   };
 
   const handleAppStateChange = async (nextAppState: AppStateStatus) => {
