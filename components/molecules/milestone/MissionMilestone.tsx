@@ -17,13 +17,19 @@ export const MissionMilestone = ({ current, handleNextMilestone }: MilestoneProp
   const { t } = useTranslation('milestone');
   const { data: missions = [], isLoading } = useMissions();
 
-  const milestone = (current.newValue as IMissionMilestone[]).map((d) => ({
-    name: d.mission.quest.name,
-    interval: d.mission.type,
-    rewards: d.mission.quest.rewards,
-    current: d.current,
-    quantity: d.mission.quantity,
-  }));
+  const milestone = (current.newValue as IMissionMilestone[]).map((d) => {
+    const { name, rewards, quantity, description, requirements, category } = d.mission.quest;
+    return {
+      name,
+      interval: d.mission.type,
+      rewards,
+      current: d.current,
+      quantity,
+      description,
+      requirements,
+      category,
+    };
+  });
 
   if (isLoading) {
     return <Loading />;
