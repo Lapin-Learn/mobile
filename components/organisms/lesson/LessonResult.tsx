@@ -96,7 +96,7 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                   );
                 })}
               </View>
-              <Button onPress={handleNextMilestone}>
+              <Button style={{ marginBottom: 32 }} size='lg' onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
             </View>

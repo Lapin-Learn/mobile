@@ -15,7 +15,7 @@ import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/qu
 import FillInTheBlankContentRenderer from './TypeRendering';
 
 type FillInTheBlankProps = FillInTheBlankContent & {
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (answer: Answer) => void;
   result: Answer;
 };
 
@@ -67,15 +67,17 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   useFocusEffect(onFocusEffect);
 
   const answerQuestion = () => {
-    const percentageCorrect = field.value.reduce((acc, value, index) => {
+    const numberOfCorrect = field.value.reduce((acc, value, index) => {
       return value === blankContent[index] ? acc + 1 : acc;
     }, 0);
-    const isCorrect = percentageCorrect / blankContent.length >= 0.6;
-    onAnswer(isCorrect);
+    onAnswer({
+      numberOfCorrect: numberOfCorrect,
+      totalOfQuestions: blankContent.length,
+    });
   };
 
   useEffect(() => {
-    if (result === 'notAnswered') {
+    if (result.numberOfCorrect === 0 && result.totalOfQuestions === 0) {
       reset();
       setIsChecking(false);
     }
@@ -96,7 +98,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
           content={content}
           fieldState={field}
           onTextChange={handleTextChange}
-          hasSubmission={result !== 'notAnswered'}
+          hasSubmission={result.totalOfQuestions === field.value.length}
         />
       </ScrollView>
       {isChecking && (

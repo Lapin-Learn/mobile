@@ -5,7 +5,11 @@ import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
 import { IQuestion } from '~/lib/types/questions';
 import { getDuration } from '~/lib/utils';
 
-export type Answer = boolean | 'notAnswered';
+// export type Answer = boolean | 'notAnswered';
+export type Answer = {
+  numberOfCorrect: number;
+  totalOfQuestions: number;
+};
 
 type State = {
   lessonId: string;
@@ -23,7 +27,7 @@ type State = {
 type Action = {
   setQuestions: (questions: State['questions'], lessonId: State['lessonId']) => void;
   setResult: (result: State['result']) => void;
-  answerQuestion: (newAnswer: boolean) => void;
+  answerQuestion: (newAnswer: Answer) => void;
   nextQuestion: () => void;
   clear: () => void;
 };
@@ -49,7 +53,10 @@ const useLessonStore = create<State & Action>((set, get) => ({
       questions,
       totalQuestion: questions.length,
       currentQuestion: questions.length ? questions[0] : null,
-      learnerAnswers: Array(questions.length).fill('notAnswered'),
+      learnerAnswers: Array<Answer>(questions.length).fill({
+        numberOfCorrect: 0,
+        totalOfQuestions: 0,
+      }),
       startTime: Date.now(),
     });
   },
@@ -98,17 +105,21 @@ export const useDailyLessonQuestionStore = () => {
   } = useLessonStore();
 
   const mutation = () => {
-    const correctAnswers = learnerAnswers.reduce((acc, answer) => {
-      if (answer === true) {
-        return acc + 1;
-      }
-      return acc;
-    }, 0);
+    const statistic = learnerAnswers.reduce(
+      (acc, answer) => {
+        const accCorrect = acc.numberOfCorrect + answer.numberOfCorrect;
+        const accTotal = acc.totalOfQuestions + answer.totalOfQuestions;
+
+        return { numberOfCorrect: accCorrect, totalOfQuestions: accTotal };
+      },
+      { numberOfCorrect: 0, totalOfQuestions: 0 }
+    );
+
     return lessonCompletionMutation.mutate(
       {
         lessonId: Number(lessonId),
-        correctAnswers,
-        wrongAnswers: totalQuestion - correctAnswers,
+        correctAnswers: statistic.numberOfCorrect,
+        wrongAnswers: statistic.totalOfQuestions - statistic.numberOfCorrect,
         duration: getDuration(startTime),
       },
       {
@@ -116,7 +127,7 @@ export const useDailyLessonQuestionStore = () => {
           setResult({
             carrot: bonusCarrot,
             exp: bonusXP,
-            percent: Math.ceil((correctAnswers / totalQuestion) * 100),
+            percent: Math.ceil((correctAnswers / statistic.totalOfQuestions) * 100),
             timer: duration,
           });
         },

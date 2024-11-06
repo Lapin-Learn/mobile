@@ -10,7 +10,7 @@ import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 import { AnswerColumn, Column } from './AnswerColumn';
 
 type MatchingProps = MatchingContent & {
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (answer: Answer) => void;
   result: Answer;
 };
 
@@ -24,20 +24,25 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
   const [isChecking, setIsChecking] = useState(false);
   const { t } = useTranslation('question');
 
+  const isNotAnswered = result.numberOfCorrect === 0 && result.totalOfQuestions === 0;
+
   const answerQuestion = () => {
     const answerRecord = answer.reduce<Record<string, string>>((acc, pair) => {
       acc[pair.columnA[0]] = pair.columnB[0];
       return acc;
     }, {});
     const correctness = selectedPairs.map((pair) => answerRecord[pair.columnA[0]] === pair.columnB[0]);
-    const isCorrect = correctness.every(Boolean);
+    const statistic = {
+      numberOfCorrect: correctness.filter((item) => item === true).length,
+      totalOfQuestions: selectedPairs.length,
+    };
 
     setCorrectness(correctness);
-    onAnswer(isCorrect);
+    onAnswer(statistic);
   };
 
   useEffect(() => {
-    if (result === 'notAnswered') {
+    if (isNotAnswered) {
       setSelectedPairs([]);
       setSelectingPairs({
         columnA: [],
@@ -75,7 +80,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
             setSelectingPairs={setSelectingPairs}
             setSelectedPairs={setSelectedPairs}
             correctness={correctness}
-            isChecking={result !== 'notAnswered'}
+            isChecking={!isNotAnswered}
           />
           <AnswerColumn
             column={Column.B}
@@ -86,7 +91,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
             setSelectingPairs={setSelectingPairs}
             setSelectedPairs={setSelectedPairs}
             correctness={correctness}
-            isChecking={result !== 'notAnswered'}
+            isChecking={!isNotAnswered}
           />
         </View>
       </ScrollView>

@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 'auto',
+    ...Styles.font.normal,
     ...Styles.fontSize.body,
     ...Styles.color.black,
   },

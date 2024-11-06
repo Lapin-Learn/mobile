@@ -7,7 +7,7 @@ import Matching from './matching/Matching';
 import MultipleChoice from './MultipleChoice';
 
 type BaseAnswerInputProps = {
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (answer: Answer) => void;
   result: Answer;
 };
 

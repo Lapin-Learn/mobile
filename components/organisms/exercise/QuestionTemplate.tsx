@@ -49,7 +49,7 @@ const QuestionTemplate = () => {
     );
   }
 
-  const showAnswerModal = typeof learnerAnswers[currentQuestionIndex] === 'boolean';
+  const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
 
   return (
     <PlatformView>
@@ -69,7 +69,13 @@ const QuestionTemplate = () => {
       )}
       {showAnswerModal && (
         <AnswerModal
-          type={learnerAnswers[currentQuestionIndex] ? 'correct' : 'incorrect'}
+          type={
+            learnerAnswers[currentQuestionIndex].numberOfCorrect /
+              learnerAnswers[currentQuestionIndex].totalOfQuestions >
+            0.5
+              ? 'correct'
+              : 'incorrect'
+          }
           // TODO: Fix correctAnswers, map from currentQuestion?.content.answer from number[] to string[]
           // correctAnswers={currentQuestion?.content.answer ?? []}
           onPressContinue={nextQuestion}

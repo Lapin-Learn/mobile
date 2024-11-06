@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'center',
     paddingTop: 1,
+    ...Styles.font.normal,
   },
   inputWidth: {
     width: 140,

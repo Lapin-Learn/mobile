@@ -10,7 +10,7 @@ import { GLOBAL_STYLES } from '~/lib/constants';
 import { MultipleChoiceContent } from '~/lib/types/questions';
 
 type MultipleChoiceProps = MultipleChoiceContent & {
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (answer: Answer) => void;
   result: Answer;
 };
 
@@ -18,14 +18,20 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
   const { t } = useTranslation('question');
   const [selected, setSelected] = useState<number[]>([]);
   const [isChecking, setIsChecking] = useState(false);
+  const isNotAnswered = result.numberOfCorrect === 0 && result.totalOfQuestions === 0;
 
   const answerQuestion = () => {
     const isCorrect = selected.every((index) => answer.includes(index));
-    onAnswer(isCorrect);
+    onAnswer({
+      numberOfCorrect: isCorrect ? 1 : 0,
+      totalOfQuestions: 1,
+    });
   };
 
   useEffect(() => {
-    if (result === 'notAnswered') setSelected([]);
+    if (isNotAnswered) {
+      setSelected([]);
+    }
   }, [result]);
 
   useEffect(() => {
@@ -63,7 +69,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
                 label={option}
                 onPress={() => handlePress(index)}
                 variant={
-                  result === 'notAnswered'
+                  isNotAnswered
                     ? selected.includes(index)
                       ? 'selected'
                       : 'default'
@@ -81,7 +87,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
                 label={option}
                 onPress={() => handlePress(index)}
                 variant={
-                  result === 'notAnswered'
+                  isNotAnswered
                     ? selected.includes(index)
                       ? 'selected'
                       : 'default'
