@@ -45,6 +45,9 @@ export const signUp = async (params: SignUpParams) => {
 
 export const signOut = async () => {
   await removeTokenAsync();
+
+  const isSignedIn = (await GoogleSignin.getCurrentUser()) !== null;
+  isSignedIn && (await GoogleSignin.revokeAccess());
 };
 
 export const verify = async (params: VerifyParams) => {
