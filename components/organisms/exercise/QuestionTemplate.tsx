@@ -49,6 +49,8 @@ const QuestionTemplate = () => {
     );
   }
 
+  const showAnswerModal = typeof learnerAnswers[currentQuestionIndex] === 'boolean';
+
   return (
     <PlatformView>
       <View style={styles.progress}>
@@ -60,12 +62,12 @@ const QuestionTemplate = () => {
       {currentQuestion && (
         <View style={styles.currentQuestion}>
           <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16 }}>
+          <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
             <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
           </View>
         </View>
       )}
-      {typeof learnerAnswers[currentQuestionIndex] === 'boolean' && (
+      {showAnswerModal && (
         <AnswerModal
           type={learnerAnswers[currentQuestionIndex] ? 'correct' : 'incorrect'}
           // TODO: Fix correctAnswers, map from currentQuestion?.content.answer from number[] to string[]

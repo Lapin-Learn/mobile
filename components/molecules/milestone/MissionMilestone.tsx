@@ -18,13 +18,13 @@ export const MissionMilestone = ({ current, handleNextMilestone }: MilestoneProp
   const { data: missions = [], isLoading } = useMissions();
 
   const milestone = (current.newValue as IMissionMilestone[]).map((d) => {
-    const { name, rewards, quantity, description, requirements, category } = d.mission.quest;
+    const { name, rewards, description, requirements, category } = d.mission.quest;
     return {
       name,
       interval: d.mission.type,
       rewards,
       current: d.current,
-      quantity,
+      quantity: d.mission.quantity,
       description,
       requirements,
       category,
