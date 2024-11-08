@@ -1,67 +1,136 @@
-import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { TextClassContext } from '~/components/ui/Text';
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
-const buttonVariants = cva('group flex items-center justify-center rounded', {
-  variants: {
-    variant: {
-      default: 'bg-orange-500 py-3.5 px-5 active:opacity-90',
-      destructive: 'bg-destructive active:opacity-90',
-      outline: 'border border-input active:bg-accent',
-      secondary: 'bg-secondary active:opacity-80',
-      ghost: 'active:bg-accent',
-      link: 'active:underline',
-    },
-
-    size: {
-      default: 'w-full',
-      sm: 'w-full h-7',
-      md: 'w-full h-8.5',
-      lg: 'w-full h-12.5',
-      icon: 'w-7 h-7',
-    },
+const buttonSizeStyles = StyleSheet.create({
+  default: {
+    width: '100%',
   },
-  defaultVariants: {
-    variant: 'default',
-    size: 'default',
+  sm: {
+    height: 28,
+  },
+  md: {
+    height: 34,
+  },
+  lg: {
+    height: 50,
+  },
+  icon: {
+    width: 28,
+    height: 28,
   },
 });
 
-const buttonTextVariants = cva('text-sm native:text-base font-medium text-foreground ', {
-  variants: {
-    variant: {
-      default: 'text-primary-foreground',
-      destructive: 'text-destructive-foreground',
-      outline: 'group-active:text-accent-foreground',
-      secondary: 'text-secondary-foreground group-active:text-secondary-foreground',
-      ghost: 'group-active:text-accent-foreground',
-      link: 'text-primary group-active:underline',
-    },
-    size: {
-      default: '',
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg',
-      icon: 'text-lg',
-    },
+const buttonStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    borderRadius: 8,
   },
-  defaultVariants: {
-    variant: 'default',
-    size: 'default',
+  default: {
+    ...Styles.backgroundColor.orange[500],
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  destructive: {
+    ...Styles.backgroundColor.destructive,
+  },
+  outline: {
+    margin: 'auto',
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    borderWidth: 2,
+    ...Styles.borderColor.neutral[100],
+  },
+  secondary: {
+    ...Styles.backgroundColor.secondary,
+  },
+  ghost: {
+    backgroundColor: 'transparent',
+  },
+  link: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+  },
+  black: {
+    ...Styles.backgroundColor.neutral[900],
+  },
+  disabled: {
+    ...Styles.fontSize.body,
+    ...Styles.font.semibold,
+    opacity: 0.5,
   },
 });
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & VariantProps<typeof buttonVariants>;
+const buttonTextStyles = StyleSheet.create({
+  root: {
+    ...Styles.fontSize.body,
+    ...Styles.font.semibold,
+    ...Styles.color.foreground,
+  },
+  default: {
+    ...Styles.color.white,
+  },
+  destructive: {
+    ...Styles.color.white,
+  },
+  outline: {
+    ...Styles.color.neutral[100],
+  },
+  secondary: {
+    ...Styles.color.foreground,
+  },
+  ghost: {},
+  link: {
+    ...Styles.color.orange[500],
+  },
+  black: {
+    ...Styles.color.white,
+  },
+});
+
+const buttonTextSizeStyles = StyleSheet.create({
+  default: {
+    fontSize: 12,
+  },
+  sm: {
+    fontSize: 12,
+  },
+  md: {
+    fontSize: 16,
+  },
+  lg: {
+    fontSize: 16,
+  },
+  icon: {
+    fontSize: 16,
+  },
+});
+
+type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'black';
+  size?: 'default' | 'sm' | 'lg' | 'icon' | 'md';
+  disabled?: boolean;
+};
 
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  // eslint-disable-next-line react/prop-types
+  ({ style, variant = 'default', size = 'default', disabled = false, ...props }, ref) => {
     return (
-      <TextClassContext.Provider value={cn(props.disabled && '', buttonTextVariants({ variant, size }))}>
+      <TextClassContext.Provider
+        value={StyleSheet.flatten([buttonTextStyles.root, buttonTextStyles[variant], buttonTextSizeStyles[size]])}>
         <Pressable
-          className={cn(props.disabled && 'opacity-50', buttonVariants({ variant, size, className }))}
+          style={StyleSheet.flatten([
+            buttonStyles.root,
+            buttonStyles[variant],
+            buttonSizeStyles[size],
+            disabled && buttonStyles.disabled,
+            style,
+          ])}
           ref={ref}
           role='button'
           {...props}
@@ -72,5 +141,5 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
 );
 Button.displayName = 'Button';
 
-export { Button, buttonTextVariants, buttonVariants };
+export { Button };
 export type { ButtonProps };

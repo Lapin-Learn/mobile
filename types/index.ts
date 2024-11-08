@@ -1,4 +1,4 @@
 export type TokenType = {
-  token_type: string | null;
+  refreshToken: string | null;
   accessToken: string | null;
 };

@@ -1,51 +1,64 @@
 import { useLocalSearchParams } from 'expo-router';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView as IosView, Platform, Text, View } from 'react-native';
-import { SafeAreaView as AndroidView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View } from 'react-native';
 
-import MultipleChoice from '~/components/molecules/exercise/MultipleChoice';
-import MultipleChoices from '~/components/molecules/exercise/MultipleChoices';
-import { LoadingLesson } from '~/components/molecules/lesson/LoadingLesson';
+import { Loading } from '~/components/molecules/Loading';
+import QuestionTemplate from '~/components/organisms/exercise/QuestionTemplate';
+import { LessonResult } from '~/components/organisms/lesson/LessonResult';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
-import { ContentTypeEnum } from '~/lib/enums';
-import { IQuestion } from '~/lib/interfaces';
+import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
-export default function Exercise() {
+const Lesson = () => {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
-  const { data: questions, isLoading: questionsLoading } = useLessonQuestions({ lessonId: Number(lessonId) });
+  const { data, isLoading, isSuccess } = useLessonQuestions({ lessonId });
+  const {
+    state: { currentQuestion, isCompleted, result },
+    clear,
+    setQuestions,
+  } = useDailyLessonQuestionStore();
   const { t } = useTranslation('question');
 
-  if (questionsLoading) {
-    return <LoadingLesson />;
-  }
-
-  const questionData: IQuestion[] =
-    questions?.questionToLessons.map((lessonQuestion) => {
-      return lessonQuestion.question;
-    }) ?? [];
-
-  const renderQuestionComponent = (contentType: string) => {
-    switch (contentType) {
-      case ContentTypeEnum.MULTIPLE_CHOICE:
-        return <MultipleChoice lesson={Number(lessonId)} data={questionData} />;
-      case ContentTypeEnum.MULTIPLE_CHOICES:
-        return <MultipleChoices lesson={Number(lessonId)} data={questionData} />;
-      default:
-        return <Text>{t('general.unsupportedQuestionType')}</Text>;
+  useEffect(() => {
+    if (isSuccess && data) {
+      setQuestions(
+        data.questionToLessons.map((q) => q.question),
+        lessonId
+      );
     }
-  };
+    return () => {
+      clear();
+    };
+  }, [isSuccess, data, clear, setQuestions, lessonId]);
 
-  const ViewComponent = Platform.OS === 'ios' ? IosView : AndroidView;
+  if (isLoading || currentQuestion === null) return <Loading />;
+  if (isCompleted && result)
+    return (
+      <View>
+        <LessonResult data={result} />
+      </View>
+    );
 
   return (
     <View>
-      {questionData.length > 0 ? (
-        renderQuestionComponent(questionData[0].contentType)
+      {currentQuestion ? (
+        <QuestionTemplate />
       ) : (
-        <View className='flex justify-center items-center h-full'>
+        <View style={styles.noQuestionFoundContainer}>
           <Text>{t('general.noQuestionFound')}</Text>
         </View>
       )}
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  noQuestionFoundContainer: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default Lesson;

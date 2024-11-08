@@ -1,3 +1,7 @@
+import { StyleSheet } from 'react-native';
+
+import Styles from '~/constants/GlobalStyles';
+
 export const NAV_THEME = {
   light: {
     background: 'hsl(16 11% 97%)', // background
@@ -16,3 +20,44 @@ export const NAV_THEME = {
     text: 'hsl(0 0% 98%)', // foreground
   },
 };
+
+export const QUERY_KEYS = {
+  list: 'list',
+  detail: 'detail',
+  streak: 'streak',
+  questionTypes: 'questionTypes',
+  instruction: 'instruction',
+  questions: 'questions',
+  lessonQuestions: 'lessonQuestions',
+  missions: 'missions',
+  profile: {
+    identifier: 'accountIdentifier',
+    user: 'userProfile',
+    game: 'gameProfile',
+    privacy: 'privacyPolicy',
+  },
+};
+
+export const AUTH_ERRORS: Record<string, string> = {
+  EMAIL_EXISTS: 'emailExists',
+  EMAIL_NOT_FOUND: 'emailNotFound',
+  INVALID_PASSWORD: 'invalidAuth',
+  INVALID_EMAIL: 'invalidAuth',
+};
+
+export const GLOBAL_STYLES = StyleSheet.create({
+  checkButtonView: {
+    ...Styles.backgroundColor.background,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 40,
+    marginHorizontal: 16,
+  },
+  textButton: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.body,
+    ...Styles.color.white,
+  },
+});

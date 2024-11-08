@@ -1,9 +1,10 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useLayoutEffect } from 'react';
-import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from 'react-native';
 
-export default function Random() {
+import PlatformView from '~/components/templates/PlatformView';
+
+const Random = () => {
   const { randomId } = useLocalSearchParams<{ randomId: string }>();
   const navigation = useNavigation();
 
@@ -14,8 +15,10 @@ export default function Random() {
   }, [navigation, randomId]);
 
   return (
-    <SafeAreaView className='relative h-full w-full'>
-      <View className='mt-12'></View>
-    </SafeAreaView>
+    <PlatformView>
+      <Text>Random {randomId}</Text>
+    </PlatformView>
   );
-}
+};
+
+export default Random;

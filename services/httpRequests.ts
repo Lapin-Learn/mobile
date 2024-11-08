@@ -1,12 +1,14 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { router } from 'expo-router';
 
-import { getTokenAsync } from './utils';
+import { AuthInfo } from './axios/auth';
+import { getTokenAsync, setTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
-interface EndpointOptions extends Omit<AxiosRequestConfig, 'url' | 'method'> {
+type EndpointOptions = Omit<AxiosRequestConfig, 'url' | 'method'> & {
   searchParams?: string | Record<string, string>;
   body?: unknown;
-}
+};
 
 type APIResponse<T> = {
   status: number;
@@ -45,7 +47,31 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const auth = await getTokenAsync();
+      if (auth && auth.refreshToken) {
+        return api
+          .post<AuthInfo>('/auth/refresh', {
+            body: {
+              refreshToken: auth.refreshToken,
+            },
+          })
+          .then(async (data) => {
+            await setTokenAsync(data);
+            axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch((error) => {
+            return Promise.reject(formatError(error));
+          });
+      } else {
+        router.replace('/auth/sign-in');
+        return Promise.reject(formatError(error));
+      }
+    }
     return Promise.reject(formatError(error));
   }
 );
@@ -60,6 +86,22 @@ const formatError = (error: any | AxiosError): APIError => {
 
   return { status, message };
 };
+
+const axiosImageInstance = axios.create({
+  baseURL: '',
+  headers: {
+    'Content-Type': 'image/jpeg',
+  },
+});
+
+axiosImageInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject(formatError(error));
+  }
+);
 
 class API {
   private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
@@ -76,34 +118,56 @@ class API {
     }
   }
 
-  async get<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
+  private async fileRequest<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await axiosImageInstance.request<T>({
+        url: endpoint,
+        ...options,
+      });
+
+      return response.data;
+    } catch (error) {
+      throw formatError(error);
+    }
+  }
+
+  async get<T>(endpoint: string, { searchParams, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'GET',
       params: searchParams,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async post<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+  async post<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'POST',
       data: body,
-      ...nextOptions,
+      ...restOptions,
     });
   }
 
-  async put<T>(endpoint: string, { body, ...nextOptions }: EndpointOptions = {}) {
+  async put<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'PUT',
       data: body,
-      ...nextOptions,
+      ...restOptions,
     });
   }
-  async delete<T>(endpoint: string, { searchParams, ...nextOptions }: EndpointOptions = {}) {
+
+  async delete<T>(endpoint: string, { searchParams, ...restOptions }: EndpointOptions = {}) {
     return this.request<T>(endpoint, {
       method: 'DELETE',
       params: searchParams,
-      ...nextOptions,
+      ...restOptions,
+    });
+  }
+
+  async putImage<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
+    return this.fileRequest<T>(endpoint, {
+      method: 'PUT',
+      data: body,
+      ...restOptions,
     });
   }
 }

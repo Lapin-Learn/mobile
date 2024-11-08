@@ -4,14 +4,26 @@ import 'react-native-reanimated';
 import { Redirect } from 'expo-router';
 
 import { Loading } from '~/components/molecules/Loading';
+import { useAccountIdentifier } from '~/hooks/react-query/useUser';
 import { useAuth } from '~/hooks/zustand';
 
-export default function Index() {
-  const { status } = useAuth();
+const CustomRedirect = () => {
+  const { isSuccess, data: account, isError } = useAccountIdentifier();
+  if (isSuccess && account) {
+    return <Redirect href='/(tabs)/(map)' />;
+  } else if (isError || (isSuccess && !account)) {
+    return <Redirect href='/auth/sign-in' />;
+  }
+  return <Loading />;
+};
 
+const Index = () => {
+  const { status } = useAuth();
   if (status === 'idle') {
     return <Loading />;
   } else {
-    return <Redirect href='/(tabs)' />;
+    return <CustomRedirect />;
   }
-}
+};
+
+export default Index;

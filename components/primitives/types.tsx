@@ -21,12 +21,12 @@ type SlottablePressableProps = ComponentPropsWithAsChild<typeof Pressable> & {
 };
 type SlottableTextProps = ComponentPropsWithAsChild<typeof Text>;
 
-interface Insets {
+type Insets = {
   top?: number;
   bottom?: number;
   left?: number;
   right?: number;
-}
+};
 
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
 type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>;
@@ -35,7 +35,7 @@ type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>;
  * Certain props are only available on the native version of the component.
  * @docs For the web version, see the Radix documentation https://www.radix-ui.com/primitives
  */
-interface PositionedContentProps {
+type PositionedContentProps = {
   forceMount?: true | undefined;
   style?: ViewStyle;
   alignOffset?: number;
@@ -84,11 +84,11 @@ interface PositionedContentProps {
    * Platform: WEB ONLY
    */
   hideWhenDetached?: boolean;
-}
+};
 
-interface ForceMountable {
+type ForceMountable = {
   forceMount?: true | undefined;
-}
+};
 
 export type {
   ComponentPropsWithAsChild,

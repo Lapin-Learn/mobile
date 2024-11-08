@@ -1,0 +1,47 @@
+{
+  "profile": {
+    "basic_info": "Thông tin cơ bản",
+    "avatar_change": "Thay đổi ảnh đại diện",
+    "edit": "Chỉnh sửa",
+    "fullname": "Họ và tên",
+    "username": "Tên người dùng",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "dob": "Ngày sinh",
+    "gender": "Giới tính",
+    "update": "Lưu thay đổi",
+    "change_password": "Đổi mật khẩu",
+    "not_found": "Không tìm thấy thông tin người dùng",
+    "done": "Cập nhật"
+  },
+  "placeholder": {
+    "username": "Nhập tên đăng nhập",
+    "fullname": "Nhập họ tên",
+    "email": "Nhập email",
+    "change_password": "Đổi mật khẩu",
+    "dob": "Nhập ngày sinh",
+    "gender": "Chọn giới tính"
+  },
+  "gender": {
+    "male": "Nam",
+    "female": "Nữ"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "custom_settings": "Cài đặt riêng",
+    "notifications": "Thông báo",
+    "social_accounts": "Tài khoản mạng xã hội",
+    "privacy_settings": "Cài đặt quyền riêng tư"
+  },
+  "sign_out": "Đăng xuất",
+  "change_password": {
+    "title": "Mật khẩu",
+    "old_password": "Mật khẩu cũ",
+    "old_password_placeholder": "Nhập mật khẩu cũ",
+    "new_password": "Mật khẩu mới",
+    "new_password_placeholder": "Nhập mật khẩu mới",
+    "confirm_password": "Xác nhận mật khẩu",
+    "confirm_password_placeholder": "Nhập lại mật khẩu mới",
+    "save_button": "Lưu thay đổi"
+  }
+}

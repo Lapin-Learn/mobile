@@ -1,24 +1,29 @@
 {
-    "loading": {
-        "tip": [
-            "You can practice to increase your band without having to accumulate enough experience points",
-            "Focus on listening comprehension rather than just answering questions",
-            "Regular practice every day will help you improve quickly",
-            "Practice writing short paragraphs to improve your writing skills"
-          ]
-    },
-    "after":{
-        "encourage": [
-            "Great",
-            "Good job",
-            "Well done",
-            "Keep it up",
-            "You're doing great",
-            "You're on the right track"
-        ],
-        "receive-reward": "Receive reward",
-        "Experience": "Experience",
-        "Timer": "Timer",
-        "Carrot": "Carrot"
-    }
+  "loading": {
+    "tips": [
+      "You can practice to increase your band without having to accumulate enough experience points",
+      "Focus on listening comprehension rather than just answering questions",
+      "Regular practice every day will help you improve quickly",
+      "Practice writing short paragraphs to improve your writing skill"
+    ]
+  },
+  "after": {
+    "encourages": ["Great", "Good job", "Well done", "Keep it up", "You're doing great", "You're on the right track"],
+    "receive-reward": "Receive reward",
+    "Experience": "Experience",
+    "Timer": "Timer",
+    "Carrot": "Carrot"
+  },
+  "explanation": {
+    "title": "Explanation",
+    "evidence": "The evidence is in the paragraph",
+    "answer": "So the answer to the question:",
+    "understood": "Understood"
+  },
+  "quit_lesson": {
+    "title": "Lesson is not completed",
+    "description": "You haven't finished this lesson. Are you sure you want to quit?",
+    "continue": "Continue lesson",
+    "quit": "Quit"
+  }
 }

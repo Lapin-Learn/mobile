@@ -6,19 +6,19 @@ import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { useInstruction } from '~/hooks/react-query/useDailyLesson';
 import { useToast } from '~/hooks/useToast';
-import { useDailyLesson } from '~/hooks/zustand';
+import { useDailyLessonStore } from '~/hooks/zustand';
 
-export default function Instruction() {
+const Instruction = () => {
   const windowWidth = useWindowDimensions().width;
-  const currentQuestionType = useDailyLesson((state) => state.currentQuestionType);
+  const { currentQuestionType } = useDailyLessonStore();
   const toast = useToast();
   const {
     data: instruction,
-    isPending,
+    isLoading,
     isError,
-  } = useInstruction({ questionTypeId: currentQuestionType.id.toString() });
+  } = useInstruction({ questionTypeId: currentQuestionType?.id.toString() ?? '' });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -28,16 +28,18 @@ export default function Instruction() {
 
   return (
     <SafeAreaView>
-      <NavigationBar headerTitle={currentQuestionType.name} headerLeftShown />
-      <View>
+      <NavigationBar headerTitle={currentQuestionType?.name} headerLeftShown />
+      <ScrollView style={{ paddingHorizontal: 16 }}>
         {instruction ? (
-          <ScrollView className='px-4'>
+          <View style={{ marginBottom: 80 }}>
             <HTML source={{ html: instruction.content }} contentWidth={windowWidth} />
-          </ScrollView>
+          </View>
         ) : (
           <Text>Chưa có lý thuyết cho phần này</Text>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
+export default Instruction;

@@ -1,36 +1,89 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Href, router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
-import { signIn as setNewToken, signOut } from '~/hooks/zustand';
+import { AUTH_ERRORS, QUERY_KEYS } from '~/lib/constants';
+import { analytics, crashlytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
-import { forgotPassword, refreshToken, resetPassword, signIn, signUp, verify } from '~/services/auth';
+import {
+  forgotPassword,
+  refreshToken,
+  resetPassword,
+  signIn,
+  signInWithProvider,
+  signOut,
+  signUp,
+  verify,
+} from '~/services/axios/auth';
 
+import useStreakWidget from '../useStreakWidget';
 import { useToast } from '../useToast';
 
 export const useSignUp = () => {
+  const { t } = useTranslation('auth');
   const toast = useToast();
   return useMutation({
     mutationFn: signUp,
     onSuccess: () => {
       toast.show({ type: 'success', text1: 'Sign up success' });
       router.push('/auth/sign-in');
+      analytics.logSignUp({
+        method: 'email',
+      });
     },
     onError: (error) => {
-      toast.show({ type: 'error', text1: error.message });
+      toast.show({ type: 'error', text1: t(`error.${AUTH_ERRORS[error.message]}`) });
     },
   });
 };
 
 export const useSignIn = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('auth');
   return useMutation({
     mutationFn: signIn,
-    onSuccess: (data) => {
-      toast.show({ type: 'success', text1: 'Welcome back' });
-      setNewToken(data);
+    onSuccess: async (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.profile.identifier],
+      });
+      await setTokenAsync(data);
+      analytics.logLogin({
+        method: 'email',
+      });
+      crashlytics.setUserId(data.accessToken);
+      crashlytics.setAttributes({
+        method: 'email',
+        role: 'user',
+        email: variables.email,
+      });
+      toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
+      router.push('/');
+    },
+    onError: (error) => {
+      const errMes = AUTH_ERRORS[error.message];
+      toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : error.message });
+    },
+  });
+};
+
+export const useSignInWithProvider = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: signInWithProvider,
+    onSuccess: async (data) => {
+      if (data) {
+        analytics.logLogin({
+          method: 'google',
+        });
+        toast.show({ type: 'success', text1: 'Welcome back' });
+        await setTokenAsync(data);
+        router.push('/');
+      }
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
+      crashlytics.recordError(error);
     },
   });
 };
@@ -63,7 +116,7 @@ export const useVerifySignUp = () => {
     mutationFn: verify,
     onSuccess: () => {
       router.dismissAll();
-      router.navigate('auth/sign-in' as Href);
+      router.navigate('/auth/sign-in' as Href);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -90,7 +143,7 @@ export const useResetPassword = () => {
   const toast = useToast();
   return useMutation({
     mutationFn: resetPassword,
-    onSuccess: () => router.navigate('auth/sign-in' as Href),
+    onSuccess: () => router.navigate('/auth/sign-in' as Href),
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
     },
@@ -100,12 +153,13 @@ export const useResetPassword = () => {
 export const useSignOut = () => {
   const toast = useToast();
   const client = useQueryClient();
+  const updateStreak = useStreakWidget();
   return useMutation({
-    mutationFn: () => Promise.resolve(),
+    mutationFn: signOut,
     onSuccess: () => {
-      signOut();
       client.clear();
-      router.replace('auth/sign-in' as Href);
+      router.replace('/auth/sign-in');
+      updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -114,14 +168,16 @@ export const useSignOut = () => {
 };
 
 export const useRefreshToken = () => {
+  const { t } = useTranslation('auth');
   const toast = useToast();
   return useMutation({
     mutationFn: refreshToken,
     onSuccess: () => {
-      toast.show({ type: 'success', text1: 'Token refreshed' });
+      toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
+      crashlytics.recordError(error);
     },
   });
 };

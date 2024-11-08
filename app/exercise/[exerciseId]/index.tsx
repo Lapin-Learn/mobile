@@ -1,50 +1,57 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import { Badge, badgeTextVariants } from '~/components/ui/Badge';
+import { Badge, badgeTextStyles } from '~/components/ui/Badge';
+import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
+import { Text } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { IQuestionType } from '~/lib/interfaces';
+import { IQuestionType } from '~/lib/types';
+
+const { font, fontSize, color } = Styles;
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function QuestionTypeCard({ name, progress, imageId }: Pick<IQuestionType, 'name' | 'progress' | 'imageId'>) {
+type QuestionTypeCardProps = Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>;
+const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: QuestionTypeCardProps) => {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
+  const curReq = bandScoreRequires.find((req) => req.bandScore === bandScore);
   const { t } = useTranslation('translation');
 
   return (
-    <View className='flex flex-col gap-2 rounded-lg border-2 border-neutral-100 p-4'>
-      <View className='flex w-full flex-row items-start justify-between'>
-        <Image className='h-12 w-12 rounded-full' source={{ uri: 'https://via.placeholder.com/48' }} />
+    <View style={card.wrapper}>
+      <View style={card.container}>
+        <Image style={card.image} source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
         <Badge>
-          <Text className={badgeTextVariants({ variant: 'default' })}>
+          <Text style={StyleSheet.flatten([badgeTextStyles.root, badgeTextStyles.default])}>
             {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
           </Text>
         </Badge>
       </View>
-      <Text className='text-title-2 font-semibold text-neutral-900'>{name}</Text>
-      <View className='flex gap-2'>
-        <View className='flex flex-row justify-between'>
-          <Text className='text-subhead font-medium text-supporting-text'>{t('questionTypes.experience')}</Text>
-          <Text className='text-subhead font-medium text-supporting-text'>
-            {t('questionTypes.xp')} {totalLearningXP}/500
+      <Text style={StyleSheet.flatten([font.semibold, fontSize['title-2'], color.neutral[900]])}>{name}</Text>
+      <View style={card.textWrapper}>
+        <View style={card.textContainer}>
+          <Text style={texts.supportingText}>{t('questionTypes.experience')}</Text>
+          <Text style={texts.supportingText}>
+            {t('questionTypes.xp')} {totalLearningXP}/{curReq?.requireXP}
           </Text>
         </View>
-        <Progress value={totalLearningXP / 500} />
+        <Progress value={(totalLearningXP / (curReq?.requireXP || 1)) * 100} />
       </View>
     </View>
   );
-}
+};
 
-export default function Exercise() {
+const Exercise = () => {
   const { exerciseId } = useLocalSearchParams<{ exerciseId: string }>();
   const { data: questionTypes, isLoading: questionTypesLoading } = useQuestionTypes({ skill: exerciseId as SkillEnum });
 
@@ -52,10 +59,25 @@ export default function Exercise() {
     return <Loading />;
   }
 
+  if (exerciseId === SkillEnum.SPEAKING) {
+    return (
+      <SafeAreaView>
+        <View style={StyleSheet.flatten([containers.main, containers.noContent, styles.contentContainer])}>
+          <Text style={StyleSheet.flatten([texts.center, font.bold, fontSize['large-title']])}>
+            Speaking exercise is not available yet
+          </Text>
+          <Button onPress={() => router.back()}>
+            <Text style={texts.center}>Go back</Text>
+          </Button>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   if (!questionTypes || questionTypes.length === 0) {
     return (
       <SafeAreaView>
-        <View className='h-full items-center justify-center'>
+        <View style={containers.noContent}>
           <Text>No question types found for this skill</Text>
         </View>
       </SafeAreaView>
@@ -64,9 +86,9 @@ export default function Exercise() {
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaView className='flex flex-col'>
+      <SafeAreaView style={styles.areaView}>
         <NavigationBar title={capitalizeFirstLetter(exerciseId)} headerLeftShown />
-        <View className='px-4 py-6'>
+        <View style={containers.main}>
           <FlatList
             data={questionTypes}
             keyExtractor={(item) => item.id.toString()}
@@ -75,15 +97,84 @@ export default function Exercise() {
                 onPress={() => {
                   router.push(`/exercise/${exerciseId}/${item.id}`);
                 }}>
-                <QuestionTypeCard name={item.name} progress={item.progress} imageId={item.imageId} />
+                <QuestionTypeCard
+                  name={item.name}
+                  progress={item.progress}
+                  imageId={item.image?.url || ''}
+                  bandScoreRequires={item.bandScoreRequires}
+                />
               </Pressable>
             )}
             showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View className='h-5' />}
-            className='mb-80'
+            contentContainerStyle={styles.contentContainer}
           />
         </View>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
-}
+};
+
+export default Exercise;
+
+const styles = StyleSheet.create({
+  areaView: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+  contentContainer: {
+    gap: 20,
+  },
+});
+
+const containers = StyleSheet.create({
+  main: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+    flex: 1,
+  },
+  noContent: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+const texts = StyleSheet.create({
+  center: {
+    textAlign: 'center',
+  },
+  supportingText: StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText]),
+});
+
+const card = StyleSheet.create({
+  wrapper: {
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#cccccc',
+    padding: 16,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  image: {
+    width: 48,
+    height: 48,
+    borderRadius: 9999,
+  },
+  textWrapper: {
+    display: 'flex',
+    gap: 8,
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});

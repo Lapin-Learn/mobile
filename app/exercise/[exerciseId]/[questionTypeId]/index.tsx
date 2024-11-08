@@ -2,8 +2,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { BookMarked, ChevronLeft, ChevronRight, LucidePlay } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import PagerView from 'react-native-pager-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
@@ -11,56 +11,105 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text as UIText } from '~/components/ui/Text';
+import Styles from '~/constants/GlobalStyles';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
-import { useDailyLesson } from '~/hooks/zustand';
+import { useDailyLessonStore } from '~/hooks/zustand';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { IQuestionType } from '~/lib/interfaces';
+import { ILesson, IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
 
-export default function QuestionType() {
-  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: string; questionTypeId: string }>();
-  const setCurrentQuestionType = useDailyLesson((state) => state.setCurrentQuestionType);
-  const { data: questionTypes } = useQuestionTypes({ skill: exerciseId as SkillEnum });
+type CardProps = {
+  t: (key: string) => string;
+  item: ILesson;
+  lessons: ILesson[];
+  handlePrev: () => void;
+  handleNext: () => void;
+};
+
+const Card = ({ t, item, lessons, handlePrev, handleNext }: CardProps) => {
+  return (
+    <View style={[styles.card, Styles.backgroundColor.white]}>
+      <View style={styles.cardHeader}>
+        <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
+          <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />
+        </TouchableOpacity>
+        <Text style={[Styles.font.semibold, Styles.fontSize['title-3']]}>
+          {item.order}/{lessons.length}
+        </Text>
+        <TouchableOpacity onPress={handleNext} disabled={item.order === lessons.length}>
+          <ChevronRight size={24} color={item.order === lessons.length ? 'grey' : 'black'} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.cardContent}>
+        <View style={[styles.bookmark, Styles.backgroundColor.white]}>
+          <BookMarked size={24} color='black' />
+        </View>
+        <Text style={[styles.cardTitle, Styles.font.bold, Styles.fontSize['title-1']]}>{item.name}</Text>
+      </View>
+      <View style={styles.progressContainer}>
+        <View style={styles.progressBar}>
+          <Progress value={(item.xp / 50) * 100} />
+        </View>
+        <Text style={[Styles.font.medium, Styles.fontSize.subhead, Styles.color.supportingText]}>
+          {t('questionTypes.xp')} {item.xp}/50
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+const QuestionTypeScreen = () => {
+  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: SkillEnum; questionTypeId: string }>();
+  const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
+  const { setCurrentQuestionType } = useDailyLessonStore();
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
-  setCurrentQuestionType(currentQuestionType ? currentQuestionType : ({} as IQuestionType));
   const { bandScore } = currentQuestionType?.progress || { bandScore: 'pre_ielts' };
   const { data: lessons, isLoading: lessonsLoading } = useListLessons({ questionTypeId });
-  const width = Dimensions.get('window').width - 32;
-  const ref = useRef<ICarouselInstance>(null);
   const { t } = useTranslation('translation');
-  const currentLesson = lessons?.lessons?.find((lesson) => lesson.isCurrent) || lessons?.lessons?.[0];
 
-  const [curLessonId, setCurLessonId] = useState<number>(currentLesson?.id || 0);
+  const ref = useRef<PagerView>(null);
+  const [currentLesson, setCurrentLesson] = useState<ILesson | undefined>(
+    lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0]
+  );
 
   useEffect(() => {
-    if (currentLesson) {
-      setCurLessonId(currentLesson.id);
-    }
-  }, [currentLesson]);
+    const lesson = lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0];
+    setCurrentLesson(lesson);
+    ref.current?.setPage((lesson?.order || 1) - 1);
+  }, [lessons]);
+
+  useEffect(() => {
+    setCurrentQuestionType(currentQuestionType ?? null);
+  }, [currentQuestionType, setCurrentQuestionType]);
 
   if (lessonsLoading) {
     return <Loading />;
   }
 
   const handlePrev = () => {
-    ref.current?.prev();
+    ref.current?.setPage((currentLesson?.order || 1) - 2);
   };
 
   const handleNext = () => {
-    ref.current?.next();
+    ref.current?.setPage(currentLesson?.order || 1);
   };
 
   return (
     <SafeAreaView>
       <NavigationBar headerLeftShown />
-      <View className='h-full px-4 pb-9 justify-between'>
-        <View className='w-full flex gap-5 items-center'>
-          <Image className='h-40 w-40 rounded-full' source={{ uri: 'https://via.placeholder.com/160x160' }} />
-          <View className='items-center'>
-            <Text className='text-title-1 font-bold text-neutral-900'>{currentQuestionType?.name}</Text>
-            <Text className='text-title-4 font-medium text-supporting-text'>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image
+            style={styles.image}
+            source={{ uri: currentQuestionType?.image?.url || 'https://via.placeholder.com/40' }}
+          />
+          <View style={styles.headerTextContainer}>
+            <Text style={[Styles.font.bold, Styles.fontSize['title-1'], Styles.color.neutral[900]]}>
+              {currentQuestionType?.name}
+            </Text>
+            <Text style={[Styles.font.medium, Styles.fontSize['title-4'], Styles.color.supportingText]}>
               {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`} |{' '}
               {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
             </Text>
@@ -69,67 +118,121 @@ export default function QuestionType() {
           <Button
             variant='secondary'
             size='md'
-            className='color-neutral-900 flex-row gap-2 w-fit px-4'
+            style={styles.button}
             onPress={() => {
               router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
             }}>
             <LucidePlay size={12} color='black' fill='black' />
-            <Text className='text-subhead font-semibold'>{t('questionType.theoryPractice')}</Text>
+            <Text style={[Styles.font.semibold, Styles.fontSize.subhead]}>{t('questionType.theoryPractice')}</Text>
           </Button>
         </View>
-        <View className='flex-grow flex-row items-center'>
-          {lessons && lessons.lessons.length > 0 ? (
-            <Carousel
-              loop={false}
-              ref={ref}
-              width={width}
-              height={210}
-              data={lessons?.lessons || []}
-              defaultIndex={(currentLesson && currentLesson.order - 1) || 0}
-              onSnapToItem={(index) => setCurLessonId(lessons?.lessons[index].id)}
-              renderItem={({ item }) => (
-                <View className='bg-neutral-50 w-full px-4 py-5 rounded-lg gap-2'>
-                  <View className='justify-between flex-row'>
-                    <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
-                      <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />
-                    </TouchableOpacity>
-                    <Text className='text-title-3 font-semibold'>
-                      {item.order}/{lessons.lessons.length}
-                    </Text>
-                    <TouchableOpacity onPress={handleNext} disabled={item.order === lessons.lessons.length}>
-                      <ChevronRight size={24} color={item.order === lessons.lessons.length ? 'grey' : 'black'} />
-                    </TouchableOpacity>
-                  </View>
-                  <View className='gap-2'>
-                    <View className='bg-white w-12 h-12 p-3 rounded-full'>
-                      <BookMarked size={24} color='black' />
-                    </View>
-                    <Text className='text-title-1 font-bold z-10'>{item.name}</Text>
-                  </View>
-                  <View className='flex-row gap-4 items-center'>
-                    <View className='flex-grow'>
-                      <Progress value={item.xp / 50} />
-                    </View>
-                    <Text className='text-subhead font-medium text-supporting-text'>
-                      {t('questionTypes.xp')} {item.xp}/50
-                    </Text>
-                  </View>
+        <View style={styles.pagerViewContainer}>
+          {lessons?.lessons.length ? (
+            <PagerView
+              style={styles.pagerView}
+              initialPage={(currentLesson?.order || 1) - 1}
+              pageMargin={16}
+              orientation='horizontal'
+              onPageSelected={(e) => setCurrentLesson(lessons.lessons[e.nativeEvent.position])}
+              ref={ref}>
+              {lessons.lessons.map((lesson) => (
+                <View style={styles.pagerViewItem} key={lesson.id}>
+                  <Card t={t} item={lesson} lessons={lessons.lessons} handlePrev={handlePrev} handleNext={handleNext} />
                 </View>
-              )}
-            />
+              ))}
+            </PagerView>
           ) : (
-            <Text>Không có bài học nào</Text>
+            <Text>{t('questionType.noLessonFound')}</Text>
           )}
         </View>
-        <View className='gap-4 mb-18'>
-          <Button size='lg' onPress={() => router.push(`/lesson/${curLessonId}`)} disabled={!curLessonId}>
+        <View style={styles.footer}>
+          <Button size='lg' onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)} disabled={!currentLesson}>
             <UIText>{t('questionType.practiceBtn')}</UIText>
           </Button>
-          <Button size='lg' className='bg-neutral-900'>
-            <UIText className=''>{t('questionType.jumpNextBtn')}</UIText>
-          </Button>
+          {/* TODO: Jump to next band */}
+          {/* <Button size='lg' style={{}} ='bg-neutral-900'>
+            <UIText>{t('questionType.jumpNextBtn')}</UIText>
+          </Button> */}
         </View>
       </View>
     </SafeAreaView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  card: {
+    width: '100%',
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    gap: 8,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cardContent: {
+    gap: 8,
+  },
+  bookmark: {
+    width: 48,
+    height: 48,
+    borderRadius: 100,
+    padding: 12,
+  },
+  cardTitle: {
+    zIndex: 10,
+  },
+  progressContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  progressBar: {
+    height: 8,
+    flexGrow: 1,
+  },
+  container: {
+    height: '100%',
+    justifyContent: 'space-between',
+    padding: 16,
+    paddingBottom: 36,
+  },
+  header: {
+    alignItems: 'center',
+    gap: 20,
+  },
+  image: {
+    width: 160,
+    height: 160,
+    borderRadius: 100,
+  },
+  headerTextContainer: {
+    alignItems: 'center',
+  },
+  button: {
+    width: 'auto',
+    flexDirection: 'row',
+    gap: 8,
+    paddingHorizontal: 16,
+  },
+  pagerViewContainer: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pagerView: {
+    flex: 1,
+    height: '100%',
+  },
+  pagerViewItem: {
+    justifyContent: 'center',
+  },
+  footer: {
+    marginBottom: 72,
+    gap: 16,
+  },
+});
+
+export default QuestionTypeScreen;

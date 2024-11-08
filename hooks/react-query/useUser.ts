@@ -1,37 +1,116 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { router, useRouter } from 'expo-router';
+import { useEffect } from 'react';
 
-import { getUserProfile, updateUserProfile } from '~/services';
+import useStreakWidget from '~/hooks/useStreakWidget';
+import { QUERY_KEYS } from '~/lib/constants';
+import { IUserProfile } from '~/lib/types';
+import {
+  changePassword,
+  createPreSignedUrl,
+  createUpdatePreSignedUrl,
+  getAccountIdentifier,
+  getGameProfile,
+  getUserProfile,
+  updateUserProfile,
+  uploadAvatar,
+} from '~/services';
 
 import { useToast } from '../useToast';
 import { useSignOut } from './useAuth';
 
+export const useAccountIdentifier = () => {
+  const accountIdentifier = useQuery({
+    queryKey: [QUERY_KEYS.profile.identifier],
+    queryFn: getAccountIdentifier,
+    staleTime: Infinity,
+    retry: false,
+  });
+  const router = useRouter();
+  const { data: account, isSuccess } = accountIdentifier;
+
+  useEffect(() => {
+    if (
+      accountIdentifier.error?.message === 'User not found' ||
+      (isSuccess && (!account.dob || !account.fullName || !account.gender))
+    ) {
+      router.replace('/update-profile');
+    }
+  }, [accountIdentifier.error, isSuccess, account, router]);
+
+  return accountIdentifier;
+};
 export const useUserProfile = () => {
   const signOut = useSignOut();
   const userProfile = useQuery({
-    queryKey: ['userProfile'],
+    queryKey: [QUERY_KEYS.profile.user],
     queryFn: getUserProfile,
+    staleTime: Infinity,
   });
   if (userProfile.error?.message === 'Unauthorized') {
     signOut.mutate();
   }
-
-  // TODO: update user profile
-  // if (userProfile.error?.message === 'User not found' || userProfile.data?.fullName === null) {
-  //   router.replace('/update-profile');
-  // }
 
   return userProfile;
 };
 
 export const useUpdateUserProfile = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateUserProfile,
-    onSuccess: () => {
+    onSuccess: (returnData: IUserProfile) => {
       toast.show({ type: 'success', text1: 'Profile updated' });
+      queryClient.setQueryData([QUERY_KEYS.profile.identifier], returnData);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile.user] });
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
     },
   });
+};
+
+export const useCreatePreSignedUrl = () => {
+  return useMutation({
+    mutationFn: createPreSignedUrl,
+  });
+};
+
+export const useUploadAvatar = () => {
+  return useMutation({
+    mutationFn: uploadAvatar,
+  });
+};
+
+export const useCreateUpdatePreSignedUrl = () => {
+  return useMutation({
+    mutationFn: createUpdatePreSignedUrl,
+  });
+};
+
+export const useChangePassword = () => {
+  const toast = useToast();
+  return useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      toast.show({ type: 'success', text1: 'Password changed' });
+      router.back();
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
+    },
+  });
+};
+
+export const useGameProfile = () => {
+  const updateStreak = useStreakWidget();
+  const gameProfile = useQuery({
+    queryKey: [QUERY_KEYS.profile.game],
+    queryFn: getGameProfile,
+    staleTime: 0,
+  });
+
+  updateStreak.sendStreakToSharedStorage(gameProfile.data?.streak.current.toString() || '...');
+
+  return gameProfile;
 };

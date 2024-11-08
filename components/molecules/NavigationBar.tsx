@@ -1,52 +1,111 @@
 import { router } from 'expo-router';
-import { LucideMoveLeft } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
+import { ForwardRefExoticComponent } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
-export type NavigationBarProps = {
+import Styles from '~/constants/GlobalStyles';
+
+export type NavigationBarProps = ViewProps & {
+  noBar?: boolean;
   title?: string;
   headerTitle?: string;
   headerLeftShown?: boolean;
   onHeaderLeftPress?: () => JSX.Element;
   headerRightShown?: boolean;
   onHeaderRightPress?: () => JSX.Element;
+  displayStyle?: 'center';
+  icon?: ForwardRefExoticComponent<LucideProps>;
 };
 
-export function NavigationBar({
+export const NavigationBar = ({
+  noBar,
   title,
   headerTitle,
   headerLeftShown = false,
   onHeaderLeftPress,
   headerRightShown = false,
   onHeaderRightPress,
-}: NavigationBarProps) {
+  icon: Icon = LucideMoveLeft,
+  displayStyle,
+  children,
+}: NavigationBarProps) => {
   return (
-    <View className='px-4'>
-      <View className='flex h-11 flex-row items-center justify-between'>
-        {headerLeftShown &&
-          (onHeaderLeftPress ? (
-            onHeaderLeftPress()
+    <View style={styles.container}>
+      {noBar || (
+        <View style={[styles.navBar, displayStyle === 'center' ? styles.justifyCenter : styles.justifyBetween]}>
+          {displayStyle === 'center' ? (
+            <>{headerLeftShown && onHeaderLeftPress ? onHeaderLeftPress() : <View style={styles.placeholder} />}</>
           ) : (
-            <LucideMoveLeft
-              color={'black'}
-              onPress={() => {
-                if (router.canGoBack()) {
-                  router.back();
-                } else {
-                  router.dismiss();
-                }
-              }}
-            />
-          ))}
+            <>
+              {headerLeftShown &&
+                (onHeaderLeftPress ? (
+                  onHeaderLeftPress()
+                ) : (
+                  <Pressable
+                    style={styles.iconContainer}
+                    onPress={() => {
+                      if (router.canGoBack()) {
+                        router.back();
+                      } else {
+                        router.dismiss();
+                      }
+                    }}>
+                    <Icon color='black' />
+                  </Pressable>
+                ))}
+            </>
+          )}
+          {headerTitle && <Text style={styles.headerTitle}>{headerTitle}</Text>}
 
-        {headerTitle && <Text className='text-title-4 font-bold text-black'>{headerTitle}</Text>}
-
-        {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View className='w-6' />}
-      </View>
-      {title && (
-        <View className='w-full items-start'>
-          <Text className='text-large-title font-bold text-orange-900'>{title}</Text>
+          {headerRightShown && onHeaderRightPress ? onHeaderRightPress() : <View style={styles.placeholder} />}
         </View>
       )}
+
+      {title && (
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      )}
+      {children}
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+  },
+  navBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 44,
+  },
+  justifyCenter: {
+    justifyContent: 'center',
+  },
+  justifyBetween: {
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    width: 24,
+  },
+  headerTitle: {
+    color: 'black',
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-4'],
+  },
+  placeholder: {
+    width: 24,
+    ...Styles.color.blue[500],
+  },
+  titleContainer: {
+    width: 'auto',
+    alignItems: 'flex-start',
+  },
+  title: {
+    ...Styles.font.bold,
+    ...Styles.fontSize['large-title'],
+    ...Styles.color.orange[900],
+  },
+});

@@ -1,0 +1,12 @@
+{
+  "change_password": {
+    "limit_characters": "Password must be at least 8 characters long",
+    "password_not_match": "Passwords do not match"
+  },
+  "limit_characters": "The {{name}} must be at least {{min}} characters long",
+  "required": "The {{name}} is required",
+  "error":{
+    "email": "Invalid email",
+    "code": "Invalid code"
+  }
+}

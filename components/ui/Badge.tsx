@@ -1,53 +1,67 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { cn } from '~/lib/utils';
+import Styles from '~/constants/GlobalStyles';
 
 import * as Slot from '../primitives/slot';
 import { SlottableViewProps } from '../primitives/types';
 import { TextClassContext } from './Text';
 
-const badgeVariants = cva(
-  'web:inline-flex items-center rounded-full border border-border px-2.5 py-0.5 web:transition-colors web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2',
-  {
-    variants: {
-      variant: {
-        default: 'border-transparent bg-orange-50 web:hover:opacity-80 active:opacity-80',
-        secondary: 'border-transparent bg-secondary web:hover:opacity-80 active:opacity-80',
-        destructive: 'border-transparent bg-destructive web:hover:opacity-80 active:opacity-80',
-        outline: 'text-foreground',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-    },
-  }
-);
+type BadgeProps = SlottableViewProps & {
+  variant?: 'default' | 'secondary' | 'destructive' | 'outline';
+};
 
-const badgeTextVariants = cva('text-subhead font-bold ', {
-  variants: {
-    variant: {
-      default: 'text-primary',
-      secondary: 'text-secondary-foreground',
-      destructive: 'text-destructive-foreground',
-      outline: 'text-foreground',
-    },
+const Badge = ({ variant = 'default', asChild, style, ...props }: BadgeProps) => {
+  const Component = asChild ? Slot.View : View;
+  return (
+    <TextClassContext.Provider value={badgeTextStyles[variant]}>
+      <Component style={StyleSheet.flatten([badgeStyles.root, badgeStyles[variant], style])} {...props} />
+    </TextClassContext.Provider>
+  );
+};
+
+const badgeStyles = StyleSheet.create({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: 9999,
+    borderWidth: 1,
+    ...Styles.borderColor.border,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
-  defaultVariants: {
-    variant: 'default',
+  default: {
+    borderColor: 'transparent',
+    backgroundColor: Styles.color.orange[50].color,
+  },
+  secondary: {
+    borderColor: 'transparent',
+    backgroundColor: Styles.color.secondary.color,
+  },
+  destructive: {
+    borderColor: 'transparent',
+    backgroundColor: Styles.color.destructive.color,
+  },
+  outline: {},
+});
+
+export const badgeTextStyles = StyleSheet.create({
+  root: {
+    ...Styles.font.bold,
+    ...Styles.fontSize.subhead,
+  },
+  default: {
+    ...Styles.color.orange[500],
+  },
+  secondary: {
+    ...Styles.color.foreground,
+  },
+  destructive: {
+    ...Styles.color.destructive,
+  },
+  outline: {
+    ...Styles.color.foreground,
   },
 });
 
-type BadgeProps = SlottableViewProps & VariantProps<typeof badgeVariants>;
-
-function Badge({ className, variant, asChild, ...props }: BadgeProps) {
-  const Component = asChild ? Slot.View : View;
-  return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
-      <Component className={cn(badgeVariants({ variant }), className)} {...props} />
-    </TextClassContext.Provider>
-  );
-}
-
-export { Badge, badgeTextVariants, badgeVariants };
+export { Badge };
 export type { BadgeProps };

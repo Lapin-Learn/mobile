@@ -1,20 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { LayoutChangeEvent, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 
-const BAR_WIDTH = 240;
+import Styles from '~/constants/GlobalStyles';
+
 const INITIAL_THUMB_SIZE = 14;
 
-export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress> }) {
+export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress> }) => {
   const { position, duration } = progress;
   const isSliding = useRef(false);
   const offset = useSharedValue(0);
   const thumbPosition = useSharedValue(0);
+  const [barWidth, setBarWidth] = useState(0);
 
   useEffect(() => {
     if (!isSliding.current && duration > 0) {
-      const newOffset = (position / duration) * (BAR_WIDTH - INITIAL_THUMB_SIZE / 2);
+      const newOffset = (position / duration) * (barWidth - INITIAL_THUMB_SIZE / 2);
       offset.value = withTiming(newOffset, { duration: 0 });
       thumbPosition.value = newOffset;
     }
@@ -27,16 +30,16 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
     })
     .onChange((event) => {
       const newOffset = thumbPosition.value + event.translationX;
-      if (newOffset >= 0 && newOffset <= BAR_WIDTH - INITIAL_THUMB_SIZE) {
+      if (newOffset >= 0 && newOffset <= barWidth - INITIAL_THUMB_SIZE) {
         offset.value = newOffset;
       } else if (newOffset < 0) {
         offset.value = 0;
-      } else if (newOffset > BAR_WIDTH - INITIAL_THUMB_SIZE) {
-        offset.value = BAR_WIDTH - INITIAL_THUMB_SIZE;
+      } else if (newOffset > barWidth - INITIAL_THUMB_SIZE) {
+        offset.value = barWidth - INITIAL_THUMB_SIZE;
       }
     })
     .onEnd(() => {
-      const newPosition = (offset.value / (BAR_WIDTH - INITIAL_THUMB_SIZE)) * duration;
+      const newPosition = (offset.value / (barWidth - INITIAL_THUMB_SIZE)) * duration;
       runOnJS(TrackPlayer.seekTo)(newPosition);
       runOnJS(TrackPlayer.play)();
       isSliding.current = false;
@@ -44,10 +47,10 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
 
   const tapGesture = Gesture.Tap().onEnd((event) => {
     const tapX = event.x;
-    const newOffset = Math.max(0, Math.min(BAR_WIDTH - INITIAL_THUMB_SIZE, tapX));
+    const newOffset = Math.max(0, Math.min(barWidth - INITIAL_THUMB_SIZE, tapX));
     offset.value = withTiming(newOffset, { duration: 0 });
     thumbPosition.value = newOffset;
-    const newPosition = (newOffset / (BAR_WIDTH - INITIAL_THUMB_SIZE)) * duration;
+    const newPosition = (newOffset / (barWidth - INITIAL_THUMB_SIZE)) * duration;
     runOnJS(TrackPlayer.seekTo)(newPosition);
   });
 
@@ -63,16 +66,56 @@ export function SeekBar({ progress }: { progress: ReturnType<typeof useProgress>
     };
   });
 
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setBarWidth(width);
+  };
+
   return (
-    <GestureHandlerRootView className='flex justify-center w-full items-center'>
+    <GestureHandlerRootView style={styles.root} onLayout={handleLayout}>
       <GestureDetector gesture={tapGesture}>
-        <Animated.View className='w-full h-2 rounded-xl bg-neutral-100 overflow-hidden items-start justify-center'>
+        <Animated.View style={styles.seekBar}>
           <GestureDetector gesture={panGesture}>
-            <Animated.View style={[thumbStyle]} className='w-3.5 h-3.5 z-10 absolute rounded-full bg-background' />
+            <Animated.View style={[thumbStyle, styles.seekbarThumb]} />
           </GestureDetector>
-          <Animated.View style={[sliderStyle]} className='h-2 bg-orange-400 rounded-xl' />
+          <Animated.View style={[styles.seekBarCurrent, sliderStyle]} />
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  root: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  seekBar: {
+    height: 8,
+    width: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 999,
+    position: 'relative',
+    ...Styles.backgroundColor.neutral[100],
+  },
+  seekBarCurrent: {
+    height: 8,
+    position: 'absolute',
+    borderRadius: 999,
+    top: 0,
+    left: 0,
+    ...Styles.backgroundColor.orange[400],
+  },
+  seekbarThumb: {
+    position: 'absolute',
+    zIndex: 10,
+    height: 14,
+    width: 14,
+    borderRadius: 999,
+    ...Styles.backgroundColor.background,
+  },
+});

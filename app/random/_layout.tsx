@@ -2,7 +2,7 @@ import { router, Stack } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
 import { Pressable } from 'react-native';
 
-export default function Layout() {
+const Layout = () => {
   return (
     <Stack>
       <Stack.Screen
@@ -23,4 +23,6 @@ export default function Layout() {
       />
     </Stack>
   );
-}
+};
+
+export default Layout;

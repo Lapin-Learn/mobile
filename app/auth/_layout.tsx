@@ -1,11 +1,11 @@
-import { Redirect, router, Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { ChevronLeft } from 'lucide-react-native';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
 
-export default function AuthLayout() {
+const AuthLayout = () => {
   const { status } = useAuth();
 
   const hideSplash = useCallback(async () => {
@@ -19,10 +19,6 @@ export default function AuthLayout() {
       }, 1000);
     }
   }, [hideSplash, status]);
-
-  if (status === 'signIn') {
-    return <Redirect href='/' />;
-  }
 
   return (
     <Stack>
@@ -39,4 +35,6 @@ export default function AuthLayout() {
       <Stack.Screen name='(forgot-password)' options={{ headerShown: false }} />
     </Stack>
   );
-}
+};
+
+export default AuthLayout;
