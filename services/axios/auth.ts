@@ -5,6 +5,7 @@ import { ProviderNameEnum } from '~/lib/enums';
 
 import api from '../httpRequests';
 import { removeTokenAsync, setTokenAsync } from '../utils';
+import { deleteFcmToken } from './notification';
 
 const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID;
 GoogleSignin.configure({
@@ -44,6 +45,7 @@ export const signUp = async (params: SignUpParams) => {
 };
 
 export const signOut = async () => {
+  await deleteFcmToken();
   await removeTokenAsync();
 
   const isSignedIn = (await GoogleSignin.getCurrentUser()) !== null;
