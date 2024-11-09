@@ -3,7 +3,7 @@ import '~/global.css';
 import { Theme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { SplashScreen, usePathname } from 'expo-router';
+import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -15,8 +15,7 @@ import { PortalHost } from '~/components/primitives/portal';
 import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
-import AuthProvider from '~/lib/providers/auth';
-import NotificationProvider from '~/lib/providers/notification';
+import { AnalyticsProvider, AuthProvider, CrashlyticsProvider, NotificationProvider } from '~/lib/providers';
 import { analytics, crashlytics, registerBackgroundService } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
@@ -40,12 +39,11 @@ TrackPlayer.registerPlaybackService(() => registerBackgroundService);
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-  const pathname = usePathname();
-
   // Hide splash screen when TrackPlayer is loaded
   const handleTrackPlayerLoaded = useCallback(() => {
     SplashScreen.hideAsync();
   }, []);
+
   useSetupTrackPlayer({ onLoad: handleTrackPlayerLoaded });
 
   const [loaded] = useFonts({
@@ -68,16 +66,6 @@ const RootLayout = () => {
     }
   }, [loaded]);
 
-  // Configure analytics
-  useEffect(() => {
-    crashlytics.log('App mounted');
-    crashlytics.setAttribute('screen_class', (pathname === '/' ? 'home' : pathname).replace('/', ''));
-    analytics.logScreenView({
-      screen_class: pathname,
-      screen_name: (pathname === '/' ? 'home' : pathname).replace('/', ''),
-    });
-  }, [pathname]);
-
   if (!loaded) {
     return null;
   }
@@ -91,17 +79,21 @@ const RootLayout = () => {
   return (
     <ThemeProvider value={LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <AuthProvider>
-            <NotificationProvider>
-              {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
-              <StatusBar style='light' />
-              <AppStack />
-              <Toast />
-              <PortalHost />
-            </NotificationProvider>
-          </AuthProvider>
-        </I18nextProvider>
+        <AnalyticsProvider>
+          <CrashlyticsProvider>
+            <I18nextProvider i18n={i18n}>
+              <AuthProvider>
+                <NotificationProvider>
+                  {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
+                  <StatusBar style='light' />
+                  <AppStack />
+                  <Toast />
+                  <PortalHost />
+                </NotificationProvider>
+              </AuthProvider>
+            </I18nextProvider>
+          </CrashlyticsProvider>
+        </AnalyticsProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

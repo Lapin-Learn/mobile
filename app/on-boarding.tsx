@@ -32,11 +32,11 @@ const OnBoarding = () => {
       </NavigationBar>
       <View style={[styles.buttonContainer, styles.widthFull]}>
         <Button size='lg' style={styles.getStartButton} onPress={handleGetStart}>
-          <Text style={[styles.getStartButtonTextColor, styles.buttonText]}>{t('on_boarding.get_start')}</Text>
+          <Text style={[{ ...Styles.color.white }, styles.buttonText]}>{t('on_boarding.get_start')}</Text>
           <LucideMoveRight color='white' />
         </Button>
-        <Button size='lg' style={styles.skipButton} onPress={handleSkip}>
-          <Text style={[styles.skipButtonTextColor, styles.buttonText]}>{t('on_boarding.skip')}</Text>
+        <Button size='lg' style={{ ...Styles.backgroundColor.white }} onPress={handleSkip}>
+          <Text style={[{ ...Styles.color.neutral[300] }, styles.buttonText]}>{t('on_boarding.skip')}</Text>
         </Button>
       </View>
     </View>
@@ -71,15 +71,6 @@ const styles = StyleSheet.create({
   buttonText: {
     ...Styles.font.semibold,
     ...Styles.fontSize.body,
-  },
-  getStartButtonTextColor: {
-    ...Styles.color.white,
-  },
-  skipButton: {
-    ...Styles.backgroundColor.white,
-  },
-  skipButtonTextColor: {
-    ...Styles.color.neutral[300],
   },
 });
 

@@ -10,11 +10,14 @@ import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/region/Region';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
 import { Text } from '~/components/ui/Text';
+import { useShop } from '~/hooks/react-query/useShop';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 import { SkillEnum } from '~/lib/enums';
 
 const Index = () => {
   const { data, isFetching, error } = useGameProfile();
+  const { data: shopData } = useShop();
+  console.log(shopData);
 
   if (isFetching) {
     return <Loading />;
