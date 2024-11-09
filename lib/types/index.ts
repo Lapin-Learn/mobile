@@ -5,6 +5,7 @@ import {
   MilestonesEnum,
   MissionCategoryEnum,
   RankEnum,
+  ShopItemEnum,
   SkillEnum,
 } from '../enums';
 
@@ -168,4 +169,20 @@ export type IMission = {
 export type IMissionReward = {
   bonusCarrot: number;
   bonusXp: number;
+};
+
+export type IShop = {
+  id: string;
+  name: ShopItemEnum;
+  description: string;
+  price: {
+    [key: string]: number;
+  };
+  duration: number;
+  imageId: string;
+  createdAt: string;
+  updatedAt: string;
+  image: IImage;
+  popular: string;
+  isPopular: boolean;
 };

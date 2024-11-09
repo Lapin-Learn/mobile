@@ -7,12 +7,28 @@ import { styles } from './styles';
 
 type CarrotsProps = {
   carrots: number;
+  size?: 'sm' | 'md' | 'lg';
 };
 
-const Carrots = ({ carrots }: CarrotsProps) => {
+const iconSize = {
+  sm: {
+    width: 20,
+    height: 20,
+  },
+  md: {
+    width: 28,
+    height: 28,
+  },
+  lg: {
+    width: 36,
+    height: 36,
+  },
+};
+
+const Carrots = ({ carrots, size = 'md' }: CarrotsProps) => {
   return (
     <View style={styles.root}>
-      <IconCarrot width={28} height={28} />
+      <IconCarrot {...iconSize[size]} />
       <Text style={styles.text}>{formatNumber(carrots)}</Text>
     </View>
   );
