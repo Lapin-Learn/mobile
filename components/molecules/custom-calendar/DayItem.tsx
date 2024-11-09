@@ -97,9 +97,7 @@ const containerDayVariantStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  default: {
-    borderRadius: 9999,
-  },
+  default: {},
   first: {
     borderTopLeftRadius: 9999,
     borderBottomLeftRadius: 9999,
