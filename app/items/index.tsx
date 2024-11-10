@@ -105,10 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   itemView: {
-    display: 'flex',
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonContainer: {
     borderBottomWidth: 2,
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     ...Styles.borderColor.transparent,
   },
-  buttonText: { ...Styles.font.semibold, ...Styles.fontSize.subhead, ...Styles.color.black },
+  buttonText: { ...Styles.font.semibold, ...Styles.fontSize.subhead, ...Styles.color.supportingText },
 });
 
 export default Items;

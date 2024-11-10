@@ -68,31 +68,30 @@ export const Inventory = () => {
 
   if (data.length === 0)
     return (
-      <ScrollView>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <InventoryEmpty />
-          <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
-            {t('inventory.empty')}
-          </Text>
-        </View>
-      </ScrollView>
+      <View style={{ alignItems: 'center', gap: 24, paddingHorizontal: 48, paddingTop: 60 }}>
+        <InventoryEmpty />
+        <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
+          {t('inventory.empty')}
+        </Text>
+      </View>
     );
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        {Object.values(data).map((item) => (
-          <Item key={item.id} {...item} />
-        ))}
-      </View>
-    </ScrollView>
+    <View style={{ alignItems: 'center' }}>
+      <ScrollView>
+        <View style={styles.container}>
+          {Object.values(data).map((item) => (
+            <Item key={item.id} {...item} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
