@@ -5,6 +5,7 @@ import { ScrollView, Text, View } from 'react-native';
 import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import { Button } from '~/components/ui/Button';
+import { RadioGroup } from '~/components/ui/RadioGroup';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { MultipleChoiceContent } from '~/lib/types/questions';
@@ -62,45 +63,49 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
   return (
     <>
       <ScrollView style={[{ flex: 1 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
-        {answer.length === 1
-          ? options.map((option, index) => (
+        {answer.length === 1 ? (
+          <RadioGroup
+            value={options[selected[0]]}
+            onValueChange={(value) => setSelected([options.findIndex((option) => option === value)])}>
+            {options.map((option, index) => (
               <ChoiceButton
                 key={index}
                 label={option}
-                onPress={() => handlePress(index)}
+                onLabelPress={() => handlePress(index)}
                 variant={
                   isNotAnswered
-                    ? selected.includes(index)
-                      ? 'selected'
-                      : 'default'
+                    ? undefined
                     : answer.includes(index)
                       ? 'correct'
                       : selected.includes(index)
                         ? 'incorrect'
-                        : 'default'
+                        : undefined
                 }
-              />
-            ))
-          : options.map((option, index) => (
-              <ChoiceCheckBox
-                key={index}
-                label={option}
-                onPress={() => handlePress(index)}
-                variant={
-                  isNotAnswered
-                    ? selected.includes(index)
-                      ? 'selected'
-                      : 'default'
-                    : answer.includes(index)
-                      ? 'correct'
-                      : selected.includes(index)
-                        ? 'incorrect'
-                        : 'default'
-                }
-                checked={selected.includes(index)}
-                onCheckedChange={() => {}}
               />
             ))}
+          </RadioGroup>
+        ) : (
+          options.map((option, index) => (
+            <ChoiceCheckBox
+              key={index}
+              label={option}
+              onPress={() => handlePress(index)}
+              variant={
+                isNotAnswered
+                  ? selected.includes(index)
+                    ? 'selected'
+                    : 'default'
+                  : answer.includes(index)
+                    ? 'correct'
+                    : selected.includes(index)
+                      ? 'incorrect'
+                      : 'default'
+              }
+              checked={selected.includes(index)}
+              onCheckedChange={() => {}}
+            />
+          ))
+        )}
       </ScrollView>
       {isChecking && (
         <View style={GLOBAL_STYLES.checkButtonView}>

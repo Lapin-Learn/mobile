@@ -1,53 +1,64 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { Label } from '~/components/ui/Label';
+import { RadioGroupItem } from '~/components/ui/RadioGroup';
 import Styles from '~/constants/GlobalStyles';
 
-import { Button, ButtonProps } from '../../ui/Button';
-
-type ChoiceButtonProps = Omit<ButtonProps, 'variant'> & {
-  variant?: 'default' | 'correct' | 'incorrect' | 'selected';
+type ChoiceButtonProps = {
+  variant?: 'correct' | 'incorrect';
   label: string;
+  onLabelPress?: () => void;
 };
-const ChoiceButton = ({ variant = 'default', label, ...props }: ChoiceButtonProps) => {
+const ChoiceButton = ({ variant, label, onLabelPress }: ChoiceButtonProps) => {
   return (
-    <Button style={StyleSheet.flatten([buttonStyles.root, buttonStyles[variant]])} {...props}>
-      <Text style={textStyle.root}>{label}</Text>
-    </Button>
+    <View style={buttonStyles.root}>
+      <RadioGroupItem
+        aria-labelledby={`label-for-${label}`}
+        value={label}
+        style={variant && radioStyles[variant]}
+        indicatorStyle={variant && indicatorStyles[variant]}
+      />
+      <Label nativeID={`label-for-${label}`} onPress={onLabelPress} style={variant && textStyles[variant]}>
+        {label}
+      </Label>
+    </View>
   );
 };
 
-const textStyle = StyleSheet.create({
-  root: {
-    textAlign: 'center',
-    ...Styles.font.normal,
-    ...Styles.fontSize.body,
-    ...Styles.color.neutral[900],
+const radioStyles = StyleSheet.create({
+  correct: {
+    ...Styles.borderColor.green[400],
+  },
+  incorrect: {
+    ...Styles.borderColor.red[400],
+  },
+});
+
+const indicatorStyles = StyleSheet.create({
+  correct: {
+    ...Styles.backgroundColor.green[400],
+    borderRadius: 50,
+  },
+  incorrect: {
+    ...Styles.backgroundColor.red[500],
+    borderRadius: 50,
+  },
+});
+
+const textStyles = StyleSheet.create({
+  correct: {
+    ...Styles.color.green[400],
+  },
+  incorrect: {
+    ...Styles.color.red[400],
   },
 });
 
 const buttonStyles = StyleSheet.create({
   root: {
-    borderWidth: 2,
-    marginBottom: 12,
-    width: '100%',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  default: {
-    ...Styles.borderColor.neutral[100],
-    ...Styles.backgroundColor.background,
-  },
-  correct: {
-    ...Styles.borderColor.green[400],
-    ...Styles.backgroundColor.green[50],
-  },
-  incorrect: {
-    ...Styles.borderColor.red[400],
-    ...Styles.backgroundColor.red[50],
-  },
-  selected: {
-    ...Styles.borderColor.orange[500],
-    ...Styles.backgroundColor.background,
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
   },
 });
 
