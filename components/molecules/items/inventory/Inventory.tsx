@@ -68,12 +68,14 @@ export const Inventory = () => {
 
   if (data.length === 0)
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <InventoryEmpty />
-        <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
-          {t('inventory.empty')}
-        </Text>
-      </View>
+      <ScrollView>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <InventoryEmpty />
+          <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
+            {t('inventory.empty')}
+          </Text>
+        </View>
+      </ScrollView>
     );
 
   return (
