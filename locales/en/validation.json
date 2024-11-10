@@ -5,7 +5,7 @@
   },
   "limit_characters": "The {{name}} must be at least {{min}} characters long",
   "required": "The {{name}} is required",
-  "error":{
+  "error": {
     "email": "Invalid email",
     "code": "Invalid code"
   }

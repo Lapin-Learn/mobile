@@ -4,24 +4,11 @@
     "jsx": "react-jsx",
     "resolveJsonModule": true,
     "strict": true,
-    "types": [
-      "babel__generator",
-      "node"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "types": ["babel__generator", "node"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "~/*": [
-        "./*"
-      ]
+      "~/*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "nativewind-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
 }
