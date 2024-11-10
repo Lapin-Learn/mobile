@@ -186,6 +186,7 @@ const baseColors = {
   destructive: '#ff4b4b',
   foreground: '#f0f0f0',
   black: '#000000',
+  transparent: 'transparent',
 };
 
 type BaseColors = typeof baseColors;

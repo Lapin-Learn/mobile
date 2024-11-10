@@ -16,16 +16,18 @@ export type ItemCardProps = {
   popular?: string;
 };
 
-const ItemCard = (props: ItemCardProps) => {
-  const { t } = useTranslation('shop');
+export const ItemCard = (props: ItemCardProps) => {
+  const { t } = useTranslation('item');
   const { name, image, price } = props;
 
   return (
     <View style={styles.itemContainer}>
       <Image source={{ uri: image }} width={64} style={{ objectFit: 'contain' }} />
-      <View>
-        <Text style={styles.itemNameText}>{t(`items.${name}.name`)}</Text>
-        <Text style={styles.itemDescriptionText}>{t(`items.${name}.description`)}</Text>
+      <View style={{ flexGrow: 1, flexShrink: 1 }}>
+        <View>
+          <Text style={styles.itemNameText}>{t(`shop.items.${name}.name`)}</Text>
+          <Text style={styles.itemDescriptionText}>{t(`shop.items.${name}.description`)}</Text>
+        </View>
         <View style={styles.itemPriceContainer}>
           {Object.entries(price).map(([key, value]) => (
             <ItemPriceCard key={key} quantity={key} value={value} {...props} />
@@ -38,29 +40,26 @@ const ItemCard = (props: ItemCardProps) => {
 
 const styles = StyleSheet.create({
   itemContainer: {
-    display: 'flex',
     flexDirection: 'row',
     gap: 16,
     padding: 16,
     borderWidth: 1,
-    ...Styles.borderColor.neutral[100],
     borderRadius: 8,
+    ...Styles.borderColor.neutral[100],
   },
   itemNameText: {
     ...Styles.fontSize['title-4'],
     ...Styles.font.semibold,
   },
   itemDescriptionText: {
-    ...Styles.fontSize['footnote'],
+    ...Styles.fontSize.footnote,
     ...Styles.color.supportingText,
     ...Styles.font.semibold,
   },
   itemPriceContainer: {
-    display: 'flex',
     flexDirection: 'row',
-    gap: 12,
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 16,
   },
 });
-
-export default ItemCard;
