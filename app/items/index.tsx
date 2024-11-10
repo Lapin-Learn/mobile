@@ -85,10 +85,10 @@ const Items = () => {
 
   return (
     <>
-      <PlatformView style={{ flex: 1, ...Styles.backgroundColor.blue[300] }}>
+      <PlatformView style={{ flex: 1, ...Styles.backgroundColor.blue[300], paddingBottom: 0 }}>
         {/* TODO: add banner */}
         <HeaderSection />
-        <View style={{ flex: 1, ...Styles.backgroundColor.background }}>
+        <View style={[styles.itemView, { ...Styles.backgroundColor.background }]}>
           <ItemTabs isShop={isShop} setIsShop={setIsShop} />
           <View style={styles.itemView}>{isShop ? <Shop /> : <Inventory />}</View>
         </View>

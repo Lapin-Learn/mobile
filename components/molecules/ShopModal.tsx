@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     gap: 32,
-    paddingHorizontal: 16,
-    paddingVertical: 40,
+    padding: 16,
     ...Styles.backgroundColor.white,
   },
   textContainer: {

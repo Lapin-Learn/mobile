@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
@@ -77,26 +77,15 @@ export const Inventory = () => {
     );
 
   return (
-    <View style={{ alignItems: 'center' }}>
-      <ScrollView>
-        <View style={styles.container}>
-          {Object.values(data).map((item) => (
-            <Item key={item.id} {...item} />
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+    <FlatList
+      style={{ paddingVertical: 16, margin: 'auto' }}
+      contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
+      columnWrapperStyle={{ justifyContent: 'flex-start', gap: 16 }}
+      numColumns={2}
+      data={data}
+      renderItem={({ item }) => <Item key={item.id} {...item} />}
+      keyExtractor={(item) => item.id}
+      ListFooterComponent={() => <View style={{ height: 20 }} />}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    columnGap: 16,
-    rowGap: 16,
-    marginVertical: 16,
-  },
-});
