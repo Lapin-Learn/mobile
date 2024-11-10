@@ -1,8 +1,6 @@
 {
     "shop": {
-        "title": {
-            "shop": "Cửa hàng"
-        },
+        "title": "Cửa hàng",
         "items": {
             "STREAK_FREEZE": {
                 "name": "Streak Freeze",
@@ -33,6 +31,8 @@
         }
     },
     "inventory": {
-        "Amount": "Số lượng: {{amount}}"
+        "title": "Túi đồ",
+        "Amount": "Số lượng: {{amount}}",
+        "empty": "Oops, túi đồ của bạn thật trống trải, ghé cửa hàng để trang bị thêm vật phẩm nhé!"
     }
 }

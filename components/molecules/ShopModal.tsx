@@ -16,7 +16,7 @@ type ShopModalProps = {
 
 export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopModalProps) => {
   const [showModal, setShowModal] = useState(true);
-  const { t } = useTranslation('shop');
+  const { t } = useTranslation('item');
 
   const handleClose = () => {
     setShowModal(false);
@@ -36,10 +36,10 @@ export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopMo
                 description: t(`items.${name}.description`),
               })} */}
               <Trans
-                i18nKey={t('buy_modal.description', {
-                  name: t(`items.${name}.name`),
+                i18nKey={t('shop.buy_modal.description', {
+                  name: t(`shop.items.${name}.name`),
                   quantity,
-                  description: t(`items.${name}.description`),
+                  description: t(`shop.items.${name}.description`),
                 })}
                 components={{ color: <Text style={{ ...Styles.color.orange[500] }} /> }}
               />
@@ -47,10 +47,10 @@ export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopMo
           </View>
           <View style={styles.buttonContainer}>
             <Button style={styles.continueButton} size='lg' onPress={onContinue}>
-              <Text style={styles.buttonText}>{t('buy_modal.buy_now')}</Text>
+              <Text style={styles.buttonText}>{t('shop.buy_modal.buy_now')}</Text>
             </Button>
             <Button variant='ghost' size='lg' onPress={handleClose}>
-              <Text style={[styles.buttonText, styles.exitButtonText]}>{t('buy_modal.no_thank')}</Text>
+              <Text style={[styles.buttonText, styles.exitButtonText]}>{t('shop.buy_modal.no_thank')}</Text>
             </Button>
           </View>
         </View>

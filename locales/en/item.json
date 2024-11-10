@@ -1,8 +1,6 @@
 {
     "shop": {
-        "title": {
-            "shop": "Shop"
-        },
+        "title": "Shop",
         "items": {
             "STREAK_FREEZE": {
                 "name": "Streak Freeze",
@@ -33,6 +31,8 @@
         }
     },
     "inventory": {
-        "Amount": "Amount: {amount}"
+        "title": "Inventory",
+        "Amount": "Amount: {amount}",
+        "empty": "Oops, your bag is empty, visit the shop to equip more items!"
     }
 }

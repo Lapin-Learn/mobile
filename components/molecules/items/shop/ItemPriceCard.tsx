@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { ShopModal } from '~/components/molecules/ShopModal';
+import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
 
-import { ShopModal } from '../ShopModal';
-import Carrots from '../track-bar/Carrots';
 import { ItemCardProps } from './ItemCard';
 
 export type ItemPriceProps = {
@@ -16,18 +16,18 @@ export type ItemPriceProps = {
 export type ItemPriceCardProps = ItemPriceProps & Pick<ItemCardProps, 'name' | 'id' | 'popular' | 'image'>;
 
 const PopularTag = () => {
-  const { t } = useTranslation('shop');
+  const { t } = useTranslation('item');
 
   return (
     <View style={styles.popularTag}>
-      <Text style={styles.popularTagText}>{t('price.popular')}</Text>
+      <Text style={styles.popularTagText}>{t('shop.price.popular')}</Text>
     </View>
   );
 };
 
 const ItemPriceCard = ({ id, name, quantity, value, image, popular }: ItemPriceCardProps) => {
   const [isBuying, setIsBuying] = useState(false);
-  const { t } = useTranslation('shop');
+  const { t } = useTranslation('item');
 
   const handleBuyItem = () => {
     alert(`${id} - ${name}: ${quantity} - ${value} carrots`);
@@ -42,7 +42,7 @@ const ItemPriceCard = ({ id, name, quantity, value, image, popular }: ItemPriceC
       {quantity === popular && <PopularTag />}
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 4 }}>
         <Text style={{ ...Styles.fontSize.footnote }}>
-          {quantity === '1' ? t('price.single_pack') : t('price.pack', { quantity })}
+          {quantity === '1' ? t('shop.price.single_pack') : t('shop.price.pack', { quantity })}
         </Text>
         <Carrots carrots={value} size='sm' />
       </View>

@@ -180,8 +180,6 @@ export type IShop = {
   };
   duration: number;
   imageId: string;
-  createdAt: string;
-  updatedAt: string;
   image: IImage;
   popular: string;
   isPopular: boolean;
