@@ -1,0 +1,33 @@
+{
+  "title": {
+    "shop": "Cửa hàng"
+  },
+  "items":{
+    "STREAK_FREEZE": {
+      "name": "Streak Freeze",
+      "description": "Bảo vệ chuỗi streak tới 3 ngày"
+    },
+    "RANDOM_GIFT": {
+      "name": "Túi Mù",
+      "description": "Nhận phần thưởng với các quà tặng bất ngờ"
+    },
+    "ULTIMATE_TIME": {
+      "name": "Thời Gian Siêu Cấp",
+      "description": "Nhân đôi điểm kinh nghiệm trong 15 phút"
+    },
+    "IDENTIFICATION": {
+      "name": "Nhận Diện",
+      "description": "Loại bỏ các câu sai trong câu hỏi"
+    }
+  },
+  "price": {
+    "popular": "Phổ biến",
+    "pack": "Gói {{quantity}}",
+    "single_pack": "Gói đơn"
+  },
+  "buy_modal": {
+    "description": "Mua <color>{{quantity}} {{name}}</color> để {{description, lowercase}}!",
+    "buy_now": "Mua ngay",
+    "no_thank": "Không, cảm ơn"
+  }
+}
