@@ -52,7 +52,7 @@ const QuestionTemplate = () => {
   const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
 
   return (
-    <PlatformView>
+    <PlatformView style={{ paddingBottom: 0 }}>
       <View style={styles.progress}>
         <Pressable style={{ width: 24 }} onPress={handleBack}>
           <LucideMoveLeft color='black' />

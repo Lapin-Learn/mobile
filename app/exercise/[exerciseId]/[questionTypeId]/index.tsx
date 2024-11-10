@@ -28,7 +28,7 @@ type CardProps = {
 
 const Card = ({ t, item, lessons, handlePrev, handleNext }: CardProps) => {
   return (
-    <View style={[styles.card, Styles.backgroundColor.white]}>
+    <View style={[styles.card, Styles.backgroundColor.neutral[50]]}>
       <View style={styles.cardHeader}>
         <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
           <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />

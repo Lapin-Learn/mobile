@@ -158,7 +158,6 @@ export const useSignOut = () => {
     mutationFn: signOut,
     onSuccess: () => {
       client.clear();
-      router.replace('/auth/sign-in');
       updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {
