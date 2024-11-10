@@ -135,7 +135,7 @@ const itemStyles = StyleSheet.create({
     ...Styles.font.normal,
     ...Styles.fontSize['title-4'],
     ...Styles.color.supportingText,
-    width: 88,
+    width: 124,
   },
   value: {
     ...Styles.font.normal,
