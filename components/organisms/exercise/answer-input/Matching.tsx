@@ -68,24 +68,41 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
       <ScrollView>
         <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           {columnB.options.map((option, index) => (
-            <>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }} key={option}>
-                <Text
+            <View key={option}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <View
                   style={[
-                    textStyles.root,
-                    correctness.length ? (correctness[index] ? textStyles.correct : textStyles.incorrect) : {},
+                    styles.circle,
+                    correctness.length
+                      ? correctness[index]
+                        ? { ...Styles.backgroundColor.green[500] }
+                        : { ...Styles.backgroundColor.red[500] }
+                      : {},
                   ]}>
-                  {index + 1}
-                </Text>
+                  <Text
+                    style={[
+                      styles.text,
+                      correctness.length
+                        ? correctness[index]
+                          ? { ...Styles.color.green[50] }
+                          : { ...Styles.color.red[50] }
+                        : {},
+                    ]}>
+                    {index + 1}
+                  </Text>
+                </View>
                 <Select
                   onValueChange={(value) => value && handleSelect(value.value, option)}
                   style={{
                     maxWidth: '50%',
                   }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={columnA.title} />
+                  <SelectTrigger disabled={correctness.length !== 0}>
+                    <SelectValue placeholder={columnA.title} style={{ ...Styles.fontSize.body }} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent
+                    style={{
+                      width: '80%',
+                    }}>
                     <SelectGroup>
                       {columnA.options.map((item) => (
                         <SelectItem key={item} label={item} value={item}>
@@ -102,7 +119,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
                   {t('general.correctAnswer')} {answerRecord[option]}
                 </Text>
               )}
-            </>
+            </View>
           ))}
         </View>
       </ScrollView>
@@ -119,22 +136,18 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
 
 export default Matching;
 
-const textStyles = StyleSheet.create({
-  root: {
-    padding: 4,
-    borderWidth: 1,
-    ...Styles.borderColor.neutral[200],
-    borderRadius: 64,
+const styles = StyleSheet.create({
+  circle: {
+    borderRadius: 16,
     width: 32,
     height: 32,
-    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Styles.backgroundColor.blue[500],
   },
-  correct: {
-    ...Styles.borderColor.green[500],
-    ...Styles.color.green[500],
-  },
-  incorrect: {
-    ...Styles.borderColor.red[500],
-    ...Styles.color.red[500],
+  text: {
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+    ...Styles.color.blue[50],
   },
 });
