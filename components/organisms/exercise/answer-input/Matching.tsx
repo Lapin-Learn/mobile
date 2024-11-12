@@ -95,6 +95,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
                   onValueChange={(value) => value && handleSelect(value.value, option)}
                   style={{
                     maxWidth: '50%',
+                    minWidth: '20%',
                   }}>
                   <SelectTrigger disabled={correctness.length !== 0}>
                     <SelectValue placeholder={columnA.title} style={{ ...Styles.fontSize.body }} />
@@ -139,8 +140,8 @@ export default Matching;
 const styles = StyleSheet.create({
   circle: {
     borderRadius: 16,
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
     justifyContent: 'center',
     alignItems: 'center',
     ...Styles.backgroundColor.blue[500],
