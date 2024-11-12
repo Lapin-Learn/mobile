@@ -28,10 +28,11 @@
             "description": "Mua <color>{{quantity}} {{name}}</color> để {{description, lowercase}}!",
             "buy_now": "Mua ngay",
             "no_thank": "Không, cảm ơn"
-        }
+        },
+        "buy_success": "Bạn đã mua {{quantity}} vật phẩm {{name}}"
     },
     "inventory": {
-        "title": "Túi đồ",
+        "title": "Túi của tôi",
         "Amount": "Số lượng: {{amount}}",
         "empty": "Oops, túi đồ của bạn thật trống trải, ghé cửa hàng để trang bị thêm vật phẩm nhé!"
     }

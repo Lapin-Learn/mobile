@@ -15,6 +15,7 @@ import Carrots from '~/components/molecules/track-bar/Carrots';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
+import { useGameProfile } from '~/hooks/react-query/useUser';
 
 const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: boolean) => void }) => {
   const { t } = useTranslation('item');
@@ -41,6 +42,7 @@ const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: 
 };
 
 const HeaderSection = () => {
+  const { data } = useGameProfile();
   return (
     <View style={{ height: 165 }}>
       <NavigationBar
@@ -61,7 +63,7 @@ const HeaderSection = () => {
         headerRightShown
         onHeaderRightPress={() => (
           <Carrots
-            carrots={100}
+            carrots={data?.carrots ?? 0}
             size='base'
             style={{
               ...Styles.backgroundColor.blue[50],

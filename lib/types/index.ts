@@ -184,3 +184,16 @@ export type IShop = {
   popular: string;
   isPopular: boolean;
 };
+
+export type IItem = {
+  id: string;
+  itemId: string;
+  profileId: string;
+  quantity: number;
+  expAt: string;
+  inUseQuantity: number;
+};
+
+export type IInventory = IItem & {
+  item: IShop;
+};

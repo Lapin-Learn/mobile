@@ -5,6 +5,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ShopModal } from '~/components/molecules/ShopModal';
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
+import { useBuyShopItem } from '~/hooks/react-query/useShop';
+import { useToast } from '~/hooks/useToast';
 
 import { ItemCardProps } from './ItemCard';
 
@@ -28,9 +30,23 @@ const PopularTag = () => {
 const ItemPriceCard = ({ id, name, quantity, value, image, popular }: ItemPriceCardProps) => {
   const [isBuying, setIsBuying] = useState(false);
   const { t } = useTranslation('item');
+  const toast = useToast();
+
+  const buyItem = useBuyShopItem();
 
   const handleBuyItem = () => {
-    alert(`${id} - ${name}: ${quantity} - ${value} carrots`);
+    buyItem.mutate(
+      { id, quantity: parseInt(quantity) },
+      {
+        onSuccess: () =>
+          toast.show({
+            type: 'success',
+            text1: t('shop.buy_success', { quantity, name }),
+            text1Style: { ...Styles.color.green[500] },
+          }),
+      }
+    );
+    setIsBuying(false);
   };
 
   return (

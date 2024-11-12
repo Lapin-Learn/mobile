@@ -31,6 +31,7 @@ export const QUERY_KEYS = {
   lessonQuestions: 'lessonQuestions',
   missions: 'missions',
   shop: 'shop',
+  inventory: 'inventory',
   profile: {
     identifier: 'accountIdentifier',
     user: 'userProfile',

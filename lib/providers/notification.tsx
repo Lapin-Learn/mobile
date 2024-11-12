@@ -2,7 +2,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import * as Notifications from 'expo-notifications';
 import { Href, router } from 'expo-router';
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { AppState, AppStateStatus, Platform } from 'react-native';
 
 import { useAccountIdentifier } from '~/hooks/react-query/useUser';
 
@@ -17,7 +17,10 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
   const checkNotificationPermission = async () => {
     if (status === 'success') {
       if (account) {
-        await requestPermission();
+        if (Platform.OS === 'android') {
+          await requestPermission();
+        }
+        // TODO: Handle iOS notification permissions
       }
     }
   };
