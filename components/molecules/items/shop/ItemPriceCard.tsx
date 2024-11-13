@@ -41,7 +41,7 @@ const ItemPriceCard = ({ id, name, quantity, value, image, popular }: ItemPriceC
         onSuccess: () =>
           toast.show({
             type: 'success',
-            text1: t('shop.buy_success', { quantity, name }),
+            text1: t('shop.buy_success', { quantity, name: t(`shop.items.${name}.name`) }),
             text1Style: { ...Styles.color.green[500] },
           }),
       }

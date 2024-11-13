@@ -22,11 +22,16 @@ export const Item = (props: ItemCardProps) => {
     <View
       style={[
         styles.itemView,
-        props.id !== 'empty' && { borderRadius: 8, borderWidth: 1, ...Styles.borderColor.neutral[100] },
+        props.id !== 'empty' && {
+          borderRadius: 8,
+          borderWidth: 1,
+          ...Styles.borderColor.neutral[100],
+          ...Styles.backgroundColor.white,
+        },
       ]}>
       {props.id !== 'empty' && (
-        <Pressable onPress={handleUseItem}>
-          <View style={{ paddingVertical: 17.25, alignItems: 'center' }}>
+        <Pressable style={{ alignItems: 'center' }} onPress={handleUseItem}>
+          <View style={{ paddingVertical: 17.25 }}>
             <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
           </View>
           <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
