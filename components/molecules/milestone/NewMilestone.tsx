@@ -67,8 +67,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               paddingHorizontal: 16,
               paddingBottom: 16,
             }}>
-            <View />
-            <View style={{ gap: 40 }}>
+            <View style={{ gap: 40, marginTop: 144 }}>
               <View style={{ alignItems: 'center', width: '100%' }}>
                 {current.type === MilestonesEnum.LEVEL_UP ? (
                   <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>

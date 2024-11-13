@@ -83,7 +83,7 @@ const Rewards = () => {
               </View>
             </View>
             <View>
-              <Button onPress={() => router.back()} size='lg'>
+              <Button onPress={() => router.back()} size='lg' style={{ ...Styles.backgroundColor.blue[500] }}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('reward.button')}</Text>
               </Button>
             </View>
