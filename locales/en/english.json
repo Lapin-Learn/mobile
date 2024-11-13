@@ -25,7 +25,7 @@
   "streak": {
     "days": "Streak Days",
     "max": "{{max}} is the longest streak you have achieved!",
-    "this": "Đây",
+    "this": "This",
     "schedule": "Streak Schedule"
   },
   "time_units": {

@@ -40,7 +40,7 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
   );
 
   return (
-    <CustomModal visible={showModal} onRequestClose={onPressContinue}>
+    <CustomModal visible={showModal} onRequestClose={onPressContinue} position='bottom'>
       <View
         style={StyleSheet.flatten([
           styles.root,

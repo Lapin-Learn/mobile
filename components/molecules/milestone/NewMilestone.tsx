@@ -128,7 +128,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               </View>
             </View>
             <View style={{ gap: 16 }}>
-              <Button onPress={handleNextMilestone}>
+              <Button onPress={handleNextMilestone} size='lg'>
                 <Text style={GLOBAL_STYLES.textButton}>{t('button.next')}</Text>
               </Button>
               {current.type === MilestonesEnum.RANK_UP && (
@@ -138,7 +138,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                   style={{ display: 'flex', flexDirection: 'row', gap: 8 }}
                   onPress={() => handleShare(current.newValue as RankEnum)}>
                   <Share2 width={24} height={24} color='#EE5D28' />
-                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body, ...Styles.color.dark }}>
+                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body, ...Styles.color.orange[500] }}>
                     {t('button.share')}
                   </Text>
                 </Button>

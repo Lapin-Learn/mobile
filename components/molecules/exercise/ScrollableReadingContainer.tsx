@@ -24,7 +24,9 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const screenHeight = Dimensions.get('window').height;
   const minHeight = screenHeight * 0.1;
   const maxHeight = screenHeight * 0.6;
-  const scrollViewHeight = useRef(new Animated.Value(minHeight)).current;
+  const defaultHeight = 280;
+  const scrollViewHeight = useRef(new Animated.Value(defaultHeight)).current;
+  const contentHeightRef = useRef(0);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
@@ -39,8 +41,9 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gestureState) => {
-        const newHeight = Math.max(minHeight, Math.min(280 + gestureState.dy, maxHeight));
+        const newHeight = Math.max(minHeight, Math.min(defaultHeight + gestureState.dy, maxHeight));
         scrollViewHeight.setValue(newHeight);
+        setIsScrollable(newHeight < contentHeightRef.current);
       },
       onPanResponderRelease: () => {},
     })
@@ -52,10 +55,12 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
         <ScrollView
           style={styles.scrollView}
           onScroll={handleScroll}
-          scrollEnabled={isScrollable}
           scrollEventThrottle={16}
           onContentSizeChange={(_, contentHeight) => {
-            setIsScrollable(contentHeight > 280);
+            contentHeightRef.current = contentHeight;
+            const newHeight = contentHeight < defaultHeight ? contentHeight : defaultHeight;
+            scrollViewHeight.setValue(newHeight);
+            setIsScrollable(contentHeight > newHeight);
           }}>
           {children}
         </ScrollView>
@@ -106,4 +111,5 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -20 }],
   },
 });
+
 export default ScrollableReadingContainer;

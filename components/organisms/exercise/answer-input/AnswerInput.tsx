@@ -3,7 +3,7 @@ import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/types/questions';
 
 import FillInTheBlank from './fill-in-the-blank/FillInTheBlank';
-import Matching from './matching/Matching';
+import Matching from './Matching';
 import MultipleChoice from './MultipleChoice';
 
 type BaseAnswerInputProps = {
