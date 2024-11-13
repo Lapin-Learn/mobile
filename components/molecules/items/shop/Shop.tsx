@@ -1,6 +1,6 @@
 import { FlatList, View } from 'react-native';
 
-import { useShop } from '~/hooks/react-query/useShop';
+import { useShop } from '~/hooks/react-query/useItem';
 
 import { Loading } from '../../Loading';
 import { ItemCard } from '../shop/ItemCard';

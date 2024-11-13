@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '~/lib/constants';
+import { getInventory } from '~/services/axios/inventory';
 import { buyItem, getShop } from '~/services/axios/shop';
 
 export const useShop = () => {
@@ -19,5 +20,13 @@ export const useBuyShopItem = () => {
       client.invalidateQueries({ queryKey: [QUERY_KEYS.inventory] });
       client.invalidateQueries({ queryKey: [QUERY_KEYS.profile.game] });
     },
+  });
+};
+
+export const useInventory = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.inventory],
+    queryFn: getInventory,
+    staleTime: Infinity,
   });
 };

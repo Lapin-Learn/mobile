@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ShopModal } from '~/components/molecules/ShopModal';
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
-import { useBuyShopItem } from '~/hooks/react-query/useShop';
+import { useBuyShopItem } from '~/hooks/react-query/useItem';
 import { useToast } from '~/hooks/useToast';
 
 import { ItemCardProps } from './ItemCard';

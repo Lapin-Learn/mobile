@@ -1,16 +1,52 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Text, View } from 'react-native';
 
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
-import { useInventory } from '~/hooks/react-query/useInventory';
+import { useInventory } from '~/hooks/react-query/useItem';
+import { ShopItemEnum } from '~/lib/enums';
+import { IInventory } from '~/lib/types';
 
 import { Loading } from '../../Loading';
 import { Item } from './ItemCard';
 
+const temp: IInventory = {
+  id: 'empty',
+  itemId: '',
+  profileId: '',
+  quantity: 0,
+  expAt: '',
+  inUseQuantity: 0,
+  item: {
+    id: '',
+    name: ShopItemEnum.STREAK_FREEZE,
+    description: '',
+    price: {},
+    duration: 0,
+    imageId: '',
+    image: {
+      id: '',
+      name: '',
+      owner: '',
+      permission: '',
+      url: '',
+    },
+    popular: '',
+    isPopular: false,
+  },
+};
+
 export const Inventory = () => {
   const { t } = useTranslation('item');
   const { data, isLoading } = useInventory();
+
+  const dataWithTemp = useMemo(() => {
+    if (data && data?.length === 1 && !isLoading) {
+      return [...data, temp];
+    }
+    return data;
+  }, [data]);
 
   if (isLoading) return <Loading />;
 
@@ -30,7 +66,7 @@ export const Inventory = () => {
       contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
       columnWrapperStyle={{ justifyContent: 'flex-start', gap: 16 }}
       numColumns={2}
-      data={data}
+      data={dataWithTemp}
       renderItem={({ item }) => (
         <Item
           key={item.id}
@@ -38,7 +74,7 @@ export const Inventory = () => {
           name={item.item.name}
           description={item.item.description}
           imageId={item.item.imageId}
-          image={{ url: item.item.image.url }}
+          image={item.item.image.url}
           amount={item.quantity}
         />
       )}

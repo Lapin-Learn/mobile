@@ -76,8 +76,14 @@ const HeaderSection = () => {
             }}
             textStyle={{ ...Styles.font.bold, ...Styles.fontSize.subhead }}
           />
-        )}
-      />
+        )}>
+        <View style={{ paddingTop: 16 }}>
+          <Text style={{ ...Styles.font.bold, ...Styles.fontSize.streak, ...Styles.color.white }}>Shop</Text>
+          <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.headline, ...Styles.color.white }}>
+            Welcome to the shop!
+          </Text>
+        </View>
+      </NavigationBar>
     </View>
   );
 };
