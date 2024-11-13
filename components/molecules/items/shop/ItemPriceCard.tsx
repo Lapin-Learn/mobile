@@ -5,6 +5,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ShopModal } from '~/components/molecules/ShopModal';
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
+import { useBuyShopItem } from '~/hooks/react-query/useItem';
+import { useToast } from '~/hooks/useToast';
 
 import { ItemCardProps } from './ItemCard';
 
@@ -13,7 +15,7 @@ export type ItemPriceProps = {
   value: number;
 };
 
-export type ItemPriceCardProps = ItemPriceProps & Pick<ItemCardProps, 'name' | 'id' | 'popular' | 'image'>;
+export type ItemPriceCardProps = ItemPriceProps & Pick<ItemCardProps, 'name' | 'id' | 'popular' | 'image' | 'onBuy'>;
 
 const PopularTag = () => {
   const { t } = useTranslation('item');
@@ -25,12 +27,35 @@ const PopularTag = () => {
   );
 };
 
-const ItemPriceCard = ({ id, name, quantity, value, image, popular }: ItemPriceCardProps) => {
+const ItemPriceCard = ({ id, name, quantity, value, image, popular, onBuy }: ItemPriceCardProps) => {
   const [isBuying, setIsBuying] = useState(false);
   const { t } = useTranslation('item');
+  const toast = useToast();
+
+  const buyItem = useBuyShopItem();
 
   const handleBuyItem = () => {
-    alert(`${id} - ${name}: ${quantity} - ${value} carrots`);
+    const canBuy = onBuy(value);
+    if (canBuy) {
+      buyItem.mutate(
+        { id, quantity: parseInt(quantity) },
+        {
+          onSuccess: () =>
+            toast.show({
+              type: 'success',
+              text1: t('shop.buy_success', { quantity, name: t(`shop.items.${name}.name`) }),
+              text1Style: { ...Styles.color.green[500] },
+            }),
+        }
+      );
+    } else {
+      toast.show({
+        type: 'error',
+        text1: t('shop.buy_error', { quantity, name: t(`shop.items.${name}.name`) }),
+        text1Style: { ...Styles.color.red[500] },
+      });
+    }
+    setIsBuying(false);
   };
 
   return (

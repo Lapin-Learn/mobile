@@ -15,6 +15,7 @@ import Carrots from '~/components/molecules/track-bar/Carrots';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
+import { useGameProfile } from '~/hooks/react-query/useUser';
 
 const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: boolean) => void }) => {
   const { t } = useTranslation('item');
@@ -40,7 +41,7 @@ const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: 
   );
 };
 
-const HeaderSection = () => {
+const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
   return (
     <View style={{ height: 165 }}>
       <NavigationBar
@@ -61,7 +62,7 @@ const HeaderSection = () => {
         headerRightShown
         onHeaderRightPress={() => (
           <Carrots
-            carrots={100}
+            carrots={carrots}
             size='base'
             style={{
               ...Styles.backgroundColor.blue[50],
@@ -74,23 +75,30 @@ const HeaderSection = () => {
             }}
             textStyle={{ ...Styles.font.bold, ...Styles.fontSize.subhead }}
           />
-        )}
-      />
+        )}>
+        <View style={{ paddingTop: 16 }}>
+          <Text style={{ ...Styles.font.bold, ...Styles.fontSize.streak, ...Styles.color.white }}>Shop</Text>
+          <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.headline, ...Styles.color.white }}>
+            Welcome to the shop!
+          </Text>
+        </View>
+      </NavigationBar>
     </View>
   );
 };
 
 const Items = () => {
   const [isShop, setIsShop] = useState(true);
+  const { data } = useGameProfile();
 
   return (
     <>
       <PlatformView style={{ flex: 1, ...Styles.backgroundColor.blue[300], paddingBottom: 0 }}>
         {/* TODO: add banner */}
-        <HeaderSection />
+        <HeaderSection carrots={data?.carrots} />
         <View style={[styles.itemView, { ...Styles.backgroundColor.background }]}>
           <ItemTabs isShop={isShop} setIsShop={setIsShop} />
-          <View style={styles.itemView}>{isShop ? <Shop /> : <Inventory />}</View>
+          <View style={styles.itemView}>{isShop ? <Shop carrots={data?.carrots} /> : <Inventory />}</View>
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />

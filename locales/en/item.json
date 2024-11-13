@@ -28,10 +28,12 @@
             "description": "Buy <color>{{quantity}} {{name}}</color> to {{description, lowercase}}!",
             "buy_now": "Buy Now",
             "no_thank": "No, Thank You"
-        }
+        },
+        "buy_success": "You have bought {{quantity}} {{name}}",
+        "buy_error": "You don't have enough carrots to buy {{name}}"
     },
     "inventory": {
-        "title": "Inventory",
+        "title": "My bag",
         "Amount": "Amount: {amount}",
         "empty": "Oops, your bag is empty, visit the shop to equip more items!"
     }

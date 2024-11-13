@@ -9,31 +9,44 @@ export type ItemCardProps = {
   name: ShopItemEnum;
   description: string;
   imageId: string;
-  image: {
-    url: string;
-  };
+  image: string;
   amount: number;
 };
 
 export const Item = (props: ItemCardProps) => {
   const { t } = useTranslation('item');
 
-  const handleUseItem = () => {};
+  const handleUseItem = () => {
+    console.log('hehe');
+  };
 
   return (
-    <Pressable style={styles.itemButton} onPress={handleUseItem}>
-      <View style={{ paddingVertical: 17.25 }}>
-        <Image source={{ uri: props.image.url }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
-      </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
-        <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
-          {t(`shop.items.${props.name}.name`)}
-        </Text>
-        <Text style={{ ...Styles.fontSize['caption-1'], ...Styles.font.normal }}>
-          {t('inventory.Amount', { amount: props.amount })}
-        </Text>
-      </View>
-    </Pressable>
+    <View
+      style={[
+        styles.itemView,
+        props.id !== 'empty' && {
+          borderRadius: 8,
+          borderWidth: 1,
+          ...Styles.borderColor.neutral[100],
+          ...Styles.backgroundColor.white,
+        },
+      ]}>
+      {props.id !== 'empty' && (
+        <Pressable style={styles.itemButton} onPress={handleUseItem}>
+          <View style={{ paddingVertical: 17.25 }}>
+            <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
+            <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
+              {t(`shop.items.${props.name}.name`)}
+            </Text>
+            <Text style={{ ...Styles.fontSize['caption-1'], ...Styles.font.normal }}>
+              {t('inventory.Amount', { amount: props.amount })}
+            </Text>
+          </View>
+        </Pressable>
+      )}
+    </View>
   );
 };
 
@@ -49,14 +62,15 @@ const styles = StyleSheet.create({
     rowGap: 16,
     marginVertical: 16,
   },
-  itemButton: {
+  itemView: {
     flexBasis: '45%',
-    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
     margin: 0,
-    ...Styles.borderColor.neutral[100],
+  },
+  itemButton: {
+    width: '100%',
+    alignItems: 'center',
+    padding: 8,
   },
 });
