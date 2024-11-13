@@ -29,7 +29,8 @@
             "buy_now": "Buy Now",
             "no_thank": "No, Thank You"
         },
-        "buy_success": "You have bought {{quantity}} {{name}}"
+        "buy_success": "You have bought {{quantity}} {{name}}",
+        "buy_error": "You don't have enough carrots to buy {{name}}"
     },
     "inventory": {
         "title": "My bag",

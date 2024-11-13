@@ -16,7 +16,9 @@ export type ItemCardProps = {
 export const Item = (props: ItemCardProps) => {
   const { t } = useTranslation('item');
 
-  const handleUseItem = () => {};
+  const handleUseItem = () => {
+    console.log('hehe');
+  };
 
   return (
     <View
@@ -30,7 +32,7 @@ export const Item = (props: ItemCardProps) => {
         },
       ]}>
       {props.id !== 'empty' && (
-        <Pressable style={{ alignItems: 'center' }} onPress={handleUseItem}>
+        <Pressable style={styles.itemButton} onPress={handleUseItem}>
           <View style={{ paddingVertical: 17.25 }}>
             <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
           </View>
@@ -62,9 +64,13 @@ const styles = StyleSheet.create({
   },
   itemView: {
     flexBasis: '45%',
-    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 0,
+  },
+  itemButton: {
+    width: '100%',
+    alignItems: 'center',
+    padding: 8,
   },
 });

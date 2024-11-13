@@ -1,6 +1,6 @@
-import { IItem, IShop } from '~/lib/types';
+import { IInventory, IItem, IShop } from '~/lib/types';
 
-import api from '../httpRequests';
+import { default as api } from '../httpRequests';
 
 export type BuyItemParams = {
   id: string;
@@ -14,5 +14,10 @@ export const getShop = async () => {
 
 export const buyItem = async (params: BuyItemParams) => {
   const response = await api.post<IItem>('shops/buy', { body: params });
+  return response;
+};
+
+export const getInventory = async () => {
+  const response = await api.get<IInventory[]>('inventories');
   return response;
 };

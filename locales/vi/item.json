@@ -29,7 +29,8 @@
             "buy_now": "Mua ngay",
             "no_thank": "Không, cảm ơn"
         },
-        "buy_success": "Bạn đã mua {{quantity}} vật phẩm {{name}}"
+        "buy_success": "Bạn đã mua {{quantity}} vật phẩm {{name}}",
+        "buy_error": "Bạn không có đủ cà rốt để mua {{name}}"
     },
     "inventory": {
         "title": "Túi của tôi",

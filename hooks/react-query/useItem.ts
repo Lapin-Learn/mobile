@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '~/lib/constants';
-import { getInventory } from '~/services/axios/inventory';
-import { buyItem, getShop } from '~/services/axios/shop';
+import { buyItem, getInventory, getShop } from '~/services/axios/item';
 
 export const useShop = () => {
   return useQuery({

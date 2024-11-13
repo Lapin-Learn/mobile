@@ -41,8 +41,7 @@ const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: 
   );
 };
 
-const HeaderSection = () => {
-  const { data } = useGameProfile();
+const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
   return (
     <View style={{ height: 165 }}>
       <NavigationBar
@@ -63,7 +62,7 @@ const HeaderSection = () => {
         headerRightShown
         onHeaderRightPress={() => (
           <Carrots
-            carrots={data?.carrots ?? 0}
+            carrots={carrots}
             size='base'
             style={{
               ...Styles.backgroundColor.blue[50],
@@ -90,15 +89,16 @@ const HeaderSection = () => {
 
 const Items = () => {
   const [isShop, setIsShop] = useState(true);
+  const { data } = useGameProfile();
 
   return (
     <>
       <PlatformView style={{ flex: 1, ...Styles.backgroundColor.blue[300], paddingBottom: 0 }}>
         {/* TODO: add banner */}
-        <HeaderSection />
+        <HeaderSection carrots={data?.carrots} />
         <View style={[styles.itemView, { ...Styles.backgroundColor.background }]}>
           <ItemTabs isShop={isShop} setIsShop={setIsShop} />
-          <View style={styles.itemView}>{isShop ? <Shop /> : <Inventory />}</View>
+          <View style={styles.itemView}>{isShop ? <Shop carrots={data?.carrots} /> : <Inventory />}</View>
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />
