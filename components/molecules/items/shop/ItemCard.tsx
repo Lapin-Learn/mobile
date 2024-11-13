@@ -14,7 +14,6 @@ export type ItemCardProps = {
     [key: string]: number;
   };
   popular?: string;
-  onBuy: (price: number) => boolean;
 };
 
 export const ItemCard = (props: ItemCardProps) => {

@@ -12,7 +12,7 @@ export type ItemPriceProps = {
   value: number;
 };
 
-export type ItemPriceCardProps = ItemPriceProps & Pick<ItemCardProps, 'name' | 'id' | 'popular' | 'image' | 'onBuy'>;
+export type ItemPriceCardProps = ItemPriceProps & Pick<ItemCardProps, 'name' | 'id' | 'popular' | 'image'>;
 
 const PopularTag = () => {
   const { t } = useTranslation('item');

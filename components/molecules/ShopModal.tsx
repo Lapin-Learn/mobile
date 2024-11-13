@@ -1,9 +1,11 @@
+import { router } from 'expo-router';
 import { Trans, useTranslation } from 'react-i18next';
 import { Image, Modal, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useBuyShopItem, useUseInventoryItem } from '~/hooks/react-query/useItem';
 import { useToast } from '~/hooks/useToast';
+import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
 
 import { Button } from '../ui/Button';
@@ -13,20 +15,20 @@ export const ShopModal = () => {
   const toast = useToast();
   const buyItem = useBuyShopItem();
   const useItem = useUseInventoryItem();
-  const { isModalVisible, modalContent, closeModal, onContinue } = useShopStore();
+  const { isModalVisible, modalContent, isAffordable, closeModal, onContinue } = useShopStore();
+  const { setReward } = useRewardStore();
 
-  const { id, name, image, amount, type, value, onBuy } = modalContent;
+  const { id, itemId, name, image, amount, type } = modalContent;
 
   const handleBuyItem = () => {
-    const canBuy = onBuy(value);
-    if (canBuy) {
+    if (isAffordable) {
       buyItem.mutate(
         { id, quantity: amount },
         {
           onSuccess: () =>
             toast.show({
               type: 'success',
-              text1: t('shop.buy_success', { amount, name: t(`shop.items.${name}.name`) }),
+              text1: t('shop.buy_success', { quantity: amount, name: t(`shop.items.${name}.name`) }),
               text1Style: { ...Styles.color.green[500] },
             }),
         }
@@ -34,14 +36,28 @@ export const ShopModal = () => {
     } else {
       toast.show({
         type: 'error',
-        text1: t('shop.buy_error', { amount, name: t(`shop.items.${name}.name`) }),
+        text1: t('shop.buy_error', { quantity: amount, name: t(`shop.items.${name}.name`) }),
         text1Style: { ...Styles.color.red[500] },
       });
     }
+    closeModal();
   };
 
   const handleUseItem = () => {
-    useItem.mutate(id);
+    useItem.mutate(itemId || '', {
+      onSuccess: (response) => {
+        if ('message' in response) {
+          toast.show({
+            type: 'info',
+            text1: t('inventory.notSupport'),
+          });
+        } else {
+          setReward(response);
+          router.push('/rewards');
+        }
+      },
+      onSettled: () => closeModal(),
+    });
   };
 
   return (
@@ -76,7 +92,11 @@ export const ShopModal = () => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button style={styles.continueButton} size='lg' onPress={() => onContinue(handleBuyItem)}>
+          <Button
+            style={styles.continueButton}
+            size='lg'
+            onPress={() => onContinue(type === 'buy' ? handleBuyItem : handleUseItem)}
+            disabled={useItem.isPending}>
             <Text style={styles.buttonText}>{t(`shop.${type}_modal.${type}_now`)}</Text>
           </Button>
           <Button variant='ghost' size='lg' onPress={closeModal}>

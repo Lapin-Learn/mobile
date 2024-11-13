@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft } from 'lucide-react-native';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
@@ -19,15 +19,16 @@ import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
 
-const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: boolean) => void }) => {
+const ItemTabs = ({ isShop }: { isShop: boolean }) => {
   const { t } = useTranslation('item');
+  const { setCurrentView } = useShopStore();
   return (
     <View style={styles.tabContainer}>
       <Button
         size='lg'
         variant='link'
         style={[styles.buttonContainer, isShop && { ...Styles.borderColor.orange[500] }]}
-        onPress={() => setIsShop(true)}>
+        onPress={() => setCurrentView('shop')}>
         {isShop ? <ShopActiveIcon /> : <ShopIcon />}
         <Text style={[styles.buttonText, isShop && { ...Styles.color.orange[500] }]}>{t('shop.title')}</Text>
       </Button>
@@ -35,7 +36,7 @@ const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: 
         size='lg'
         variant='link'
         style={[styles.buttonContainer, !isShop && { ...Styles.borderColor.orange[500] }]}
-        onPress={() => setIsShop(false)}>
+        onPress={() => setCurrentView('inventory')}>
         {!isShop ? <InventoryActiveIcon /> : <InventoryIcon />}
         <Text style={[styles.buttonText, !isShop && { ...Styles.color.orange[500] }]}>{t('inventory.title')}</Text>
       </Button>
@@ -90,9 +91,12 @@ const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
 };
 
 const Items = () => {
-  const [isShop, setIsShop] = useState(true);
   const { data } = useGameProfile();
-  const { isModalVisible } = useShopStore();
+  const { isModalVisible, currentView, setCarrot } = useShopStore();
+
+  useEffect(() => {
+    setCarrot(data?.carrots || 0);
+  }, [data?.carrots]);
 
   return (
     <>
@@ -100,8 +104,8 @@ const Items = () => {
         {/* TODO: add banner */}
         <HeaderSection carrots={data?.carrots} />
         <View style={[styles.itemView, { ...Styles.backgroundColor.background }]}>
-          <ItemTabs isShop={isShop} setIsShop={setIsShop} />
-          <View style={styles.itemView}>{isShop ? <Shop carrots={data?.carrots} /> : <Inventory />}</View>
+          <ItemTabs isShop={currentView === 'shop'} />
+          <View style={styles.itemView}>{currentView === 'shop' ? <Shop /> : <Inventory />}</View>
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />

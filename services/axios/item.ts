@@ -1,4 +1,4 @@
-import { IInventory, IItem, IShop } from '~/lib/types';
+import { IInventory, IItem, IReward, IShop } from '~/lib/types';
 
 import { default as api } from '../httpRequests';
 
@@ -23,7 +23,7 @@ export const getInventory = async () => {
 };
 
 export const useItem = async (itemId: string) => {
-  const response = await api.put<IInventory>('inventories/use-item', {
+  const response = await api.put<IReward>('inventories/use-item', {
     body: {
       itemId,
     },

@@ -42,6 +42,12 @@
   "inventory": {
     "title": "Túi của tôi",
     "Amount": "Số lượng: {{amount}}",
-    "empty": "Oops, túi đồ của bạn thật trống trải, ghé cửa hàng để trang bị thêm vật phẩm nhé!"
+    "empty": "Oops, túi đồ của bạn thật trống trải, ghé cửa hàng để trang bị thêm vật phẩm nhé!",
+    "notSupport": "Vật phẩm này chưa được hỗ trợ"
+  },
+  "reward": {
+    "description": "Chúc mừng bạn đã nhận được",
+    "carrot": "cà rốt",
+    "button": "Nhận thưởng"
   }
 }

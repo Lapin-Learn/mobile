@@ -77,3 +77,8 @@ export enum ShopItemEnum {
   ULTIMATE_TIME = 'ULTIMATE_TIME',
   IDENTIFICATION = 'IDENTIFICATION',
 }
+
+export enum RandomGiftType {
+  CARROTS = 'carrots',
+  ITEM = 'item',
+}

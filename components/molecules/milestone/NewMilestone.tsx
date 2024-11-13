@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 
+import MilestoneRank from '~/assets/images/circle_drop_shadow_background.svg';
 import MilestonesBackground from '~/assets/images/milestones/milestone_background.svg';
 import MilestoneLevel from '~/assets/images/milestones/milestone_level.svg';
-import MilestoneRank from '~/assets/images/milestones/milestone_rank.svg';
 import RankIcon from '~/components/icons/RankIcon';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';

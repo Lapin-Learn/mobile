@@ -42,6 +42,12 @@
   "inventory": {
     "title": "My bag",
     "Amount": "Amount: {{amount}}",
-    "empty": "Oops, your bag is empty, visit the shop to equip more items!"
+    "empty": "Oops, your bag is empty, visit the shop to equip more items!",
+    "notSupport": "This item is not supported yet"
+  },
+  "reward": {
+    "description": "Congratulations! You have received",
+    "carrot": "carrots",
+    "button": "Claim"
   }
 }
