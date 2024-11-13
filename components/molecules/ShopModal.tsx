@@ -1,34 +1,63 @@
-import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Image, Modal, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
+import { useBuyShopItem, useUseInventoryItem } from '~/hooks/react-query/useItem';
+import { useToast } from '~/hooks/useToast';
+import { useShopStore } from '~/hooks/zustand/useShopStore';
 
 import { Button } from '../ui/Button';
 
-type ShopModalProps = {
-  name: string;
-  quantity: string;
-  image: string;
-  onClose: () => void;
-  onContinue: () => void;
-};
-
-export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopModalProps) => {
-  const [showModal, setShowModal] = useState(true);
+export const ShopModal = () => {
   const { t } = useTranslation('item');
+  const toast = useToast();
+  const buyItem = useBuyShopItem();
+  const useItem = useUseInventoryItem();
+  const { isModalVisible, modalContent, closeModal, onContinue } = useShopStore();
 
-  const handleClose = () => {
-    setShowModal(false);
-    onClose();
+  const { id, name, image, amount, type, value, onBuy } = modalContent;
+
+  const handleBuyItem = () => {
+    const canBuy = onBuy(value);
+    if (canBuy) {
+      buyItem.mutate(
+        { id, quantity: amount },
+        {
+          onSuccess: () =>
+            toast.show({
+              type: 'success',
+              text1: t('shop.buy_success', { amount, name: t(`shop.items.${name}.name`) }),
+              text1Style: { ...Styles.color.green[500] },
+            }),
+        }
+      );
+    } else {
+      toast.show({
+        type: 'error',
+        text1: t('shop.buy_error', { amount, name: t(`shop.items.${name}.name`) }),
+        text1Style: { ...Styles.color.red[500] },
+      });
+    }
+  };
+
+  const handleUseItem = () => {
+    useItem.mutate(id);
   };
 
   return (
-    <Modal animationType='fade' transparent={true} visible={showModal} onRequestClose={handleClose}>
-      <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
-          <View style={styles.textContainer}>
-            <Image source={{ uri: image }} height={120} style={{ width: '100%', objectFit: 'contain' }} />
+    <Modal animationType='slide' transparent={true} visible={isModalVisible} onRequestClose={closeModal}>
+      <View style={styles.modalContainer}>
+        <View style={styles.textContainer}>
+          <Image source={{ uri: image }} height={120} style={{ width: '100%', objectFit: 'contain' }} />
+          <View style={{ justifyContent: 'center', alignItems: 'center', gap: 8 }}>
+            {type === 'use' && (
+              <Text>
+                {t('shop.use_modal.amount', {
+                  amount,
+                  name: t(`shop.items.${name}.name`),
+                })}
+              </Text>
+            )}
             <Text style={styles.body}>
               {/* {t('buy_modal.description', {
                 name: t(`items.${name}.name`),
@@ -36,23 +65,23 @@ export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopMo
                 description: t(`items.${name}.description`),
               })} */}
               <Trans
-                i18nKey={t('shop.buy_modal.description', {
+                i18nKey={t(`shop.${type}_modal.description`, {
                   name: t(`shop.items.${name}.name`),
-                  quantity,
+                  quantity: type === 'buy' ? amount : 1,
                   description: t(`shop.items.${name}.description`),
                 })}
                 components={{ color: <Text style={{ ...Styles.color.orange[500] }} /> }}
               />
             </Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <Button style={styles.continueButton} size='lg' onPress={onContinue}>
-              <Text style={styles.buttonText}>{t('shop.buy_modal.buy_now')}</Text>
-            </Button>
-            <Button variant='ghost' size='lg' onPress={handleClose}>
-              <Text style={[styles.buttonText, styles.exitButtonText]}>{t('shop.buy_modal.no_thank')}</Text>
-            </Button>
-          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button style={styles.continueButton} size='lg' onPress={() => onContinue(handleBuyItem)}>
+            <Text style={styles.buttonText}>{t(`shop.${type}_modal.${type}_now`)}</Text>
+          </Button>
+          <Button variant='ghost' size='lg' onPress={closeModal}>
+            <Text style={[styles.buttonText, styles.exitButtonText]}>{t(`shop.${type}_modal.no_thank`)}</Text>
+          </Button>
         </View>
       </View>
     </Modal>
@@ -60,11 +89,6 @@ export const ShopModal = ({ name, quantity, image, onClose, onContinue }: ShopMo
 };
 
 const styles = StyleSheet.create({
-  modalBackground: {
-    backgroundColor: '#00000033',
-    flex: 1,
-    justifyContent: 'center',
-  },
   modalContainer: {
     position: 'absolute',
     bottom: 0,
@@ -75,6 +99,9 @@ const styles = StyleSheet.create({
     gap: 32,
     padding: 16,
     ...Styles.backgroundColor.white,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingTop: 40,
   },
   textContainer: {
     display: 'flex',

@@ -1,17 +1,14 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { ShopModal } from '~/components/molecules/ShopModal';
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
-import { useBuyShopItem } from '~/hooks/react-query/useItem';
-import { useToast } from '~/hooks/useToast';
+import { useShopStore } from '~/hooks/zustand/useShopStore';
 
 import { ItemCardProps } from './ItemCard';
 
 export type ItemPriceProps = {
-  quantity: string;
+  amount: number;
   value: number;
 };
 
@@ -27,59 +24,20 @@ const PopularTag = () => {
   );
 };
 
-const ItemPriceCard = ({ id, name, quantity, value, image, popular, onBuy }: ItemPriceCardProps) => {
-  const [isBuying, setIsBuying] = useState(false);
+const ItemPriceCard = (props: ItemPriceCardProps) => {
+  const { amount: quantity, value, popular } = props;
   const { t } = useTranslation('item');
-  const toast = useToast();
-
-  const buyItem = useBuyShopItem();
-
-  const handleBuyItem = () => {
-    const canBuy = onBuy(value);
-    if (canBuy) {
-      buyItem.mutate(
-        { id, quantity: parseInt(quantity) },
-        {
-          onSuccess: () =>
-            toast.show({
-              type: 'success',
-              text1: t('shop.buy_success', { quantity, name: t(`shop.items.${name}.name`) }),
-              text1Style: { ...Styles.color.green[500] },
-            }),
-        }
-      );
-    } else {
-      toast.show({
-        type: 'error',
-        text1: t('shop.buy_error', { quantity, name: t(`shop.items.${name}.name`) }),
-        text1Style: { ...Styles.color.red[500] },
-      });
-    }
-    setIsBuying(false);
-  };
+  const { openModal } = useShopStore();
 
   return (
-    <Pressable
-      style={styles.itemPriceContainer}
-      onPress={() => {
-        setIsBuying(true);
-      }}>
-      {quantity === popular && <PopularTag />}
+    <Pressable style={styles.itemPriceContainer} onPress={() => openModal({ ...props, type: 'buy' })}>
+      {String(quantity) === popular && <PopularTag />}
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 4 }}>
         <Text style={{ ...Styles.fontSize.footnote }}>
-          {quantity === '1' ? t('shop.price.single_pack') : t('shop.price.pack', { quantity })}
+          {quantity === 1 ? t('shop.price.single_pack') : t('shop.price.pack', { quantity })}
         </Text>
         <Carrots carrots={value} size='sm' />
       </View>
-      {isBuying && (
-        <ShopModal
-          name={name}
-          quantity={quantity}
-          image={image}
-          onContinue={handleBuyItem}
-          onClose={() => setIsBuying(false)}
-        />
-      )}
     </Pressable>
   );
 };

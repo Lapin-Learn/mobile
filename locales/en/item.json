@@ -30,11 +30,18 @@
       "no_thank": "No, Thank You"
     },
     "buy_success": "You have bought {{quantity}} {{name}}",
-    "buy_error": "You don't have enough carrots to buy {{name}}"
+    "buy_error": "You don't have enough carrots to buy {{name}}",
+    "use_modal": {
+      "description": "Use <color>{{quantity}} {{name}}</color> to {{description, lowercase}}!",
+      "amount": "You have: {{amount}} {{name}}",
+      "use_now": "Use Now",
+      "no_thank": "Cancel"
+    },
+    "use_success": "You have used {{quantity}} {{name}}"
   },
   "inventory": {
     "title": "My bag",
-    "Amount": "Amount: {amount}",
+    "Amount": "Amount: {{amount}}",
     "empty": "Oops, your bag is empty, visit the shop to equip more items!"
   }
 }

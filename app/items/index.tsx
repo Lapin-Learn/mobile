@@ -11,11 +11,13 @@ import ShopActiveIcon from '~/assets/images/items/ShopActive.svg';
 import { Inventory } from '~/components/molecules/items/inventory/Inventory';
 import { Shop } from '~/components/molecules/items/shop/Shop';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import { ShopModal } from '~/components/molecules/ShopModal';
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
+import { useShopStore } from '~/hooks/zustand/useShopStore';
 
 const ItemTabs = ({ isShop, setIsShop }: { isShop: boolean; setIsShop: (isShop: boolean) => void }) => {
   const { t } = useTranslation('item');
@@ -90,6 +92,7 @@ const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
 const Items = () => {
   const [isShop, setIsShop] = useState(true);
   const { data } = useGameProfile();
+  const { isModalVisible } = useShopStore();
 
   return (
     <>
@@ -102,6 +105,21 @@ const Items = () => {
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />
+      {isModalVisible && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#00000033',
+            borderRadius: 8,
+            zIndex: 1,
+          }}
+        />
+      )}
+      <ShopModal />
     </>
   );
 };

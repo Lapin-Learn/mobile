@@ -21,3 +21,12 @@ export const getInventory = async () => {
   const response = await api.get<IInventory[]>('inventories');
   return response;
 };
+
+export const useItem = async (itemId: string) => {
+  const response = await api.put<IInventory>('inventories/use-item', {
+    body: {
+      itemId,
+    },
+  });
+  return response;
+};
