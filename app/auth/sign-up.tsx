@@ -2,13 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
 import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useSignInWithProvider, useSignUp } from '~/hooks/react-query/useAuth';
@@ -49,7 +50,7 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <PlatformView>
       <NavigationBar title={t('signUp.title')} />
       <View style={styles.content}>
         <Text style={styles.subtitle}>{t('signUp.subtitle')}</Text>
@@ -104,7 +105,7 @@ const SignUp = () => {
           </Link>
         </View>
       </View>
-    </SafeAreaView>
+    </PlatformView>
   );
 };
 
@@ -132,9 +133,6 @@ const OtherSignIn = () => {
 export default SignUp;
 
 const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
   content: {
     width: '100%',
     flexGrow: 1,

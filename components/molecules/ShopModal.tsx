@@ -64,7 +64,7 @@ export const ShopModal = () => {
     <Modal animationType='slide' transparent={true} visible={isModalVisible} onRequestClose={closeModal}>
       <View style={styles.modalContainer}>
         <View style={styles.textContainer}>
-          <Image source={{ uri: image }} height={120} style={{ width: '100%', objectFit: 'contain' }} />
+          {image && <Image source={{ uri: image }} height={120} style={{ width: '100%', objectFit: 'contain' }} />}
           <View style={{ justifyContent: 'center', alignItems: 'center', gap: 8 }}>
             {type === 'use' && (
               <Text>
