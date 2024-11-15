@@ -4,6 +4,7 @@ import {
   GenderEnum,
   MilestonesEnum,
   MissionCategoryEnum,
+  RandomGiftType,
   RankEnum,
   ShopItemEnum,
   SkillEnum,
@@ -197,3 +198,12 @@ export type IItem = {
 export type IInventory = IItem & {
   item: IShop;
 };
+
+export type IReward =
+  | {
+      message: string;
+    }
+  | {
+      type: RandomGiftType;
+      value: number | Omit<IShop, 'popular' | 'isPopular'>;
+    };

@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 
+import MilestoneRank from '~/assets/images/circle_drop_shadow_background.svg';
 import MilestonesBackground from '~/assets/images/milestones/milestone_background.svg';
 import MilestoneLevel from '~/assets/images/milestones/milestone_level.svg';
-import MilestoneRank from '~/assets/images/milestones/milestone_rank.svg';
 import RankIcon from '~/components/icons/RankIcon';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
@@ -67,8 +67,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               paddingHorizontal: 16,
               paddingBottom: 16,
             }}>
-            <View />
-            <View style={{ gap: 40 }}>
+            <View style={{ gap: 40, marginTop: 144 }}>
               <View style={{ alignItems: 'center', width: '100%' }}>
                 {current.type === MilestonesEnum.LEVEL_UP ? (
                   <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>

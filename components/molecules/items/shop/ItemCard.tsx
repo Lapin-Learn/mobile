@@ -14,7 +14,6 @@ export type ItemCardProps = {
     [key: string]: number;
   };
   popular?: string;
-  onBuy: (price: number) => boolean;
 };
 
 export const ItemCard = (props: ItemCardProps) => {
@@ -31,7 +30,7 @@ export const ItemCard = (props: ItemCardProps) => {
         </View>
         <View style={styles.itemPriceContainer}>
           {Object.entries(price).map(([key, value]) => (
-            <ItemPriceCard key={key} quantity={key} value={value} {...props} />
+            <ItemPriceCard key={key} amount={parseInt(key)} value={value} {...props} />
           ))}
         </View>
       </View>

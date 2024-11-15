@@ -5,10 +5,9 @@ import { useShop } from '~/hooks/react-query/useItem';
 import { Loading } from '../../Loading';
 import { ItemCard } from '../shop/ItemCard';
 
-export const Shop = ({ carrots = 0 }: { carrots?: number }) => {
+export const Shop = () => {
   const { data, isLoading } = useShop();
   if (isLoading) return <Loading />;
-  const canBuy = (price: number) => carrots >= price;
 
   return (
     <FlatList
@@ -21,7 +20,7 @@ export const Shop = ({ carrots = 0 }: { carrots?: number }) => {
           name={item.name}
           image={item.image.url}
           price={item.price}
-          onBuy={canBuy}
+          popular={item.popular}
         />
       )}
       keyExtractor={(item) => item.id}

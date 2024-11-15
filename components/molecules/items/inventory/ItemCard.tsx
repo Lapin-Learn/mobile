@@ -2,10 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { default as Styles } from '~/constants/GlobalStyles';
+import { useShopStore } from '~/hooks/zustand/useShopStore';
 import { ShopItemEnum } from '~/lib/enums';
 
 export type ItemCardProps = {
   id: string;
+  itemId: string;
   name: ShopItemEnum;
   description: string;
   imageId: string;
@@ -15,10 +17,7 @@ export type ItemCardProps = {
 
 export const Item = (props: ItemCardProps) => {
   const { t } = useTranslation('item');
-
-  const handleUseItem = () => {
-    console.log('hehe');
-  };
+  const { openModal } = useShopStore();
 
   return (
     <View
@@ -32,7 +31,14 @@ export const Item = (props: ItemCardProps) => {
         },
       ]}>
       {props.id !== 'empty' && (
-        <Pressable style={styles.itemButton} onPress={handleUseItem}>
+        <Pressable
+          style={styles.itemButton}
+          onPress={() =>
+            openModal({
+              ...props,
+              type: 'use',
+            })
+          }>
           <View style={{ paddingVertical: 17.25 }}>
             <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
           </View>
