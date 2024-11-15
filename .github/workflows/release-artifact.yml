@@ -1,0 +1,74 @@
+name: Release Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Access workspace
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies without updating lockfile
+        run: npm ci
+
+      - name: Set up Java SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+
+      - name: Write env
+        run: |
+          cat << EOF > .env
+            ${{ secrets.ENV }}
+          EOF
+
+      - name: Write 'google-services.json'
+        run: |
+          cat << EOF > ./google-services.json
+            ${{ secrets.GOOGLE_SERVICES_JSON }}
+          EOF
+
+      - name: Write 'lapinlearn.keystore' from base64
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'lapinlearn.keystore'
+          fileDir: './android/app'
+          encodedString: ${{ secrets.LAPINLEARN_KEYSTORE_BASE64 }}
+
+      - name: Update 'MYAPP_UPLOAD_STORE_PASSWORD' and 'MYAPP_UPLOAD_KEY_PASSWORD'
+        run: |
+          sed -i "s/MYAPP_UPLOAD_KEY_PASSWORD=.*/MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.MYAPP_UPLOAD_KEY_PASSWORD }}/g" ./android/gradle.properties
+          sed -i "s/MYAPP_UPLOAD_STORE_PASSWORD=.*/MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.MYAPP_UPLOAD_STORE_PASSWORD }}/g" ./android/gradle.properties
+
+      - name: Generate 'android'
+        run: npx expo prebuild --platform android
+
+      - name: Build apk && aab
+        run: ./gradlew assembleRelease && ./gradlew bundleRelease
+        working-directory: android
+
+      - name: Release apk artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: ./android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Release aab artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: aab
+          path: ./android/app/build/outputs/bundle/release/app-release.aab

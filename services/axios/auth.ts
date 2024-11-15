@@ -10,6 +10,7 @@ import { deleteFcmToken } from './notification';
 const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_GOOGLE_CLIENT_ID;
 GoogleSignin.configure({
   webClientId: GOOGLE_CLIENT_ID,
+  offlineAccess: true, // DO NOT REMOVE THIS LINE
 });
 
 export type Session = {

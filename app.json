@@ -3,7 +3,7 @@
     "owner": "lapinlearn",
     "name": "lapinlearn",
     "slug": "lapinlearn",
-    "version": "1.0.1.1",
+    "version": "1.0.1 beta 3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -38,7 +38,7 @@
       "permissions": ["android.permissions.READ_MEDIA_AUDIO", "android.permissions.ACCESS_NETWORK_STATE",
     "android.permissions.POST_NOTIFICATIONS"],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000101
+      "versionCode": 1000103
     },
     "web": {
       "bundler": "metro",
