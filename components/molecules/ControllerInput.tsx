@@ -24,7 +24,8 @@ export const ControllerInput = <T,>({
     defaultLabel,
     options,
   });
-  const { t } = useTranslation();
+  const { t } = useTranslation('validation');
+  const [key, max] = (error?.message ?? '').split('|');
 
   return (
     <View style={styles.container}>
@@ -44,7 +45,7 @@ export const ControllerInput = <T,>({
       </View>
       {error && (
         <Text style={Styles.color.red[500]}>
-          {t(error.type === 'invalid_type' ? 'required' : (error.message ?? ''), { ns: 'validation', name: label })}
+          {t(error.type === 'invalid_type' ? 'required' : key, { name: label, max })}
         </Text>
       )}
     </View>
