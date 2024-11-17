@@ -67,6 +67,7 @@ const UpdateProfile = () => {
       <NavigationBar title={t('profile.basic_info')} />
       <View
         style={{
+          flexDirection: 'column',
           flexGrow: 1,
           justifyContent: 'space-between',
           alignItems: 'center',
