@@ -52,13 +52,11 @@ const missionSectionStyles = StyleSheet.create({
 
 const sectionStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'column',
     width: '100%',
     gap: 8,
   },
   title: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -152,7 +150,6 @@ const styles = StyleSheet.create({
     ...Styles.color.dark,
   },
   reward: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

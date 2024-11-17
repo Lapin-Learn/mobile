@@ -170,7 +170,6 @@ const UpdateProfile = () => {
 
 const styles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
     paddingHorizontal: 16,
@@ -181,7 +180,6 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   form: {
-    display: 'flex',
     flexDirection: 'column',
     gap: 16,
   },
@@ -199,14 +197,12 @@ const styles = StyleSheet.create({
     ...Styles.fontSize.body,
   },
   changePasswordInput: {
-    display: 'flex',
     flexDirection: 'row',
     width: '100%',
     borderRadius: 12,
     alignItems: 'center',
   },
   changePassword: {
-    display: 'flex',
     flexDirection: 'column',
     gap: 4,
   },

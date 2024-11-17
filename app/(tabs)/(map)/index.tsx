@@ -82,7 +82,6 @@ const Map = () => {
 const styles = StyleSheet.create({
   motiView: {
     marginTop: -5,
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },

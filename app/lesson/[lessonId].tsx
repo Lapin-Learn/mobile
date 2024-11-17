@@ -54,7 +54,6 @@ const Lesson = () => {
 
 const styles = StyleSheet.create({
   noQuestionFoundContainer: {
-    display: 'flex',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',

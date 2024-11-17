@@ -102,13 +102,11 @@ const textStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   recordStreakContainer: {
-    display: 'flex',
     gap: 32,
     paddingHorizontal: 32,
     paddingBottom: 16,
   },
   recordStreakSection: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -135,7 +133,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   targetStreakList: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -161,7 +158,6 @@ const styles = StyleSheet.create({
     ...Styles.fontSize['title-2'],
   },
   streakHistorySection: {
-    display: 'flex',
     flex: 1,
     flexGrow: 1,
     gap: 16,

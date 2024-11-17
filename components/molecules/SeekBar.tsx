@@ -88,7 +88,7 @@ export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress>
 const styles = StyleSheet.create({
   root: {
     flexGrow: 1,
-    display: 'flex',
+
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     gap: 10,
     borderRadius: 8,
     borderWidth: 1,
-    ...Styles.borderColor.neutral[100],
     padding: 16,
+    ...Styles.borderColor.neutral[100],
   },
   root: {
     gap: 40,
@@ -232,13 +232,11 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   avatarSection: {
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonSignOut: {
-    display: 'flex',
     flexDirection: 'row',
     gap: 4,
     paddingHorizontal: 20,

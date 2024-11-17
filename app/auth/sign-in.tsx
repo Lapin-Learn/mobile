@@ -153,19 +153,16 @@ const styles = StyleSheet.create({
     gap: 24,
   },
   flexColCenter: {
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   flexRowCenter: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   forgotPassword: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
@@ -184,7 +181,6 @@ const otherSignInStyles = StyleSheet.create({
     gap: 35,
   },
   googleButton: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
