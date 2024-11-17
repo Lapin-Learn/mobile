@@ -91,7 +91,7 @@ const QuestionTemplate = () => {
 const styles = StyleSheet.create({
   progress: {
     marginHorizontal: 16,
-    display: 'flex',
+
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   currentQuestion: {
     position: 'relative',
-    display: 'flex',
+
     height: '100%',
     flexDirection: 'column',
   },

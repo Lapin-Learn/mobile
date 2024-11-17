@@ -44,31 +44,22 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
       <View
         style={StyleSheet.flatten([
           styles.root,
-          type === 'correct'
-            ? {
-                ...Styles.backgroundColor.green[50],
-              }
-            : {
-                ...Styles.backgroundColor.red[50],
-              },
+          type === 'correct' ? Styles.backgroundColor.green[50] : Styles.backgroundColor.red[50],
         ])}>
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
             {type === 'correct' ? (
-              <>
-                <IconCheckmarkCircle width={24} height={24} />
-                <Text style={StyleSheet.flatten([styles.title, styles.correctTitle])}>
-                  {t(`general.correct.${Math.floor(randomEncourage)}`)}
-                </Text>
-              </>
+              <IconCheckmarkCircle width={24} height={24} />
             ) : (
-              <>
-                <IconCrossCircle width={24} height={24} />
-                <Text style={StyleSheet.flatten([styles.title, styles.incorrectTitle])}>
-                  {t(`general.incorrect.${Math.floor(randomEncourage)}`)}
-                </Text>
-              </>
+              <IconCrossCircle width={24} height={24} />
             )}
+            <Text
+              style={StyleSheet.flatten([
+                styles.title,
+                type === 'correct' ? styles.correctTitle : styles.incorrectTitle,
+              ])}>
+              {t(`general.${type}.${Math.floor(randomEncourage)}`)}
+            </Text>
           </View>
           <Pressable
             onPress={() => {
@@ -77,12 +68,12 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
               router.push('/lesson/explanation');
             }}>
             <Text
-              style={{
-                ...Styles.font.normal,
-                ...Styles.fontSize.subhead,
-                textDecorationLine: 'underline',
-                color: type === 'correct' ? Styles.color.green[700].color : Styles.color.red[700].color,
-              }}>
+              style={[
+                { textDecorationLine: 'underline' },
+                Styles.font.normal,
+                Styles.fontSize.subhead,
+                type === 'correct' ? Styles.color.green[700] : Styles.color.red[700],
+              ]}>
               {t('general.explanation')}
             </Text>
           </Pressable>
@@ -98,15 +89,7 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue }: AnswerModalProps
           </View>
         )}
         <Button
-          style={
-            type === 'correct'
-              ? {
-                  ...Styles.backgroundColor.green[500],
-                }
-              : {
-                  ...Styles.backgroundColor.red[500],
-                }
-          }
+          style={type === 'correct' ? Styles.backgroundColor.green[500] : Styles.backgroundColor.red[500]}
           onPress={onPressContinue}>
           <Text style={GLOBAL_STYLES.textButton}>{t('general.continue')}</Text>
         </Button>
@@ -119,7 +102,6 @@ const styles = StyleSheet.create({
   root: {
     position: 'absolute',
     bottom: 0,
-    display: 'flex',
     width: '100%',
     justifyContent: 'flex-end',
     gap: 16,
@@ -128,13 +110,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   textContainer: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   titleContainer: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,

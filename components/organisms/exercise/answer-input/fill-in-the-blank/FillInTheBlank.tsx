@@ -3,7 +3,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
 import { z } from 'zod';
 
@@ -93,7 +93,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   return (
     <>
-      <ScrollView style={isChecking ? styles.scrollViewWithChecking : styles.scrollView}>
+      <ScrollView style={[{ flex: 1 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
         <FillInTheBlankContentRenderer
           content={content}
           fieldState={field}
@@ -102,7 +102,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
         />
       </ScrollView>
       {isChecking && (
-        <View style={GLOBAL_STYLES.checkButtonView}>
+        <View style={[GLOBAL_STYLES.checkButtonView]}>
           <Button variant='black' size='lg' onPress={handleSubmit(onSubmit)}>
             <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
@@ -111,16 +111,5 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-    marginBottom: 40,
-  },
-  scrollViewWithChecking: {
-    flex: 1,
-    marginBottom: 88,
-  },
-});
 
 export default FillInTheBlank;
