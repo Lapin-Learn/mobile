@@ -78,7 +78,7 @@ export const useSignInWithProvider = () => {
         });
         toast.show({ type: 'success', text1: 'Welcome back' });
         await setTokenAsync(data);
-        router.push('/');
+        router.replace('/');
       }
     },
     onError: (error) => {
