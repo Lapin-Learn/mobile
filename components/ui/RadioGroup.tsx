@@ -19,7 +19,6 @@ interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<typeof Radi
 
 const RadioGroupItem = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioGroupItemProps>(
   ({ disabled, style, indicatorStyle, ...props }, ref) => {
-    console.log('indicatorStyle', [styles.radioGroupIndicator, indicatorStyle]);
     return (
       <RadioGroupPrimitive.Item
         ref={ref}
