@@ -49,9 +49,9 @@ const AnswerModal = ({ type, correctAnswers, onPressContinue, ...props }: Answer
           type === 'correct' ? Styles.backgroundColor.green[50] : Styles.backgroundColor.red[50],
         ])}>
         {props.percentage ? (
-          <NormalTypeContent {...props} type={type} randomEncourage={randomEncourage} setShowModal={setShowModal} />
-        ) : (
           <SpeakingTypeContent {...props} type={type} randomEncourage={randomEncourage} />
+        ) : (
+          <NormalTypeContent {...props} type={type} randomEncourage={randomEncourage} setShowModal={setShowModal} />
         )}
         {type === 'incorrect' && correctAnswers && correctAnswers.length > 0 && (
           <View>

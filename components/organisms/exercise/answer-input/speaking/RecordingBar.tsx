@@ -76,7 +76,6 @@ export const RecordBar = () => {
 
   async function sendRecording() {
     // TODO: get Result IPA
-    Alert.alert('Recording Sent', 'Your recording has been sent to the backend');
     const audioData = await FileSystem.readAsStringAsync(uri!, { encoding: FileSystem.EncodingType.Base64 });
     const blob = new Blob([audioData], { type: 'audio/m4a' });
 
