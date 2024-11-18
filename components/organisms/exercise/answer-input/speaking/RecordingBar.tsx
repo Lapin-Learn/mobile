@@ -6,32 +6,11 @@ import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 
 import Styles from '~/constants/GlobalStyles';
 import { SpeakingSoundType, useAudioStore } from '~/hooks/zustand/useAudioStore';
+import { configureRecordSession, recordingOptions } from '~/lib/config';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
 import { IconComponent } from './Icon';
-
-const recordingOptions: Audio.RecordingOptions = {
-  android: {
-    extension: '.m4a',
-    outputFormat: Audio.RecordingOptionsPresets.HIGH_QUALITY.android.outputFormat,
-    audioEncoder: Audio.RecordingOptionsPresets.HIGH_QUALITY.android.audioEncoder,
-    sampleRate: 44100,
-    numberOfChannels: 2,
-    bitRate: 128000,
-  },
-  ios: {
-    extension: '.m4a',
-    audioQuality: Audio.RecordingOptionsPresets.HIGH_QUALITY.ios.audioQuality,
-    sampleRate: 44100,
-    numberOfChannels: 2,
-    bitRate: 128000,
-    linearPCMBitDepth: 16,
-    linearPCMIsBigEndian: false,
-    linearPCMIsFloat: false,
-  },
-  web: {},
-};
 
 export const RecordBar = () => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -53,10 +32,8 @@ export const RecordBar = () => {
           ]);
         }
       }
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
+
+      await configureRecordSession();
 
       deleteUri(uri!);
 

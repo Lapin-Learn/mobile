@@ -1,32 +1,21 @@
-import { Audio, AVPlaybackStatus, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
+import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useNavigation } from 'expo-router';
-import { Volume2 } from 'lucide-react-native';
 import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
+import Volumn from '~/assets/images/volumn.svg';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
 import { default as PlatformView } from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
 import { SpeakingSoundType, useAudioStore } from '~/hooks/zustand/useAudioStore';
+import { configureAudioSession } from '~/lib/config';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
 const data = {
   id: '1',
   text: 'What is your name? What is your name? What is your name? What is your name? What is your name?',
   url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/Recording.mp3?alt=media&token=4f1ef2a9-1665-4242-806f-57ce7730544f',
-};
-
-export type SpeakingSounds = 'question' | 'answer' | 'idle';
-
-const configureAudioSession = async () => {
-  await Audio.setAudioModeAsync({
-    playsInSilentModeIOS: true,
-    staysActiveInBackground: false,
-    interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-    interruptionModeIOS: InterruptionModeIOS.DoNotMix,
-    shouldDuckAndroid: false,
-  });
 };
 
 const Speaking = () => {
@@ -116,10 +105,10 @@ const Speaking = () => {
               type: 'timing',
               duration: 800,
               loop: true,
-              repeatReverse: true, // Reverse the animation on each loop
+              repeatReverse: true,
             }}
             style={{ width: 30, height: 30, margin: 1.5 }}>
-            <Volume2 size={30} style={{ margin: 1.5 }} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+            <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
           </MotiView>
           <Text
             style={{
