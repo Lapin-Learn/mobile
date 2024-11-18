@@ -78,13 +78,13 @@ export const SeekBar = ({ progress, sound }: SeekBarProps) => {
 
   const thumbStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: offset.value }],
+      transform: [{ translateX: offset.value - INITIAL_THUMB_SIZE / 2 }],
     };
   });
 
   const sliderStyle = useAnimatedStyle(() => {
     return {
-      width: offset.value + INITIAL_THUMB_SIZE / 2,
+      width: offset.value,
     };
   });
 

@@ -1,8 +1,16 @@
 {
   "general": {
     "check": "Check",
-    "correct": ["Correct!", "Good job!", "Well done!"],
-    "incorrect": ["Incorrect!", "Try again!", "Not quite!"],
+    "correct": [
+      "Correct!",
+      "Good job!",
+      "Well done!"
+    ],
+    "incorrect": [
+      "Incorrect!",
+      "Try again!",
+      "Not quite!"
+    ],
     "explanation": "Explanation",
     "correctAnswer": "The correct answer is:",
     "continue": "Continue",
@@ -26,5 +34,8 @@
     },
     "openSettings": "Open Settings",
     "cancel": "Cancel"
+  },
+  "speaking": {
+    "result": "You said {{percentage}}% like a native speaker!"
   }
 }

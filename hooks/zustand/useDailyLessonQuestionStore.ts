@@ -4,12 +4,13 @@ import { LessonResultProps } from '~/components/organisms/lesson/LessonResult';
 import { useLessonCompletion } from '~/hooks/react-query/useDailyLesson';
 import { IQuestion } from '~/lib/types/questions';
 import { getDuration } from '~/lib/utils';
-
-// export type Answer = boolean | 'notAnswered';
+export type SpeakingAnswer = {
+  correct_letters?: string;
+};
 export type Answer = {
   numberOfCorrect: number;
   totalOfQuestions: number;
-};
+} & SpeakingAnswer;
 
 type State = {
   lessonId: string;
@@ -56,6 +57,7 @@ const useLessonStore = create<State & Action>((set, get) => ({
       learnerAnswers: Array<Answer>(questions.length).fill({
         numberOfCorrect: 0,
         totalOfQuestions: 0,
+        correct_letters: undefined,
       }),
       startTime: Date.now(),
     });
@@ -88,6 +90,7 @@ const useLessonStore = create<State & Action>((set, get) => ({
 
 export const useDailyLessonQuestionStore = () => {
   const lessonCompletionMutation = useLessonCompletion();
+  // const lessonSpeakingCompletionMutation = useLessonSpeakingCompletion();
   const {
     lessonId,
     setQuestions,
@@ -105,8 +108,19 @@ export const useDailyLessonQuestionStore = () => {
   } = useLessonStore();
 
   const mutation = () => {
+    // check ì the learnerAnswer contain url or not
+    if (learnerAnswers.some((answer) => answer.correct_letters)) {
+      return;
+    }
     const statistic = learnerAnswers.reduce(
       (acc, answer) => {
+        if (answer.correct_letters) {
+          const accCorrectLetters = answer.correct_letters.split('').filter((letter) => letter === '1').length;
+          return {
+            numberOfCorrect: acc.numberOfCorrect + accCorrectLetters,
+            totalOfQuestions: acc.totalOfQuestions + 1,
+          };
+        }
         const accCorrect = acc.numberOfCorrect + answer.numberOfCorrect;
         const accTotal = acc.totalOfQuestions + answer.totalOfQuestions;
 

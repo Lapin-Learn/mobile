@@ -1,27 +1,32 @@
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useNavigation } from 'expo-router';
-import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import Volumn from '~/assets/images/volumn.svg';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
-import { default as PlatformView } from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
-import { SpeakingSoundType, useAudioStore } from '~/hooks/zustand/useAudioStore';
+import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureAudioSession } from '~/lib/config';
+import { IQuestion } from '~/lib/types/questions';
+import { getAccurateAPI } from '~/lib/utils';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
-const data = {
-  id: '1',
-  text: 'What is your name? What is your name? What is your name? What is your name? What is your name?',
-  url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/Recording.mp3?alt=media&token=4f1ef2a9-1665-4242-806f-57ce7730544f',
+// const data = {
+//   id: '1',
+//   text: 'What is your name? What is your name? What is your name? What is your name? What is your name?',
+//   url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/Recording.mp3?alt=media&token=4f1ef2a9-1665-4242-806f-57ce7730544f',
+// };
+
+type SpeakingProps = {
+  data?: IQuestion;
+  onAnswer: (answer: Answer) => void;
 };
 
-const Speaking = () => {
+const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
   const navigation = useNavigation();
 
-  const { uri, soundType, setSoundType, initState } = useAudioStore();
+  const { uri, soundType, result, setSoundType, initState } = useSpeakingStore();
   const [sound, setSound] = useState<Audio.Sound>();
 
   useEffect(() => {
@@ -59,16 +64,28 @@ const Speaking = () => {
 
     switch (soundType) {
       case SpeakingSoundType.QUESTION:
-        playSound(data.url);
+        playSound(data?.audio?.url ?? '');
         break;
       case SpeakingSoundType.ANSWER:
         playSound(uri!);
+        break;
+      case SpeakingSoundType.SEND:
+        if (result) {
+          const { accCorrectLetters, accIncorrectLetters } = getAccurateAPI(result.correct_letters);
+          onAnswer({
+            numberOfCorrect: accCorrectLetters / (accCorrectLetters + accIncorrectLetters) > 0.5 ? 1 : 0,
+            totalOfQuestions: 1,
+          });
+        }
+        initState();
         break;
       default:
         break;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [soundType]);
+
+  console.log(data?.audio?.url ?? '');
 
   const _onPlaybackStatusUpdate = async (playbackStatus: AVPlaybackStatus) => {
     if (!playbackStatus.isLoaded) {
@@ -89,39 +106,81 @@ const Speaking = () => {
   };
 
   return (
-    <PlatformView>
-      <View style={{ flexGrow: 1, justifyContent: 'center' }}>
+    <View style={{ height: '100%' }}>
+      <View style={{ flexGrow: 1, justifyContent: 'center', padding: 32 }}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
-            padding: 32,
             gap: 12,
           }}>
-          <MotiView
-            from={{ scale: 1 }}
-            animate={{ scale: soundType === SpeakingSoundType.QUESTION ? 1.3 : 1 }}
-            transition={{
-              type: 'timing',
-              duration: 800,
-              loop: true,
-              repeatReverse: true,
-            }}
-            style={{ width: 30, height: 30, margin: 1.5 }}>
+          <View style={{ width: 30, height: 30, margin: 1.5 }}>
             <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
-          </MotiView>
-          <Text
+          </View>
+
+          <View
             style={{
-              ...Styles.font.semibold,
-              ...Styles.fontSize['title-2'],
-              ...Styles.color.dark,
+              flexShrink: 1,
             }}>
-            {data.text}
-          </Text>
+            <TranscriptDisplay question={data?.content.question ?? ''} />
+          </View>
         </View>
       </View>
       <RecordBar />
-    </PlatformView>
+    </View>
+  );
+};
+
+const TranscriptDisplay = ({ question }: { question: string }) => {
+  const { result } = useSpeakingStore();
+  const corrected = result?.correct_letters.replace(/\s/g, '').split('');
+  if (!result)
+    return (
+      <View
+        style={{
+          flexShrink: 1,
+        }}>
+        <Text
+          style={{
+            ...Styles.font.semibold,
+            ...Styles.fontSize['title-2'],
+            ...Styles.color.dark,
+          }}>
+          {question}
+        </Text>
+      </View>
+    );
+
+  return (
+    <>
+      <Text
+        style={{
+          ...Styles.font.semibold,
+          ...Styles.fontSize['title-2'],
+          ...Styles.color.dark,
+        }}>
+        {result?.original_transcript.split('').map((char, index) => {
+          const isCorrect = corrected ? corrected[index] === '1' : false;
+          return (
+            <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
+              {char}
+            </Text>
+          );
+        })}
+      </Text>
+      {result && (
+        <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.normal }}>
+          {result?.original_ipa_transcript.split('').map((char, index) => {
+            const isCorrect = corrected ? corrected[index] === '1' : false;
+            return (
+              <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
+                {char}
+              </Text>
+            );
+          })}
+        </Text>
+      )}
+    </>
   );
 };
 

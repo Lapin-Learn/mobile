@@ -5,16 +5,27 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
-import { SpeakingSoundType, useAudioStore } from '~/hooks/zustand/useAudioStore';
+import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureRecordSession, recordingOptions } from '~/lib/config';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { IIPAResult } from '~/lib/types';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
 import { IconComponent } from './Icon';
 
+const data: IIPAResult = {
+  correct_letters: '111111 11111111111 111 1111 00 0000 101 000000 01 000 000 000000 00 1100010 ',
+  file_id: 'Recording.mp3',
+  original_ipa_transcript: 'hɛˈloʊ ˈɛvriˌwʌn, maɪ neɪm ɪz truːk ænd təˈdeɪ aɪ wɪl tɔːk əˈbaʊt ðə ˈspiːkɪŋ ˈsɜrvɪs.',
+  original_transcript: 'Hello everyone, my name is Truc and today I will talk about the speaking service.',
+  pronunciation_accuracy: '15',
+  voice_ipa_transcript: 'hɛˈloʊ ˈɛvriˌwʌn maɪ neɪm istrok ænd təˈdeɪ aɪ wɪl tɔːk əˈbaʊt ðə ˈspiːkɪŋ ˈsɜrvɪs',
+  voice_transcript: 'hello everyone my name eastroke and today i will talk about the speaking service',
+};
+
 export const RecordBar = () => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
-  const { recording, status, uri, soundType, setRecord, setUri, setSoundType } = useAudioStore();
+  const { recording, status, uri, soundType, setResult, setRecord, setUri, setSoundType } = useSpeakingStore();
   const { t } = useTranslation('question');
 
   async function startRecording() {
@@ -64,6 +75,7 @@ export const RecordBar = () => {
   }
 
   async function sendRecording() {
+    // TODO: get Result IPA
     Alert.alert('Recording Sent', 'Your recording has been sent to the backend');
     const audioData = await FileSystem.readAsStringAsync(uri!, { encoding: FileSystem.EncodingType.Base64 });
     const blob = new Blob([audioData], { type: 'audio/m4a' });
@@ -71,6 +83,14 @@ export const RecordBar = () => {
     const formData = new FormData();
     formData.append('audio', blob, 'audio.m4a');
 
+    // Result after mutate
+    setResult({
+      correct_letters: data.correct_letters,
+      original_transcript: data.original_transcript,
+      original_ipa_transcript: data.original_ipa_transcript,
+    });
+
+    deleteUri(uri!);
     setSoundType(SpeakingSoundType.SEND);
   }
   return (

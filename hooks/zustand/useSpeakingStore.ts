@@ -1,6 +1,7 @@
 import { Audio } from 'expo-av';
-import { ViewProps } from 'react-native';
 import { create } from 'zustand';
+
+import { IIPAResult } from '~/lib/types';
 
 export enum SpeakingSoundType {
   QUESTION = 'question',
@@ -9,21 +10,12 @@ export enum SpeakingSoundType {
   SEND = 'send',
 }
 
-export type VoiceRecordingProps = ViewProps & {
-  recording?: Audio.Recording;
-  status?: Audio.RecordingStatus;
-  uri?: string | null;
-  setRecord: (record?: Audio.RecordingObject) => void;
-  setUri?: (uri?: string | null) => void;
-  isPlaySound?: boolean;
-  setIsPlaySound?: () => void;
-};
-
 type AudioState = {
   recording?: Audio.Recording;
   status?: Audio.RecordingStatus;
   uri?: string | null;
   soundType: SpeakingSoundType;
+  result?: Pick<IIPAResult, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>;
 };
 
 type AudioAction = {
@@ -31,13 +23,15 @@ type AudioAction = {
   setUri: (uri: Pick<AudioState, 'uri'>) => void;
   setSoundType: (soundType: SpeakingSoundType) => void;
   initState: () => void;
+  setResult: (result?: Pick<IIPAResult, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>) => void;
 };
 
-export const useAudioStore = create<AudioState & AudioAction>((set) => ({
+export const useSpeakingStore = create<AudioState & AudioAction>((set) => ({
   recording: undefined,
   status: undefined,
   uri: null,
   soundType: SpeakingSoundType.IDLE,
+  result: undefined,
   initState: () => {
     set({ recording: undefined, status: undefined, uri: null, soundType: SpeakingSoundType.IDLE });
   },
@@ -49,5 +43,8 @@ export const useAudioStore = create<AudioState & AudioAction>((set) => ({
   },
   setSoundType: (soundType) => {
     set({ soundType });
+  },
+  setResult: (result) => {
+    set({ result });
   },
 }));

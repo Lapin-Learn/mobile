@@ -6,8 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
-import Speaking from '~/components/organisms/exercise/answer-input/speaking/Speaking';
-import PlatformView from '~/components/templates/PlatformView';
 import { Badge, badgeTextStyles } from '~/components/ui/Badge';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
@@ -58,14 +56,6 @@ const Exercise = () => {
 
   if (questionTypesLoading) {
     return <Loading />;
-  }
-
-  if (exerciseId === SkillEnum.SPEAKING) {
-    return (
-      <PlatformView>
-        <Speaking />
-      </PlatformView>
-    );
   }
 
   if (!questionTypes || questionTypes.length === 0) {

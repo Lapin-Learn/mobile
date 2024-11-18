@@ -26,5 +26,8 @@
     },
     "openSettings": "Mở Cài đặt",
     "cancel": "Hủy"
+  },
+  "speaking": {
+    "result": "Bạn nói giống {{percentage}}% người bản xứ!"
   }
 }

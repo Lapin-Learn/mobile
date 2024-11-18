@@ -207,3 +207,13 @@ export type IReward =
       type: RandomGiftType;
       value: number | Omit<IShop, 'popular' | 'isPopular'>;
     };
+
+export type IIPAResult = {
+  correct_letters: string;
+  file_id: string;
+  original_ipa_transcript: string;
+  original_transcript: string;
+  pronunciation_accuracy: string;
+  voice_ipa_transcript: string;
+  voice_transcript: string;
+};
