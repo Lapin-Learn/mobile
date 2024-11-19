@@ -1,17 +1,16 @@
 import { Text, TextStyle } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { AnimatedCircularProgress, AnimatedCircularProgressProps } from 'react-native-circular-progress';
 
-type ProgressCircleProps = {
+type ProgressCircleProps = Pick<AnimatedCircularProgressProps, 'duration' | 'size' | 'lineCap'> & {
   progress: number;
-  size: number;
   thickness?: number;
   color?: string;
   endAngle?: number;
   textStyle?: TextStyle;
   showsText?: boolean;
-  lineCap?: 'round';
 };
 export const ProgressCircle = ({
+  duration = 2500,
   progress = 10,
   size = 160,
   thickness = 15,
@@ -26,7 +25,7 @@ export const ProgressCircle = ({
 
   return (
     <AnimatedCircularProgress
-      duration={2500}
+      duration={duration}
       size={size}
       width={thickness}
       fill={progressValue}

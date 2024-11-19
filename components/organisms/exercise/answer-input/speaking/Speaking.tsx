@@ -12,12 +12,6 @@ import { IQuestion } from '~/lib/types/questions';
 import { getAccurateAPI } from '~/lib/utils';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
-// const data = {
-//   id: '1',
-//   text: 'What is your name? What is your name? What is your name? What is your name? What is your name?',
-//   url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/Recording.mp3?alt=media&token=4f1ef2a9-1665-4242-806f-57ce7730544f',
-// };
-
 type SpeakingProps = {
   data?: IQuestion;
   onAnswer: (answer: Answer) => void;
@@ -26,12 +20,20 @@ type SpeakingProps = {
 const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
   const navigation = useNavigation();
 
-  const { uri, soundType, result, setSoundType, initState } = useSpeakingStore();
+  const { uri, soundType, result, setSoundType, initState, setResult } = useSpeakingStore();
   const [sound, setSound] = useState<Audio.Sound>();
 
   useEffect(() => {
     configureAudioSession();
   }, []);
+
+  useEffect(() => {
+    let parent = navigation.getParent();
+    while (parent) {
+      parent.setOptions({ gestureEnabled: false });
+      parent = parent.getParent();
+    }
+  }, [navigation]);
 
   useEffect(() => {
     return sound
@@ -44,8 +46,9 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
   useEffect(() => {
     return () => {
       navigation.addListener('beforeRemove', async () => {
+        if (uri) deleteUri(uri!);
         initState();
-        deleteUri(uri!);
+        setResult(undefined);
       });
     };
   });
@@ -84,8 +87,6 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [soundType]);
-
-  console.log(data?.audio?.url ?? '');
 
   const _onPlaybackStatusUpdate = async (playbackStatus: AVPlaybackStatus) => {
     if (!playbackStatus.isLoaded) {

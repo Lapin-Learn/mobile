@@ -124,6 +124,7 @@ const SpeakingTypeContent = ({
     <View style={styles.textContainer}>
       <View style={[styles.titleContainer, { gap: 16 }]}>
         <ProgressCircle
+          duration={0}
           progress={(props.percentage ?? 0) * 100}
           color={type === 'correct' ? '#247063' : Styles.color.red[500].color}
           size={60}
