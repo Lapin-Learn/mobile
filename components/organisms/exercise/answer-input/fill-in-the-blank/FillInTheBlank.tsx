@@ -121,19 +121,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 88,
   },
-  contentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    alignSelf: 'flex-start',
-    columnGap: 8,
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    rowGap: 4,
-  },
 });
 
 export default FillInTheBlank;

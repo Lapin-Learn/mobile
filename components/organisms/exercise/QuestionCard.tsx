@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import Styles from '~/constants/GlobalStyles';
 import { ContentTypeEnum } from '~/lib/enums';
@@ -20,9 +21,11 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
         </View>
       )}
       {!data.audioId && data.content.paragraph && (
-        <ReadingContainer>
-          <Text style={styles.paragraph}>{data.content.paragraph}</Text>
-        </ReadingContainer>
+        <GestureHandlerRootView style={{ position: 'relative' }}>
+          <ReadingContainer>
+            <Text style={styles.paragraph}>{data.content.paragraph}</Text>
+          </ReadingContainer>
+        </GestureHandlerRootView>
       )}
       {(data.contentType === ContentTypeEnum.MULTIPLE_CHOICE ||
         data.contentType === ContentTypeEnum.FILL_IN_THE_BLANK) && (

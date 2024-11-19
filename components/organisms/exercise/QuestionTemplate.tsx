@@ -6,6 +6,7 @@ import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
+import { ContentTypeEnum } from '~/lib/enums';
 
 import PlatformView from '../../templates/PlatformView';
 import AnswerInput from './answer-input/AnswerInput';
@@ -52,7 +53,8 @@ const QuestionTemplate = () => {
   const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
 
   return (
-    <PlatformView style={{ paddingBottom: 0 }}>
+    <PlatformView
+      style={{ paddingBottom: currentQuestion?.contentType === ContentTypeEnum.FILL_IN_THE_BLANK ? 24 : 0 }}>
       <View style={styles.progress}>
         <Pressable style={{ width: 24 }} onPress={handleBack}>
           <LucideMoveLeft color='black' />

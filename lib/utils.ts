@@ -7,7 +7,7 @@ export function convertMissionNameCategory(item: IMission) {
   const { t } = i18next;
   switch (item.category) {
     case MissionCategoryEnum.COMPLETE_LESSON_WITH_PERCENTAGE_SCORE:
-      return t(`description.${item.category}`, {
+      return t(`description.${item.requirements ? item.category : 'COMPLETE_LESSON'}`, {
         context: item.requirements === 100 ? 'PERFECT' : '',
         quantity: item.quantity,
         requirements: item.requirements,
