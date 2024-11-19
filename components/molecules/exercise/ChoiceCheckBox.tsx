@@ -61,7 +61,7 @@ const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitiv
 const styles = StyleSheet.create({
   root: {
     marginBottom: 12,
-    display: 'flex',
+
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',

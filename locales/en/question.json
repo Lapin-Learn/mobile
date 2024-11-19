@@ -1,8 +1,16 @@
 {
   "general": {
     "check": "Check",
-    "correct": ["Correct!", "Good job!", "Well done!"],
-    "incorrect": ["Incorrect!", "Try again!", "Not quite!"],
+    "correct": [
+      "Correct!",
+      "Good job!",
+      "Well done!"
+    ],
+    "incorrect": [
+      "Incorrect!",
+      "Try again!",
+      "Not quite!"
+    ],
     "explanation": "Explanation",
     "correctAnswer": "The correct answer is:",
     "continue": "Continue",
@@ -17,5 +25,17 @@
   },
   "fillInTheBlank": {
     "enterTheAnswer": "Nhập câu trả lời"
+  },
+  "recording": {
+    "recorded": "Tap when you're done recording",
+    "permission": {
+      "title": "Permission Required",
+      "message": "You have previously denied audio permissions. To enable them, go to settings."
+    },
+    "openSettings": "Open Settings",
+    "cancel": "Cancel"
+  },
+  "speaking": {
+    "result": "You said {{percentage}}% like a native speaker!"
   }
 }

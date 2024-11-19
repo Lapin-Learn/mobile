@@ -85,3 +85,12 @@ export const getDuration = (startTime: number): number => {
   const endTime = new Date().getTime();
   return Math.round(Math.abs(endTime - startTime) / 1000);
 };
+
+export const getAccurateAPI = (api: string) => {
+  const accCorrectLetters = api.split('').filter((letter) => letter === '1').length;
+  const accIncorrectLetters = api.split('').filter((letter) => letter === '0').length;
+  return {
+    accCorrectLetters,
+    accIncorrectLetters,
+  };
+};

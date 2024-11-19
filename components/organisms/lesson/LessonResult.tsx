@@ -80,7 +80,7 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                   const { Component, label } = tickerComponents[key];
                   return (
                     <View key={key} style={styles.tickerItem}>
-                      <Text style={Styles.fontSize.callout}>{t(label)}</Text>
+                      <Text style={Styles.fontSize.subhead}>{t(label)}</Text>
                       <View style={styles.tickerItemContent}>
                         <Component width={24} height={24} />
                         <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>

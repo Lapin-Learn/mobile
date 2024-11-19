@@ -5,11 +5,13 @@ import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
-import { useDailyLessonQuestionStore } from '~/hooks/zustand';
+import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';
+import { getAccurateAPI } from '~/lib/utils';
 
 import PlatformView from '../../templates/PlatformView';
 import AnswerInput from './answer-input/AnswerInput';
+import Speaking from './answer-input/speaking/Speaking';
 import AnswerModal from './AnswerModal';
 import QuestionCard from './QuestionCard';
 
@@ -20,6 +22,7 @@ const QuestionTemplate = () => {
     mutation,
     state: { totalQuestion, learnerAnswers, isCompleted, currentQuestion, currentQuestionIndex, isPendingMutation },
   } = useDailyLessonQuestionStore();
+  const { result, setResult } = useSpeakingStore();
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
@@ -51,6 +54,7 @@ const QuestionTemplate = () => {
   }
 
   const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
+  const { accCorrectLetters, accIncorrectLetters } = getAccurateAPI(result?.correct_letters ?? '');
 
   return (
     <PlatformView
@@ -61,29 +65,44 @@ const QuestionTemplate = () => {
         </Pressable>
         <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
       </View>
-      {currentQuestion && (
-        <View style={styles.currentQuestion}>
-          <QuestionCard data={currentQuestion} isPaused={typeof learnerAnswers[currentQuestionIndex] == 'boolean'} />
-          <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
-            <AnswerInput onAnswer={answerQuestion} result={learnerAnswers[currentQuestionIndex]} {...currentQuestion} />
-          </View>
-        </View>
-      )}
-      {showAnswerModal && (
-        <AnswerModal
-          type={
-            learnerAnswers[currentQuestionIndex].numberOfCorrect /
-              learnerAnswers[currentQuestionIndex].totalOfQuestions >
-            0.5
-              ? 'correct'
-              : 'incorrect'
-          }
-          // TODO: Fix correctAnswers, map from currentQuestion?.content.answer from number[] to string[]
-          // correctAnswers={currentQuestion?.content.answer ?? []}
-          onPressContinue={nextQuestion}
-        />
-      )}
-      {isExiting && <ExitModal onClose={() => setIsExiting(false)} />}
+      {/* For Speaking */}
+      <>
+        {currentQuestion?.contentType === ContentTypeEnum.SPEAKING_SAMPLE ? (
+          <Speaking onAnswer={answerQuestion} data={currentQuestion} />
+        ) : (
+          <>
+            {currentQuestion && (
+              <View style={styles.currentQuestion}>
+                <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
+                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
+                  <AnswerInput
+                    onAnswer={answerQuestion}
+                    result={learnerAnswers[currentQuestionIndex]}
+                    {...currentQuestion}
+                  />
+                </View>
+              </View>
+            )}
+          </>
+        )}
+        {showAnswerModal && (
+          <AnswerModal
+            type={
+              learnerAnswers[currentQuestionIndex].numberOfCorrect /
+                learnerAnswers[currentQuestionIndex].totalOfQuestions >
+              0.5
+                ? 'correct'
+                : 'incorrect'
+            }
+            onPressContinue={() => {
+              nextQuestion();
+              setResult(undefined);
+            }}
+            percentage={accCorrectLetters / (accCorrectLetters + accIncorrectLetters)}
+          />
+        )}
+        {isExiting && <ExitModal onClose={() => setIsExiting(false)} />}
+      </>
     </PlatformView>
   );
 };
@@ -91,7 +110,6 @@ const QuestionTemplate = () => {
 const styles = StyleSheet.create({
   progress: {
     marginHorizontal: 16,
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,7 +118,6 @@ const styles = StyleSheet.create({
   },
   currentQuestion: {
     position: 'relative',
-    display: 'flex',
     height: '100%',
     flexDirection: 'column',
   },

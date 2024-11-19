@@ -41,12 +41,10 @@ const WeekRecord = ({ streakRecords }: { streakRecords: string[] }) => {
 
 const weekRecordStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
     gap: 16,
   },
   view: {
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,7 +100,7 @@ export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps
 const styles = StyleSheet.create({
   root: {
     marginHorizontal: 16,
-    display: 'flex',
+
     height: '100%',
     justifyContent: 'space-between',
     paddingVertical: 16,
@@ -125,14 +123,12 @@ const styles = StyleSheet.create({
     ...Styles.color.dark,
   },
   main: {
-    display: 'flex',
     width: '100%',
     alignItems: 'center',
     gap: 24,
     paddingHorizontal: 16,
   },
   streak: {
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: 4,

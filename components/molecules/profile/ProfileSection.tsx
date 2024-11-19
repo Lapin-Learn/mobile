@@ -36,7 +36,6 @@ const Title: FC<ProfileProps & { label: string; textStyle?: StyleProps }> = ({ l
 
 const titleStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -79,7 +78,7 @@ const ListItem: FC<{
 const listItemStyles = StyleSheet.create({
   root: {
     width: '100%',
-    display: 'flex',
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -127,7 +126,6 @@ const Item: FC<ProfileProps & { label?: string; value?: string }> = ({ label, va
 
 const itemStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
     gap: 16,
   },

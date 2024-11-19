@@ -17,5 +17,17 @@
   },
   "fillInTheBlank": {
     "enterTheAnswer": "Nhập câu trả lời"
+  },
+  "recording": {
+    "recorded": "Chạm khi bạn đã ghi âm xong",
+    "permission": {
+      "title": "Yêu cầu quyền",
+      "message": "Bạn đã từ chối quyền âm thanh trước đó. Để bật chúng, hãy vào Cài đặt."
+    },
+    "openSettings": "Mở Cài đặt",
+    "cancel": "Hủy"
+  },
+  "speaking": {
+    "result": "Bạn nói giống {{percentage}}% người bản xứ!"
   }
 }

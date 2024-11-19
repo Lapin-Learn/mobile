@@ -106,7 +106,13 @@ const QuestionTypeScreen = () => {
             source={{ uri: currentQuestionType?.image?.url || 'https://via.placeholder.com/40' }}
           />
           <View style={styles.headerTextContainer}>
-            <Text style={[Styles.font.bold, Styles.fontSize['title-1'], Styles.color.neutral[900]]}>
+            <Text
+              style={[
+                { textAlign: 'center' },
+                Styles.font.bold,
+                Styles.fontSize['title-1'],
+                Styles.color.neutral[900],
+              ]}>
               {currentQuestionType?.name}
             </Text>
             <Text style={[Styles.font.medium, Styles.fontSize['title-4'], Styles.color.supportingText]}>

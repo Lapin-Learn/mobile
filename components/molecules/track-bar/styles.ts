@@ -4,7 +4,6 @@ import Styles from '~/constants/GlobalStyles';
 
 export const styles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

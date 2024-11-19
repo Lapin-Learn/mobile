@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 24,
     right: 8,
-    display: 'flex',
+
     flexDirection: 'column',
     alignItems: 'center',
     gap: 8,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   dragHandlerContainer: {
     width: '100%',
     height: 12,
-    display: 'flex',
+
     marginVertical: 8,
     ...Styles.backgroundColor.neutral[100],
     opacity: 0.7,

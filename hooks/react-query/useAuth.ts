@@ -58,7 +58,7 @@ export const useSignIn = () => {
         email: variables.email,
       });
       toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
-      router.push('/');
+      router.replace('/');
     },
     onError: (error) => {
       const errMes = AUTH_ERRORS[error.message];

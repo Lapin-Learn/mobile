@@ -187,6 +187,7 @@ const baseColors = {
   foreground: '#f0f0f0',
   black: '#000000',
   transparent: 'transparent',
+  onSurface: '#0F4910',
 };
 
 type BaseColors = typeof baseColors;

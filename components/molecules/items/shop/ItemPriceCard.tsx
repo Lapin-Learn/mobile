@@ -44,7 +44,6 @@ const ItemPriceCard = (props: ItemPriceCardProps) => {
 
 const styles = StyleSheet.create({
   itemPriceContainer: {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: 80,

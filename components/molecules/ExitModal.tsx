@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    display: 'flex',
+
     flexDirection: 'column',
     justifyContent: 'flex-end',
     gap: 32,
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   textContainer: {
-    display: 'flex',
     alignItems: 'center',
     gap: 8,
   },

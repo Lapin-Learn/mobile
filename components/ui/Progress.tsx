@@ -55,7 +55,7 @@ const progressStyles = StyleSheet.create({
   },
   view: {
     position: 'absolute',
-    display: 'flex',
+
     height: '100%',
     width: '100%',
     alignItems: 'center',
