@@ -1,9 +1,9 @@
 {
   "expo": {
     "owner": "lapinlearn",
-    "name": "lapinlearn",
+    "name": "Lapinlearn",
     "slug": "lapinlearn",
-    "version": "1.0.1 beta 3",
+    "version": "1.0.1 beta 4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -41,7 +41,7 @@
         "android.permissions.POST_NOTIFICATIONS"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000103
+      "versionCode": 1000104
     },
     "web": {
       "bundler": "metro",
