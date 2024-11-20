@@ -21,7 +21,6 @@ const Badge = ({ variant = 'default', asChild, style, ...props }: BadgeProps) =>
 
 const badgeStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     alignItems: 'center',
     borderRadius: 9999,
     borderWidth: 1,

@@ -7,7 +7,7 @@ export function convertMissionNameCategory(item: IMission) {
   const { t } = i18next;
   switch (item.category) {
     case MissionCategoryEnum.COMPLETE_LESSON_WITH_PERCENTAGE_SCORE:
-      return t(`description.${item.category}`, {
+      return t(`description.${item.requirements ? item.category : 'COMPLETE_LESSON'}`, {
         context: item.requirements === 100 ? 'PERFECT' : '',
         quantity: item.quantity,
         requirements: item.requirements,
@@ -84,4 +84,13 @@ export const convertSecondsToMinutes = (seconds: number): string => {
 export const getDuration = (startTime: number): number => {
   const endTime = new Date().getTime();
   return Math.round(Math.abs(endTime - startTime) / 1000);
+};
+
+export const getAccurateAPI = (api: string) => {
+  const accCorrectLetters = api.split('').filter((letter) => letter === '1').length;
+  const accIncorrectLetters = api.split('').filter((letter) => letter === '0').length;
+  return {
+    accCorrectLetters,
+    accIncorrectLetters,
+  };
 };

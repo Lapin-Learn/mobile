@@ -45,7 +45,6 @@ const DayItem = ({ day, outside = false, active = 'default', today = false }: Da
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flexDirection: 'row',
     height: 36,
     flex: 1,
@@ -90,16 +89,13 @@ const textDayVariantsStyles = StyleSheet.create({
 
 const containerDayVariantStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     height: 36,
     width: 36,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  default: {
-    borderRadius: 9999,
-  },
+  default: {},
   first: {
     borderTopLeftRadius: 9999,
     borderBottomLeftRadius: 9999,

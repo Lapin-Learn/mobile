@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   root: {
     zIndex: 50,
     margin: 16,
-    display: 'flex',
+
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

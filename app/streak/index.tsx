@@ -1,7 +1,7 @@
 import { startOfMonth, subMonths } from 'date-fns';
 import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import CustomCalendar from '~/components/molecules/custom-calendar';
 import { Loading } from '~/components/molecules/Loading';
@@ -41,53 +41,53 @@ const Streak = () => {
   const { data, isFetching } = useGameProfile();
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
-  const textStyle = data?.streak.current === 0 ? 'broken' : 'extended';
+  const textStyle =
+    data?.streak.current === 0 || (streakDays && new Date(streakDays[0].date).getDate() !== new Date().getDate())
+      ? 'broken'
+      : 'extended';
   const isLongestStreak = data?.streak.current === data?.streak.record;
   if (isFetching) return <Loading />;
 
   return (
-    <>
-      <PlatformView style={styles.platformView}>
-        <NavigationBar headerTitle='Streak' headerLeftShown />
-        <View style={styles.recordStreakContainer}>
-          <View style={styles.recordStreakSection}>
-            <View style={styles.recordStreakTitleSection}>
-              <View>
-                <Text style={StyleSheet.flatten([styles.recordStreakTitle1, textStyles[textStyle]])}>
-                  {data?.streak.current}
-                </Text>
-                <Text style={StyleSheet.flatten([styles.recordStreakTitle2, textStyles[textStyle]])}>
-                  {t('streak.days')}
-                </Text>
-              </View>
-              <Text style={styles.recordStreakCaption}>
-                {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
+    <PlatformView style={styles.platformView}>
+      <NavigationBar headerTitle='Streak' headerLeftShown />
+      <View style={styles.recordStreakContainer}>
+        <View style={styles.recordStreakSection}>
+          <View style={styles.recordStreakTitleSection}>
+            <View>
+              <Text style={StyleSheet.flatten([styles.recordStreakTitle1, textStyles[textStyle]])}>
+                {data?.streak.current}
+              </Text>
+              <Text style={StyleSheet.flatten([styles.recordStreakTitle2, textStyles[textStyle]])}>
+                {t('streak.days')}
               </Text>
             </View>
-            <LottieView
-              source={require('~/assets/images/streak_flame.json')}
-              autoPlay
-              loop={true}
-              style={{ width: 100, height: 125 }}
-            />
+            <Text style={styles.recordStreakCaption}>
+              {t('streak.max', { max: isLongestStreak ? t('streak.this') : data?.streak.record })}
+            </Text>
           </View>
-          <View style={styles.targetStreakList}>
-            {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
-              <TargetStreak key={index} width={74} height={80} active={active}>
-                <View style={styles.targetStreakItem}>
-                  <Text style={styles.targetStreakText}>{value}</Text>
-                </View>
-              </TargetStreak>
-            ))}
-          </View>
+          <LottieView
+            source={require('~/assets/images/streak_flame.json')}
+            autoPlay
+            loop={true}
+            style={{ width: 100, height: 125 }}
+          />
         </View>
-        <View style={styles.streakHistorySection}>
-          <Text style={styles.streakHistoryHeader}>{t('streak.schedule')}</Text>
-          <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} />
+        <View style={styles.targetStreakList}>
+          {generateTarget(data?.streak.current ?? 0).map(({ value, active }, index) => (
+            <TargetStreak key={index} width={74} height={80} active={active}>
+              <View style={styles.targetStreakItem}>
+                <Text style={styles.targetStreakText}>{value}</Text>
+              </View>
+            </TargetStreak>
+          ))}
         </View>
-      </PlatformView>
-      <SafeAreaView style={styles.bottomArea} />
-    </>
+      </View>
+      <View style={styles.streakHistorySection}>
+        <Text style={styles.streakHistoryHeader}>{t('streak.schedule')}</Text>
+        <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} />
+      </View>
+    </PlatformView>
   );
 };
 
@@ -102,13 +102,11 @@ const textStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   recordStreakContainer: {
-    display: 'flex',
     gap: 32,
     paddingHorizontal: 32,
     paddingBottom: 16,
   },
   recordStreakSection: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -135,7 +133,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   targetStreakList: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -154,17 +151,13 @@ const styles = StyleSheet.create({
   platformView: {
     flex: 1,
     backgroundColor: '#E7F4FE',
-  },
-  bottomArea: {
-    flex: 0,
-    backgroundColor: Styles.color.background.color,
+    paddingBottom: 0,
   },
   streakHistoryHeader: {
     ...Styles.font.semibold,
     ...Styles.fontSize['title-2'],
   },
   streakHistorySection: {
-    display: 'flex',
     flex: 1,
     flexGrow: 1,
     gap: 16,

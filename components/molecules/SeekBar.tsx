@@ -1,14 +1,24 @@
+import { Audio } from 'expo-av';
 import { useEffect, useRef, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import TrackPlayer, { useProgress } from 'react-native-track-player';
 
 import Styles from '~/constants/GlobalStyles';
 
 const INITIAL_THUMB_SIZE = 14;
 
-export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress> }) => {
+export type ProgressProps = {
+  position: number;
+  duration: number;
+};
+
+export type SeekBarProps = {
+  progress: ProgressProps;
+  sound?: Audio.Sound;
+};
+
+export const SeekBar = ({ progress, sound }: SeekBarProps) => {
   const { position, duration } = progress;
   const isSliding = useRef(false);
   const offset = useSharedValue(0);
@@ -26,7 +36,6 @@ export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress>
   const panGesture = Gesture.Pan()
     .onBegin(() => {
       isSliding.current = true;
-      runOnJS(TrackPlayer.pause)();
     })
     .onChange((event) => {
       const newOffset = thumbPosition.value + event.translationX;
@@ -40,29 +49,42 @@ export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress>
     })
     .onEnd(() => {
       const newPosition = (offset.value / (barWidth - INITIAL_THUMB_SIZE)) * duration;
-      runOnJS(TrackPlayer.seekTo)(newPosition);
-      runOnJS(TrackPlayer.play)();
+      runOnJS(async () => {
+        await sound?.pauseAsync();
+      });
+      runOnJS(seekFunc)(newPosition);
+
       isSliding.current = false;
     });
 
-  const tapGesture = Gesture.Tap().onEnd((event) => {
-    const tapX = event.x;
-    const newOffset = Math.max(0, Math.min(barWidth - INITIAL_THUMB_SIZE, tapX));
-    offset.value = withTiming(newOffset, { duration: 0 });
-    thumbPosition.value = newOffset;
-    const newPosition = (newOffset / (barWidth - INITIAL_THUMB_SIZE)) * duration;
-    runOnJS(TrackPlayer.seekTo)(newPosition);
-  });
+  const tapGesture = Gesture.Tap()
+    .onBegin(() => {
+      runOnJS(async () => {
+        await sound?.pauseAsync();
+      });
+    })
+    .onEnd((event) => {
+      const tapX = event.x;
+      const newOffset = Math.max(0, Math.min(barWidth - INITIAL_THUMB_SIZE, tapX));
+      offset.value = withTiming(newOffset, { duration: 0 });
+      thumbPosition.value = newOffset;
+      const newPosition = (newOffset / (barWidth - INITIAL_THUMB_SIZE)) * duration;
+      runOnJS(seekFunc)(newPosition);
+    });
+
+  async function seekFunc(seekTo: number) {
+    await sound?.setPositionAsync(seekTo * 1000);
+  }
 
   const thumbStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: offset.value }],
+      transform: [{ translateX: offset.value - INITIAL_THUMB_SIZE / 2 }],
     };
   });
 
   const sliderStyle = useAnimatedStyle(() => {
     return {
-      width: offset.value + INITIAL_THUMB_SIZE / 2,
+      width: offset.value,
     };
   });
 
@@ -88,7 +110,6 @@ export const SeekBar = ({ progress }: { progress: ReturnType<typeof useProgress>
 const styles = StyleSheet.create({
   root: {
     flexGrow: 1,
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },

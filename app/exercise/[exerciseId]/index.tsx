@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Badge, badgeTextStyles } from '~/components/ui/Badge';
-import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
@@ -59,21 +58,6 @@ const Exercise = () => {
     return <Loading />;
   }
 
-  if (exerciseId === SkillEnum.SPEAKING) {
-    return (
-      <SafeAreaView>
-        <View style={StyleSheet.flatten([containers.main, containers.noContent, styles.contentContainer])}>
-          <Text style={StyleSheet.flatten([texts.center, font.bold, fontSize['large-title']])}>
-            Speaking exercise is not available yet
-          </Text>
-          <Button onPress={() => router.back()}>
-            <Text style={texts.center}>Go back</Text>
-          </Button>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   if (!questionTypes || questionTypes.length === 0) {
     return (
       <SafeAreaView>
@@ -118,8 +102,6 @@ export default Exercise;
 
 const styles = StyleSheet.create({
   areaView: {
-    display: 'flex',
-    flexDirection: 'column',
     flex: 1,
   },
   contentContainer: {
@@ -153,12 +135,9 @@ const card = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#cccccc',
     padding: 16,
-    display: 'flex',
-    flexDirection: 'column',
     gap: 8,
   },
   container: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -169,11 +148,9 @@ const card = StyleSheet.create({
     borderRadius: 9999,
   },
   textWrapper: {
-    display: 'flex',
     gap: 8,
   },
   textContainer: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

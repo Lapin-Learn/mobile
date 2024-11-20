@@ -58,7 +58,7 @@ export const useSignIn = () => {
         email: variables.email,
       });
       toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
-      router.push('/');
+      router.replace('/');
     },
     onError: (error) => {
       const errMes = AUTH_ERRORS[error.message];
@@ -78,7 +78,7 @@ export const useSignInWithProvider = () => {
         });
         toast.show({ type: 'success', text1: 'Welcome back' });
         await setTokenAsync(data);
-        router.push('/');
+        router.replace('/');
       }
     },
     onError: (error) => {
@@ -158,7 +158,6 @@ export const useSignOut = () => {
     mutationFn: signOut,
     onSuccess: () => {
       client.clear();
-      router.replace('/auth/sign-in');
       updateStreak.sendStreakToSharedStorage('...');
     },
     onError: (error) => {

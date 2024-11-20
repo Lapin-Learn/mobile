@@ -7,7 +7,8 @@
   "time_remaining": "Còn {{time}}",
   "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được phần thưởng và huy hiệu nhé!",
   "description": {
-    "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE": "Hoàn thành {{quantity}} bài học số điểm {{requirements}}% trở lên",
+    "COMPLETE_LESSON": "Hoàn thành {{quantity}} bài học",
+    "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE": "Hoàn thành {{quantity}} bài học với ít nhất {{requirements}}% điểm số",
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Hoàn thành {{quantity}} bài học hoàn hảo",
     "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Luyện tập {{requirements}} kỹ năng khác nhau",
     "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Học trong {{requirements}}",

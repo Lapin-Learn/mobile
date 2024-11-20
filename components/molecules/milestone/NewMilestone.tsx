@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 
+import MilestoneRank from '~/assets/images/circle_drop_shadow_background.svg';
 import MilestonesBackground from '~/assets/images/milestones/milestone_background.svg';
 import MilestoneLevel from '~/assets/images/milestones/milestone_level.svg';
-import MilestoneRank from '~/assets/images/milestones/milestone_rank.svg';
 import RankIcon from '~/components/icons/RankIcon';
 import { Button } from '~/components/ui/Button';
 import { Progress } from '~/components/ui/Progress';
@@ -67,8 +67,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               paddingHorizontal: 16,
               paddingBottom: 16,
             }}>
-            <View />
-            <View style={{ gap: 40 }}>
+            <View style={{ gap: 40, marginTop: 144 }}>
               <View style={{ alignItems: 'center', width: '100%' }}>
                 {current.type === MilestonesEnum.LEVEL_UP ? (
                   <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
@@ -128,7 +127,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
               </View>
             </View>
             <View style={{ gap: 16 }}>
-              <Button onPress={handleNextMilestone}>
+              <Button onPress={handleNextMilestone} size='lg'>
                 <Text style={GLOBAL_STYLES.textButton}>{t('button.next')}</Text>
               </Button>
               {current.type === MilestonesEnum.RANK_UP && (
@@ -138,7 +137,7 @@ export const NewMilestone = ({ current, handleNextMilestone }: MilestoneProps) =
                   style={{ display: 'flex', flexDirection: 'row', gap: 8 }}
                   onPress={() => handleShare(current.newValue as RankEnum)}>
                   <Share2 width={24} height={24} color='#EE5D28' />
-                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body, ...Styles.color.dark }}>
+                  <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.body, ...Styles.color.orange[500] }}>
                     {t('button.share')}
                   </Text>
                 </Button>

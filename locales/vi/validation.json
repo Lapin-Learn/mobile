@@ -5,8 +5,12 @@
   },
   "limit_characters": "{{name}} phải dài {{min}} ký tự trở lên",
   "required": "{{name}} bắt buộc",
-  "error":{
+  "error": {
     "email": "Email không hợp lệ",
-    "code": "Mã không hợp lệ"
+    "code": "Mã không hợp lệ",
+    "username": "Tên đăng nhập phải dài ít nhất 3 ký tự",
+    "fullname": "Họ tên phải dài ít nhất 1 ký tự",
+    "dob_min": "Ngày sinh không thể nhỏ hơn 1900",
+    "dob_max": "Ngày sinh phải nhỏ hơn {{max}}"
   }
 }

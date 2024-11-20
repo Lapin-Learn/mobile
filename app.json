@@ -35,8 +35,11 @@
         "backgroundColor": "#F9F7F7"
       },
       "googleServicesFile": "./google-services.json",
-      "permissions": ["android.permissions.READ_MEDIA_AUDIO", "android.permissions.ACCESS_NETWORK_STATE",
-    "android.permissions.POST_NOTIFICATIONS"],
+      "permissions": [
+        "android.permissions.READ_MEDIA_AUDIO",
+        "android.permissions.ACCESS_NETWORK_STATE",
+        "android.permissions.POST_NOTIFICATIONS"
+      ],
       "package": "com.datn.lapinlearn",
       "versionCode": 1000103
     },
@@ -66,6 +69,12 @@
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
       ],
       "./lib/plugins/withPodfile"

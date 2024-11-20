@@ -4,7 +4,9 @@ import {
   GenderEnum,
   MilestonesEnum,
   MissionCategoryEnum,
+  RandomGiftType,
   RankEnum,
+  ShopItemEnum,
   SkillEnum,
 } from '../enums';
 
@@ -168,4 +170,50 @@ export type IMission = {
 export type IMissionReward = {
   bonusCarrot: number;
   bonusXp: number;
+};
+
+export type IShop = {
+  id: string;
+  name: ShopItemEnum;
+  description: string;
+  price: {
+    [key: string]: number;
+  };
+  duration: number;
+  imageId: string;
+  image: IImage;
+  popular: string;
+  isPopular: boolean;
+};
+
+export type IItem = {
+  id: string;
+  itemId: string;
+  profileId: string;
+  quantity: number;
+  expAt: string;
+  inUseQuantity: number;
+};
+
+export type IInventory = IItem & {
+  item: IShop;
+};
+
+export type IReward =
+  | {
+      message: string;
+    }
+  | {
+      type: RandomGiftType;
+      value: number | Omit<IShop, 'popular' | 'isPopular'>;
+    };
+
+export type IIPAResult = {
+  correct_letters: string;
+  file_id: string;
+  original_ipa_transcript: string;
+  original_transcript: string;
+  pronunciation_accuracy: string;
+  voice_ipa_transcript: string;
+  voice_transcript: string;
 };

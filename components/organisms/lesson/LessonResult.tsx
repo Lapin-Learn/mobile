@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import CarrotIcon from '~/assets/images/carrot.svg';
@@ -12,6 +12,7 @@ import FlashIcon from '~/assets/images/flash.svg';
 import { CustomModal } from '~/components/molecules/Modal';
 import { ProgressCircle } from '~/components/molecules/ProgressCircle';
 import { Button } from '~/components/ui/Button';
+import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
@@ -79,24 +80,21 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                   const { Component, label } = tickerComponents[key];
                   return (
                     <View key={key} style={styles.tickerItem}>
-                      <Text>{t(label)}</Text>
+                      <Text style={Styles.fontSize.subhead}>{t(label)}</Text>
                       <View style={styles.tickerItemContent}>
                         <Component width={24} height={24} />
-                        <View>
-                          <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
-                            {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}
-                            &nbsp;
-                            <Text style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
-                              {key === 'exp' ? 'xp' : ''}
-                            </Text>
-                          </Text>
-                        </View>
+                        <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
+                          {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}
+                        </Text>
+                        <Text style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
+                          {key === 'exp' ? 'xp' : ''}
+                        </Text>
                       </View>
                     </View>
                   );
                 })}
               </View>
-              <Button style={{ marginBottom: 32 }} size='lg' onPress={handleNextMilestone}>
+              <Button size='lg' onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
             </View>
@@ -142,15 +140,10 @@ const styles = StyleSheet.create({
   },
   tickerRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     gap: 16,
   },
   tickerItem: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: 8,
     borderRadius: 8,
     backgroundColor: '#efefef',
     padding: 12,

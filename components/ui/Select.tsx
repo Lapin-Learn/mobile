@@ -30,7 +30,6 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const selectTriggerStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     height: 48,
     flexDirection: 'row',
     alignItems: 'center',
@@ -137,7 +136,7 @@ SelectItem.displayName = SelectPrimitive.Item.displayName;
 const selectItemStyles = StyleSheet.create({
   root: {
     position: 'relative',
-    display: 'flex',
+
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -155,7 +154,7 @@ const selectItemStyles = StyleSheet.create({
     paddingTop: 1,
     position: 'absolute',
     left: 8,
-    display: 'flex',
+
     height: 14,
     width: 14,
     alignItems: 'center',

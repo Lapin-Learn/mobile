@@ -40,6 +40,7 @@ const TabsLayout = () => {
   return (
     <Tabs
       initialRouteName='(map)'
+      backBehavior='history'
       screenOptions={({ route }: { route: RouteProp<ParamListBase, string> }) => ({
         tabBarShowLabel: false,
         headerShown: false,
@@ -58,10 +59,10 @@ const TabsLayout = () => {
           return IconComponent && <ActiveTabIcon icon={IconComponent} focused={focused} />;
         },
       })}>
-      <Tabs.Screen name='practice' options={{ tabBarButton: () => null }} />
+      <Tabs.Screen name='practice' options={{ href: null }} />
       <Tabs.Screen name='mission' />
       <Tabs.Screen name='(map)' />
-      <Tabs.Screen name='vocabulary' options={{ tabBarButton: () => null }} />
+      <Tabs.Screen name='vocabulary' options={{ href: null }} />
       <Tabs.Screen name='profile' />
     </Tabs>
   );

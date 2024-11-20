@@ -70,7 +70,6 @@ const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
 
 const styles = StyleSheet.create({
   calendarRow: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 12,

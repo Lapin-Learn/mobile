@@ -1,16 +1,21 @@
-import { useNavigation } from 'expo-router';
+import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
 import { PauseIcon, PlayIcon, RotateCcw } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
-import TrackPlayer, { Event, State, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
+import { configureAudioSession } from '~/lib/config';
 import { formatAudioTimer } from '~/lib/utils';
 
-import { SeekBar } from './SeekBar';
+import { ProgressProps, SeekBar } from './SeekBar';
 
-const events = [Event.PlaybackState, Event.PlaybackError];
+enum State {
+  None = 'None',
+  Playing = 'Playing',
+  Paused = 'Paused',
+  Repeat = 'Repeat',
+}
 
 type TrackAudioProps = {
   data: {
@@ -21,93 +26,102 @@ type TrackAudioProps = {
 };
 
 export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
-  const navigation = useNavigation();
-  const [playerState, setPlayerState] = useState<State>(State.None);
-  const { position, duration } = useProgress();
+  const [currentState, setCurrentState] = useState<State>(State.None);
+  const [playerState, setPlayerState] = useState<AVPlaybackStatusSuccess>();
+  const [sound, setSound] = useState<Audio.Sound>();
+  const [progress, setProgress] = useState<ProgressProps>({ position: 0, duration: 0 });
 
   useEffect(() => {
-    const setupTrack = async () => {
-      if (Platform.OS === 'ios') {
-        await TrackPlayer.reset();
-      } else {
-        const queueItems = await TrackPlayer.getQueue();
-        for (let i = 0; i < queueItems.length; i++) {
-          await TrackPlayer.remove(0);
+    configureAudioSession();
+  }, []);
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
         }
-        await TrackPlayer.removeUpcomingTracks();
-        await TrackPlayer.pause();
-      }
+      : undefined;
+  }, [sound]);
 
-      await TrackPlayer.add(data)
-        .then(async () => {
-          if (Platform.OS === 'android') {
-            await TrackPlayer.skipToNext();
-          }
-          await TrackPlayer.play();
-        })
-        .catch((err) => {
-          console.error('err', err);
-        });
-    };
-
-    if (!checked) {
-      setupTrack();
-    }
-
+  useEffect(() => {
     if (checked) {
-      TrackPlayer.pause();
+      setCurrentState(State.Paused);
     }
-  }, [data, checked]);
+  }, [checked]);
 
   useEffect(() => {
-    return () => {
-      navigation.addListener('beforeRemove', () => {
-        TrackPlayer.pause();
-        if (Platform.OS === 'ios') {
-          TrackPlayer.reset();
-        } else {
-          TrackPlayer.removeUpcomingTracks();
-        }
-      });
-    };
-  });
+    const playSound = async (url: string) => {
+      try {
+        const { sound } = await Audio.Sound.createAsync({ uri: url }, {}, _onPlaybackStatusUpdate);
+        setSound(sound);
 
-  useTrackPlayerEvents(events, (event) => {
-    if (event.type === Event.PlaybackError) {
-      console.warn('An error occured while playing the current track.');
-    }
-    if (event.type === Event.PlaybackState) {
-      setPlayerState(event.state);
-      if (event.state === State.Ended) {
-        TrackPlayer.seekTo(100);
-        TrackPlayer.pause();
+        await sound.playAsync();
+        setCurrentState(State.Playing);
+      } catch (error) {
+        console.error(error);
       }
-    }
-  });
+    };
 
-  const handleAction = (action: string) => () => {
-    switch (action) {
-      case 'play':
-        if (playerState === State.Ready) {
-          TrackPlayer.seekTo(0);
-          return TrackPlayer.play();
+    if (!sound) {
+      playSound(data.url);
+    }
+    sound?.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sound, currentState]);
+
+  const _onPlaybackStatusUpdate = async (playbackStatus: AVPlaybackStatus) => {
+    try {
+      if (!playbackStatus.isLoaded) {
+        if (playbackStatus.error) {
+          console.error(`Encountered a fatal error during playback: ${playbackStatus.error}`);
         }
-        if (playerState === State.Playing) {
-          return TrackPlayer.pause();
+      } else {
+        setPlayerState(playbackStatus);
+        setProgress({
+          position: playbackStatus.positionMillis / 1000,
+          duration: (playbackStatus.durationMillis ?? 0) / 1000,
+        });
+        if (playbackStatus.isPlaying) {
+          if (currentState !== State.Playing) {
+            await sound?.pauseAsync();
+          }
+        } else {
+          switch (currentState) {
+            case State.Playing:
+              if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
+                await sound?.stopAsync();
+              }
+              await sound?.playAsync();
+              break;
+            case State.Paused:
+              await sound?.pauseAsync();
+              break;
+            case State.Repeat:
+              await sound?.stopAsync();
+              await sound?.playAsync();
+              setCurrentState(State.Playing);
+              break;
+            default:
+              break;
+          }
         }
-        return TrackPlayer.play();
-      case 'repeat':
-        TrackPlayer.seekTo(0);
-        return TrackPlayer.play();
-      default:
-        return TrackPlayer.pause();
+        if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+          setCurrentState(State.None);
+          await sound?.pauseAsync();
+        }
+      }
+    } catch (error) {
+      console.error('Failed to stop recording', error);
     }
   };
 
   const Action = ({ repeat }: { repeat?: boolean }) => {
-    const Component = repeat ? RotateCcw : playerState === State.Playing ? PauseIcon : PlayIcon;
+    const Component = repeat ? RotateCcw : currentState === State.Playing ? PauseIcon : PlayIcon;
     return (
-      <TouchableOpacity onPress={handleAction(repeat ? 'repeat' : playerState === State.Playing ? 'pause' : 'play')}>
+      <TouchableOpacity
+        onPress={() =>
+          setCurrentState(repeat ? State.Repeat : currentState === State.Playing ? State.Paused : State.Playing)
+        }>
         <Component style={{ height: 24, width: 24 }} color='black' />
       </TouchableOpacity>
     );
@@ -119,9 +133,14 @@ export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
         <Action />
         <Action repeat />
       </View>
-      <SeekBar progress={useProgress(500)} />
+      <SeekBar progress={progress} sound={sound ?? undefined} />
       <View style={{ width: 56 }}>
-        <Text style={styles.time}>{formatAudioTimer(duration - position)}</Text>
+        <Text style={styles.time}>
+          {playerState &&
+            playerState?.durationMillis &&
+            playerState?.positionMillis &&
+            formatAudioTimer(progress.duration - progress.position)}
+        </Text>
       </View>
     </View>
   );

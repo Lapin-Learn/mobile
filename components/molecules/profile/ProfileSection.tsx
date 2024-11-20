@@ -36,7 +36,6 @@ const Title: FC<ProfileProps & { label: string; textStyle?: StyleProps }> = ({ l
 
 const titleStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -79,7 +78,7 @@ const ListItem: FC<{
 const listItemStyles = StyleSheet.create({
   root: {
     width: '100%',
-    display: 'flex',
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -116,26 +115,32 @@ const List: FC<
 const Item: FC<ProfileProps & { label?: string; value?: string }> = ({ label, value, style, children }) => (
   <View style={StyleSheet.flatten([itemStyles.root, style])}>
     {label && <Text style={itemStyles.label}>{label}</Text>}
-    {value && <Text style={itemStyles.value}>{value}</Text>}
+    {value && (
+      <Text style={itemStyles.value} numberOfLines={1} ellipsizeMode='tail'>
+        {value}
+      </Text>
+    )}
     {children}
   </View>
 );
 
 const itemStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 16,
   },
   label: {
     ...Styles.font.normal,
     ...Styles.fontSize['title-4'],
     ...Styles.color.supportingText,
+    width: 124,
   },
   value: {
     ...Styles.font.normal,
     ...Styles.fontSize['title-4'],
     ...Styles.color.dark,
+    flex: 1,
+    textAlign: 'right',
   },
 });
 

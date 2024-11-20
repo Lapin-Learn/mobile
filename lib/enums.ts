@@ -19,6 +19,7 @@ export enum ContentTypeEnum {
   MULTIPLE_CHOICE = 'multiple_choice',
   FILL_IN_THE_BLANK = 'fill_in_the_blank',
   MATCHING = 'matching',
+  SPEAKING_SAMPLE = 'speaking_sample',
 }
 
 export enum CEFRLevelEnum {
@@ -69,4 +70,16 @@ export enum MissionCategoryEnum {
   COMPLETE_LESSON_WITH_DIFFERENT_SKILLS = 'COMPLETE_LESSON_WITH_DIFFERENT_SKILLS',
   TOTAL_DURATION_OF_LEARN_DAILY_LESSON = 'TOTAL_DURATION_OF_LEARN_DAILY_LESSON',
   EXCEED_LEARNING_STREAK_WITHOUT_BREAK = 'EXCEED_LEARNING_STREAK_WITHOUT_BREAK',
+}
+
+export enum ShopItemEnum {
+  STREAK_FREEZE = 'STREAK_FREEZE',
+  RANDOM_GIFT = 'RANDOM_GIFT',
+  ULTIMATE_TIME = 'ULTIMATE_TIME',
+  IDENTIFICATION = 'IDENTIFICATION',
+}
+
+export enum RandomGiftType {
+  CARROTS = 'carrots',
+  ITEM = 'item',
 }

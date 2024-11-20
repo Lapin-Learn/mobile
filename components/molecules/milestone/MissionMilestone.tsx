@@ -56,6 +56,8 @@ export const MissionMilestone = ({ current, handleNextMilestone }: MilestoneProp
             ...Styles.font.bold,
             ...Styles.fontSize['large-title'],
             ...Styles.color.primary,
+            textAlign: 'center',
+            paddingHorizontal: 16,
           }}>
           {t('mission.title')}
         </Text>

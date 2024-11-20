@@ -25,7 +25,6 @@ const buttonSizeStyles = StyleSheet.create({
 
 const buttonStyles = StyleSheet.create({
   root: {
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',

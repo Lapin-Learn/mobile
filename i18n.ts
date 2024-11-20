@@ -15,6 +15,12 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
+    format: function (value, format, lng) {
+      if (format === 'lowercase') {
+        return value.charAt(0).toLowerCase() + value.slice(1);
+      }
+      return value;
+    },
   },
 });
 
