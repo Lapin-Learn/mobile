@@ -10,7 +10,6 @@ import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureAudioSession } from '~/lib/config';
 import { IQuestion } from '~/lib/types/questions';
 import { getAccurateAPI } from '~/lib/utils';
-import { deleteUri } from '~/lib/utils/fileSystem';
 
 type SpeakingProps = {
   data?: IQuestion;
@@ -20,7 +19,7 @@ type SpeakingProps = {
 const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
   const navigation = useNavigation();
 
-  const { uri, soundType, result, setSoundType, initState, setResult } = useSpeakingStore();
+  const { uri, soundType, result, setSoundType, initState } = useSpeakingStore();
   const [sound, setSound] = useState<Audio.Sound>();
 
   useEffect(() => {
@@ -42,16 +41,6 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
         }
       : undefined;
   }, [initState, sound]);
-
-  useEffect(() => {
-    return () => {
-      navigation.addListener('beforeRemove', async () => {
-        if (uri) deleteUri(uri!);
-        initState();
-        setResult(undefined);
-      });
-    };
-  });
 
   useEffect(() => {
     const playSound = async (url: string) => {
@@ -85,6 +74,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
       default:
         break;
     }
+    sound?.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [soundType]);
 

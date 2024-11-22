@@ -67,7 +67,8 @@
             "kotlinVersion": "1.8.0"
           },
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "deploymentTarget": "14.0"
           }
         }
       ],

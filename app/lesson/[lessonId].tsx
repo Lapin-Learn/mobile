@@ -8,7 +8,6 @@ import QuestionTemplate from '~/components/organisms/exercise/QuestionTemplate';
 import { LessonResult } from '~/components/organisms/lesson/LessonResult';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
-import { ContentTypeEnum } from '~/lib/enums';
 
 const Lesson = () => {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
@@ -23,26 +22,25 @@ const Lesson = () => {
   useEffect(() => {
     if (isSuccess && data) {
       setQuestions(
-        // data.questionToLessons.map((q) => q.question),
-
-        data.questionToLessons.map((q) => {
-          return {
-            id: q.question.id,
-            explanation: q.question.explanation,
-            cefrLevel: q.question.cefrLevel,
-            imageId: q.question.imageId,
-            image: q.question.image,
-            audioId: q.question.audioId,
-            audio: q.question.audio,
-            createdAt: q.question.createdAt,
-            updatedAt: q.question.updatedAt,
-            content: {
-              paragraph: q.question.content.paragraph,
-              question: 'Hello everyone, my name is Truc and today I will talk about the speaking service.',
-            },
-            contentType: ContentTypeEnum.SPEAKING_SAMPLE,
-          };
-        }),
+        data.questionToLessons.map((q) => q.question),
+        // data.questionToLessons.map((q) => {
+        //   return {
+        //     id: q.question.id,
+        //     explanation: q.question.explanation,
+        //     cefrLevel: q.question.cefrLevel,
+        //     imageId: q.question.imageId,
+        //     image: q.question.image,
+        //     audioId: q.question.audioId,
+        //     audio: q.question.audio,
+        //     createdAt: q.question.createdAt,
+        //     updatedAt: q.question.updatedAt,
+        //     content: {
+        //       paragraph: q.question.content.paragraph,
+        //       question: 'Hello everyone, my name is Truc and today I will talk about the speaking service.',
+        //     },
+        //     contentType: ContentTypeEnum.SPEAKING_SAMPLE,
+        //   };
+        // }),
         lessonId
       );
     }
