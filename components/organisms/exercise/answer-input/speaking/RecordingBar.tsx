@@ -1,8 +1,9 @@
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import { Mic, Pause, Play, RotateCcw, Send } from 'lucide-react-native';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
@@ -25,8 +26,17 @@ const data: IIPAResult = {
 
 export const RecordBar = () => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
-  const { recording, status, uri, soundType, setResult, setRecord, setUri, setSoundType } = useSpeakingStore();
+  const { recording, status, uri, soundType, setResult, setRecord, stopRecord, setUri, setSoundType, initState } =
+    useSpeakingStore();
   const { t } = useTranslation('question');
+  const { height } = Dimensions.get('window');
+
+  useEffect(() => {
+    return () => {
+      stopRecord();
+      initState();
+    };
+  }, []);
 
   async function startRecording() {
     try {
@@ -46,7 +56,7 @@ export const RecordBar = () => {
 
       await configureRecordSession();
 
-      deleteUri(uri!);
+      if (uri) deleteUri(uri!);
 
       const recordObject = await Audio.Recording.createAsync(recordingOptions);
       setRecord({ recording: recordObject.recording, status: recordObject.status });
@@ -58,16 +68,9 @@ export const RecordBar = () => {
   async function stopRecording() {
     try {
       if (recording) {
-        await recording.stopAndUnloadAsync();
-
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: false,
-          playsInSilentModeIOS: true,
-        });
-
+        stopRecord();
         const uri = recording.getURI();
         setUri({ uri });
-        setRecord({ recording: undefined, status: undefined });
       }
     } catch (err) {
       console.error('Failed to stop recording', err);
@@ -92,14 +95,26 @@ export const RecordBar = () => {
     deleteUri(uri!);
     setSoundType(SpeakingSoundType.SEND);
   }
-  return (
-    <View style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord]}>
-      {uri && !recording && <IconComponent icon={RotateCcw} onPress={() => uri && startRecording()} />}
 
+  const handleReplay = () => {
+    if (soundType !== SpeakingSoundType.IDLE) {
+      setSoundType(SpeakingSoundType.IDLE);
+    }
+    uri && startRecording();
+  };
+
+  const handlePlaySound = () =>
+    setSoundType(soundType === SpeakingSoundType.ANSWER ? SpeakingSoundType.IDLE : SpeakingSoundType.ANSWER);
+
+  const Component = status?.isRecording ? Pressable : View;
+
+  return (
+    <Component
+      style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.2 }]}
+      onPress={stopRecording}>
+      {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
       {status?.isRecording ? (
-        <Pressable onPress={stopRecording}>
-          <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
-        </Pressable>
+        <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
       ) : (
         <IconComponent
           name={uri ? 'Send' : 'Mic'}
@@ -107,17 +122,13 @@ export const RecordBar = () => {
           size={48}
           color={Styles.color.white.color}
           onPress={uri ? sendRecording : startRecording}
+          disabled={status?.isRecording}
         />
       )}
       {!status?.isRecording && uri && (
-        <IconComponent
-          icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play}
-          onPress={() =>
-            setSoundType(soundType === SpeakingSoundType.ANSWER ? SpeakingSoundType.IDLE : SpeakingSoundType.ANSWER)
-          }
-        />
+        <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
       )}
-    </View>
+    </Component>
   );
 };
 
@@ -127,6 +138,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 32,
+    paddingBottom: Platform.OS === 'ios' ? 0 : 40,
   },
-  textRecording: { ...Styles.color.neutral[300], ...Styles.font.bold, ...Styles.fontSize.body },
+  textRecording: {
+    ...Styles.color.neutral[300],
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+  },
 });

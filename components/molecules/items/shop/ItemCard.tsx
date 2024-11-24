@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { ShopItemEnum } from '~/lib/enums';
@@ -28,11 +28,14 @@ export const ItemCard = (props: ItemCardProps) => {
           <Text style={styles.itemNameText}>{t(`shop.items.${name}.name`)}</Text>
           <Text style={styles.itemDescriptionText}>{t(`shop.items.${name}.description`)}</Text>
         </View>
-        <View style={styles.itemPriceContainer}>
-          {Object.entries(price).map(([key, value]) => (
-            <ItemPriceCard key={key} amount={parseInt(key)} value={value} {...props} />
-          ))}
-        </View>
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+          <View style={styles.itemPriceContainer}>
+            {Object.entries(price).map(([key, value]) => (
+              <ItemPriceCard key={key} amount={parseInt(key)} value={value} {...props} />
+            ))}
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -58,8 +61,8 @@ const styles = StyleSheet.create({
   },
   itemPriceContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 16,
+    gap: 8,
   },
 });

@@ -4,7 +4,11 @@ export const deleteUri = async (uri: string) => {
   if (uri) {
     const { exists } = await FileSystem.getInfoAsync(uri);
     if (exists) {
-      await FileSystem.deleteAsync(uri);
+      try {
+        await FileSystem.deleteAsync(uri);
+      } catch (err) {
+        console.error('Failed to delete uri', err);
+      }
     }
   }
 };
