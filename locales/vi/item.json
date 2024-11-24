@@ -34,7 +34,7 @@
     "use_modal": {
       "description": "Dùng <color>{{quantity}} {{name}}</color> để {{description, lowercase}}!",
       "amount": "Bạn đang có: {{amount}} {{name}}",
-      "use_now": "Sử dụng",
+      "use_now": "Sử dụng ngay",
       "no_thank": "Hủy"
     },
     "use_success": "Bạn đã sử dụng {{quantity}} vật phẩm {{name}}"
@@ -49,5 +49,9 @@
     "description": "Chúc mừng bạn đã nhận được",
     "carrot": "cà rốt",
     "button": "Nhận thưởng"
+  },
+  "streak_freeze": {
+    "buy_and_use": "Mua và sử dụng ngay",
+    "use": "Sử dụng ngay"
   }
 }

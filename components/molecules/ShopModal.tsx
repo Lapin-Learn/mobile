@@ -56,7 +56,7 @@ export const ShopModal = () => {
           router.push('/rewards');
         }
       },
-      onSettled: () => closeModal(),
+      onSettled: closeModal,
     });
   };
 
@@ -75,11 +75,6 @@ export const ShopModal = () => {
               </Text>
             )}
             <Text style={styles.body}>
-              {/* {t('buy_modal.description', {
-                name: t(`items.${name}.name`),
-                quantity,
-                description: t(`items.${name}.description`),
-              })} */}
               <Trans
                 i18nKey={t(`shop.${type}_modal.description`, {
                   name: t(`shop.items.${name}.name`),

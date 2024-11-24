@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { RandomGiftType } from '~/lib/enums';
+import { RandomGiftTypeEnum } from '~/lib/enums';
 import { IReward } from '~/lib/types';
 
 type RewardState = {
@@ -15,7 +15,7 @@ type RewardStore = RewardState & RewardActions;
 
 export const useRewardStore = create<RewardStore>((set) => ({
   reward: {
-    type: RandomGiftType.CARROTS,
+    type: RandomGiftTypeEnum.CARROTS,
     value: 0,
   },
   setReward: (reward: IReward) => set({ reward }),

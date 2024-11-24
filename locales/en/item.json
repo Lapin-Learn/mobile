@@ -49,5 +49,9 @@
     "description": "Congratulations! You have received",
     "carrot": "carrots",
     "button": "Claim"
+  },
+  "streak_freeze": {
+    "buy_and_use": "Buy and Use Now",
+    "use": "Use Now"
   }
 }

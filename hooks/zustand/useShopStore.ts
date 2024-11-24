@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { ItemCardProps } from '~/components/molecules/items/inventory/ItemCard';
 import { ItemPriceCardProps } from '~/components/molecules/items/shop/ItemPriceCard';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 import { IInventory } from '~/lib/types';
 
 type ShopModal = (ItemPriceCardProps | ItemCardProps) & {
@@ -28,7 +28,7 @@ type ShopActions = {
 const initialModalContent = {
   id: '',
   itemId: '',
-  name: ShopItemEnum.IDENTIFICATION,
+  name: ItemEnum.IDENTIFICATION,
   image: '',
   price: {},
   amount: 0,

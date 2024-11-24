@@ -5,7 +5,7 @@ import { FlatList, Text, View } from 'react-native';
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useInventory } from '~/hooks/react-query/useItem';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 import { IInventory } from '~/lib/types';
 
 import { Loading } from '../../Loading';
@@ -20,7 +20,7 @@ const temp: IInventory = {
   inUseQuantity: 0,
   item: {
     id: '',
-    name: ShopItemEnum.STREAK_FREEZE,
+    name: ItemEnum.STREAK_FREEZE,
     description: '',
     price: {},
     duration: 0,

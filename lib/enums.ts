@@ -72,14 +72,14 @@ export enum MissionCategoryEnum {
   EXCEED_LEARNING_STREAK_WITHOUT_BREAK = 'EXCEED_LEARNING_STREAK_WITHOUT_BREAK',
 }
 
-export enum ShopItemEnum {
+export enum ItemEnum {
   STREAK_FREEZE = 'STREAK_FREEZE',
   RANDOM_GIFT = 'RANDOM_GIFT',
   ULTIMATE_TIME = 'ULTIMATE_TIME',
   IDENTIFICATION = 'IDENTIFICATION',
 }
 
-export enum RandomGiftType {
+export enum RandomGiftTypeEnum {
   CARROTS = 'carrots',
   ITEM = 'item',
 }

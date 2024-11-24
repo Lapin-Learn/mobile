@@ -2,11 +2,11 @@ import {
   ActionNameEnum,
   BandScoreEnum,
   GenderEnum,
+  ItemEnum,
   MilestonesEnum,
   MissionCategoryEnum,
-  RandomGiftType,
+  RandomGiftTypeEnum,
   RankEnum,
-  ShopItemEnum,
   SkillEnum,
 } from '../enums';
 
@@ -174,7 +174,7 @@ export type IMissionReward = {
 
 export type IShop = {
   id: string;
-  name: ShopItemEnum;
+  name: ItemEnum;
   description: string;
   price: {
     [key: string]: number;
@@ -199,14 +199,17 @@ export type IInventory = IItem & {
   item: IShop;
 };
 
+export type IRandomGift = {
+  type: RandomGiftTypeEnum;
+  value: number | Omit<IShop, 'popular' | 'isPopular'>;
+};
+
 export type IReward =
   | {
       message: string;
     }
-  | {
-      type: RandomGiftType;
-      value: number | Omit<IShop, 'popular' | 'isPopular'>;
-    };
+  | IRandomGift
+  | { type: ItemEnum };
 
 export type IIPAResult = {
   correct_letters: string;
