@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '~/lib/constants';
 import { SkillEnum } from '~/lib/enums';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
+import { evaluateSpeaking } from '~/services/axios/speaking-service';
 
 import { useMilestoneStore } from '../zustand/useMilestoneStore';
 
@@ -51,6 +52,15 @@ export const useLessonCompletion = () => {
     },
     onError: (error) => {
       console.error('Lesson completion mutation error:', error);
+    },
+  });
+};
+
+export const useSpeakingEvaluation = () => {
+  return useMutation({
+    mutationFn: evaluateSpeaking,
+    onError: (error) => {
+      console.error('Mission reward mutation error:', error);
     },
   });
 };

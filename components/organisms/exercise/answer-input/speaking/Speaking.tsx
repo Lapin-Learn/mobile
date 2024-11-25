@@ -117,7 +117,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
           </View>
         </View>
       </View>
-      <RecordBar />
+      <RecordBar question={data?.content.question ?? ''} />
     </View>
   );
 };
