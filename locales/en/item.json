@@ -46,12 +46,14 @@
     "notSupport": "This item is not supported yet"
   },
   "reward": {
-    "description": "Congratulations! You have received",
     "carrot": "carrots",
-    "button": "Claim"
+    "button": "Claim",
+    "receive": "Congratulations! You have received",
+    "activate": "Congratulations! You have activated"
   },
   "streak_freeze": {
     "buy_and_use": "Buy and Use Now",
-    "use": "Use Now"
+    "use": "Use Now",
+    "ALREADY_EXTENDED_STREAK": "You have already extended your streak"
   }
 }

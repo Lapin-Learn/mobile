@@ -45,7 +45,7 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
   const toast = useToast();
   const buyItem = useBuyShopItem();
   const useItem = useUseInventoryItem();
-  const { setReward } = useRewardStore();
+  const { setReward, setState } = useRewardStore();
   const { data: streakDays } = useStreaks({});
   const [open, setOpen] = useState(false);
   const { data: shop } = useShop();
@@ -115,14 +115,15 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
           });
         } else {
           if (item) {
-            setReward(
-              'value' in response
-                ? response
-                : {
-                    type: RandomGiftTypeEnum.ITEM,
-                    value: item,
-                  }
-            );
+            if ('value' in response) {
+              setReward(response);
+            } else {
+              setReward({
+                type: RandomGiftTypeEnum.ITEM,
+                value: item,
+              });
+              setState('activate');
+            }
             router.push('/rewards');
           }
         }

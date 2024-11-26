@@ -18,7 +18,7 @@ export const ShopModal = () => {
   const buyItem = useBuyShopItem();
   const useItem = useUseInventoryItem();
   const { isModalVisible, modalContent, isAffordable, closeModal, onContinue } = useShopStore();
-  const { setReward } = useRewardStore();
+  const { setReward, setState } = useRewardStore();
 
   const { id, name, image, amount, type } = modalContent;
 
@@ -54,19 +54,20 @@ export const ShopModal = () => {
             text1: t('inventory.notSupport'),
           });
         } else {
-          setReward(
-            'value' in response
-              ? response
-              : ({
-                  type: RandomGiftTypeEnum.ITEM,
-                  value: {
-                    name,
-                    image: {
-                      url: image,
-                    } as IBucket,
-                  },
-                } as IReward)
-          );
+          if ('value' in response) {
+            setReward(response);
+          } else {
+            setReward({
+              type: RandomGiftTypeEnum.ITEM,
+              value: {
+                name,
+                image: {
+                  url: image,
+                } as IBucket,
+              },
+            } as IReward);
+            setState('activate');
+          }
           router.push('/rewards');
         }
       },

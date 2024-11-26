@@ -16,7 +16,7 @@ import { GLOBAL_STYLES } from '~/lib/constants';
 import { RandomGiftTypeEnum } from '~/lib/enums';
 
 const Rewards = () => {
-  const { reward } = useRewardStore();
+  const { reward, state } = useRewardStore();
   const { t } = useTranslation('item');
 
   return (
@@ -73,7 +73,7 @@ const Rewards = () => {
               </View>
               <View style={{ gap: 12 }}>
                 <Text style={{ textAlign: 'center', ...Styles.font.semibold, ...Styles.fontSize['title-3'] }}>
-                  {t('reward.description')}
+                  {t(`reward.${state}`)}
                 </Text>
                 <Text style={{ textAlign: 'center', ...Styles.font.bold, ...Styles.fontSize['large-title'] }}>
                   {'type' in reward && reward.type === RandomGiftTypeEnum.CARROTS
