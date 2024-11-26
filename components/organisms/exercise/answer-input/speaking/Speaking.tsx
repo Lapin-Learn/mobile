@@ -109,12 +109,13 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
             <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
           </View>
 
-          <View
+          {/* TODO: remove comment when speaking Model better */}
+          {/* <View
             style={{
               flexShrink: 1,
             }}>
             <TranscriptDisplay question={data?.content.question ?? ''} />
-          </View>
+          </View> */}
         </View>
       </View>
       <RecordBar question={data?.content.question ?? ''} />
