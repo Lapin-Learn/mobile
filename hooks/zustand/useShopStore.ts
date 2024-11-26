@@ -3,11 +3,10 @@ import { create } from 'zustand';
 import { ItemCardProps } from '~/components/molecules/items/inventory/ItemCard';
 import { ItemPriceCardProps } from '~/components/molecules/items/shop/ItemPriceCard';
 import { ItemEnum } from '~/lib/enums';
-import { IInventory } from '~/lib/types';
 
 type ShopModal = (ItemPriceCardProps | ItemCardProps) & {
   type?: 'buy' | 'use';
-} & Partial<Pick<IInventory, 'itemId'>>;
+};
 
 type ShopState = {
   isModalVisible: boolean;
@@ -27,7 +26,6 @@ type ShopActions = {
 
 const initialModalContent = {
   id: '',
-  itemId: '',
   name: ItemEnum.IDENTIFICATION,
   image: '',
   price: {},

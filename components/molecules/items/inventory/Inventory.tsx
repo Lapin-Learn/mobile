@@ -63,7 +63,6 @@ export const Inventory = () => {
         <Item
           key={item.id}
           id={item.id}
-          itemId={item.id}
           name={item.name}
           description={item.description}
           imageId={item.imageId}

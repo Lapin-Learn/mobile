@@ -7,7 +7,6 @@ import { ItemEnum } from '~/lib/enums';
 
 export type ItemCardProps = {
   id: string;
-  itemId: string;
   name: ItemEnum;
   description: string;
   imageId: string;

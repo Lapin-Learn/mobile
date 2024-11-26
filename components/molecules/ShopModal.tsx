@@ -7,6 +7,8 @@ import { useBuyShopItem, useUseInventoryItem } from '~/hooks/react-query/useItem
 import { useToast } from '~/hooks/useToast';
 import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { RandomGiftTypeEnum } from '~/lib/enums';
+import { IBucket, IReward } from '~/lib/types';
 
 import { Button } from '../ui/Button';
 
@@ -18,7 +20,7 @@ export const ShopModal = () => {
   const { isModalVisible, modalContent, isAffordable, closeModal, onContinue } = useShopStore();
   const { setReward } = useRewardStore();
 
-  const { id, itemId, name, image, amount, type } = modalContent;
+  const { id, name, image, amount, type } = modalContent;
 
   const handleBuyItem = () => {
     if (isAffordable) {
@@ -44,7 +46,7 @@ export const ShopModal = () => {
   };
 
   const handleUseItem = () => {
-    useItem.mutate(itemId || '', {
+    useItem.mutate(id || '', {
       onSuccess: (response) => {
         if ('message' in response) {
           toast.show({
@@ -52,7 +54,19 @@ export const ShopModal = () => {
             text1: t('inventory.notSupport'),
           });
         } else {
-          setReward(response);
+          setReward(
+            'value' in response
+              ? response
+              : ({
+                  type: RandomGiftTypeEnum.ITEM,
+                  value: {
+                    name,
+                    image: {
+                      url: image,
+                    } as IBucket,
+                  },
+                } as IReward)
+          );
           router.push('/rewards');
         }
       },

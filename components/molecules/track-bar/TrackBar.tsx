@@ -17,7 +17,7 @@ const TrackBar = ({ data }: TrackBarProps) => {
   return (
     <View style={styles.root}>
       <Pressable onPress={() => router.push('/streak' as Href)}>
-        <Streak streak={data.streak.current} />
+        <Streak streak={data.streak} />
       </Pressable>
       <Pressable onPress={() => router.push('/items' as Href)}>
         <Carrots carrots={data.carrots} />
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   root: {
     zIndex: 50,
     margin: 16,
-
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
