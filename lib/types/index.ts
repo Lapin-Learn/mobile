@@ -208,8 +208,7 @@ export type IReward =
   | {
       message: string;
     }
-  | IRandomGift
-  | { type: ItemEnum };
+  | IRandomGift;
 
 export type IIPAResult = {
   correct_letters: string;

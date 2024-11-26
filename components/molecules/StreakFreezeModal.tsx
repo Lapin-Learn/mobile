@@ -10,7 +10,7 @@ import { useStreaks } from '~/hooks/react-query/useStreak';
 import { useToast } from '~/hooks/useToast';
 import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
-import { ItemEnum } from '~/lib/enums';
+import { ItemEnum, RandomGiftTypeEnum } from '~/lib/enums';
 import { IGameProfile, IInventory, IShop } from '~/lib/types';
 
 import { Button } from '../ui/Button';
@@ -70,7 +70,7 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
 
   useEffect(() => {
     if (inventory) {
-      const streakFreeze = inventory.find((item) => item.item.name === ItemEnum.STREAK_FREEZE);
+      const streakFreeze = inventory.find((item) => item.item?.name === ItemEnum.STREAK_FREEZE);
       if (streakFreeze) {
         setInventoryItem(streakFreeze);
         if (streakFreeze.quantity > 0) setType('use');
@@ -114,8 +114,17 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
             text1: t('inventory.notSupport'),
           });
         } else {
-          setReward(response);
-          router.push('/rewards');
+          if (item) {
+            setReward(
+              'value' in response
+                ? response
+                : {
+                    type: RandomGiftTypeEnum.ITEM,
+                    value: item,
+                  }
+            );
+            router.push('/rewards');
+          }
         }
       },
       onSettled: () => setOpen(false),
