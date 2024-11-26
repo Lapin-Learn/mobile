@@ -195,9 +195,7 @@ export type IItem = {
   inUseQuantity: number;
 };
 
-export type IInventory = IItem & {
-  item: IShop;
-};
+export type IInventory = Pick<IItem, 'quantity' | 'expAt'> & Omit<IShop, 'popular' | 'isPopular'>;
 
 export type IRandomGift = {
   type: RandomGiftTypeEnum;

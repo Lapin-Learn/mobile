@@ -20,7 +20,7 @@ export const buyItem = async (params: BuyItemParams) => {
 
 export const getInventory = async () => {
   const response = await api.get<IInventory[]>('inventories');
-  return response;
+  return response.filter((item) => item.quantity > 0 || item.expAt);
 };
 
 export const useItem = async (itemId: string) => {

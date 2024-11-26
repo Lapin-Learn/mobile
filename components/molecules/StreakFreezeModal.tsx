@@ -70,7 +70,7 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
 
   useEffect(() => {
     if (inventory) {
-      const streakFreeze = inventory.find((item) => item.item?.name === ItemEnum.STREAK_FREEZE);
+      const streakFreeze = inventory.find((item) => item.name === ItemEnum.STREAK_FREEZE);
       if (streakFreeze) {
         setInventoryItem(streakFreeze);
         if (streakFreeze.quantity > 0) setType('use');
@@ -106,7 +106,7 @@ export const StreakFreezeModal = ({ gameProfile }: { gameProfile?: IGameProfile 
   };
 
   const handleUseItem = () => {
-    useItem.mutate(inventoryItem?.itemId || '', {
+    useItem.mutate(inventoryItem?.id || '', {
       onSuccess: (response) => {
         if ('message' in response) {
           toast.show({
