@@ -38,7 +38,7 @@ const Lesson = () => {
         //       paragraph: q.question.content.paragraph,
         //       question: 'Hello everyone, my name is Truc and today I will talk about the speaking service.',
         //     },
-        //     contentType: ContentTypeEnum.SPEAKING_SAMPLE,
+        //     contentType: ContentTypeEnum.PRONUNCIATION,
         //   };
         // }),
         lessonId

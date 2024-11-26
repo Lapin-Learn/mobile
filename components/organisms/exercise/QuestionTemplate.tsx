@@ -67,7 +67,7 @@ const QuestionTemplate = () => {
       </View>
       {/* For Speaking */}
       <>
-        {currentQuestion?.contentType === ContentTypeEnum.SPEAKING_SAMPLE ? (
+        {currentQuestion?.contentType === ContentTypeEnum.PRONUNCIATION ? (
           <Speaking onAnswer={answerQuestion} data={currentQuestion} />
         ) : (
           <>
