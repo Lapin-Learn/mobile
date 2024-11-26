@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'lapinlearn'
+rootProject.name = 'LapinLearn'
 
 dependencyResolutionManagement {
   versionCatalogs {
