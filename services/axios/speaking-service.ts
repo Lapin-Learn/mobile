@@ -14,7 +14,7 @@ export const evaluateSpeaking = async (params: SpeakingEvaluation) => {
       uri: params.uri,
       name: 'recording.wav',
       type: 'audio/wav',
-    });
+    } as unknown as Blob);
     formData.append('original', params.original);
 
     const response = await api.postForm<ISpeakingService>(`api/ai/speech-evaluation`, {

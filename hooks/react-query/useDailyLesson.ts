@@ -60,7 +60,7 @@ export const useSpeakingEvaluation = () => {
   return useMutation({
     mutationFn: evaluateSpeaking,
     onError: (error) => {
-      console.error('Mission reward mutation error:', error);
+      console.error('Speaking evaluation mutation error:', error);
     },
   });
 };
