@@ -5,36 +5,28 @@ import { FlatList, Text, View } from 'react-native';
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useInventory } from '~/hooks/react-query/useItem';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 import { IInventory } from '~/lib/types';
 
 import { Loading } from '../../Loading';
 import { Item } from './ItemCard';
 
 const temp: IInventory = {
-  id: 'empty',
-  itemId: '',
-  profileId: '',
+  id: '',
+  name: ItemEnum.STREAK_FREEZE,
+  description: '',
+  price: {},
+  duration: 0,
+  imageId: '',
+  image: {
+    id: '',
+    name: '',
+    owner: '',
+    permission: '',
+    url: '',
+  },
   quantity: 0,
   expAt: '',
-  inUseQuantity: 0,
-  item: {
-    id: '',
-    name: ShopItemEnum.STREAK_FREEZE,
-    description: '',
-    price: {},
-    duration: 0,
-    imageId: '',
-    image: {
-      id: '',
-      name: '',
-      owner: '',
-      permission: '',
-      url: '',
-    },
-    popular: '',
-    isPopular: false,
-  },
 };
 
 export const Inventory = () => {
@@ -71,11 +63,10 @@ export const Inventory = () => {
         <Item
           key={item.id}
           id={item.id}
-          itemId={item.itemId}
-          name={item.item.name}
-          description={item.item.description}
-          imageId={item.item.imageId}
-          image={item.item.image.url}
+          name={item.name}
+          description={item.description}
+          imageId={item.imageId}
+          image={item.image.url}
           amount={item.quantity}
         />
       )}
