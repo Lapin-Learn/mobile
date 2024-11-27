@@ -13,10 +13,10 @@ import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
-import { RandomGiftType } from '~/lib/enums';
+import { RandomGiftTypeEnum } from '~/lib/enums';
 
 const Rewards = () => {
-  const { reward } = useRewardStore();
+  const { reward, state } = useRewardStore();
   const { t } = useTranslation('item');
 
   return (
@@ -49,7 +49,7 @@ const Rewards = () => {
               <View style={{ alignItems: 'center', width: '100%' }}>
                 <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
                   <CircleBackground />
-                  {'type' in reward && reward.type === RandomGiftType.CARROTS ? (
+                  {'type' in reward && reward.type === RandomGiftTypeEnum.CARROTS ? (
                     <Carrot
                       width={140}
                       height={140}
@@ -73,10 +73,10 @@ const Rewards = () => {
               </View>
               <View style={{ gap: 12 }}>
                 <Text style={{ textAlign: 'center', ...Styles.font.semibold, ...Styles.fontSize['title-3'] }}>
-                  {t('reward.description')}
+                  {t(`reward.${state}`)}
                 </Text>
                 <Text style={{ textAlign: 'center', ...Styles.font.bold, ...Styles.fontSize['large-title'] }}>
-                  {'type' in reward && reward.type === RandomGiftType.CARROTS
+                  {'type' in reward && reward.type === RandomGiftTypeEnum.CARROTS
                     ? `${reward.value} ${t('reward.carrot').toUpperCase()}`
                     : `${t(`shop.items.${'type' in reward && typeof reward.value !== 'number' && reward.value.name}.name`).toUpperCase()}`}
                 </Text>

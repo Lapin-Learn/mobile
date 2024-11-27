@@ -7,6 +7,8 @@ import { useBuyShopItem, useUseInventoryItem } from '~/hooks/react-query/useItem
 import { useToast } from '~/hooks/useToast';
 import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { RandomGiftTypeEnum } from '~/lib/enums';
+import { IBucket, IReward } from '~/lib/types';
 
 import { Button } from '../ui/Button';
 
@@ -16,9 +18,9 @@ export const ShopModal = () => {
   const buyItem = useBuyShopItem();
   const useItem = useUseInventoryItem();
   const { isModalVisible, modalContent, isAffordable, closeModal, onContinue } = useShopStore();
-  const { setReward } = useRewardStore();
+  const { setReward, setState } = useRewardStore();
 
-  const { id, itemId, name, image, amount, type } = modalContent;
+  const { id, name, image, amount, type } = modalContent;
 
   const handleBuyItem = () => {
     if (isAffordable) {
@@ -44,7 +46,7 @@ export const ShopModal = () => {
   };
 
   const handleUseItem = () => {
-    useItem.mutate(itemId || '', {
+    useItem.mutate(id || '', {
       onSuccess: (response) => {
         if ('message' in response) {
           toast.show({
@@ -52,11 +54,24 @@ export const ShopModal = () => {
             text1: t('inventory.notSupport'),
           });
         } else {
-          setReward(response);
+          if ('value' in response) {
+            setReward(response);
+          } else {
+            setReward({
+              type: RandomGiftTypeEnum.ITEM,
+              value: {
+                name,
+                image: {
+                  url: image,
+                } as IBucket,
+              },
+            } as IReward);
+            setState('activate');
+          }
           router.push('/rewards');
         }
       },
-      onSettled: () => closeModal(),
+      onSettled: closeModal,
     });
   };
 
@@ -75,11 +90,6 @@ export const ShopModal = () => {
               </Text>
             )}
             <Text style={styles.body}>
-              {/* {t('buy_modal.description', {
-                name: t(`items.${name}.name`),
-                quantity,
-                description: t(`items.${name}.description`),
-              })} */}
               <Trans
                 i18nKey={t(`shop.${type}_modal.description`, {
                   name: t(`shop.items.${name}.name`),

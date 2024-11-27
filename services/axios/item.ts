@@ -1,3 +1,4 @@
+import { ItemEnum } from '~/lib/enums';
 import { IInventory, IItem, IReward, IShop } from '~/lib/types';
 
 import { default as api } from '../httpRequests';
@@ -19,11 +20,11 @@ export const buyItem = async (params: BuyItemParams) => {
 
 export const getInventory = async () => {
   const response = await api.get<IInventory[]>('inventories');
-  return response;
+  return response.filter((item) => item.quantity > 0 || item.expAt);
 };
 
 export const useItem = async (itemId: string) => {
-  const response = await api.put<IReward>('inventories/use-item', {
+  const response = await api.put<IReward | { type: ItemEnum }>('inventories/use-item', {
     body: {
       itemId,
     },

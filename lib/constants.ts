@@ -62,4 +62,13 @@ export const GLOBAL_STYLES = StyleSheet.create({
     ...Styles.fontSize.body,
     ...Styles.color.white,
   },
+  modalBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#00000033',
+    zIndex: 2,
+  },
 });

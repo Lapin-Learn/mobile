@@ -3,12 +3,11 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { default as Styles } from '~/constants/GlobalStyles';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 
 export type ItemCardProps = {
   id: string;
-  itemId: string;
-  name: ShopItemEnum;
+  name: ItemEnum;
   description: string;
   imageId: string;
   image: string;

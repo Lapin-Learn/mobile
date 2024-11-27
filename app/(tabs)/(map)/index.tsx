@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/region/Region';
+import { StreakFreezeModal } from '~/components/molecules/StreakFreezeModal';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -28,6 +29,7 @@ const Index = () => {
     <SafeAreaView>
       <TrackBar data={data} />
       <Map />
+      <StreakFreezeModal gameProfile={data} />
     </SafeAreaView>
   );
 };
