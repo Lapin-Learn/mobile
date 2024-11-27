@@ -209,9 +209,8 @@ export type IReward =
     }
   | IRandomGift;
 
-export type IIPAResult = {
+export type ISpeakingService = {
   correct_letters: string;
-  file_id: string;
   original_ipa_transcript: string;
   original_transcript: string;
   pronunciation_accuracy: string;
