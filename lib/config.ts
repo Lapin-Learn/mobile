@@ -2,7 +2,7 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 
 export const recordingOptions: Audio.RecordingOptions = {
   android: {
-    extension: '.m4a',
+    extension: '.wav',
     outputFormat: Audio.RecordingOptionsPresets.HIGH_QUALITY.android.outputFormat,
     audioEncoder: Audio.RecordingOptionsPresets.HIGH_QUALITY.android.audioEncoder,
     sampleRate: 44100,
@@ -10,7 +10,7 @@ export const recordingOptions: Audio.RecordingOptions = {
     bitRate: 128000,
   },
   ios: {
-    extension: '.m4a',
+    extension: '.wav',
     audioQuality: Audio.RecordingOptionsPresets.HIGH_QUALITY.ios.audioQuality,
     sampleRate: 44100,
     numberOfChannels: 2,

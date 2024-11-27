@@ -117,7 +117,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
           </View>
         </View>
       </View>
-      <RecordBar />
+      <RecordBar question={data?.content.question ?? ''} />
     </View>
   );
 };
@@ -125,54 +125,57 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
 const TranscriptDisplay = ({ question }: { question: string }) => {
   const { result } = useSpeakingStore();
   const corrected = result?.correct_letters.replace(/\s/g, '').split('');
-  if (!result)
-    return (
-      <View
-        style={{
-          flexShrink: 1,
-        }}>
-        <Text
-          style={{
-            ...Styles.font.semibold,
-            ...Styles.fontSize['title-2'],
-            ...Styles.color.dark,
-          }}>
-          {question}
-        </Text>
-      </View>
-    );
-
+  // if (!result)
   return (
-    <>
+    <View
+      style={{
+        flexShrink: 1,
+      }}>
       <Text
         style={{
           ...Styles.font.semibold,
           ...Styles.fontSize['title-2'],
           ...Styles.color.dark,
         }}>
-        {result?.original_transcript.split('').map((char, index) => {
-          const isCorrect = corrected ? corrected[index] === '1' : false;
-          return (
-            <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-              {char}
-            </Text>
-          );
-        })}
+        {question}
       </Text>
-      {result && (
-        <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.normal }}>
-          {result?.original_ipa_transcript.split('').map((char, index) => {
-            const isCorrect = corrected ? corrected[index] === '1' : false;
-            return (
-              <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-                {char}
-              </Text>
-            );
-          })}
-        </Text>
-      )}
-    </>
+    </View>
   );
+
+  // {
+  //   /* TODO: remove comment when speaking Model better */
+  // }
+  // return (
+  //   <>
+  //     <Text
+  //       style={{
+  //         ...Styles.font.semibold,
+  //         ...Styles.fontSize['title-2'],
+  //         ...Styles.color.dark,
+  //       }}>
+  //       {result?.original_transcript.split('').map((char, index) => {
+  //         const isCorrect = corrected ? corrected[index] === '1' : false;
+  //         return (
+  //           <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
+  //             {char}
+  //           </Text>
+  //         );
+  //       })}
+  //     </Text>
+  //     {result && (
+  //       <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.normal }}>
+  //         {result?.original_ipa_transcript.split('').map((char, index) => {
+  //           const isCorrect = corrected ? corrected[index] === '1' : false;
+  //           return (
+  //             <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
+  //               {char}
+  //             </Text>
+  //           );
+  //         })}
+  //       </Text>
+  //     )}
+  //   </>
+  // );
 };
 
 export default Speaking;
