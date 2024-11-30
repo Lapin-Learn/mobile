@@ -18,14 +18,11 @@ enum State {
 }
 
 type TrackAudioProps = {
-  data: {
-    id: string;
-    url: string;
-  };
+  url?: string;
   checked?: boolean;
 };
 
-export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
+export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
   const [currentState, setCurrentState] = useState<State>(State.None);
   const [playerState, setPlayerState] = useState<AVPlaybackStatusSuccess>();
   const [sound, setSound] = useState<Audio.Sound>();
@@ -46,24 +43,27 @@ export const TrackAudio = ({ data, checked }: TrackAudioProps) => {
   useEffect(() => {
     if (checked) {
       setCurrentState(State.Paused);
+      if (sound) {
+        sound.unloadAsync();
+      }
+    } else {
+      setCurrentState(State.None);
     }
   }, [checked]);
 
   useEffect(() => {
     const playSound = async (url: string) => {
       try {
-        const { sound } = await Audio.Sound.createAsync({ uri: url }, {}, _onPlaybackStatusUpdate);
+        const { sound } = await Audio.Sound.createAsync({ uri: url }, { shouldPlay: true }, _onPlaybackStatusUpdate);
         setSound(sound);
-
-        await sound.playAsync();
         setCurrentState(State.Playing);
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (!sound) {
-      playSound(data.url);
+    if (url && currentState === State.None) {
+      playSound(url);
     }
     sound?.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
