@@ -83,3 +83,8 @@ export enum RandomGiftTypeEnum {
   CARROTS = 'carrots',
   ITEM = 'item',
 }
+
+export enum AuthActionEnum {
+  RESET_PASSWORD = 'reset-password',
+  VERIFY_MAIL = 'verify-mail',
+}
