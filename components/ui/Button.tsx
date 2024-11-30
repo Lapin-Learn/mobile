@@ -113,7 +113,6 @@ const buttonTextSizeStyles = StyleSheet.create({
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'black';
   size?: 'default' | 'sm' | 'lg' | 'icon' | 'md';
-  disabled?: boolean;
 };
 
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
@@ -132,6 +131,7 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
           ])}
           ref={ref}
           role='button'
+          disabled={disabled}
           {...props}
         />
       </TextClassContext.Provider>
