@@ -17,10 +17,10 @@ type XpTrackBarProps = {
 const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.BRONZE }: XpTrackBarProps) => {
   return (
     <View style={styles.root}>
-      <View style={StyleSheet.flatten([styles.root, { gap: 1 }])}>
+      <View style={StyleSheet.flatten([styles.root, { gap: 6 }])}>
         <RankIcon name={rank} width={24} height={24} />
         <View style={{ width: 120 }}>
-          <View style={StyleSheet.flatten([styles.root, { gap: 1, justifyContent: 'space-between' }])}>
+          <View style={StyleSheet.flatten([styles.root, { alignItems: 'flex-end', justifyContent: 'space-between' }])}>
             <Text style={trackBarStyles.textLevel}>Lv. {level}</Text>
             <Text style={trackBarStyles.textXp}>
               {formatNumber(currentXp)}/{formatNumber(levelXp)}
@@ -44,24 +44,24 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
 
 const trackBarStyles = StyleSheet.create({
   textLevel: {
-    ...Styles.fontSize['caption-1'],
-    ...Styles.font.bold,
+    ...Styles.fontSize.subhead,
+    ...Styles.font.semibold,
     ...Styles.color.blue[700],
   },
   textXp: {
-    ...Styles.fontSize['caption-1'],
+    ...Styles.fontSize['caption-2'],
     ...Styles.font.normal,
     ...Styles.color.blue[700],
   },
   trackBar: {
     height: 6,
     borderRadius: 999,
-    ...Styles.backgroundColor.neutral[200],
+    ...Styles.backgroundColor.neutral[50],
   },
   trackBarProgress: {
     height: 6,
     borderRadius: 999,
-    ...Styles.backgroundColor.blue[300],
+    ...Styles.backgroundColor.blue[400],
   },
 });
 export default XpTrackBar;

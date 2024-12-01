@@ -16,6 +16,7 @@ import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import { AnalyticsProvider, AuthProvider, CrashlyticsProvider, NotificationProvider } from '~/lib/providers';
+import AuthScreenProvider from '~/lib/providers/authScreen';
 import { analytics, crashlytics, registerBackgroundService } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
@@ -82,15 +83,17 @@ const RootLayout = () => {
         <AnalyticsProvider>
           <CrashlyticsProvider>
             <I18nextProvider i18n={i18n}>
-              <AuthProvider>
-                <NotificationProvider>
-                  {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
-                  <StatusBar style='light' />
-                  <AppStack />
-                  <Toast />
-                  <PortalHost />
-                </NotificationProvider>
-              </AuthProvider>
+              <AuthScreenProvider>
+                <AuthProvider>
+                  <NotificationProvider>
+                    {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
+                    <StatusBar style='light' />
+                    <AppStack />
+                    <Toast />
+                    <PortalHost />
+                  </NotificationProvider>
+                </AuthProvider>
+              </AuthScreenProvider>
             </I18nextProvider>
           </CrashlyticsProvider>
         </AnalyticsProvider>

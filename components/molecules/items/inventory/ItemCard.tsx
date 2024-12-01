@@ -56,17 +56,6 @@ export const Item = (props: ItemCardProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    columnGap: 16,
-    rowGap: 16,
-    marginVertical: 16,
-  },
   itemView: {
     flexBasis: '45%',
     justifyContent: 'center',

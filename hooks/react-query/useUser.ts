@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { router } from 'expo-router';
 
 import useStreakWidget from '~/hooks/useStreakWidget';
 import { QUERY_KEYS } from '~/lib/constants';
@@ -26,17 +25,6 @@ export const useAccountIdentifier = () => {
     staleTime: Infinity,
     retry: false,
   });
-  const router = useRouter();
-  const { data: account, isSuccess } = accountIdentifier;
-
-  useEffect(() => {
-    if (
-      accountIdentifier.error?.message === 'User not found' ||
-      (isSuccess && (!account.dob || !account.fullName || !account.gender))
-    ) {
-      router.replace('/update-profile');
-    }
-  }, [accountIdentifier.error, isSuccess, account, router]);
 
   return accountIdentifier;
 };
