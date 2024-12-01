@@ -3,7 +3,6 @@ import { Href, router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { AUTH_ERRORS, QUERY_KEYS } from '~/lib/constants';
-import { AuthActionEnum } from '~/lib/enums';
 import { analytics, crashlytics } from '~/lib/services';
 import { setTokenAsync } from '~/services';
 import {
@@ -16,7 +15,6 @@ import {
   signOut,
   signUp,
   verify,
-  verifySignUp,
 } from '~/services/axios/auth';
 
 import useStreakWidget from '../useStreakWidget';
@@ -31,7 +29,6 @@ export const useSignUp = () => {
     onSuccess: (_, variables) => {
       toast.show({ type: 'success', text1: t('signUp.success') });
       router.push(`/auth/(sign-up)/verify?email=${variables.email}`);
-      verifySignUp({ email: variables.email, action: AuthActionEnum.VERIFY_MAIL });
       analytics.logSignUp({
         method: 'email',
       });

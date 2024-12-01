@@ -62,8 +62,6 @@ export const forgotPassword = async (params: Omit<VerifyParams, 'otp'>) => {
   await api.get<AuthInfo>(`auth/otp?email=${params.email}&action=${params.action}`);
 };
 
-export const verifySignUp = forgotPassword;
-
 export const resetPassword = async (params: { newPassword: string }) => {
   await api.post<AuthInfo>('auth/password-update', { body: params });
 };
