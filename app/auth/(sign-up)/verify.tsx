@@ -13,6 +13,7 @@ import Styles from '~/constants/GlobalStyles';
 import { useResendVerify, useVerifySignUp } from '~/hooks/react-query/useAuth';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { AuthActionEnum } from '~/lib/enums';
+import { maskEmail } from '~/lib/utils';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'error.code')).length(6, 'error.code'),
@@ -46,12 +47,6 @@ const Verify = () => {
 
   const resentMutation = useResendVerify();
   const verifyMutation = useVerifySignUp();
-
-  const maskEmail = (email: string) => {
-    const [localPart, domain] = email.split('@');
-    const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
-    return `${maskedLocalPart}@${domain}`;
-  };
 
   const onSubmit: SubmitHandler<VerifyFormField> = (data) => {
     const stringCode = data.code.join('');

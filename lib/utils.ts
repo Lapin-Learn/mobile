@@ -94,3 +94,9 @@ export const getAccurateAPI = (api: string) => {
     accIncorrectLetters,
   };
 };
+
+export const maskEmail = (email: string) => {
+  const [localPart, domain] = email.split('@');
+  const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
+  return `${maskedLocalPart}@${domain}`;
+};
