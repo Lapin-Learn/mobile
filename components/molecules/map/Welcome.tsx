@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Image, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import Cloud from '~/assets/images/map/cloud.jpg';
 import Moon from '~/assets/images/map/moon.jpg';
@@ -26,15 +26,19 @@ export const Welcome = () => {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
       <View style={{ gap: 8 }}>
-        <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.semibold, ...Styles.color.black }}>
+        <Text
+          style={{ ...Styles.fontSize['title-2'], ...Styles.font.semibold, ...Styles.color.black }}
+          numberOfLines={1}
+          ellipsizeMode='tail'>
           {t(`map.greeting.${greeting}`, { username: cachedData?.username })}
         </Text>
-        <Text style={{ ...Styles.fontSize.callout, ...Styles.font.medium, ...Styles.color.supportingText }}>
+        <Text
+          style={{ ...Styles.fontSize.callout, ...Styles.font.medium, ...Styles.color.supportingText, flexShrink: 1 }}>
           {t('map.encourage')}
         </Text>
       </View>
-      <View>
-        <Image source={CurrentTimeIcon} />
+      <View style={{ width: 64, height: 64 }}>
+        <Image source={CurrentTimeIcon} style={{ ...StyleSheet.absoluteFillObject }} />
       </View>
     </View>
   );

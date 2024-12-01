@@ -28,9 +28,8 @@ const Index = () => {
   return (
     <>
       <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-      <PlatformView style={{ gap: 16, margin: 16 }}>
+      <PlatformView style={{ gap: 32, margin: 16 }}>
         <Welcome />
-
         <TrackBar data={data} />
         <Map />
         <StreakFreezeModal gameProfile={data} />
@@ -42,7 +41,6 @@ const Index = () => {
 const Map = () => {
   return (
     <FlatList
-      style={{}}
       contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
       columnWrapperStyle={{ justifyContent: 'center', gap: 16 }}
       numColumns={2}

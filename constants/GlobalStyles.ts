@@ -46,7 +46,7 @@ const fontSize = {
   },
   'title-3': {
     fontSize: 20,
-    lineHeight: 25,
+    lineHeight: 30,
   },
   'title-4': {
     fontSize: 17,
@@ -54,15 +54,15 @@ const fontSize = {
   },
   headline: {
     fontSize: 17,
-    lineHeight: 22,
+    lineHeight: 25.5,
   },
   body: {
     fontSize: 17,
-    lineHeight: 22,
+    lineHeight: 25.5,
   },
   callout: {
     fontSize: 16,
-    lineHeight: 21,
+    lineHeight: 24,
   },
   subhead: {
     fontSize: 15,
@@ -74,11 +74,11 @@ const fontSize = {
   },
   'caption-1': {
     fontSize: 12,
-    lineHeight: 16,
+    lineHeight: 18,
   },
   'caption-2': {
     fontSize: 11,
-    lineHeight: 13,
+    lineHeight: 16.5,
   },
   streak: {
     fontSize: 64,

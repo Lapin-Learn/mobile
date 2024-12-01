@@ -21,7 +21,21 @@ const regionMapping: Record<SkillEnum, any> = {
 };
 
 const ActionSelectRegion = ({ region }: { region: any }) => {
-  return <Image source={region} />;
+  return (
+    <View
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Image
+        style={{
+          width: '100%',
+          resizeMode: 'cover',
+        }}
+        source={region}
+      />
+    </View>
+  );
 };
 
 export const Region = ({ name }: RegionProps) => {
@@ -31,13 +45,8 @@ export const Region = ({ name }: RegionProps) => {
   return (
     <View style={{ flex: 1 / 2, ...Styles.backgroundColor.neutral[50], borderRadius: 16, overflow: 'hidden' }}>
       <Pressable onPress={handleExercise} style={{ width: '100%' }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActionSelectRegion region={regionMapping[name]} />
-        </View>
+        <ActionSelectRegion region={regionMapping[name]} />
+
         <View style={{ padding: 16 }}>
           <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>
             {capitalizeFirstLetter(name)}
