@@ -121,18 +121,11 @@ export const useResendVerify = () => {
 
 export const useVerifySignUp = () => {
   const toast = useToast();
-  const { postScreen } = useAuthScreen();
+  const createProfile = useCreateProfile();
   return useMutation({
     mutationFn: verify,
     onSuccess: async (data) => {
-      await createProfile(data.accessToken).then(() => {
-        if (postScreen === 'sign-in') {
-          router.back();
-        } else {
-          router.dismissAll();
-          router.navigate('/auth/sign-in' as Href);
-        }
-      });
+      createProfile.mutate(data.accessToken);
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
@@ -197,6 +190,25 @@ export const useRefreshToken = () => {
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
       crashlytics.recordError(error);
+    },
+  });
+};
+
+export const useCreateProfile = () => {
+  const toast = useToast();
+  const { postScreen } = useAuthScreen();
+  return useMutation({
+    mutationFn: createProfile,
+    onSuccess: () => {
+      if (postScreen === 'sign-in') {
+        router.back();
+      } else {
+        router.dismissAll();
+        router.navigate('/auth/sign-in' as Href);
+      }
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
     },
   });
 };

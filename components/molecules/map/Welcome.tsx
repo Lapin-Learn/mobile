@@ -24,8 +24,8 @@ export const Welcome = () => {
   const cachedData = queryClient.getQueryData<IAccountIdentifer>([QUERY_KEYS.profile.identifier]);
   const { icon: CurrentTimeIcon, greeting } = getTime(new Date().getHours());
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-      <View style={{ gap: 8 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', gap: 8 }}>
+      <View style={{ flex: 1, gap: 8 }}>
         <Text
           style={{ ...Styles.fontSize['title-2'], ...Styles.font.semibold, ...Styles.color.black }}
           numberOfLines={1}
