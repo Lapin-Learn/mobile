@@ -89,32 +89,28 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
             <Text style={styleForBlank.indexText}>{index + 1}</Text>
           </View>
         </Pressable>
-        <TextInput
-          {...rest}
-          ref={inputRef}
-          style={styleForBlank.inputBlank}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          placeholder={isCorrect === null ? t('fillInTheBlank.enterTheAnswer') : ''}
-          placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
-          textAlign='center'
-          readOnly={isCorrect !== null}
-          autoCapitalize='none'
-          value={field.value[index]}
-          onChangeText={(text) => onChange(text, index, field)}
-        />
-        {isCorrect === false && (
+        {isCorrect !== null ? (
+          <Text style={[styleForBlank.inputBlank]}>{field.value[index]}</Text>
+        ) : (
           <TextInput
             {...rest}
-            style={styleForBlank.inputIncorrectCorrespondingCorrect}
+            ref={inputRef}
+            style={styleForBlank.inputBlank}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            placeholder={t('fillInTheBlank.enterTheAnswer')}
+            placeholderTextColor={isFocused ? Colors.blue[600] : Colors.neutral[200]}
             textAlign='center'
-            readOnly={isCorrect !== null}
-            multiline
-            value={answer}
+            editable={isCorrect === null}
+            autoCapitalize='none'
+            value={field.value[index]}
             onChangeText={(text) => onChange(text, index, field)}
           />
+        )}
+        {isCorrect === false && (
+          <Text {...rest} style={styleForBlank.inputIncorrectCorrespondingCorrect}>
+            {answer}
+          </Text>
         )}
       </View>
     </View>
