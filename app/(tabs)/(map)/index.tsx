@@ -1,15 +1,15 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import { MotiView } from 'moti';
-import { useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { FlatList } from 'react-native';
 
 import { Loading } from '~/components/molecules/Loading';
-import { Region } from '~/components/molecules/region/Region';
+import { Region } from '~/components/molecules/map/Region';
+import { Welcome } from '~/components/molecules/map/Welcome';
 import { StreakFreezeModal } from '~/components/molecules/StreakFreezeModal';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
+import PlatformView from '~/components/templates/PlatformView';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 import { SkillEnum } from '~/lib/enums';
@@ -26,67 +26,31 @@ const Index = () => {
   }
 
   return (
-    <SafeAreaView>
-      <TrackBar data={data} />
-      <Map />
-      <StreakFreezeModal gameProfile={data} />
-    </SafeAreaView>
-  );
-};
+    <>
+      <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+      <PlatformView style={{ gap: 16, margin: 16 }}>
+        <Welcome />
 
-const translateMap: Record<SkillEnum | 'null', { x: number; y: number }> = {
-  reading: { x: -75, y: -25 },
-  listening: { x: 100, y: 100 },
-  speaking: { x: 150, y: -75 },
-  writing: { x: -25, y: -250 },
-  null: { x: 0, y: 0 },
+        <TrackBar data={data} />
+        <Map />
+        <StreakFreezeModal gameProfile={data} />
+      </PlatformView>
+    </>
+  );
 };
 
 const Map = () => {
-  const [currentSkill, setCurrentSkill] = useState<SkillEnum | null>(null);
-
-  const handleSelectRegion = (skill: SkillEnum | null) => {
-    if (currentSkill === skill) {
-      setCurrentSkill(null);
-    } else {
-      setCurrentSkill(skill);
-    }
-  };
-
   return (
-    <Pressable style={{ height: '100%' }} onPress={() => setCurrentSkill(null)}>
-      <MotiView
-        style={styles.motiView}
-        from={{
-          translateX: 0,
-          translateY: 0,
-        }}
-        animate={{
-          translateX: translateMap[currentSkill ?? 'null'].x,
-          translateY: translateMap[currentSkill ?? 'null'].y,
-        }}
-        transition={{ type: 'timing', duration: 1000 }}>
-        {Object.values(SkillEnum).map((skill) => {
-          return (
-            <Region
-              key={skill}
-              name={skill}
-              selected={currentSkill === skill}
-              onSelect={() => handleSelectRegion(skill)}
-            />
-          );
-        })}
-      </MotiView>
-    </Pressable>
+    <FlatList
+      style={{}}
+      contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
+      columnWrapperStyle={{ justifyContent: 'center', gap: 16 }}
+      numColumns={2}
+      scrollEnabled={false}
+      data={Object.values(SkillEnum)}
+      renderItem={({ item }) => <Region name={item} />}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  motiView: {
-    marginTop: -5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default Index;

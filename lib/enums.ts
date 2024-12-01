@@ -1,8 +1,8 @@
 export enum SkillEnum {
-  SPEAKING = 'speaking',
-  WRITING = 'writing',
   READING = 'reading',
   LISTENING = 'listening',
+  WRITING = 'writing',
+  SPEAKING = 'speaking',
 }
 
 export enum BandScoreEnum {

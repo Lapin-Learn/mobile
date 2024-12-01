@@ -56,7 +56,7 @@ const trackBarStyles = StyleSheet.create({
   trackBar: {
     height: 6,
     borderRadius: 999,
-    ...Styles.backgroundColor.neutral[200],
+    ...Styles.backgroundColor.neutral[50],
   },
   trackBarProgress: {
     height: 6,

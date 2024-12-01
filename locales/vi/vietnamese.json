@@ -5,6 +5,14 @@
     "get_start": "Bắt đầu",
     "skip": "Bỏ qua"
   },
+  "map": {
+    "greeting": {
+      "morning": "Chào buổi sáng, {{username}}!",
+      "afternoon": "Chào buổi chiều, {{username}}!",
+      "evening": "Chào buổi tối, {{username}}!"
+    },
+    "encourage": "Hãy nâng cấp kỹ năng IELTS của bạn ngay hôm nay!"
+  },
   "list": {
     "level": "Cấp độ {{level}}",
     "progress": "{{current}}/{{total}}",
@@ -38,7 +46,15 @@
     "year": "năm"
   },
   "calendar": {
-    "days_of_week": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+    "days_of_week": [
+      "CN",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7"
+    ],
     "months": [
       "Tháng Một",
       "Tháng Hai",

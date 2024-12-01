@@ -13,12 +13,9 @@ import Styles from '~/constants/GlobalStyles';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
+import { capitalizeFirstLetter } from '~/lib/utils';
 
 const { font, fontSize, color } = Styles;
-
-const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
 
 type QuestionTypeCardProps = Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>;
 const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: QuestionTypeCardProps) => {

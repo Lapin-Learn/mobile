@@ -100,3 +100,7 @@ export const maskEmail = (email: string) => {
   const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
   return `${maskedLocalPart}@${domain}`;
 };
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
