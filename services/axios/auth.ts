@@ -1,7 +1,7 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native-google-signin/google-signin';
 
-import { ProviderNameEnum } from '~/lib/enums';
+import { AuthActionEnum, ProviderNameEnum } from '~/lib/enums';
 
 import api from '../httpRequests';
 import { removeTokenAsync, setTokenAsync } from '../utils';
@@ -33,7 +33,7 @@ export type AccountIdentifier = {
 
 type SignInParams = Pick<AccountIdentifier, 'email' | 'password'>;
 type SignUpParams = Pick<AccountIdentifier, 'email' | 'password'>;
-type VerifyParams = { email: string; otp: string };
+type VerifyParams = { email: string; otp: string; action: AuthActionEnum };
 
 export const signIn = async (params: SignInParams) => {
   const data = await api.post<AuthInfo>('auth/signin', { body: params });
@@ -58,8 +58,8 @@ export const verify = async (params: VerifyParams) => {
   return data;
 };
 
-export const forgotPassword = async (params: Pick<AccountIdentifier, 'email'>) => {
-  await api.get<AuthInfo>(`auth/otp?email=${params.email}`);
+export const forgotPassword = async (params: Omit<VerifyParams, 'otp'>) => {
+  await api.get<AuthInfo>(`auth/otp?email=${params.email}&action=${params.action}`);
 };
 
 export const resetPassword = async (params: { newPassword: string }) => {
@@ -72,6 +72,14 @@ export const refreshToken = async (refreshToken: string) => {
   });
   await setTokenAsync(data);
   return data;
+};
+
+export const createProfile = async (token: string) => {
+  return await api.post('auth/profile', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const signInWithProvider = async (provider: ProviderNameEnum) => {

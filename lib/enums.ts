@@ -1,8 +1,8 @@
 export enum SkillEnum {
-  SPEAKING = 'speaking',
-  WRITING = 'writing',
   READING = 'reading',
   LISTENING = 'listening',
+  WRITING = 'writing',
+  SPEAKING = 'speaking',
 }
 
 export enum BandScoreEnum {
@@ -82,4 +82,9 @@ export enum ItemEnum {
 export enum RandomGiftTypeEnum {
   CARROTS = 'carrots',
   ITEM = 'item',
+}
+
+export enum AuthActionEnum {
+  RESET_PASSWORD = 'reset-password',
+  VERIFY_MAIL = 'verify-mail',
 }

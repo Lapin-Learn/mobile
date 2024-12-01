@@ -14,7 +14,7 @@ type StreakProps = {
 const Streak = ({ streak }: StreakProps) => {
   return (
     <View style={styles.root}>
-      {streak.extended ? <IconStreak width={28} height={28} /> : <IconLostStreak width={28} height={28} />}
+      {streak.extended ? <IconStreak width={24} height={24} /> : <IconLostStreak width={24} height={24} fill='blue' />}
       <Text style={StyleSheet.flatten([styles.text, streak.extended ? {} : styles.broken])}>
         {formatNumber(streak.current)}
       </Text>

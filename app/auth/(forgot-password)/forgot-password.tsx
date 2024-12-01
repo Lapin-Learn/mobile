@@ -11,6 +11,7 @@ import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useForgotPassword } from '~/hooks/react-query/useAuth';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { AuthActionEnum } from '~/lib/enums';
 
 const schema = z.object({
   email: z.string().email('error.email'),
@@ -34,7 +35,10 @@ const ForgotPassword = () => {
 
   const onSubmit: SubmitHandler<ForgotPasswordFormField> = (data) => {
     try {
-      forgotPasswordMutation.mutate(data);
+      forgotPasswordMutation.mutate({
+        email: data.email,
+        action: AuthActionEnum.RESET_PASSWORD,
+      });
     } catch {
       setError('email', { message: t('forgotPassword.invalidEmailOrPassword') });
     }

@@ -10,7 +10,7 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
-import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
+import { useResendVerify, useVerifySignUp } from '~/hooks/react-query/useAuth';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { AuthActionEnum } from '~/lib/enums';
 import { maskEmail } from '~/lib/utils';
@@ -46,19 +46,19 @@ const Verify = () => {
   });
 
   const resentMutation = useResendVerify();
-  const verifyMutation = useVerifyForgotPassword();
+  const verifyMutation = useVerifySignUp();
 
   const onSubmit: SubmitHandler<VerifyFormField> = (data) => {
     const stringCode = data.code.join('');
     verifyMutation.mutate({
       email: email as string,
       otp: stringCode,
-      action: AuthActionEnum.RESET_PASSWORD,
+      action: AuthActionEnum.VERIFY_MAIL,
     });
   };
 
   const handleResendCode = () => {
-    resentMutation.mutate({ email: email as string, action: AuthActionEnum.RESET_PASSWORD });
+    resentMutation.mutate({ email: email as string, action: AuthActionEnum.VERIFY_MAIL });
     setTime(60);
   };
 

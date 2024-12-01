@@ -17,7 +17,7 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
     <View style={styles.root}>
       {data.audioId && (
         <View style={{ paddingHorizontal: 16 }}>
-          <TrackAudio data={data.audio ?? { id: '', url: '' }} checked={isPaused} />
+          <TrackAudio url={data.audio?.url} checked={isPaused} />
         </View>
       )}
       {!data.audioId && data.content.paragraph && (
