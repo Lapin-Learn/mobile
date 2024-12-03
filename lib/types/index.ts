@@ -210,7 +210,7 @@ export type IReward =
   | IRandomGift;
 
 export type ISpeakingService = {
-  correct_letters: string;
+  correct_letters: number[];
   original_ipa_transcript: string;
   original_transcript: string;
   pronunciation_accuracy: string;

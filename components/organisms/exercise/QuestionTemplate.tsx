@@ -7,7 +7,7 @@ import { Loading } from '~/components/molecules/Loading';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';
-import { getAccurateAPI } from '~/lib/utils';
+import { getAccurateIPA } from '~/lib/utils';
 
 import PlatformView from '../../templates/PlatformView';
 import AnswerInput from './answer-input/AnswerInput';
@@ -54,7 +54,7 @@ const QuestionTemplate = () => {
   }
 
   const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
-  const { accCorrectLetters, accIncorrectLetters } = getAccurateAPI(result?.correct_letters ?? '');
+  const { accCorrectLetters, accIncorrectLetters } = getAccurateIPA(result?.correct_letters ?? []);
 
   return (
     <PlatformView
