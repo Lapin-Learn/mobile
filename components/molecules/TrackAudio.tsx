@@ -62,12 +62,16 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
       }
     };
 
-    if (url && currentState === State.None) {
-      playSound(url);
+    if (!checked) {
+      if (url && currentState === State.None) {
+        playSound(url);
+      }
+
+      sound?.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
     }
     sound?.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sound, currentState]);
+  }, [checked, currentState]);
 
   const _onPlaybackStatusUpdate = async (playbackStatus: AVPlaybackStatus) => {
     try {
