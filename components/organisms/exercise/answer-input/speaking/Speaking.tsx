@@ -163,10 +163,7 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
   };
 
   return (
-    <View
-      style={{
-        flexShrink: 1,
-      }}>
+    <>
       <Text
         style={{
           ...Styles.font.semibold,
@@ -185,41 +182,6 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
       </Text>
     </>
   );
-
-  // {
-  //   /* TODO: remove comment when speaking Model better */
-  // }
-  // return (
-  //   <>
-  //     <Text
-  //       style={{
-  //         ...Styles.font.semibold,
-  //         ...Styles.fontSize['title-2'],
-  //         ...Styles.color.dark,
-  //       }}>
-  //       {result?.original_transcript.split('').map((char, index) => {
-  //         const isCorrect = corrected ? corrected[index] === '1' : false;
-  //         return (
-  //           <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-  //             {char}
-  //           </Text>
-  //         );
-  //       })}
-  //     </Text>
-  //     {result && (
-  //       <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.normal }}>
-  //         {result?.original_ipa_transcript.split('').map((char, index) => {
-  //           const isCorrect = corrected ? corrected[index] === '1' : false;
-  //           return (
-  //             <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-  //               {char}
-  //             </Text>
-  //           );
-  //         })}
-  //       </Text>
-  //     )}
-  //   </>
-  // );
 };
 
 export default Speaking;
