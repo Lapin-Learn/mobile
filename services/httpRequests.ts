@@ -84,7 +84,7 @@ const formatError = (error: any | AxiosError): APIError => {
     message = error.response.data.message;
   }
 
-  console.error('API Error:', error);
+  console.log('API Error:', error);
 
   return { status, message };
 };
@@ -97,6 +97,22 @@ const axiosImageInstance = axios.create({
 });
 
 axiosImageInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject(formatError(error));
+  }
+);
+
+const axiosFormInstance = axios.create({
+  baseURL: '',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
+axiosFormInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
@@ -123,6 +139,19 @@ class API {
   private async fileRequest<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
     try {
       const response = await axiosImageInstance.request<T>({
+        url: endpoint,
+        ...options,
+      });
+
+      return response.data;
+    } catch (error) {
+      throw formatError(error);
+    }
+  }
+
+  private async formRequest<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
+    try {
+      const response = await axiosFormInstance.request<T>({
         url: endpoint,
         ...options,
       });
@@ -168,6 +197,14 @@ class API {
   async putImage<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
     return this.fileRequest<T>(endpoint, {
       method: 'PUT',
+      data: body,
+      ...restOptions,
+    });
+  }
+
+  async postForm<T>(endpoint: string, { body, ...restOptions }: EndpointOptions = {}) {
+    return this.formRequest<T>(endpoint, {
+      method: 'POST',
       data: body,
       ...restOptions,
     });

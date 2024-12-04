@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import { Redirect } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useEffect } from 'react';
 
 import { Loading } from '~/components/molecules/Loading';
@@ -10,11 +10,13 @@ import { useAccountIdentifier } from '~/hooks/react-query/useUser';
 import { useAuth } from '~/hooks/zustand';
 
 const CustomRedirect = () => {
-  const { isSuccess, data: account, isError } = useAccountIdentifier();
+  const { isSuccess, data: account, isError, error } = useAccountIdentifier();
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (isSuccess && account) {
+    if (error?.message === 'User not found' || (isSuccess && (!account.dob || !account.fullName || !account.gender))) {
+      router.replace('/update-profile');
+    } else if (isSuccess && account) {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -22,7 +24,7 @@ const CustomRedirect = () => {
         })
       );
     }
-  }, [isSuccess, account, navigation]);
+  }, [error, isSuccess, account, navigation]);
 
   if (isError || (isSuccess && !account)) {
     return <Redirect href='/auth/sign-in' />;

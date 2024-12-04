@@ -5,6 +5,14 @@
     "get_start": "Get Started",
     "skip": "Skip"
   },
+  "map": {
+    "greeting": {
+      "morning": "Good morning, {{username}}!",
+      "afternoon": "Good afternoon, {{username}}!",
+      "evening": "Good evening, {{username}}!"
+    },
+    "encourage": "Let’s upgrade your IELTS skill today!"
+  },
   "list": {
     "level": "Level {{level}}",
     "progress": "{{current}}/{{total}}",
@@ -38,7 +46,15 @@
     "year": "year"
   },
   "calendar": {
-    "days_of_week": ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
+    "days_of_week": [
+      "SU",
+      "MO",
+      "TU",
+      "WE",
+      "TH",
+      "FR",
+      "SA"
+    ],
     "months": [
       "January",
       "February",

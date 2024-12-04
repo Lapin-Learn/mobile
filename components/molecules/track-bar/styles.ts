@@ -15,6 +15,6 @@ export const styles = StyleSheet.create({
     ...Styles.color.orange[500],
   },
   broken: {
-    ...Styles.color.neutral[400],
+    ...Styles.color.neutral[300],
   },
 });

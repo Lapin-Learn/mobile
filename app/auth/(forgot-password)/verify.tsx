@@ -12,6 +12,8 @@ import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useResendVerify, useVerifyForgotPassword } from '~/hooks/react-query/useAuth';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { AuthActionEnum } from '~/lib/enums';
+import { maskEmail } from '~/lib/utils';
 
 const schema = z.object({
   code: z.array(z.string().length(1, 'error.code')).length(6, 'error.code'),
@@ -46,22 +48,17 @@ const Verify = () => {
   const resentMutation = useResendVerify();
   const verifyMutation = useVerifyForgotPassword();
 
-  const maskEmail = (email: string) => {
-    const [localPart, domain] = email.split('@');
-    const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
-    return `${maskedLocalPart}@${domain}`;
-  };
-
   const onSubmit: SubmitHandler<VerifyFormField> = (data) => {
     const stringCode = data.code.join('');
     verifyMutation.mutate({
       email: email as string,
       otp: stringCode,
+      action: AuthActionEnum.RESET_PASSWORD,
     });
   };
 
   const handleResendCode = () => {
-    resentMutation.mutate({ email: email as string });
+    resentMutation.mutate({ email: email as string, action: AuthActionEnum.RESET_PASSWORD });
     setTime(60);
   };
 

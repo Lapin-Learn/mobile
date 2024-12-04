@@ -3,12 +3,11 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { default as Styles } from '~/constants/GlobalStyles';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 
 export type ItemCardProps = {
   id: string;
-  itemId: string;
-  name: ShopItemEnum;
+  name: ItemEnum;
   description: string;
   imageId: string;
   image: string;
@@ -57,17 +56,6 @@ export const Item = (props: ItemCardProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    columnGap: 16,
-    rowGap: 16,
-    marginVertical: 16,
-  },
   itemView: {
     flexBasis: '45%',
     justifyContent: 'center',

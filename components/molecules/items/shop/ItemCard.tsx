@@ -2,13 +2,13 @@ import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
-import { ShopItemEnum } from '~/lib/enums';
+import { ItemEnum } from '~/lib/enums';
 
 import ItemPriceCard from './ItemPriceCard';
 
 export type ItemCardProps = {
   id: string;
-  name: ShopItemEnum;
+  name: ItemEnum;
   image: string;
   price: {
     [key: string]: number;

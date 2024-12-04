@@ -18,6 +18,7 @@ import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
 const ItemTabs = ({ isShop }: { isShop: boolean }) => {
   const { t } = useTranslation('item');
@@ -109,20 +110,7 @@ const Items = () => {
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />
-      {isModalVisible && (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: '#00000033',
-            borderRadius: 8,
-            zIndex: 1,
-          }}
-        />
-      )}
+      {isModalVisible && <View style={GLOBAL_STYLES.modalBackground} />}
       <ShopModal />
     </>
   );

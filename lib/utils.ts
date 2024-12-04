@@ -58,9 +58,13 @@ export const formatLearningDuration = (duration: number) => {
  * @returns formatted time in MM:SS
  */
 export const formatAudioTimer = (time: number) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
-  return `${minutes.toFixed(0).padStart(2, '0')}:${seconds.toFixed(0).padStart(2, '0')}`;
+  if (time > 0) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toFixed(0).padStart(2, '0')}:${seconds.toFixed(0).padStart(2, '0')}`;
+  } else {
+    return '00:00';
+  }
 };
 
 export const formatNumber = (num: number) => {
@@ -86,11 +90,21 @@ export const getDuration = (startTime: number): number => {
   return Math.round(Math.abs(endTime - startTime) / 1000);
 };
 
-export const getAccurateAPI = (api: string) => {
-  const accCorrectLetters = api.split('').filter((letter) => letter === '1').length;
-  const accIncorrectLetters = api.split('').filter((letter) => letter === '0').length;
+export const getAccurateIPA = (ipa: number[]) => {
+  const accCorrectLetters = ipa.filter((letter) => letter === 1 || letter === 2).length;
+  const accIncorrectLetters = ipa.filter((letter) => letter === 0).length;
   return {
     accCorrectLetters,
     accIncorrectLetters,
   };
+};
+
+export const maskEmail = (email: string) => {
+  const [localPart, domain] = email.split('@');
+  const maskedLocalPart = localPart[0] + '*****' + localPart[localPart.length - 1];
+  return `${maskedLocalPart}@${domain}`;
+};
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };

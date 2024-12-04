@@ -1,7 +1,7 @@
 import { Audio } from 'expo-av';
 import { create } from 'zustand';
 
-import { IIPAResult } from '~/lib/types';
+import { ISpeakingService } from '~/lib/types';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
 export enum SpeakingSoundType {
@@ -16,7 +16,7 @@ type AudioState = {
   status: Audio.RecordingStatus | null;
   uri?: string | null;
   soundType: SpeakingSoundType;
-  result?: Pick<IIPAResult, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>;
+  result?: Pick<ISpeakingService, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>;
 };
 
 type AudioAction = {
@@ -25,7 +25,9 @@ type AudioAction = {
   setUri: (uri: Pick<AudioState, 'uri'>) => void;
   setSoundType: (soundType: SpeakingSoundType) => void;
   initState: () => void;
-  setResult: (result?: Pick<IIPAResult, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>) => void;
+  setResult: (
+    result?: Pick<ISpeakingService, 'correct_letters' | 'original_ipa_transcript' | 'original_transcript'>
+  ) => void;
 };
 
 export const useSpeakingStore = create<AudioState & AudioAction>((set, get) => ({

@@ -6,7 +6,7 @@ const PlatformView: React.FC<SafeAreaViewProps> = ({ children, style, ...props }
   return (
     <SafeAreaView
       {...props}
-      style={StyleSheet.flatten([{ paddingVertical: StatusBar.currentHeight, height: '100%' }, style])}>
+      style={StyleSheet.flatten([{ paddingVertical: (StatusBar.currentHeight ?? 0) * 1.5, height: '100%' }, style])}>
       {children}
     </SafeAreaView>
   );

@@ -78,10 +78,10 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   useEffect(() => {
     if (result.numberOfCorrect === 0 && result.totalOfQuestions === 0) {
-      reset();
+      reset({ answer: Array(blankContent.length).fill('') });
       setIsChecking(false);
     }
-  }, [result]);
+  }, [result, reset, blankContent.length]);
 
   const handleTextChange = (text: string, index: number, field: any) => {
     const newAnswer = [...field.value];

@@ -1,8 +1,8 @@
 export enum SkillEnum {
-  SPEAKING = 'speaking',
-  WRITING = 'writing',
   READING = 'reading',
   LISTENING = 'listening',
+  WRITING = 'writing',
+  SPEAKING = 'speaking',
 }
 
 export enum BandScoreEnum {
@@ -19,7 +19,7 @@ export enum ContentTypeEnum {
   MULTIPLE_CHOICE = 'multiple_choice',
   FILL_IN_THE_BLANK = 'fill_in_the_blank',
   MATCHING = 'matching',
-  SPEAKING_SAMPLE = 'speaking_sample',
+  PRONUNCIATION = 'pronunciation',
 }
 
 export enum CEFRLevelEnum {
@@ -72,14 +72,19 @@ export enum MissionCategoryEnum {
   EXCEED_LEARNING_STREAK_WITHOUT_BREAK = 'EXCEED_LEARNING_STREAK_WITHOUT_BREAK',
 }
 
-export enum ShopItemEnum {
+export enum ItemEnum {
   STREAK_FREEZE = 'STREAK_FREEZE',
   RANDOM_GIFT = 'RANDOM_GIFT',
   ULTIMATE_TIME = 'ULTIMATE_TIME',
   IDENTIFICATION = 'IDENTIFICATION',
 }
 
-export enum RandomGiftType {
+export enum RandomGiftTypeEnum {
   CARROTS = 'carrots',
   ITEM = 'item',
+}
+
+export enum AuthActionEnum {
+  RESET_PASSWORD = 'reset-password',
+  VERIFY_MAIL = 'verify-mail',
 }
