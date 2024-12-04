@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, Text, useWindowDimensions, View } from 'react-native';
 
 import Listening from '~/assets/images/map/listening.jpg';
 import Reading from '~/assets/images/map/reading.jpg';
@@ -39,15 +39,23 @@ const ActionSelectRegion = ({ region }: { region: any }) => {
 };
 
 export const Region = ({ name }: RegionProps) => {
+  const height = useWindowDimensions().height;
   const handleExercise = () => {
     return router.push(`/exercise/${name}`);
   };
   return (
-    <View style={{ flex: 1 / 2, ...Styles.backgroundColor.neutral[50], borderRadius: 16, overflow: 'hidden' }}>
+    <View
+      style={{
+        flex: 1,
+
+        ...Styles.backgroundColor.neutral[50],
+        borderRadius: 16,
+        overflow: 'hidden',
+      }}>
       <Pressable onPress={handleExercise} style={{ width: '100%' }}>
         <ActionSelectRegion region={regionMapping[name]} />
 
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: (height % 8) + 8 }}>
           <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>
             {capitalizeFirstLetter(name)}
           </Text>

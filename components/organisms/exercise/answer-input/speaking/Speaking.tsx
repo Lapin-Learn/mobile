@@ -9,7 +9,7 @@ import Styles from '~/constants/GlobalStyles';
 import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureAudioSession } from '~/lib/config';
 import { IQuestion } from '~/lib/types/questions';
-import { getAccurateAPI } from '~/lib/utils';
+import { getAccurateIPA } from '~/lib/utils';
 
 type SpeakingProps = {
   data?: IQuestion;
@@ -63,7 +63,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
         break;
       case SpeakingSoundType.SEND:
         if (result) {
-          const { accCorrectLetters, accIncorrectLetters } = getAccurateAPI(result.correct_letters);
+          const { accCorrectLetters, accIncorrectLetters } = getAccurateIPA(result.correct_letters);
           onAnswer({
             numberOfCorrect: accCorrectLetters / (accCorrectLetters + accIncorrectLetters) > 0.5 ? 1 : 0,
             totalOfQuestions: 1,
@@ -124,58 +124,64 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
 
 const TranscriptDisplay = ({ question }: { question: string }) => {
   const { result } = useSpeakingStore();
-  const corrected = result?.correct_letters.replace(/\s/g, '').split('');
-  // if (!result)
+  if (!result)
+    return (
+      <View
+        style={{
+          flexShrink: 1,
+        }}>
+        <Text
+          style={{
+            ...Styles.font.semibold,
+            ...Styles.fontSize['title-2'],
+            ...Styles.color.dark,
+          }}>
+          {question}
+        </Text>
+      </View>
+    );
+
+  const getColorForValue = (value: number) => {
+    if (value === 2) return 'green';
+    if (value === 1) return 'orange';
+    return 'red';
+  };
+
+  const renderTextWithColors = (text: string, correctLetters: number[], additionalStyles?: object) => {
+    const words = text.split(' ');
+
+    return words.map((word, index) => {
+      const color = getColorForValue(correctLetters[index]);
+
+      return (
+        <Text key={index} style={{ color, ...additionalStyles }}>
+          {word}
+          <Text> </Text>
+        </Text>
+      );
+    });
+  };
+
   return (
-    <View
-      style={{
-        flexShrink: 1,
-      }}>
+    <>
       <Text
         style={{
           ...Styles.font.semibold,
           ...Styles.fontSize['title-2'],
           ...Styles.color.dark,
         }}>
-        {question}
+        {renderTextWithColors(result.original_transcript, result.correct_letters)}
       </Text>
-    </View>
-  );
 
-  // {
-  //   /* TODO: remove comment when speaking Model better */
-  // }
-  // return (
-  //   <>
-  //     <Text
-  //       style={{
-  //         ...Styles.font.semibold,
-  //         ...Styles.fontSize['title-2'],
-  //         ...Styles.color.dark,
-  //       }}>
-  //       {result?.original_transcript.split('').map((char, index) => {
-  //         const isCorrect = corrected ? corrected[index] === '1' : false;
-  //         return (
-  //           <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-  //             {char}
-  //           </Text>
-  //         );
-  //       })}
-  //     </Text>
-  //     {result && (
-  //       <Text style={{ ...Styles.fontSize['title-2'], ...Styles.font.normal }}>
-  //         {result?.original_ipa_transcript.split('').map((char, index) => {
-  //           const isCorrect = corrected ? corrected[index] === '1' : false;
-  //           return (
-  //             <Text key={index} style={[{ color: isCorrect ? 'green' : 'red' }]}>
-  //               {char}
-  //             </Text>
-  //           );
-  //         })}
-  //       </Text>
-  //     )}
-  //   </>
-  // );
+      <Text
+        style={{
+          ...Styles.font.normal,
+          ...Styles.fontSize['title-2'],
+        }}>
+        {renderTextWithColors(result.original_ipa_transcript, result.correct_letters)}
+      </Text>
+    </>
+  );
 };
 
 export default Speaking;

@@ -2,7 +2,8 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
 import { Region } from '~/components/molecules/map/Region';
@@ -16,6 +17,7 @@ import { SkillEnum } from '~/lib/enums';
 
 const Index = () => {
   const { data, isFetching, error } = useGameProfile();
+  const bottom = useSafeAreaInsets().bottom;
 
   if (isFetching) {
     return <Loading />;
@@ -28,12 +30,24 @@ const Index = () => {
   return (
     <>
       <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-      <PlatformView style={{ gap: 32, margin: 16 }}>
+      <PlatformView
+        style={{
+          height: '100%',
+          marginHorizontal: 16,
+          justifyContent: 'flex-start',
+        }}>
         <Welcome />
-        <TrackBar data={data} />
-        <Map />
-        <StreakFreezeModal gameProfile={data} />
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-around',
+          }}>
+          <TrackBar data={data} />
+          <Map />
+        </View>
+        <View style={{ height: bottom * 1.5 }} />
       </PlatformView>
+      <StreakFreezeModal gameProfile={data} />
     </>
   );
 };
@@ -41,6 +55,7 @@ const Index = () => {
 const Map = () => {
   return (
     <FlatList
+      style={{ flexGrow: 0 }}
       contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
       columnWrapperStyle={{ justifyContent: 'center', gap: 16 }}
       numColumns={2}
