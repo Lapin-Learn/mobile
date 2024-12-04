@@ -64,7 +64,6 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
 
     if (!checked) {
       if (url && currentState === State.None) {
-        console.log('haha');
         playSound(url);
       }
 
@@ -81,7 +80,6 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
           console.error(`Encountered a fatal error during playback: ${playbackStatus.error}`);
         }
       } else {
-        console.log(playbackStatus.positionMillis);
         setPlayerState(playbackStatus);
         setProgress({
           position: playbackStatus.positionMillis / 1000,
