@@ -1,8 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { router } from 'expo-router';
 
 import { AuthInfo } from './axios/auth';
-import { getTokenAsync, setTokenAsync } from './utils';
+import { FIRST_LAUNCH, getTokenAsync, setTokenAsync } from './utils';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_ENDPOINT || 'http://localhost:3000/api';
 type EndpointOptions = Omit<AxiosRequestConfig, 'url' | 'method'> & {
@@ -68,7 +69,8 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(formatError(error));
           });
       } else {
-        router.replace('/auth/sign-in');
+        const firstLaunch = await AsyncStorage.getItem(FIRST_LAUNCH);
+        if (firstLaunch !== null) router.replace('/auth/sign-in');
         return Promise.reject(formatError(error));
       }
     }

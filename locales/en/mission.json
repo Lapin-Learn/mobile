@@ -12,6 +12,7 @@
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Complete {{quantity}} perfect lessons",
     "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Practice {{requirements}} different skills",
     "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Study for {{requirements}}",
-    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Study for {{requirements}} consecutive days"
+    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Study for {{requirements}} consecutive days",
+    "EXCEED_STREAK": "Study for {{requirements}} consecutive days"
   }
 }
