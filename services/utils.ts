@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SecureStore from 'expo-secure-store';
 
 import { TokenType } from '~/types';
 
@@ -8,16 +7,16 @@ export const USER_KEY = 'user';
 export const FIRST_LAUNCH = 'firstLaunch';
 
 export const getTokenAsync = async () => {
-  const token = await SecureStore.getItemAsync(TOKEN_KEY);
+  const token = await AsyncStorage.getItem(TOKEN_KEY);
   return token ? (JSON.parse(token) as TokenType) : null;
 };
 
 export const setTokenAsync = async (token: TokenType) => {
-  await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(token));
+  await AsyncStorage.setItem(TOKEN_KEY, JSON.stringify(token));
 };
 
 export const removeTokenAsync = async () => {
-  await SecureStore.deleteItemAsync(TOKEN_KEY);
+  await AsyncStorage.removeItem(TOKEN_KEY);
 };
 
 export const isFirstLaunchAsync = async () => {
