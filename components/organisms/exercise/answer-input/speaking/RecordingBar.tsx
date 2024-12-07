@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Wave } from '~/components/molecules/rive/Wave';
+import { RiveWave } from '~/components/molecules/rive/Wave';
 import Styles from '~/constants/GlobalStyles';
 import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
 import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
@@ -104,7 +104,7 @@ export const RecordBar = ({ question }: { question: string }) => {
       {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
       {status?.isRecording ? (
         <>
-          {status?.isRecording && <RecordingWave />}
+          {status?.isRecording && <RecordingRiveWave />}
           <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
         </>
       ) : (
@@ -124,7 +124,7 @@ export const RecordBar = ({ question }: { question: string }) => {
   );
 };
 
-const RecordingWave = () => {
+const RecordingRiveWave = () => {
   return (
     <View
       style={{
@@ -133,7 +133,7 @@ const RecordingWave = () => {
         transform: [{ translateY: -75 }],
         position: 'absolute',
       }}>
-      <Wave />
+      <RiveWave />
     </View>
   );
 };

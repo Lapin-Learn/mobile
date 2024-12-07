@@ -1,6 +1,6 @@
 import Rive, { Fit } from 'rive-react-native';
 
-export function Wave() {
+export function RiveWave() {
   return (
     <Rive
       url='https://uilztdvkyvgjgeqd.public.blob.vercel-storage.com/Wave-QgPdR3YFYZoIxKhuaOqQZspE2Pc05k.riv'

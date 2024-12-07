@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import Volumn from '~/assets/images/volumn.svg';
+import { RiveSound } from '~/components/molecules/rive/Sound';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
 import Styles from '~/constants/GlobalStyles';
 import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
@@ -86,6 +87,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
     } else {
       if (playbackStatus.isPlaying) {
         if (soundType === SpeakingSoundType.IDLE) {
+          console.log('pause');
           await sound?.pauseAsync();
         }
       }
@@ -106,7 +108,11 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
             gap: 12,
           }}>
           <View style={{ width: 30, height: 30, margin: 1.5 }}>
-            <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+            {soundType === SpeakingSoundType.QUESTION ? (
+              <RiveSound />
+            ) : (
+              <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+            )}
           </View>
 
           <View
