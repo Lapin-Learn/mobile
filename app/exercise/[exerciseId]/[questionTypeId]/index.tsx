@@ -96,6 +96,11 @@ const QuestionTypeScreen = () => {
     ref.current?.setPage(currentLesson?.order || 1);
   };
 
+  const isComingSoon =
+    bandScore === BandScoreEnum.BAND_6_0 ||
+    bandScore === BandScoreEnum.BAND_6_5 ||
+    bandScore === BandScoreEnum.BAND_7_0;
+
   return (
     <SafeAreaView>
       <NavigationBar headerLeftShown />
@@ -133,7 +138,9 @@ const QuestionTypeScreen = () => {
           </Button>
         </View>
         <View style={styles.pagerViewContainer}>
-          {lessons?.lessons.length ? (
+          {isComingSoon ? (
+            <Text style={{ ...Styles.fontSize['title-1'] }}>{t('questionType.comingSoon')}</Text>
+          ) : lessons?.lessons.length ? (
             <PagerView
               style={styles.pagerView}
               initialPage={(currentLesson?.order || 1) - 1}
@@ -151,10 +158,16 @@ const QuestionTypeScreen = () => {
             <Text>{t('questionType.noLessonFound')}</Text>
           )}
         </View>
+
         <View style={styles.footer}>
-          <Button size='lg' onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)} disabled={!currentLesson}>
-            <UIText>{t('questionType.practiceBtn')}</UIText>
-          </Button>
+          {isComingSoon && (
+            <Button
+              size='lg'
+              onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)}
+              disabled={!currentLesson}>
+              <UIText>{t('questionType.practiceBtn')}</UIText>
+            </Button>
+          )}
           {/* TODO: Jump to next band */}
           {/* <Button size='lg' style={{}} ='bg-neutral-900'>
             <UIText>{t('questionType.jumpNextBtn')}</UIText>
