@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { Wave } from '~/components/molecules/rive/Wave';
 import Styles from '~/constants/GlobalStyles';
 import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
 import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
@@ -68,7 +69,6 @@ export const RecordBar = ({ question }: { question: string }) => {
   }
 
   async function sendRecording() {
-    // TODO: get Result IPA
     evaluate.mutate(
       { original: question, uri: uri! },
       {
@@ -83,8 +83,6 @@ export const RecordBar = ({ question }: { question: string }) => {
         },
       }
     );
-
-    // Result after mutate
   }
 
   const handleReplay = () => {
@@ -101,11 +99,14 @@ export const RecordBar = ({ question }: { question: string }) => {
 
   return (
     <Component
-      style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.2 }]}
+      style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
       onPress={stopRecording}>
       {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
       {status?.isRecording ? (
-        <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+        <>
+          {status?.isRecording && <RecordingWave />}
+          <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+        </>
       ) : (
         <IconComponent
           name={uri ? 'Send' : 'Mic'}
@@ -120,6 +121,20 @@ export const RecordBar = ({ question }: { question: string }) => {
         <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
       )}
     </Component>
+  );
+};
+
+const RecordingWave = () => {
+  return (
+    <View
+      style={{
+        width: 500,
+        height: 50,
+        transform: [{ translateY: -75 }],
+        position: 'absolute',
+      }}>
+      <Wave />
+    </View>
   );
 };
 
