@@ -75,5 +75,11 @@
     "title": "Terms & Support",
     "privacy_policy": "Privacy Policy",
     "feedback": "Feedback about the app"
+  },
+  "update": {
+    "title": "Cập nhật ứng dụng",
+    "message": "Một phiên bản mới của ứng dụng đã sẵn sàng. Vui lòng cập nhật để tiếp tục.",
+    "button": "Cập nhật ngay",
+    "cancel": "Hủy"
   }
 }

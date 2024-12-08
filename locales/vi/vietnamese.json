@@ -75,5 +75,11 @@
     "title": "Điều khoản & Hỗ trợ",
     "privacy_policy": "Chính sách bảo mật",
     "feedback": "Phản hồi về ứng dụng"
+  },
+  "update": {
+    "title": "Cập nhật ứng dụng",
+    "message": "Một phiên bản mới của ứng dụng đã sẵn sàng. Vui lòng cập nhật để tiếp tục.",
+    "button": "Cập nhật ngay",
+    "cancel": "Hủy"
   }
 }

@@ -29,6 +29,12 @@ export const RecordBar = ({ question }: { question: string }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (soundType === SpeakingSoundType.QUESTION) {
+      stopRecord();
+    }
+  }, [soundType]);
+
   async function startRecording() {
     try {
       if (permissionResponse && !permissionResponse.granted) {
@@ -98,29 +104,31 @@ export const RecordBar = ({ question }: { question: string }) => {
   const Component = status?.isRecording ? Pressable : View;
 
   return (
-    <Component
-      style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
-      onPress={stopRecording}>
-      {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
-      {status?.isRecording ? (
-        <>
-          {status?.isRecording && <RecordingRiveWave />}
-          <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
-        </>
-      ) : (
-        <IconComponent
-          name={uri ? 'Send' : 'Mic'}
-          icon={uri ? Send : Mic}
-          size={48}
-          color={Styles.color.white.color}
-          onPress={uri ? sendRecording : startRecording}
-          disabled={status?.isRecording || evaluate.isPending}
-        />
-      )}
-      {!status?.isRecording && uri && (
-        <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
-      )}
-    </Component>
+    <>
+      {status?.isRecording && <RecordingRiveWave />}
+      <Component
+        style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
+        onPress={stopRecording}>
+        {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
+        {status?.isRecording ? (
+          <>
+            <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+          </>
+        ) : (
+          <IconComponent
+            name={uri ? 'Send' : 'Mic'}
+            icon={uri ? Send : Mic}
+            size={48}
+            color={Styles.color.white.color}
+            onPress={uri ? sendRecording : startRecording}
+            disabled={status?.isRecording || evaluate.isPending}
+          />
+        )}
+        {!status?.isRecording && uri && (
+          <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
+        )}
+      </Component>
+    </>
   );
 };
 
@@ -129,8 +137,10 @@ const RecordingRiveWave = () => {
     <View
       style={{
         width: 500,
-        height: 50,
-        transform: [{ translateY: -75 }],
+        height: 200,
+        zIndex: -1,
+        bottom: 0,
+        transform: [{ translateY: -25 }],
         position: 'absolute',
       }}>
       <RiveWave />
