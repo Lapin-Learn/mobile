@@ -6,7 +6,9 @@ import { Text, View } from 'react-native';
 import Volumn from '~/assets/images/volumn.svg';
 import { RiveSound } from '~/components/molecules/rive/Sound';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
+import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
+import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
 import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureAudioSession } from '~/lib/config';
 import { IQuestion } from '~/lib/types/questions';
@@ -19,6 +21,7 @@ type SpeakingProps = {
 
 const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
   const navigation = useNavigation();
+  const evaluate = useSpeakingEvaluation();
 
   const { uri, soundType, result, setSoundType, initState } = useSpeakingStore();
   const [sound, setSound] = useState<Audio.Sound>();
@@ -111,7 +114,9 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
             {soundType === SpeakingSoundType.QUESTION ? (
               <RiveSound />
             ) : (
-              <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+              <Button variant='ghost' style={{ width: null, height: null }} disabled={evaluate.isPending}>
+                <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+              </Button>
             )}
           </View>
 
@@ -123,7 +128,7 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
           </View>
         </View>
       </View>
-      <RecordBar question={data?.content.question ?? ''} />
+      <RecordBar question={data?.content.question ?? ''} evaluate={evaluate} />
     </View>
   );
 };

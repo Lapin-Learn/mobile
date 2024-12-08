@@ -93,7 +93,7 @@ const Streak = () => {
 
 const textStyles = StyleSheet.create({
   extended: {
-    color: Styles.color.blue.DEFAULT.color,
+    ...Styles.color.blue.DEFAULT,
   },
   broken: {
     color: '#849EBC',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     ...Styles.fontSize['title-2'],
   },
   streakHistorySection: {
-    flex: 1,
+    height: '100%',
     flexGrow: 1,
     gap: 16,
     backgroundColor: Styles.color.background.color,

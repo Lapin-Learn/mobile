@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, BackHandler, Linking, Modal, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, Linking, Modal, Platform, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
+import Styles from '~/constants/GlobalStyles';
 import { firestore } from '~/lib/services';
+
+import { Button } from '../ui/Button';
 
 type AppInfo = {
   uniqueId: string;
@@ -73,12 +76,14 @@ export const Updating = () => {
           <Text style={styles.title}>{t('update.title')}</Text>
           <Text style={styles.message}>{t('update.message')}</Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+            <Button style={styles.button} onPress={handleUpdate}>
               <Text style={styles.buttonText}>{t('update.button')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
-              <Text style={[styles.buttonText, styles.cancelButtonText]}>{t('update.cancel')}</Text>
-            </TouchableOpacity>
+            </Button>
+            {releaseVersion?.force || (
+              <Button style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>{t('update.cancel')}</Text>
+              </Button>
+            )}
           </View>
         </View>
       </View>
@@ -101,12 +106,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-2'],
     marginBottom: 10,
   },
   message: {
-    fontSize: 16,
+    ...Styles.fontSize.body,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -118,20 +123,20 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingVertical: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#4CAF50',
+    paddingHorizontal: 5,
+    backgroundColor: '#ee5d28',
     borderRadius: 5,
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: 'transparent',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    ...Styles.font.bold,
+    ...Styles.fontSize['title-4'],
+    ...Styles.color.white,
   },
   cancelButtonText: {
-    color: 'white',
+    ...Styles.color.black,
   },
 });

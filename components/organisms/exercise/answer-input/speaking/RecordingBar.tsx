@@ -14,9 +14,13 @@ import { deleteUri } from '~/lib/utils/fileSystem';
 
 import { IconComponent } from './Icon';
 
-export const RecordBar = ({ question }: { question: string }) => {
+type RecordBarProps = {
+  question: string;
+  evaluate: ReturnType<typeof useSpeakingEvaluation>;
+};
+
+export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
-  const evaluate = useSpeakingEvaluation();
   const { recording, status, uri, soundType, setResult, setRecord, stopRecord, setUri, setSoundType, initState } =
     useSpeakingStore();
   const { t } = useTranslation('question');
@@ -109,7 +113,7 @@ export const RecordBar = ({ question }: { question: string }) => {
       <Component
         style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
         onPress={stopRecording}>
-        {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
+        {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} disabled={evaluate.isPending} />}
         {status?.isRecording ? (
           <>
             <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
@@ -125,7 +129,11 @@ export const RecordBar = ({ question }: { question: string }) => {
           />
         )}
         {!status?.isRecording && uri && (
-          <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
+          <IconComponent
+            icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play}
+            onPress={handlePlaySound}
+            disabled={evaluate.isPending}
+          />
         )}
       </Component>
     </>

@@ -79,7 +79,7 @@
   "update": {
     "title": "Cập nhật ứng dụng",
     "message": "Một phiên bản mới của ứng dụng đã sẵn sàng. Vui lòng cập nhật để tiếp tục.",
-    "button": "Cập nhật ngay",
+    "button": "Cập nhật",
     "cancel": "Hủy"
   }
 }
