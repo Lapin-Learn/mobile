@@ -10,6 +10,7 @@ import { Region } from '~/components/molecules/map/Region';
 import { Welcome } from '~/components/molecules/map/Welcome';
 import { StreakFreezeModal } from '~/components/molecules/StreakFreezeModal';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
+import { Updating } from '~/components/molecules/Updating';
 import PlatformView from '~/components/templates/PlatformView';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -17,7 +18,7 @@ import { SkillEnum } from '~/lib/enums';
 
 const Index = () => {
   const { data, isFetching, error } = useGameProfile();
-  const bottom = useSafeAreaInsets().bottom;
+  const { bottom } = useSafeAreaInsets();
 
   if (isFetching) {
     return <Loading />;
@@ -30,6 +31,7 @@ const Index = () => {
   return (
     <>
       <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+      <Updating />
       <PlatformView
         style={{
           height: '100%',

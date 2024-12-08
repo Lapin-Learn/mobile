@@ -119,6 +119,12 @@ const Index = () => {
         await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
       },
     },
+    {
+      label: 'terms.feedback',
+      action: async () => {
+        await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_FORM_CONTACT}`);
+      },
+    },
   ];
 
   return (

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { RiveWave } from '~/components/molecules/rive/Wave';
 import Styles from '~/constants/GlobalStyles';
 import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
 import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
@@ -13,9 +14,13 @@ import { deleteUri } from '~/lib/utils/fileSystem';
 
 import { IconComponent } from './Icon';
 
-export const RecordBar = ({ question }: { question: string }) => {
+type RecordBarProps = {
+  question: string;
+  evaluate: ReturnType<typeof useSpeakingEvaluation>;
+};
+
+export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
-  const evaluate = useSpeakingEvaluation();
   const { recording, status, uri, soundType, setResult, setRecord, stopRecord, setUri, setSoundType, initState } =
     useSpeakingStore();
   const { t } = useTranslation('question');
@@ -27,6 +32,12 @@ export const RecordBar = ({ question }: { question: string }) => {
       initState();
     };
   }, []);
+
+  useEffect(() => {
+    if (soundType === SpeakingSoundType.QUESTION) {
+      stopRecord();
+    }
+  }, [soundType]);
 
   async function startRecording() {
     try {
@@ -68,7 +79,6 @@ export const RecordBar = ({ question }: { question: string }) => {
   }
 
   async function sendRecording() {
-    // TODO: get Result IPA
     evaluate.mutate(
       { original: question, uri: uri! },
       {
@@ -83,8 +93,6 @@ export const RecordBar = ({ question }: { question: string }) => {
         },
       }
     );
-
-    // Result after mutate
   }
 
   const handleReplay = () => {
@@ -100,26 +108,51 @@ export const RecordBar = ({ question }: { question: string }) => {
   const Component = status?.isRecording ? Pressable : View;
 
   return (
-    <Component
-      style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.2 }]}
-      onPress={stopRecording}>
-      {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} />}
-      {status?.isRecording ? (
-        <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
-      ) : (
-        <IconComponent
-          name={uri ? 'Send' : 'Mic'}
-          icon={uri ? Send : Mic}
-          size={48}
-          color={Styles.color.white.color}
-          onPress={uri ? sendRecording : startRecording}
-          disabled={status?.isRecording || evaluate.isPending}
-        />
-      )}
-      {!status?.isRecording && uri && (
-        <IconComponent icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play} onPress={handlePlaySound} />
-      )}
-    </Component>
+    <>
+      {status?.isRecording && <RecordingRiveWave />}
+      <Component
+        style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
+        onPress={stopRecording}>
+        {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} disabled={evaluate.isPending} />}
+        {status?.isRecording ? (
+          <>
+            <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+          </>
+        ) : (
+          <IconComponent
+            name={uri ? 'Send' : 'Mic'}
+            icon={uri ? Send : Mic}
+            size={48}
+            color={Styles.color.white.color}
+            onPress={uri ? sendRecording : startRecording}
+            disabled={status?.isRecording || evaluate.isPending}
+          />
+        )}
+        {!status?.isRecording && uri && (
+          <IconComponent
+            icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play}
+            onPress={handlePlaySound}
+            disabled={evaluate.isPending}
+          />
+        )}
+      </Component>
+    </>
+  );
+};
+
+const RecordingRiveWave = () => {
+  return (
+    <View
+      style={{
+        width: 500,
+        height: 200,
+        zIndex: -1,
+        bottom: 0,
+        transform: [{ translateY: -25 }],
+        position: 'absolute',
+      }}>
+      <RiveWave />
+    </View>
   );
 };
 
