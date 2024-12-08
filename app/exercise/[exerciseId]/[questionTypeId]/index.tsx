@@ -160,7 +160,7 @@ const QuestionTypeScreen = () => {
         </View>
 
         <View style={styles.footer}>
-          {isComingSoon && (
+          {!isComingSoon && (
             <Button
               size='lg'
               onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)}

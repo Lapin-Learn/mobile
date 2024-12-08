@@ -42,9 +42,7 @@ const Streak = () => {
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
   const textStyle =
-    data?.streak?.current === 0 ||
-    (streakDays && new Date(streakDays[0].date).getDate() !== new Date().getDate()) ||
-    (!data?.streak?.extended && (data?.streak?.current ?? 0) > 0)
+    data?.streak?.current === 0 || (!data?.streak?.extended && (data?.streak?.current ?? 0) > 0)
       ? 'broken'
       : 'extended';
   const isLongestStreak = data?.streak.current === data?.streak.record;
