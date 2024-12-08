@@ -20,7 +20,8 @@ export const buyItem = async (params: BuyItemParams) => {
 
 export const getInventory = async () => {
   const response = await api.get<IInventory[]>('inventories');
-  return response.filter((item) => item.quantity > 0 || item.expAt);
+  // fixme: it should be item.quantity > 0 || item.expAt
+  return response.filter((item) => item.quantity > 0);
 };
 
 export const useItem = async (itemId: string) => {
