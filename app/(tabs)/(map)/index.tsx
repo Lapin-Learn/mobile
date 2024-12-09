@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -19,6 +20,7 @@ import { SkillEnum } from '~/lib/enums';
 const Index = () => {
   const { data, isFetching, error } = useGameProfile();
   const { bottom } = useSafeAreaInsets();
+  const [showUpdating, setShowUpdating] = useState(true);
 
   if (isFetching) {
     return <Loading />;
@@ -31,7 +33,7 @@ const Index = () => {
   return (
     <>
       <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-      <Updating />
+      {showUpdating && <Updating visible={showUpdating} setVisible={setShowUpdating} />}
       <PlatformView
         style={{
           height: '100%',

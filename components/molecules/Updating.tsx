@@ -22,10 +22,9 @@ type VersionProps = {
   force: boolean;
 };
 
-export const Updating = () => {
+export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible: (visible: boolean) => void }) => {
   const [appInfo, setAppInfo] = useState<AppInfo>();
   const [releaseVersion, setReleaseVersion] = useState<VersionProps>();
-  const [visible, setVisible] = useState(false);
   const { t } = useTranslation();
 
   const handleCancel = () => {
