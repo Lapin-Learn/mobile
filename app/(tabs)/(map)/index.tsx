@@ -20,7 +20,7 @@ import { SkillEnum } from '~/lib/enums';
 const Index = () => {
   const { data, isFetching, error } = useGameProfile();
   const { bottom } = useSafeAreaInsets();
-  const [showUpdating, setShowUpdating] = useState(true);
+  const [showUpdating, setShowUpdating] = useState(false);
 
   if (isFetching) {
     return <Loading />;
@@ -33,7 +33,7 @@ const Index = () => {
   return (
     <>
       <LinearGradient colors={['#FFF4E3', '#FFFFFF']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
-      {showUpdating && <Updating visible={showUpdating} setVisible={setShowUpdating} />}
+      <Updating visible={showUpdating} setVisible={setShowUpdating} />
       <PlatformView
         style={{
           height: '100%',
