@@ -12,6 +12,7 @@
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Hoàn thành {{quantity}} bài học hoàn hảo",
     "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Luyện tập {{requirements}} kỹ năng khác nhau",
     "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Học trong {{requirements}}",
-    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Học liên tiếp {{requirements}} ngày"
+    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Học liên tiếp {{requirements}} ngày",
+    "EXCEED_STREAK": "Học liên tiếp {{requirements}} ngày"
   }
 }

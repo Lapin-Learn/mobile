@@ -28,7 +28,8 @@
     "theoryPractice": "Practice theory",
     "noLessonFound": "No lesson found",
     "practiceBtn": "Start now",
-    "jumpNextBtn": "Jump to next band"
+    "jumpNextBtn": "Jump to next band",
+    "comingSoon": "Coming soon ..."
   },
   "streak": {
     "days": "Streak Days",
@@ -71,7 +72,14 @@
     ]
   },
   "terms": {
-    "title": "Terms",
-    "privacy_policy": "Privacy Policy"
+    "title": "Terms & Support",
+    "privacy_policy": "Privacy Policy",
+    "feedback": "Feedback about the app"
+  },
+  "update": {
+    "title": "Update App",
+    "message": "A new version of the app is ready. Please update to continue.",
+    "button": "Update",
+    "cancel": "Cancel"
   }
 }
