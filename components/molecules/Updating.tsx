@@ -55,7 +55,7 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   }, []);
 
   useEffect(() => {
-    if (appInfo && appInfo.appVersion !== releaseVersion?.version) {
+    if (appInfo && releaseVersion && appInfo.appVersion !== releaseVersion.version) {
       setVisible(true);
     }
   }, [appInfo, releaseVersion]);
@@ -67,6 +67,7 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
       Alert.alert('Update', 'Comming soon ...', [{ text: 'OK' }]);
     }
   };
+
   if (releaseVersion?.force === undefined) return null;
 
   return (
