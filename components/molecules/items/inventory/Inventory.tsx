@@ -28,7 +28,7 @@ export const Inventory = () => {
     <FlatList
       style={{ padding: 16 }}
       contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
-      columnWrapperStyle={{ justifyContent: data?.length === 1 ? 'flex-start' : 'center', gap: 16 }}
+      columnWrapperStyle={{ justifyContent: (data?.length || 0) % 2 === 1 ? 'flex-start' : 'center', gap: 16 }}
       numColumns={2}
       data={data}
       renderItem={({ item }) => (
