@@ -28,7 +28,8 @@
     "theoryPractice": "Ôn tập lý thuyết",
     "noLessonFound": "Không tìm thấy bài học",
     "practiceBtn": "Luyện tập",
-    "jumpNextBtn": "Thử thách nâng band"
+    "jumpNextBtn": "Thử thách nâng band",
+    "comingSoon": "Sắp ra mắt ..."
   },
   "streak": {
     "days": "Ngày Streak",
@@ -71,7 +72,14 @@
     ]
   },
   "terms": {
-    "title": "Điều khoản",
-    "privacy_policy": "Chính sách bảo mật"
+    "title": "Điều khoản & Hỗ trợ",
+    "privacy_policy": "Chính sách bảo mật",
+    "feedback": "Phản hồi về ứng dụng"
+  },
+  "update": {
+    "title": "Cập nhật ứng dụng",
+    "message": "Một phiên bản mới của ứng dụng đã sẵn sàng. Vui lòng cập nhật để tiếp tục.",
+    "button": "Cập nhật",
+    "cancel": "Hủy"
   }
 }

@@ -42,9 +42,7 @@ const Streak = () => {
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
   const textStyle =
-    data?.streak?.current === 0 ||
-    (streakDays && new Date(streakDays[0].date).getDate() !== new Date().getDate()) ||
-    (!data?.streak?.extended && (data?.streak?.current ?? 0) > 0)
+    data?.streak?.current === 0 || (!data?.streak?.extended && (data?.streak?.current ?? 0) > 0)
       ? 'broken'
       : 'extended';
   const isLongestStreak = data?.streak.current === data?.streak.record;
@@ -95,7 +93,7 @@ const Streak = () => {
 
 const textStyles = StyleSheet.create({
   extended: {
-    color: Styles.color.blue.DEFAULT.color,
+    ...Styles.color.blue.DEFAULT,
   },
   broken: {
     color: '#849EBC',
@@ -160,7 +158,7 @@ const styles = StyleSheet.create({
     ...Styles.fontSize['title-2'],
   },
   streakHistorySection: {
-    flex: 1,
+    height: '100%',
     flexGrow: 1,
     gap: 16,
     backgroundColor: Styles.color.background.color,

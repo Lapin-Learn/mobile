@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 
+import Styles from '~/constants/GlobalStyles';
+
 import { Button } from '../ui/Button';
 
 type ExitModalProps = {
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-
     flexDirection: 'column',
     justifyContent: 'flex-end',
     gap: 32,
@@ -87,8 +88,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ee5d28',
   },
   buttonText: {
+    ...Styles.font.bold,
+    ...Styles.fontSize.body,
+    ...Styles.color.white,
     fontSize: 17,
-    fontWeight: '600',
+    fontWeight: 600,
     color: '#FFFFFF',
   },
   exitButtonText: {
