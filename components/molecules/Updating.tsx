@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, BackHandler, Linking, Modal, Platform, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Modal, Platform, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import Styles from '~/constants/GlobalStyles';
@@ -29,7 +29,7 @@ export const Updating = () => {
   const { t } = useTranslation();
 
   const handleCancel = () => {
-    BackHandler.exitApp();
+    setVisible(false);
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const Updating = () => {
       setAppInfo({ uniqueId, deviceModel, deviceBrand, systemName, systemVersion, appVersion });
       await firestore
         .collection('Version')
-        .doc('ios')
+        .doc(Platform.OS)
         .get()
         .then((doc) => {
           const version = doc.data();
@@ -56,7 +56,7 @@ export const Updating = () => {
   }, []);
 
   useEffect(() => {
-    if (appInfo && appInfo.appVersion !== releaseVersion?.version && releaseVersion?.force) {
+    if (appInfo && appInfo.appVersion !== releaseVersion?.version) {
       setVisible(true);
     }
   }, [appInfo, releaseVersion]);
@@ -68,6 +68,7 @@ export const Updating = () => {
       Alert.alert('Update', 'Comming soon ...', [{ text: 'OK' }]);
     }
   };
+  if (releaseVersion?.force === undefined) return null;
 
   return (
     <Modal animationType='fade' transparent={true} visible={visible}>
