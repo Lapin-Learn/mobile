@@ -80,7 +80,6 @@
     "react-native-shared-group-preferences": "^1.1.24",
     "react-native-svg": "^15.2.0",
     "react-native-toast-message": "^2.2.0",
-    "react-native-track-player": "^4.1.1",
     "react-native-web": "~0.19.10",
     "react-query-kit": "^3.3.0",
     "rive-react-native": "^8.3.0",

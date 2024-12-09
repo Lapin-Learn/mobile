@@ -5,19 +5,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import Toast from 'react-native-toast-message';
-import TrackPlayer from 'react-native-track-player';
 
 import { AppStack } from '~/components/AppStack';
 import { PortalHost } from '~/components/primitives/portal';
-import { useSetupTrackPlayer } from '~/hooks/useSetupTrackPlayer';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import { AnalyticsProvider, AuthProvider, CrashlyticsProvider, NotificationProvider } from '~/lib/providers';
 import AuthScreenProvider from '~/lib/providers/authScreen';
-import { analytics, crashlytics, registerBackgroundService } from '~/lib/services';
+import { analytics, crashlytics } from '~/lib/services';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -35,18 +33,9 @@ const queryClient = new QueryClient({
   },
 });
 
-TrackPlayer.registerPlaybackService(() => registerBackgroundService);
-
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-  // Hide splash screen when TrackPlayer is loaded
-  const handleTrackPlayerLoaded = useCallback(() => {
-    SplashScreen.hideAsync();
-  }, []);
-
-  useSetupTrackPlayer({ onLoad: handleTrackPlayerLoaded });
-
   const [loaded] = useFonts({
     'Inter-Light': require('../assets/fonts/Inter_18pt-Light.ttf'),
     'Inter-ExtraLight': require('../assets/fonts/Inter_18pt-ExtraLight.ttf'),
