@@ -3,7 +3,7 @@
     "owner": "lapinlearn",
     "name": "LapinLearn",
     "slug": "lapinlearn",
-    "version": "1.0.1 beta 8",
+    "version": "1.0.1 beta 9",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -41,7 +41,7 @@
         "android.permissions.POST_NOTIFICATIONS"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000108
+      "versionCode": 1000109
     },
     "web": {
       "bundler": "metro",
