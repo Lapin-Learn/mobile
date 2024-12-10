@@ -7,7 +7,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         run: npm ci
 
       - name: Selecting Xcode Version
-        run: sudo xcode-select -switch /Applications/Xcode_16.2.app
+        run: sudo xcode-select -switch /Applications/Xcode_15.4.app
 
       - name: Running Xcode version Is?
         run: /usr/bin/xcodebuild -version
@@ -46,23 +46,40 @@ jobs:
             ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
           EOF
 
-      - name: Generate 'ios'
-        run: npx expo prebuild --platform ios
-
       - name: Build Cleanup
         run: |
-          xcodebuild clean -project ios/LapinLearn.xcodeproj -scheme LapinLearn | xcpretty
+          xcodebuild clean -project ios/LapinLearn.xcodeproj -scheme LapinLearn
+
+      - name: Generate 'ios'
+        run: npx expo prebuild --platform ios && cd ios && rm -rf Pods Podfile.lock && pod install --repo-update && pod install && cd ..
+
+
+
+  release:
+    name: Release IPA
+    runs-on: macos-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Verify Xcode project path
+        run: ls -la ios/
+
+      - name: Kill Xcode
+        run: ps aux | grep Xcode | grep -v grep | awk '{print $2}' | xargs kill -9 || true
 
       - name: Build Archive
         uses: yukiarrr/ios-build-action@v1.5.0
         with:
-          project-path: ios/LapinLearn.xcodeproj
-          workspace-path: ios/LapinLearn.xcworkspace
+          project-path: ${{ github.workspace }}/ios/LapinLearn.xcodeproj
+          workspace-path: ${{ github.workspace }}/ios/LapinLearn.xcworkspace
           scheme: LapinLearn
           configuration: Release
           export-method: app-store
-          p12-key-base64: ${{ secrets.IOS_CERT_PASSWORD }}
-          p12-cer-base64: ${{ secrets.IOS_CERTIFICATE }}
+          p12-base64: ${{ secrets.IOS_CERTIFICATE }}
+          certificate-password: ${{ secrets.IOS_CERT_PASSWORD }}
           mobileprovision-base64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
           code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
           team-id: ${{ secrets.TEAM_ID }}
