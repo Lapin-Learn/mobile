@@ -26,9 +26,9 @@ export const Inventory = () => {
 
   return (
     <FlatList
-      style={{ padding: 16 }}
-      contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
-      columnWrapperStyle={{ justifyContent: (data?.length || 0) % 2 === 1 ? 'flex-start' : 'center', gap: 16 }}
+      style={{ width: '100%', padding: 16 }}
+      contentContainerStyle={{ justifyContent: 'center', gap: 12 }}
+      columnWrapperStyle={{ justifyContent: 'space-between' }}
       numColumns={2}
       data={data}
       renderItem={({ item }) => (
@@ -43,7 +43,6 @@ export const Inventory = () => {
         />
       )}
       keyExtractor={(item) => item.id}
-      ListFooterComponent={() => <View style={{ height: 20 }} />}
     />
   );
 };

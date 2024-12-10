@@ -19,7 +19,7 @@ export const Item = (props: ItemCardProps) => {
   const { openModal } = useShopStore();
 
   return (
-    <View
+    <Pressable
       style={[
         styles.itemView,
         {
@@ -28,41 +28,33 @@ export const Item = (props: ItemCardProps) => {
           ...Styles.borderColor.neutral[100],
           ...Styles.backgroundColor.white,
         },
-      ]}>
-      <Pressable
-        style={styles.itemButton}
-        onPress={() =>
-          openModal({
-            ...props,
-            type: 'use',
-          })
-        }>
-        <View style={{ paddingVertical: 17.25 }}>
-          <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
-          <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
-            {t(`shop.items.${props.name}.name`)}
-          </Text>
-          <Text style={{ ...Styles.fontSize['caption-1'], ...Styles.font.normal }}>
-            {t('inventory.Amount', { amount: props.amount })}
-          </Text>
-        </View>
-      </Pressable>
-    </View>
+      ]}
+      onPress={() =>
+        openModal({
+          ...props,
+          type: 'use',
+        })
+      }>
+      <View style={{ paddingVertical: 17.25 }}>
+        <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
+      </View>
+      <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
+        <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
+          {t(`shop.items.${props.name}.name`)}
+        </Text>
+        <Text style={{ ...Styles.fontSize['caption-1'], ...Styles.font.normal }}>
+          {t('inventory.Amount', { amount: props.amount })}
+        </Text>
+      </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   itemView: {
-    flexBasis: '45%',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 0,
-  },
-  itemButton: {
-    width: '100%',
-    alignItems: 'center',
     padding: 8,
+    width: '48.5%',
   },
 });
