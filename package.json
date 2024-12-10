@@ -111,7 +111,6 @@
     "metro": "~0.80.8",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.0.0",
-    "react-native-codegen": "^0.70.7",
     "react-native-svg-transformer": "^1.5.0",
     "react-test-renderer": "18.2.0",
     "ts-node": "^10.9.2",
