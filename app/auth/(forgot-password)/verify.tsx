@@ -64,8 +64,22 @@ const Verify = () => {
 
   const handleTextChange = (text: string, index: number, field: any) => {
     const newCode = [...field.value];
-    newCode[index] = text;
-    field.onChange(newCode);
+
+    if (text.length > 1) {
+      if (field.value[index].length !== 0) {
+        newCode[index] = text.slice(-1);
+        field.onChange(newCode);
+      } else {
+        const splitCode = text.split('');
+        field.onChange(splitCode);
+        codeRef.current[5].focus();
+        return;
+      }
+    } else {
+      newCode[index] = text;
+      field.onChange(newCode);
+    }
+
     if (text && index < 5) {
       codeRef.current[index + 1].focus();
     } else if (text && index === 5) {
@@ -78,7 +92,7 @@ const Verify = () => {
 
   return (
     <PlatformView>
-      <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={16} style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
         <View style={styles.container}>
           <View style={styles.instructionContainer}>
@@ -99,20 +113,21 @@ const Verify = () => {
               name='code'
               render={({ field }) => (
                 <View style={styles.codeInputContainer}>
-                  {field.value.map((_, i) => (
+                  {[...Array(6)].map((_, i) => (
                     <TextInput
                       key={i}
                       ref={(ref) => (codeRef.current[i] = ref!)}
                       style={styles.codeInput}
                       placeholderTextColor={Styles.color.neutral[700].color}
-                      maxLength={1}
                       textAlignVertical='center'
                       keyboardType='numeric'
                       value={field.value[i]}
                       textAlign='center'
                       allowFontScaling={false}
                       onBlur={field.onBlur}
-                      onChangeText={(text) => handleTextChange(text, i, field)}
+                      onChangeText={(text) => {
+                        handleTextChange(text, i, field);
+                      }}
                     />
                   ))}
                 </View>

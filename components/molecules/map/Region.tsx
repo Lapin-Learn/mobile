@@ -47,10 +47,9 @@ export const Region = ({ name }: RegionProps) => {
     <View
       style={{
         flex: 1,
-
-        ...Styles.backgroundColor.neutral[50],
         borderRadius: 16,
         overflow: 'hidden',
+        ...Styles.backgroundColor.neutral[50],
       }}>
       <Pressable onPress={handleExercise} style={{ width: '100%' }}>
         <ActionSelectRegion region={regionMapping[name]} />

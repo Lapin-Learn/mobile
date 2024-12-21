@@ -90,6 +90,25 @@ const fontSize = {
   },
 };
 
+const iconSize = {
+  sm: {
+    width: 20,
+    height: 20,
+  },
+  base: {
+    width: 24,
+    height: 24,
+  },
+  md: {
+    width: 28,
+    height: 28,
+  },
+  lg: {
+    width: 36,
+    height: 36,
+  },
+};
+
 const baseColors = {
   orange: {
     50: '#fdefea',
@@ -218,14 +237,16 @@ type StyleProps = {
   color: typeof color;
   backgroundColor: typeof backgroundColor;
   borderColor: typeof borderColor;
+  iconSize: typeof iconSize;
 };
 
 const Styles: StyleProps = {
   font,
   fontSize,
   color,
-  backgroundColor: backgroundColor,
-  borderColor: borderColor,
+  backgroundColor,
+  borderColor,
+  iconSize,
 };
 
 export { baseColors as Colors };

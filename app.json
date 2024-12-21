@@ -6,7 +6,7 @@
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "LapinLearn",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -14,6 +14,7 @@
       "backgroundColor": "#F9F7F7"
     },
     "ios": {
+      "requireFullScreen": true,
       "entitlements": {
         "aps-environment": "production"
       },
@@ -21,7 +22,7 @@
         "usesNonExemptEncryption": false
       },
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true,
+      "supportsTablet": false,
       "infoPlist": {
         "CFBundleName": "Lapin Learn",
         "CFBundleAllowMixedLocalizations": true,
@@ -77,6 +78,12 @@
         "expo-av",
         {
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "PORTRAIT"
         }
       ],
       "./lib/plugins/withPodfile"

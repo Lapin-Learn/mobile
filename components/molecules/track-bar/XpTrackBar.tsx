@@ -18,7 +18,7 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
   return (
     <View style={styles.root}>
       <View style={StyleSheet.flatten([styles.root, { gap: 6 }])}>
-        <RankIcon name={rank} width={24} height={24} />
+        <RankIcon name={rank} {...Styles.iconSize.base} />
         <View style={{ width: 120 }}>
           <View style={StyleSheet.flatten([styles.root, { alignItems: 'flex-end', justifyContent: 'space-between' }])}>
             <Text style={trackBarStyles.textLevel}>Lv. {level}</Text>
