@@ -31,7 +31,12 @@
     "custom_settings": "Custom Settings",
     "notifications": "Notifications",
     "social_accounts": "Social Accounts",
-    "privacy_settings": "Privacy Settings"
+    "privacy_settings": "Privacy Settings",
+    "delete_account": {
+      "title": "Delete Account",
+      "description": "Are you sure you want to delete your account? This action cannot be undone.",
+      "delete_button": "Delete"
+    }
   },
   "sign_out": "Sign Out",
   "change_password": {

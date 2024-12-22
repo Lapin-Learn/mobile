@@ -5,8 +5,9 @@ import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { ConfirmationModal } from '~/components/molecules/ConfirmationModal';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
@@ -25,6 +26,31 @@ import {
 import { useToast } from '~/hooks/useToast';
 import { IPresignedUrl } from '~/lib/types';
 
+const settingsData = [
+  {
+    label: 'settings.custom_settings',
+    action: () => {},
+  },
+  { label: 'settings.notifications', action: () => {} },
+  { label: 'settings.social_accounts', action: () => {} },
+  { label: 'settings.delete_account.title', action: () => {} },
+];
+
+const termsData = [
+  {
+    label: 'terms.privacy_policy',
+    action: async () => {
+      await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
+    },
+  },
+  {
+    label: 'terms.feedback',
+    action: async () => {
+      await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_FORM_CONTACT}`);
+    },
+  },
+];
+
 const Index = () => {
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
@@ -35,6 +61,7 @@ const Index = () => {
   const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [image, setImage] = useState('https://via.placeholder.com/48');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const toast = useToast();
 
   const handleEdit = () => {
@@ -102,30 +129,9 @@ const Index = () => {
     { label: 'profile.email', value: data?.email ?? 'default' },
   ];
 
-  const settingsData = [
-    {
-      label: 'settings.custom_settings',
-      action: () => {},
-    },
-    { label: 'settings.notifications', action: () => {} },
-    { label: 'settings.social_accounts', action: () => {} },
-    { label: 'settings.privacy_settings', action: () => {} },
-  ];
-
-  const termsData = [
-    {
-      label: 'terms.privacy_policy',
-      action: async () => {
-        await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_ENDPOINT}/privacy-policy`);
-      },
-    },
-    {
-      label: 'terms.feedback',
-      action: async () => {
-        await WebBrowser.openBrowserAsync(`${process.env.EXPO_PUBLIC_URL_FORM_CONTACT}`);
-      },
-    },
-  ];
+  const handleDeleteAccount = () => {
+    console.log('delete account');
+  };
 
   return (
     <PlatformView>
@@ -169,14 +175,32 @@ const Index = () => {
             </ProfileSection.Group>
           </ProfileSection>
 
-          {/* TODO: Implement setting later */}
-          {/* <ProfileSection>
-            <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] />
-            <ProfileSection.List
-              data={settingsData.map((item) => ({ label: t(item.label), action: item.action }))}
-              rightIcon={ChevronRight}
-            />
-          </ProfileSection> */}
+          {Platform.OS === 'ios' && (
+            <>
+              {isModalVisible && (
+                <ConfirmationModal
+                  visible={isModalVisible}
+                  setVisible={setIsModalVisible}
+                  content={{
+                    title: t('settings.delete_account.title'),
+                    message: t('settings.delete_account.description'),
+                    confirmText: t('settings.delete_account.delete_button'),
+                    confirmAction: handleDeleteAccount,
+                    cancelAction: () => setIsModalVisible(false),
+                  }}
+                />
+              )}
+              <ProfileSection>
+                <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] }} />
+                <ProfileSection.List
+                  data={settingsData
+                    .filter((item) => item.label === 'settings.delete_account.title')
+                    .map((item) => ({ label: t(item.label), action: () => setIsModalVisible(true) }))}
+                  rightIcon={ChevronRight}
+                />
+              </ProfileSection>
+            </>
+          )}
 
           <ProfileSection>
             <ProfileSection.Title

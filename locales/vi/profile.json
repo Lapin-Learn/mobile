@@ -31,7 +31,12 @@
     "custom_settings": "Cài đặt riêng",
     "notifications": "Thông báo",
     "social_accounts": "Tài khoản mạng xã hội",
-    "privacy_settings": "Cài đặt quyền riêng tư"
+    "privacy_settings": "Cài đặt quyền riêng tư",
+    "delete_account": {
+      "title": "Xóa tài khoản",
+      "description": "Xóa tài khoản của bạn? Hành động này không thể hoàn tác.",
+      "delete_button": "Xóa"
+    }
   },
   "sign_out": "Đăng xuất",
   "change_password": {

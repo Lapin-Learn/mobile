@@ -5,15 +5,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Maximize2, Minimize2 } from 'lucide-react-native';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { Pressable, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import { AppStack } from '~/components/AppStack';
+import { BreakpointView } from '~/components/molecules/Breakpoint';
 import { PortalHost } from '~/components/primitives/portal';
-import { Breakpoint, getBreakpoint } from '~/hooks/useBreakpoint';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
 import { AnalyticsProvider, AuthProvider, CrashlyticsProvider, NotificationProvider } from '~/lib/providers';
@@ -69,9 +67,6 @@ const RootLayout = () => {
     // TODO: set up crashlytics and analytics for production
   }
 
-  // 844 390
-  const [isZoomed, setIsZoomed] = useState(false);
-
   return (
     <ThemeProvider value={LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
@@ -83,30 +78,9 @@ const RootLayout = () => {
                   <NotificationProvider>
                     {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
                     <StatusBar style='light' />
-                    <ZoomIcon isZoomed={isZoomed} setIsZoomed={setIsZoomed} />
-
-                    {getBreakpoint() !== Breakpoint.Mobile ? (
-                      <View
-                        style={{
-                          flex: 1,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor: '#000000',
-                        }}>
-                        <View
-                          style={
-                            getBreakpoint() !== Breakpoint.Mobile && {
-                              width: 390,
-                              height: 844,
-                              transform: [{ scale: isZoomed ? 1.5 : 1 }],
-                            }
-                          }>
-                          <AppStack />
-                        </View>
-                      </View>
-                    ) : (
+                    <BreakpointView>
                       <AppStack />
-                    )}
+                    </BreakpointView>
                     <Toast />
                     <PortalHost />
                   </NotificationProvider>
@@ -117,21 +91,6 @@ const RootLayout = () => {
         </AnalyticsProvider>
       </QueryClientProvider>
     </ThemeProvider>
-  );
-};
-
-const ZoomIcon = ({ isZoomed, setIsZoomed }: { isZoomed: boolean; setIsZoomed: Dispatch<SetStateAction<boolean>> }) => {
-  return (
-    <Pressable
-      onPress={() => setIsZoomed((prev) => !prev)}
-      style={{
-        position: 'absolute',
-        zIndex: 1000,
-        right: 16,
-        bottom: 16,
-      }}>
-      {isZoomed ? <Minimize2 size={32} color='#ffffff' /> : <Maximize2 size={32} color='#ffffff' />}
-    </Pressable>
   );
 };
 
