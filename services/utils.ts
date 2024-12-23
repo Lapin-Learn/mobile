@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { TokenType } from '~/types';
+import { TokenType } from '~/lib/types';
 
 export const TOKEN_KEY = 'token';
 export const USER_KEY = 'user';
 export const FIRST_LAUNCH = 'firstLaunch';
+export const UPDATE_VERSION = 'updateVersion';
 
 export const getTokenAsync = async () => {
   const token = await AsyncStorage.getItem(TOKEN_KEY);
@@ -26,4 +27,17 @@ export const isFirstLaunchAsync = async () => {
   } catch {
     return false;
   }
+};
+
+export const getTurnOffUpdatePopupAsync = async () => {
+  try {
+    const updateVersion = await AsyncStorage.getItem(UPDATE_VERSION);
+    return updateVersion;
+  } catch {
+    return null;
+  }
+};
+
+export const setTurnOffUpdatePopupAsync = async (version: string) => {
+  await AsyncStorage.setItem(UPDATE_VERSION, version);
 };

@@ -19,6 +19,7 @@ import { useSignOut } from '~/hooks/react-query/useAuth';
 import {
   useCreatePreSignedUrl,
   useCreateUpdatePreSignedUrl,
+  useDeleteAccount,
   useUpdateUserProfile,
   useUploadAvatar,
   useUserProfile,
@@ -59,6 +60,7 @@ const Index = () => {
   const uploadAvatar = useUploadAvatar();
   const updateUserProfile = useUpdateUserProfile();
   const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
+  const deleteAccount = useDeleteAccount();
   const [isAvatarChanged, setIsAvatarChanged] = useState(false);
   const [image, setImage] = useState('https://via.placeholder.com/48');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -130,7 +132,7 @@ const Index = () => {
   ];
 
   const handleDeleteAccount = () => {
-    console.log('delete account');
+    deleteAccount.mutate();
   };
 
   return (

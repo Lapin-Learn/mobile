@@ -12,7 +12,13 @@
     "update": "Lưu thay đổi",
     "change_password": "Đổi mật khẩu",
     "not_found": "Không tìm thấy thông tin người dùng",
-    "done": "Cập nhật"
+    "done": "Cập nhật",
+    "updated": "Cập nhật thông tin thành công",
+    "password_changed": "Đổi mật khẩu thành công",
+    "unauthorized": "Truy cập bị từ chối",
+    "unauthorized_response": "Vui lòng cung cấp thông tin đăng nhập hợp lệ",
+    "deleted": "Tài khoản đã bị xóa thành công",
+    "deleted_response": "Tài khoản của bạn {{email}} đã bị xóa."
   },
   "placeholder": {
     "username": "Nhập tên đăng nhập",

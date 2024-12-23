@@ -23,24 +23,6 @@ const Lesson = () => {
     if (isSuccess && data) {
       setQuestions(
         data.questionToLessons.map((q) => q.question),
-        // data.questionToLessons.map((q) => {
-        //   return {
-        //     id: q.question.id,
-        //     explanation: q.question.explanation,
-        //     cefrLevel: q.question.cefrLevel,
-        //     imageId: q.question.imageId,
-        //     image: q.question.image,
-        //     audioId: q.question.audioId,
-        //     audio: q.question.audio,
-        //     createdAt: q.question.createdAt,
-        //     updatedAt: q.question.updatedAt,
-        //     content: {
-        //       paragraph: q.question.content.paragraph,
-        //       question: 'Hello everyone, my name is Truc and today I will talk about the speaking service.',
-        //     },
-        //     contentType: ContentTypeEnum.PRONUNCIATION,
-        //   };
-        // }),
         lessonId
       );
     }

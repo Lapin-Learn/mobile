@@ -12,7 +12,13 @@
     "update": "Save changes",
     "change_password": "Change password",
     "not_found": "User information not found",
-    "done": "Done"
+    "done": "Done",
+    "updated": "Profile updated successfully",
+    "password_changed": "Password changed successfully",
+    "unauthorized": "Access denied",
+    "unauthorized_response": "Please provide valid credentials",
+    "deleted": "Account deleted successfully",
+    "deleted_response": "Your account {{email}} has been deleted."
   },
   "placeholder": {
     "username": "Enter your user name",

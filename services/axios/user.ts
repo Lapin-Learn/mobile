@@ -39,3 +39,8 @@ export const getGameProfile = async () => {
   const data = await api.get<IGameProfile>('users/profile/gamification');
   return data;
 };
+
+export const deleteAccount = async () => {
+  const data = await api.delete('users/account');
+  return data;
+};
