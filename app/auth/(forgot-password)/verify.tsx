@@ -135,9 +135,11 @@ const Verify = () => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending}>
-              <Text style={GLOBAL_STYLES.textButton}>{t('verify.checkOtpButton')}</Text>
-            </Button>
+            {codeRef.current[5] && (
+              <Button size='lg' onPress={handleSubmit(onSubmit)} disabled={verifyMutation.isPending}>
+                <Text style={GLOBAL_STYLES.textButton}>{t('verify.checkOtpButton')}</Text>
+              </Button>
+            )}
             <View style={styles.resendContainer}>
               <Text
                 style={{

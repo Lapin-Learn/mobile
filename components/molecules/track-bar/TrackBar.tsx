@@ -1,5 +1,5 @@
 import { Href, router } from 'expo-router';
-import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -13,7 +13,7 @@ type TrackBarProps = {
 };
 
 const TrackBar = ({ data }: TrackBarProps) => {
-  const { height } = useWindowDimensions();
+  const { height } = Dimensions.get('window');
   if (!data) return null;
 
   return (
