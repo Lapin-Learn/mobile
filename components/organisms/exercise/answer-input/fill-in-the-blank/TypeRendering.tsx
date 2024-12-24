@@ -57,29 +57,28 @@ const ParagraphRenderer = ({
   onTextChange,
   hasSubmission,
 }: ParagraphRendererProps) => {
-  const children: JSX.Element[] = [];
-
-  elements?.forEach((element) => {
+  const renderContent = elements.map((element, index) => {
     if (element.type === 'text' && element.text) {
-      children.push(<TextRenderer key={`text-${element.text}`} text={element.text} />);
+      return <TextRenderer key={`text-${index}`} text={element.text} />;
     } else if (element.type === 'blank' && element.text) {
-      children.push(
+      const blankIndex = blankCounter.current++;
+      return (
         <BlankRenderer
           key={`blank-${blankCounter.current}`}
           index={blankCounter.current}
           fieldState={fieldState}
           onTextChange={onTextChange}
           correctAnswer={element.text}
-          isAnswerCorrect={hasSubmission ? fieldState.value[blankCounter.current] === element.text : null}
+          isAnswerCorrect={hasSubmission ? fieldState.value[blankIndex] === element.text : null}
         />
       );
-      blankCounter.current += 1;
     } else if (element.type === 'break') {
-      children.push(<Text key={`break-${Math.random()}`} style={[styles.textInput, { flex: 1 }]} />);
+      return <FillInTheBlankSpacer key={`break-${index}`} />;
     }
+    return null;
   });
 
-  return <View style={styles.container}>{children}</View>;
+  return <View style={styles.container}>{renderContent}</View>;
 };
 
 type FillInTheBlankContentRendererProps = {
@@ -89,6 +88,7 @@ type FillInTheBlankContentRendererProps = {
   hasSubmission: boolean;
 };
 
+const FillInTheBlankSpacer = () => <Text style={styles.spacer} />;
 const FillInTheBlankContentRenderer = ({
   content,
   fieldState,
@@ -125,7 +125,7 @@ const FillInTheBlankContentRenderer = ({
             />
           );
         } else if (element.type === 'break') {
-          return <Text key={`break-${index}`}>{'\n'}</Text>;
+          return <FillInTheBlankSpacer key={`break-${index}`} />;
         }
         throw new Error(`Unknown element type: ${element.type}`);
       })}
@@ -147,5 +147,10 @@ const styles = StyleSheet.create({
     ...Styles.font.normal,
     ...Styles.fontSize.body,
     ...Styles.color.black,
+  },
+  spacer: {
+    height: 1,
+    width: '100%',
+    marginVertical: 8,
   },
 });
