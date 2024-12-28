@@ -1,8 +1,6 @@
-import { ChevronsDown, ChevronsUp } from 'lucide-react-native';
-import { useState } from 'react';
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 import Styles from '~/constants/GlobalStyles';
 
@@ -11,9 +9,6 @@ type ReadingContainerProps = {
 };
 
 const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
-  const [isTop, setIsTop] = useState(true);
-  const [isBottom, setIsBottom] = useState(false);
-  const [isScrollable, setIsScrollable] = useState(false);
   const screenHeight = Dimensions.get('window').height;
   const minHeight = screenHeight * 0.1;
   const maxHeight = screenHeight * 0.6;
@@ -21,19 +16,6 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const scrollViewHeight = useSharedValue(defaultHeight);
   const contentHeightRef = useSharedValue(0);
   const panOffset = useSharedValue(0);
-
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
-    const top = contentOffset.y === 0;
-    const bottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 1;
-    setIsTop(top);
-    setIsBottom(bottom);
-    setIsScrollable(contentSize.height > layoutMeasurement.height);
-  };
-
-  const updateScrollable = (newHeight: number) => {
-    setIsScrollable(newHeight < contentHeightRef.value);
-  };
 
   const pan = Gesture.Pan()
     .onBegin(() => {
@@ -52,7 +34,6 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
         Math.min(scrollViewHeight.value, maxHeight)
       );
       scrollViewHeight.value = finalHeight;
-      runOnJS(updateScrollable)(finalHeight);
     });
 
   const animatedStyle = useAnimatedStyle(
@@ -65,25 +46,11 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   return (
     <View style={{ position: 'relative' }}>
       <Animated.View style={[animatedStyle]}>
-        <ScrollView
-          style={styles.scrollView}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          onContentSizeChange={(_, contentHeight) => {
-            contentHeightRef.value = contentHeight;
-            const initialHeight = Math.min(defaultHeight, contentHeight);
-            scrollViewHeight.value = initialHeight;
-            setIsScrollable(contentHeight > initialHeight);
-          }}>
+        <ScrollView style={styles.scrollView} scrollEventThrottle={16}>
           {children}
         </ScrollView>
       </Animated.View>
-      {isScrollable && (
-        <View style={styles.arrowsContainer}>
-          <ChevronsUp color={isTop ? '#cccccc' : '#5c5c5c'} />
-          <ChevronsDown color={isBottom ? '#cccccc' : '#5c5c5c'} />
-        </View>
-      )}
+
       <GestureDetector gesture={pan}>
         <Animated.View style={styles.dragHandlerContainer}>
           <View style={styles.dragHandler} />
@@ -94,23 +61,13 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
 };
 
 const styles = StyleSheet.create({
-  arrowsContainer: {
-    position: 'absolute',
-    bottom: 24,
-    right: 8,
-
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 8,
-  },
   scrollView: {
     flexGrow: 0,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
   },
   dragHandlerContainer: {
     width: '100%',
     height: 12,
-
     marginVertical: 8,
     ...Styles.backgroundColor.neutral[100],
     opacity: 0.7,

@@ -1,0 +1,103 @@
+name: Release Artifact
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Access workspace
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies without updating lockfile
+        run: npm ci
+
+      - name: Selecting Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_15.4.app
+
+      - name: Write env
+        run: |
+          cat << EOF > .env
+            ${{ secrets.ENV }}
+          EOF
+
+      - name: Write 'Google Services' file
+        run: |
+          cat << EOF > ./GoogleService-Info.plist
+            ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+          EOF
+
+      - name: Generate 'ios'
+        run: npx expo prebuild --platform ios && cd ios && rm -rf Pods Podfile.lock && gem install cocoapods && pod install && cd ..
+
+      - name: Clear Build Cache
+        run: xcodebuild clean -workspace ios/LapinLearn.xcworkspace -scheme LapinLearn -configuration Releas
+        
+      - name: Create Provisioning Profile
+        run: |
+          cat << EOF > ./output.txt
+            ${{ secrets.IOS_PROVISIONING_PROFILE }}
+          EOF
+          echo "${{ secrets.IOS_PROVISIONING_PROFILE }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/LapinLearn.mobileprovision
+      
+      - name: Create Archive
+        run: |
+          xcodebuild archive \
+            -workspace ios/LapinLearn.xcworkspace \
+            -scheme LapinLearn \
+            -configuration Release \
+            -archivePath ./ios/build/LapinLearn.xcarchive \
+            PROVISIONING_PROFILE="${{ secrets.IOS_PROVISIONING_PROFILE }}" \
+            CODE_SIGN_IDENTITY="${{ secrets.CODE_SIGNING_IDENTITY }}"
+            CODE_SIGN_STYLE="Manual" \
+            DEVELOPMENT_TEAM="${{ secrets.TEAM_ID }}"
+    
+      - name: Create Provisioning Profile
+        run: |
+          echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/LapinLearn.mobileprovision
+
+      - name: Create Archive
+        run: xcodebuild archive -workspace ios/LapinLearn.xcworkspace -scheme LapinLearn -configuration Release -archivePath ./ios/build/LapinLearn.xcarchive PROVISIONING_PROFILE="${{ secrets.IOS_PROVISIONING_PROFILE }}" CODE_SIGN_IDENTITY="Apple Distribution: Do Huy (MTRZDN72AF)"
+
+      - name: Create ExportOptions.plist
+        run: |
+          cat << EOF > ExportOptions.plist
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+            <plist version="1.0">
+            <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>teamID</key>
+              <string>${{ secrets.TEAM_ID }}</string>
+              <key>uploadSymbols</key>
+              <true/>
+            </dict>
+            </plist>
+          EOF
+
+      - name: Export IPA
+        run: xcodebuild -exportArchive -archivePath ./ios/build/LapinLearn.xcarchive -exportPath ./build -exportOptionsPlist ExportOptions.plist
+
+      - name: Release ipa artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ipa
+          path: ./build/LapinLearn/Lapin Learn.ipa
+
+      - name: Upload to TestFlight
+        run: xcrun altool --upload-app -f "./ios/build/LapinLearn/Lapin Learn.ipa" -t ios -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APP_SPECIFIC_PASSWORD }} --verbose
+
+        echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/LapinLearn.mobileprovision

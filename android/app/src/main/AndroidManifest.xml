@@ -33,6 +33,7 @@
         <data android:scheme="myapp"/>
         <data android:scheme="com.datn.lapinlearn"/>
         <data android:scheme="exp+lapinlearn"/>
+        <data android:scheme="lapinlearn"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

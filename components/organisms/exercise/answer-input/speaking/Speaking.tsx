@@ -90,7 +90,6 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
     } else {
       if (playbackStatus.isPlaying) {
         if (soundType === SpeakingSoundType.IDLE) {
-          console.log('pause');
           await sound?.pauseAsync();
         }
       }

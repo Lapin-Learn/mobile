@@ -12,7 +12,13 @@
     "update": "Lưu thay đổi",
     "change_password": "Đổi mật khẩu",
     "not_found": "Không tìm thấy thông tin người dùng",
-    "done": "Cập nhật"
+    "done": "Cập nhật",
+    "updated": "Cập nhật thông tin thành công",
+    "password_changed": "Đổi mật khẩu thành công",
+    "unauthorized": "Truy cập bị từ chối",
+    "unauthorized_response": "Vui lòng cung cấp thông tin đăng nhập hợp lệ",
+    "deleted": "Tài khoản đã bị xóa thành công",
+    "deleted_response": "Tài khoản của bạn {{email}} đã bị xóa."
   },
   "placeholder": {
     "username": "Nhập tên đăng nhập",
@@ -31,7 +37,12 @@
     "custom_settings": "Cài đặt riêng",
     "notifications": "Thông báo",
     "social_accounts": "Tài khoản mạng xã hội",
-    "privacy_settings": "Cài đặt quyền riêng tư"
+    "privacy_settings": "Cài đặt quyền riêng tư",
+    "delete_account": {
+      "title": "Xóa tài khoản",
+      "description": "Xóa tài khoản của bạn? Hành động này không thể hoàn tác.",
+      "delete_button": "Xóa"
+    }
   },
   "sign_out": "Đăng xuất",
   "change_password": {

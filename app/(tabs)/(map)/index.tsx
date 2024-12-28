@@ -37,7 +37,8 @@ const Index = () => {
       <PlatformView
         style={{
           height: '100%',
-          marginHorizontal: 16,
+          margin: 16,
+          marginBottom: 0,
           justifyContent: 'flex-start',
         }}>
         <Welcome />
