@@ -20,8 +20,8 @@ import { GLOBAL_STYLES } from '~/lib/constants';
 import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
-  username: z.string().min(3, 'error.username'),
-  fullName: z.string().min(1, 'error.fullname'),
+  username: z.string().min(3, 'error.username.min').max(20, 'error.username.max'),
+  fullName: z.string().min(1, 'error.fullname.min').max(30, 'error.fullname.max'),
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'error.dob_min' })

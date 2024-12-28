@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { router } from 'expo-router';
 
+import i18next from '~/i18n';
+
 import { AuthInfo } from './axios/auth';
 import { FIRST_LAUNCH, getTokenAsync, setTokenAsync } from './utils';
 
@@ -79,11 +81,16 @@ axiosInstance.interceptors.response.use(
 );
 
 const formatError = (error: any | AxiosError): APIError => {
+  const { t } = i18next;
   let message = error.message;
   const status = error.response?.status || 500;
 
   if (error.response?.data?.message) {
     message = error.response.data.message;
+  }
+
+  if (message === 'undefined') {
+    message = t('error.undefined', { ns: 'auth' });
   }
 
   console.log('API Error:', error);

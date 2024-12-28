@@ -8,8 +8,14 @@
   "error": {
     "email": "Invalid email",
     "code": "Invalid code",
-    "username": "Username must be at least 3 characters",
-    "fullname": "Full name must be at least 1 character",
+    "username": {
+      "min": "Username must be at least 3 characters long",
+      "max": "Username can't be longer than 20 characters"
+    },
+    "fullname": {
+      "min": "Fullname must be at least 3 characters long",
+      "max": "Fullname can't be longer than 50 characters"
+    },
     "dob_min": "Date of birth can't be less than 1900",
     "dob_max": "Date of birth must be less than {{max}}"
   }

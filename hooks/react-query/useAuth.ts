@@ -34,7 +34,8 @@ export const useSignUp = () => {
       });
     },
     onError: (error) => {
-      toast.show({ type: 'error', text1: t(`error.${AUTH_ERRORS[error.message]}`) });
+      const errMes = AUTH_ERRORS[error.message];
+      toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : t('error.undefined') });
     },
   });
 };
@@ -69,7 +70,7 @@ export const useSignIn = () => {
     },
     onError: (error) => {
       const errMes = AUTH_ERRORS[error.message];
-      toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : error.message });
+      toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : t('error.undefined') });
     },
   });
 };
