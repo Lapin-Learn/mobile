@@ -10,6 +10,7 @@ import { I18nextProvider } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
 import { AppStack } from '~/components/AppStack';
+import { BreakpointView } from '~/components/molecules/Breakpoint';
 import { PortalHost } from '~/components/primitives/portal';
 import i18n from '~/i18n';
 import { NAV_THEME } from '~/lib/constants';
@@ -77,7 +78,9 @@ const RootLayout = () => {
                   <NotificationProvider>
                     {/* TODO: create a hook and component to dynamically change the style of status bar for each screen */}
                     <StatusBar style='light' />
-                    <AppStack />
+                    <BreakpointView>
+                      <AppStack />
+                    </BreakpointView>
                     <Toast />
                     <PortalHost />
                   </NotificationProvider>

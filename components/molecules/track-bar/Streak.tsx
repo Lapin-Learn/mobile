@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import IconLostStreak from '~/assets/images/lost-streak.svg';
 import IconStreak from '~/assets/images/streak.svg';
+import Styles from '~/constants/GlobalStyles';
 import { IStreak } from '~/lib/types';
 import { formatNumber } from '~/lib/utils';
 
@@ -14,7 +15,11 @@ type StreakProps = {
 const Streak = ({ streak }: StreakProps) => {
   return (
     <View style={styles.root}>
-      {streak.extended ? <IconStreak width={24} height={24} /> : <IconLostStreak width={24} height={24} fill='blue' />}
+      {streak.extended ? (
+        <IconStreak {...Styles.iconSize.base} />
+      ) : (
+        <IconLostStreak {...Styles.iconSize.base} fill='blue' />
+      )}
       <Text style={StyleSheet.flatten([styles.text, streak.extended ? {} : styles.broken])}>
         {formatNumber(streak.current)}
       </Text>

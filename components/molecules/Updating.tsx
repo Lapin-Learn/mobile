@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Linking, Modal, Platform, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-import Styles from '~/constants/GlobalStyles';
 import { firestore } from '~/lib/services';
+import { getTurnOffUpdatePopupAsync, setTurnOffUpdatePopupAsync } from '~/services';
 
-import { Button } from '../ui/Button';
+import { ConfirmationModal } from './ConfirmationModal';
 
 type AppInfo = {
   uniqueId: string;
@@ -26,10 +26,7 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   const [appInfo, setAppInfo] = useState<AppInfo>();
   const [releaseVersion, setReleaseVersion] = useState<VersionProps>();
   const { t } = useTranslation();
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
+  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     const fetchAppInfo = async () => {
@@ -55,10 +52,26 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   }, []);
 
   useEffect(() => {
-    if (appInfo && releaseVersion && appInfo.appVersion !== releaseVersion.version) {
-      setVisible(true);
-    }
+    const checkUpdatePopup = async () => {
+      const turnOffUpdatePopup = await getTurnOffUpdatePopupAsync();
+      if (appInfo && releaseVersion && appInfo.appVersion !== releaseVersion.version)
+        if (releaseVersion.force) {
+          setVisible(true);
+          return;
+        } else {
+          if (turnOffUpdatePopup === null) {
+            setVisible(true);
+          }
+        }
+    };
+
+    checkUpdatePopup();
   }, [appInfo, releaseVersion]);
+
+  const handleCancel = () => {
+    setVisible(false);
+    if (releaseVersion?.version) setTurnOffUpdatePopupAsync(releaseVersion?.version);
+  };
 
   const handleUpdate = () => {
     if (Platform.OS === 'android') {
@@ -71,73 +84,31 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   if (releaseVersion?.force === undefined) return null;
 
   return (
-    <Modal animationType='fade' transparent={true} visible={visible}>
-      <View style={styles.overlay}>
-        <View style={styles.container}>
-          <Text style={styles.title}>{t('update.title')}</Text>
-          <Text style={styles.message}>{t('update.message')}</Text>
-          <View style={styles.buttonContainer}>
-            <Button style={styles.button} onPress={handleUpdate}>
-              <Text style={styles.buttonText}>{t('update.button')}</Text>
-            </Button>
-            {releaseVersion?.force || (
-              <Button style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
-                <Text style={[styles.buttonText, styles.cancelButtonText]}>{t('update.cancel')}</Text>
-              </Button>
-            )}
-          </View>
-        </View>
-      </View>
-    </Modal>
+    <>
+      {releaseVersion?.force && (
+        <ConfirmationModal
+          visible={visible}
+          setVisible={setVisible}
+          content={{
+            title: t('update.title'),
+            message: t('update.message'),
+            confirmAction: handleUpdate,
+            cancelAction: releaseVersion?.force ? undefined : handleCancel,
+          }}
+        />
+      )}
+      {!releaseVersion?.force && (
+        <ConfirmationModal
+          visible={visible}
+          setVisible={setVisible}
+          content={{
+            title: t('update.title'),
+            message: t('update.message'),
+            confirmAction: handleUpdate,
+            cancelAction: handleCancel,
+          }}
+        />
+      )}
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  container: {
-    width: '80%',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 20,
-    alignItems: 'center',
-  },
-  title: {
-    ...Styles.font.bold,
-    ...Styles.fontSize['title-2'],
-    marginBottom: 10,
-  },
-  message: {
-    ...Styles.fontSize.body,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  button: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    backgroundColor: '#ee5d28',
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  cancelButton: {
-    backgroundColor: 'transparent',
-  },
-  buttonText: {
-    ...Styles.font.bold,
-    ...Styles.fontSize['title-4'],
-    ...Styles.color.white,
-  },
-  cancelButtonText: {
-    ...Styles.color.black,
-  },
-});

@@ -10,6 +10,11 @@ import {
   SkillEnum,
 } from '../enums';
 
+export type TokenType = {
+  refreshToken: string | null;
+  accessToken: string | null;
+};
+
 // Common types
 export type IBucket = {
   id: string;
