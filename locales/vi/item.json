@@ -1,6 +1,7 @@
 {
   "shop": {
     "title": "Cửa hàng",
+    "greetings": "Chào mừng bạn đến với cửa hàng!",
     "items": {
       "STREAK_FREEZE": {
         "name": "Streak Freeze",

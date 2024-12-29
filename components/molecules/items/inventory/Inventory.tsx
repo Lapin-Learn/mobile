@@ -4,6 +4,7 @@ import { FlatList, Text, View } from 'react-native';
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useInventory } from '~/hooks/react-query/useItem';
+import { ItemEnum } from '~/lib/enums';
 
 import { Loading } from '../../Loading';
 import { Item } from './ItemCard';
@@ -30,7 +31,7 @@ export const Inventory = () => {
       contentContainerStyle={{ justifyContent: 'center', gap: 12 }}
       columnWrapperStyle={{ justifyContent: 'space-between' }}
       numColumns={2}
-      data={data}
+      data={data?.filter((item) => item.name !== ItemEnum.IDENTIFICATION)}
       renderItem={({ item }) => (
         <Item
           key={item.id}
