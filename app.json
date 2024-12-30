@@ -43,7 +43,7 @@
         "android.permissions.POST_NOTIFICATIONS"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000109
+      "versionCode": 1000200
     },
     "web": {
       "bundler": "metro",
