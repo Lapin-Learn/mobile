@@ -83,7 +83,7 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
         setPlayerState(playbackStatus);
         setProgress({
           position: playbackStatus.positionMillis / 1000,
-          duration: (playbackStatus.durationMillis ?? 0) / 1000,
+          duration: playbackStatus.durationMillis ? playbackStatus.durationMillis / 1000 : 0,
         });
         if (playbackStatus.isPlaying) {
           if (currentState !== State.Playing) {
@@ -141,10 +141,7 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
       <SeekBar progress={progress} sound={sound ?? undefined} />
       <View style={{ width: 56 }}>
         <Text style={styles.time}>
-          {playerState &&
-            playerState?.durationMillis &&
-            playerState?.positionMillis &&
-            formatAudioTimer(progress.duration - progress.position)}
+          {progress.position >= 0 && formatAudioTimer(progress.duration - progress.position)}
         </Text>
       </View>
     </View>
