@@ -31,7 +31,7 @@ export const SeekBar = ({ progress, sound }: SeekBarProps) => {
       offset.value = withTiming(newOffset, { duration: 0 });
       thumbPosition.value = newOffset;
     }
-  }, [position, duration, offset, thumbPosition]);
+  }, [position]);
 
   const panGesture = Gesture.Pan()
     .onBegin(() => {
@@ -49,9 +49,7 @@ export const SeekBar = ({ progress, sound }: SeekBarProps) => {
     })
     .onEnd(() => {
       const newPosition = (offset.value / (barWidth - INITIAL_THUMB_SIZE)) * duration;
-      runOnJS(async () => {
-        await sound?.pauseAsync();
-      });
+
       runOnJS(seekFunc)(newPosition);
 
       isSliding.current = false;

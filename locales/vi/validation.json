@@ -8,8 +8,14 @@
   "error": {
     "email": "Email không hợp lệ",
     "code": "Mã không hợp lệ",
-    "username": "Tên đăng nhập phải dài ít nhất 3 ký tự",
-    "fullname": "Họ tên phải dài ít nhất 1 ký tự",
+    "username": {
+      "min": "Tên đăng nhập phải dài ít nhất 3 ký tự",
+      "max": "Tên đăng nhập không thể dài hơn 20 ký tự"
+    },
+    "fullname": {
+      "min": "Họ tên phải dài ít nhất 3 ký tự",
+      "max": "Họ tên không thể dài hơn 30 ký tự"
+    },
     "dob_min": "Ngày sinh không thể nhỏ hơn 1900",
     "dob_max": "Ngày sinh phải nhỏ hơn {{max}}"
   }

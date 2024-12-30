@@ -46,6 +46,7 @@ const ItemTabs = ({ isShop }: { isShop: boolean }) => {
 };
 
 const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
+  const { t } = useTranslation('item');
   return (
     <View style={{ height: 165 }}>
       <NavigationBar
@@ -83,7 +84,7 @@ const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
         <View style={{ paddingTop: 16 }}>
           <Text style={{ ...Styles.font.bold, ...Styles.fontSize.streak, ...Styles.color.white }}>Shop</Text>
           <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.headline, ...Styles.color.white }}>
-            Welcome to the shop!
+            {t('shop.greetings')}
           </Text>
         </View>
       </NavigationBar>

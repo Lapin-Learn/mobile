@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 
@@ -16,38 +16,70 @@ type ConfirmationModalContentProps = {
 
 type ConfirmationModalProps = {
   visible: boolean;
+  type?: 'tooltip' | 'confirmation';
   setVisible: (visible: boolean) => void;
 };
 
+/**
+ * ConfirmationModal component displays a modal with a title, message, and optional confirm and cancel buttons.
+ *
+ * @param visible - Boolean indicating whether the modal is visible.
+ * @param setVisible - Function to set the visibility of the modal.
+ * @param type - Type of the modal, either 'tooltip' or 'confirmation'.
+ * @param content - Object containing the content of the modal.
+ * @param content.title - Title text of the modal.
+ * @param content.message - Message text of the modal.
+ * @param content.confirmText - Optional text for the confirm button.
+ * @param content.cancelText - Optional text for the cancel button.
+ * @param content.confirmAction - Optional function to be called when the confirm button is pressed.
+ * @param content.cancelAction - Optional function to be called when the cancel button is pressed.
+ *
+ * @returns A modal component with the specified content and actions.
+ */
 export const ConfirmationModal = ({
   visible,
   setVisible,
+  type = 'confirmation',
   content,
 }: ConfirmationModalProps & { content: ConfirmationModalContentProps }) => {
   const { t } = useTranslation();
 
+  const TouchableView = ({ children, onPress }: { children: React.ReactNode; onPress: () => void }) => {
+    return type === 'tooltip' ? (
+      <TouchableWithoutFeedback onPress={onPress}>{children}</TouchableWithoutFeedback>
+    ) : (
+      <>{children}</>
+    );
+  };
+
   return (
     <Modal animationType='fade' transparent={true} visible={visible} onRequestClose={() => setVisible(false)}>
-      <View style={styles.overlay}>
-        <View style={styles.container}>
-          <Text style={styles.title}>{content.title}</Text>
-          <Text style={styles.message}>{content.message}</Text>
-          <View style={styles.buttonContainer}>
-            {content.confirmAction && (
-              <Button style={styles.button} onPress={content.confirmAction}>
-                <Text style={styles.buttonText}>{content.confirmText ? content.confirmText : t('update.button')}</Text>
-              </Button>
-            )}
-            {content.cancelAction && (
-              <Button style={[styles.button, styles.cancelButton]} onPress={content.cancelAction}>
-                <Text style={[styles.buttonText, styles.cancelButtonText]}>
-                  {content.cancelText ? content.cancelText : t('update.cancel')}
-                </Text>
-              </Button>
-            )}
-          </View>
+      <TouchableView onPress={() => setVisible(false)}>
+        <View style={styles.overlay}>
+          <TouchableView onPress={() => {}}>
+            <View style={styles.container}>
+              <Text style={styles.title}>{content.title}</Text>
+              <Text style={styles.message}>{content.message}</Text>
+              <View style={styles.buttonContainer}>
+                {content.confirmAction && (
+                  <Button style={styles.button} onPress={content.confirmAction}>
+                    <Text style={styles.buttonText}>
+                      {content.confirmText ? content.confirmText : t('update.button')}
+                    </Text>
+                  </Button>
+                )}
+                {content.cancelAction && (
+                  <Button style={[styles.button, styles.cancelButton]} onPress={content.cancelAction}>
+                    <Text style={[styles.buttonText, styles.cancelButtonText]}>
+                      {content.cancelText ? content.cancelText : t('update.cancel')}
+                    </Text>
+                  </Button>
+                )}
+              </View>
+            </View>
+          </TouchableView>
         </View>
-      </View>
+      </TouchableView>
     </Modal>
   );
 };
