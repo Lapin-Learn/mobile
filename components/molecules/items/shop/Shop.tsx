@@ -1,6 +1,7 @@
 import { FlatList, View } from 'react-native';
 
 import { useShop } from '~/hooks/react-query/useItem';
+import { ItemEnum } from '~/lib/enums';
 
 import { Loading } from '../../Loading';
 import { ItemCard } from '../shop/ItemCard';
@@ -12,7 +13,7 @@ export const Shop = () => {
   return (
     <FlatList
       style={{ padding: 16, width: '100%', flex: 1 }}
-      data={data}
+      data={data?.filter((item) => item.name !== ItemEnum.IDENTIFICATION)}
       renderItem={({ item }) => (
         <ItemCard
           key={item.id}

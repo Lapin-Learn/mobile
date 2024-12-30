@@ -45,6 +45,7 @@ export const AUTH_ERRORS: Record<string, string> = {
   EMAIL_NOT_FOUND: 'emailNotFound',
   INVALID_PASSWORD: 'invalidAuth',
   INVALID_EMAIL: 'invalidAuth',
+  INVALID_LOGIN_CREDENTIALS: 'INVALID_LOGIN_CREDENTIALS',
 };
 
 export const GLOBAL_STYLES = StyleSheet.create({

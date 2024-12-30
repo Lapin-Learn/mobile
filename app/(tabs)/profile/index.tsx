@@ -5,7 +5,7 @@ import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ConfirmationModal } from '~/components/molecules/ConfirmationModal';
 import { Loading } from '~/components/molecules/Loading';
@@ -153,7 +153,7 @@ const Index = () => {
                 <Camera size={16} color={Colors.light['orange-500']} />
               </Button>
             </View>
-            <Text style={styles.username}>{profileData[1].value}</Text>
+            <LongName {...profileData[0]} />
             <Text style={styles.email}>{profileData[2].value}</Text>
           </View>
 
@@ -221,6 +221,51 @@ const Index = () => {
         </View>
       </ScrollView>
     </PlatformView>
+  );
+};
+
+const LongName = ({ label, value }: { label: string; value: string }) => {
+  const { t } = useTranslation('profile');
+  const [isLongName, setIsLongName] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    if (value.length > 16) {
+      setIsLongName(true);
+    }
+  }, [value]);
+
+  const LongNamePressable = ({ children }: { children: React.ReactNode }) => {
+    return isLongName ? (
+      <Pressable onPress={() => setShowTooltip(!showTooltip)}>{children}</Pressable>
+    ) : (
+      <>{children}</>
+    );
+  };
+
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {
+          <LongNamePressable>
+            <Text style={styles.username} numberOfLines={1} ellipsizeMode='tail'>
+              {isLongName ? `${value.substring(0, 16)}...` : value}
+            </Text>
+          </LongNamePressable>
+        }
+        {showTooltip && (
+          <ConfirmationModal
+            visible={showTooltip}
+            setVisible={setShowTooltip}
+            type='tooltip'
+            content={{
+              title: t(label),
+              message: value,
+            }}
+          />
+        )}
+      </View>
+    </View>
   );
 };
 

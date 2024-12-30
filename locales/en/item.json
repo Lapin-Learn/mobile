@@ -1,6 +1,7 @@
 {
   "shop": {
     "title": "Shop",
+    "greetings": "Welcome to the shop!",
     "items": {
       "STREAK_FREEZE": {
         "name": "Streak Freeze",
