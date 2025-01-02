@@ -69,7 +69,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
         <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           {columnB.options.map((option, index) => (
             <View key={option}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                 <View
                   style={[
                     styles.circle,
@@ -113,7 +113,11 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <Text style={{ ...Styles.fontSize.body, flexWrap: 'wrap', flex: 1 }}>{option}</Text>
+                {option.split(' ').map((word) => (
+                  <Text key={word} style={{ ...Styles.fontSize.body }}>
+                    {word}
+                  </Text>
+                ))}
               </View>
               {correctness.length !== 0 && (
                 <Text style={{ ...Styles.font.bold }}>
