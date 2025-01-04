@@ -113,8 +113,8 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                {option.split(' ').map((word) => (
-                  <Text key={word} style={{ ...Styles.fontSize.body }}>
+                {option.split(' ').map((word, id) => (
+                  <Text key={`${word}-${id}`} style={{ ...Styles.fontSize.body }}>
                     {word}
                   </Text>
                 ))}
