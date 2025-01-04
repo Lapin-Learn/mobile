@@ -1,5 +1,11 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native-google-signin/google-signin';
+import {
+  AppleAuthenticationCredential,
+  AppleAuthenticationScope,
+  AppleAuthenticationSignInOptions,
+  signInAsync,
+} from 'expo-apple-authentication';
 
 import { AuthActionEnum, ProviderNameEnum } from '~/lib/enums';
 
@@ -13,6 +19,10 @@ GoogleSignin.configure({
   webClientId: GOOGLE_CLIENT_ID,
   offlineAccess: true, // DO NOT REMOVE THIS LINE
 });
+
+const AppleSignInOptions: AppleAuthenticationSignInOptions = {
+  requestedScopes: [AppleAuthenticationScope.FULL_NAME, AppleAuthenticationScope.EMAIL],
+};
 
 export type Session = {
   user?: AuthInfo;
@@ -85,8 +95,14 @@ export const createProfile = async (token: string) => {
 
 export const signInWithProvider = async (provider: ProviderNameEnum) => {
   let credential: FirebaseAuthTypes.AuthCredential | undefined;
-  if (provider === ProviderNameEnum.GOOGLE) {
-    credential = await signInWithGoogle();
+  switch (provider) {
+    case ProviderNameEnum.APPLE:
+      credential = await signInWithApple();
+      break;
+    case ProviderNameEnum.FACEBOOK:
+    case ProviderNameEnum.GOOGLE:
+      credential = await signInWithGoogle();
+      break;
   }
 
   if (credential) {
@@ -103,4 +119,14 @@ export const signInWithGoogle = async () => {
     return auth.GoogleAuthProvider.credential(userInfo.data?.idToken || '');
   }
   return undefined;
+};
+
+export const signInWithApple = async () => {
+  const appleAuthRequestResponse: AppleAuthenticationCredential = await signInAsync(AppleSignInOptions);
+  if (appleAuthRequestResponse.authorizationCode && appleAuthRequestResponse.identityToken) {
+    return auth.AppleAuthProvider.credential(
+      appleAuthRequestResponse.identityToken,
+      appleAuthRequestResponse.authorizationCode
+    );
+  }
 };
