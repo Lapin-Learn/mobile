@@ -1,27 +1,26 @@
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Notifications from 'expo-notifications';
 import { Href, router } from 'expo-router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { AppState, AppStateStatus, Platform } from 'react-native';
 
-import { useAccountIdentifier } from '~/hooks/react-query/useUser';
-
+import { QUERY_KEYS } from '../constants';
+import { IAccountIdentifer } from '../types';
 import { requestPermission } from '../utils/permissions';
 
 type NotificationResponse = Notifications.NotificationResponse;
 
 const NotificationProvider = ({ children }: PropsWithChildren) => {
   const [appState, setAppState] = useState(AppState.currentState);
-  const { data: account, status } = useAccountIdentifier();
-
+  const queryClient = useQueryClient();
+  const account = queryClient.getQueryData<IAccountIdentifer>([QUERY_KEYS.profile.identifier]);
   const checkNotificationPermission = async () => {
-    if (status === 'success') {
-      if (account) {
-        if (Platform.OS === 'android') {
-          await requestPermission();
-        }
-        // TODO: Handle iOS notification permissions
+    if (account) {
+      if (Platform.OS === 'android') {
+        await requestPermission();
       }
+      // TODO: Handle iOS notification permissions
     }
   };
 
@@ -41,7 +40,7 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     checkNotificationPermission().then(() => {
       console.log('Notification permission granted');
     });
-  }, [status, account]);
+  }, [account]);
 
   useEffect(() => {
     AppState.addEventListener('change', handleAppStateChange);

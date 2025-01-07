@@ -35,6 +35,7 @@ export enum CEFRLevelEnum {
 export enum ProviderNameEnum {
   GOOGLE = 'google',
   FACEBOOK = 'facebook',
+  APPLE = 'apple',
 }
 
 export enum GenderEnum {
