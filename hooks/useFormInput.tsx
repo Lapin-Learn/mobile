@@ -20,6 +20,7 @@ export type FormInputProps<T = Record<string, string>> = {
   error: FieldError | undefined;
   type?: ControllerInputType;
   defaultLabel?: string;
+  required?: boolean;
   options?: { value: string; label: string }[];
 };
 

@@ -13,6 +13,7 @@ export const ControllerInput = <T,>({
   defaultLabel = '',
   options = [],
   onChangeText,
+  required = false,
   ...rest
 }: FormInputProps<T> & TextInputProps) => {
   const { renderInput, field } = useFormInput({
@@ -29,7 +30,18 @@ export const ControllerInput = <T,>({
 
   return (
     <View style={styles.container}>
-      <Text style={StyleSheet.flatten([Styles.font.semibold, Styles.color.neutral[900], styles.label])}>{label}</Text>
+      <Text style={StyleSheet.flatten([Styles.font.semibold, Styles.color.neutral[900], styles.label])}>
+        {label}
+        {required && (
+          <Text
+            style={{
+              ...Styles.font.semibold,
+              ...Styles.color.red[500],
+            }}>
+            {'*'}
+          </Text>
+        )}
+      </Text>
       <View style={styles.inputWrapper}>
         <View style={styles.inputContainer}>
           {renderInput({

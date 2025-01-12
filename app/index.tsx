@@ -14,7 +14,7 @@ const CustomRedirect = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (error?.message === 'User not found' || (isSuccess && (!account.dob || !account.fullName || !account.gender))) {
+    if (error?.message === 'User not found' || (isSuccess && !account.fullName)) {
       router.replace('/update-profile');
     } else if (isSuccess && account) {
       navigation.dispatch(
