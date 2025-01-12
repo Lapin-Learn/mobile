@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
 import { ForwardRefExoticComponent } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 import Styles from '~/constants/GlobalStyles';
@@ -64,7 +64,9 @@ export const NavigationBar = ({
 
       {title && (
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
+            {title}
+          </Text>
         </View>
       )}
       {children}
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 44,
+    height: Dimensions.get('window').height * 0.05,
   },
   justifyCenter: {
     justifyContent: 'center',

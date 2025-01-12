@@ -57,7 +57,7 @@ const SignUp = () => {
       <View style={styles.content}>
         <Text style={styles.subtitle}>{t('signUp.subtitle')}</Text>
         <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.gapY6}>
             <ControllerInput
               props={{ name: 'email', control }}
               label={t('signUp.emailLabel')}
@@ -151,12 +151,14 @@ const OtherSignIn = () => {
 
 export default SignUp;
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
   content: {
-    width: '100%',
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    marginBottom: 16,
   },
   subtitle: {
     width: '100%',
@@ -165,13 +167,11 @@ const styles = StyleSheet.create({
     ...color.neutral[500],
   },
   formContainer: {
-    gap: 80,
-  },
-  inputContainer: {
-    gap: 16,
+    flexGrow: 1,
+    justifyContent: 'space-around',
   },
   gapY6: {
-    gap: 24,
+    gap: 16,
   },
   flexCenter: {
     alignItems: 'center',
