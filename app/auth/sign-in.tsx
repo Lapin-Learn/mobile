@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
-import LogoApple from '~/assets/images/apple.svg';
 import LogoGoogle from '~/assets/images/google.svg';
 import IconPressable from '~/components/icons/BackIcon';
 import { ControllerInput } from '~/components/molecules/ControllerInput';
@@ -50,7 +49,7 @@ const SignIn = () => {
       <View style={styles.content}>
         <Text style={styles.subtitle}>{t('signIn.enterDetails')}</Text>
         <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.gapY6}>
             <ControllerInput
               props={{ name: 'email', control }}
               label={t('signIn.email')}
@@ -86,16 +85,17 @@ const SignIn = () => {
               <OtherSignIn />
             </View>
           </View>
-        </View>
-        <View style={containers.doNotHaveAccount}>
-          <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
-            {t('signIn.noAccount')}
-          </Text>
-          <Link push href='/auth/sign-up'>
-            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
-              {t('signIn.signUp')}
+
+          <View style={containers.doNotHaveAccount}>
+            <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
+              {t('signIn.noAccount')}
             </Text>
-          </Link>
+            <Link push href='/auth/sign-up'>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+                {t('signIn.signUp')}
+              </Text>
+            </Link>
+          </View>
         </View>
       </View>
     </PlatformView>
@@ -111,21 +111,15 @@ const OtherSignIn = () => {
       {/* TODO: Sign up with Facebook */}
       {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
       {Platform.OS === 'ios' && (
-        <Button
+        <AppleAuthentication.AppleAuthenticationButton
+          buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+          buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+          cornerRadius={8}
+          style={{ width: '100%', height: 50, margin: 'auto', paddingHorizontal: 20, paddingVertical: 8 }}
           onPress={() => {
             signInWithProvider.mutate(ProviderNameEnum.APPLE);
           }}
-          variant='outline'
-          size='lg'
-          style={[otherSignInStyles.googleButton, { position: 'relative' }]}>
-          <IconPressable Icon={LogoApple} />
-          <Text>{t('signIn.continueWith', { name: 'Apple' })}</Text>
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-            onPress={() => {}}
-          />
-        </Button>
+        />
       )}
       <Button
         onPress={() => {
@@ -147,9 +141,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    width: '100%',
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
@@ -160,13 +152,11 @@ const styles = StyleSheet.create({
     ...color.neutral[500],
   },
   formContainer: {
-    gap: 80,
-  },
-  inputContainer: {
-    gap: 16,
+    flexGrow: 1,
+    justifyContent: 'space-around',
   },
   gapY6: {
-    gap: 24,
+    gap: 16,
   },
   flexCenter: {
     alignItems: 'center',
