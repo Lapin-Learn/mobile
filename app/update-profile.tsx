@@ -25,12 +25,12 @@ const schema = z.object({
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'error.dob_min' })
-    .max(new Date(), { message: `error.dob_max|${new Date().getFullYear()}` }),
-  gender: z.nativeEnum(GenderEnum),
+    .max(new Date(), { message: `error.dob_max|${new Date().getFullYear()}` })
+    .optional(),
+  gender: z.nativeEnum(GenderEnum).optional(),
 });
 
 type FormField = z.infer<typeof schema>;
-
 const UpdateProfile = () => {
   const { t } = useTranslation('profile');
   const signOut = useSignOut();
@@ -84,6 +84,7 @@ const UpdateProfile = () => {
             label={t('profile.username')}
             placeholder={t('placeholder.username')}
             error={errors.username}
+            required
           />
 
           <ControllerInput
@@ -91,6 +92,7 @@ const UpdateProfile = () => {
             label={t('profile.fullname')}
             placeholder={t('placeholder.fullname')}
             error={errors.fullName}
+            required
           />
 
           <ControllerInput

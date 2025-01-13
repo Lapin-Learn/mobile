@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { LucideMoveRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 import Onboarding from '~/assets/images/on-boarding.svg';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -25,7 +25,7 @@ const OnBoarding = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.onboardingContainer, styles.widthFull]}>
-        <Onboarding />
+        <Onboarding style={{ ...StyleSheet.absoluteFillObject }} />
       </View>
       <NavigationBar noBar={true} title={t('on_boarding.title')} style={styles.widthFull}>
         <Text style={styles.description}>{t('on_boarding.description')}</Text>
@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     justifyContent: 'space-between',
-    paddingBottom: 32,
+    paddingBottom: 16,
   },
   onboardingContainer: {
-    height: 444,
+    height: Dimensions.get('window').height * 0.5,
     alignItems: 'center',
   },
   widthFull: {
