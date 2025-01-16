@@ -187,6 +187,7 @@ const Index = () => {
                     title: t('settings.delete_account.title'),
                     message: t('settings.delete_account.description'),
                     confirmText: t('settings.delete_account.delete_button'),
+                    isPending: deleteAccount.isPending,
                     confirmAction: handleDeleteAccount,
                     cancelAction: () => setIsModalVisible(false),
                   }}

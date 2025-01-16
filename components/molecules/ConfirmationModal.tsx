@@ -10,6 +10,7 @@ type ConfirmationModalContentProps = {
   message: string;
   confirmText?: string;
   cancelText?: string;
+  isPending: boolean;
   confirmAction?: () => void;
   cancelAction?: () => void;
 };
@@ -62,14 +63,17 @@ export const ConfirmationModal = ({
               <Text style={styles.message}>{content.message}</Text>
               <View style={styles.buttonContainer}>
                 {content.confirmAction && (
-                  <Button style={styles.button} onPress={content.confirmAction}>
+                  <Button style={styles.button} onPress={content.confirmAction} disabled={content.isPending}>
                     <Text style={styles.buttonText}>
                       {content.confirmText ? content.confirmText : t('update.button')}
                     </Text>
                   </Button>
                 )}
                 {content.cancelAction && (
-                  <Button style={[styles.button, styles.cancelButton]} onPress={content.cancelAction}>
+                  <Button
+                    style={[styles.button, styles.cancelButton]}
+                    onPress={content.cancelAction}
+                    disabled={content.isPending}>
                     <Text style={[styles.buttonText, styles.cancelButtonText]}>
                       {content.cancelText ? content.cancelText : t('update.cancel')}
                     </Text>
