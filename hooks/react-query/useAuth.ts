@@ -171,8 +171,8 @@ export const useSignOut = () => {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      client.clear();
       updateStreak.sendStreakToSharedStorage('...');
+      client.clear();
     },
     onError: (error) => {
       toast.show({ type: 'error', text1: error.message });
