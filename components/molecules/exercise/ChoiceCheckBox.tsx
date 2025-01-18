@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   text: {
     ...Styles.font.normal,
     ...Styles.fontSize.body,
-    flexShrink: 1,
+    flexWrap: 'wrap',
   },
   indicator: {
     width: '100%',
