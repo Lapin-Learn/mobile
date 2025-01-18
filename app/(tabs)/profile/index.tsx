@@ -126,7 +126,7 @@ const Index = () => {
   }
 
   const profileData = [
-    { label: 'profile.fullname', value: data?.fullName ?? 'default' },
+    { label: 'profile.fullname', value: data?.fullName ?? data?.username ?? 'default' },
     { label: 'profile.username', value: data?.username ?? 'default' },
     { label: 'profile.email', value: data?.email ?? 'default' },
   ];
@@ -187,6 +187,7 @@ const Index = () => {
                     title: t('settings.delete_account.title'),
                     message: t('settings.delete_account.description'),
                     confirmText: t('settings.delete_account.delete_button'),
+                    isPending: deleteAccount.isPending,
                     confirmAction: handleDeleteAccount,
                     cancelAction: () => setIsModalVisible(false),
                   }}
@@ -261,6 +262,7 @@ const LongName = ({ label, value }: { label: string; value: string }) => {
             content={{
               title: t(label),
               message: value,
+              isPending: false,
             }}
           />
         )}

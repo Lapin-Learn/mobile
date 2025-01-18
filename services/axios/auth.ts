@@ -1,11 +1,6 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin, isCancelledResponse, SignInResponse } from '@react-native-google-signin/google-signin';
-import {
-  AppleAuthenticationCredential,
-  AppleAuthenticationScope,
-  AppleAuthenticationSignInOptions,
-  signInAsync,
-} from 'expo-apple-authentication';
+import { AppleAuthenticationCredential, AppleAuthenticationScope, signInAsync } from 'expo-apple-authentication';
 
 import { AuthActionEnum, ProviderNameEnum } from '~/lib/enums';
 
@@ -19,10 +14,6 @@ GoogleSignin.configure({
   webClientId: GOOGLE_CLIENT_ID,
   offlineAccess: true, // DO NOT REMOVE THIS LINE
 });
-
-const AppleSignInOptions: AppleAuthenticationSignInOptions = {
-  requestedScopes: [AppleAuthenticationScope.FULL_NAME, AppleAuthenticationScope.EMAIL],
-};
 
 export type Session = {
   user?: AuthInfo;
@@ -60,7 +51,7 @@ export const signOut = async () => {
   await deleteFcmToken();
   await removeTokenAsync();
 
-  const isSignedIn = (await GoogleSignin.getCurrentUser()) !== null;
+  const isSignedIn = GoogleSignin.getCurrentUser() !== null;
   isSignedIn && (await GoogleSignin.revokeAccess());
 };
 
@@ -95,9 +86,16 @@ export const createProfile = async (token: string) => {
 
 export const signInWithProvider = async (provider: ProviderNameEnum) => {
   let credential: FirebaseAuthTypes.AuthCredential | undefined;
+  let fullName: any | undefined = undefined;
   switch (provider) {
     case ProviderNameEnum.APPLE:
-      credential = await signInWithApple();
+      const appleSignInResult = await signInWithApple();
+      if (appleSignInResult) {
+        const { credential: credent, additionalInfo } = appleSignInResult;
+        credential = credent;
+        if (additionalInfo?.familyName || additionalInfo?.givenName)
+          fullName = `${additionalInfo?.familyName || ''} ${additionalInfo?.givenName || ''}`;
+      }
       break;
     case ProviderNameEnum.FACEBOOK:
     case ProviderNameEnum.GOOGLE:
@@ -106,9 +104,16 @@ export const signInWithProvider = async (provider: ProviderNameEnum) => {
   }
 
   if (credential) {
-    return await api.post<AuthInfo>('auth/provider', {
-      body: { credential: credential?.token, provider: credential?.providerId },
-    });
+    const body: any = {
+      credential: credential.token,
+      provider: credential.providerId,
+    };
+
+    if (fullName) {
+      body.additionalInfo = { fullName };
+    }
+
+    return await api.post<AuthInfo>('auth/provider', { body });
   }
   return undefined;
 };
@@ -122,11 +127,16 @@ export const signInWithGoogle = async () => {
 };
 
 export const signInWithApple = async () => {
-  const appleAuthRequestResponse: AppleAuthenticationCredential = await signInAsync(AppleSignInOptions);
+  const appleAuthRequestResponse: AppleAuthenticationCredential = await signInAsync({
+    requestedScopes: [AppleAuthenticationScope.FULL_NAME, AppleAuthenticationScope.EMAIL],
+  });
   if (appleAuthRequestResponse.authorizationCode && appleAuthRequestResponse.identityToken) {
-    return auth.AppleAuthProvider.credential(
-      appleAuthRequestResponse.identityToken,
-      appleAuthRequestResponse.authorizationCode
-    );
+    return {
+      credential: auth.AppleAuthProvider.credential(
+        appleAuthRequestResponse.identityToken,
+        appleAuthRequestResponse.authorizationCode
+      ),
+      additionalInfo: appleAuthRequestResponse.fullName,
+    };
   }
 };
