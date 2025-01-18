@@ -126,7 +126,7 @@ const Index = () => {
   }
 
   const profileData = [
-    { label: 'profile.fullname', value: data?.fullName ?? 'default' },
+    { label: 'profile.fullname', value: data?.fullName ?? data?.username ?? 'default' },
     { label: 'profile.username', value: data?.username ?? 'default' },
     { label: 'profile.email', value: data?.email ?? 'default' },
   ];
@@ -262,6 +262,7 @@ const LongName = ({ label, value }: { label: string; value: string }) => {
             content={{
               title: t(label),
               message: value,
+              isPending: false,
             }}
           />
         )}

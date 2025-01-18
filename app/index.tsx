@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import { Redirect, router } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { useEffect } from 'react';
 
 import { Loading } from '~/components/molecules/Loading';
@@ -14,9 +14,10 @@ const CustomRedirect = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (error?.message === 'User not found' || (isSuccess && !account.fullName)) {
-      router.replace('/update-profile');
-    } else if (isSuccess && account) {
+    // if (error?.message === 'User not found' || (isSuccess && !account.fullName)) {
+    //   router.replace('/update-profile');
+    // } else
+    if (isSuccess && account) {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
