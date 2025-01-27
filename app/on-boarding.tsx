@@ -31,12 +31,16 @@ const OnBoarding = () => {
 
   const handleSkip = async () => {
     await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
-    router.push('/auth/sign-in');
+    router.replace('/auth/sign-in');
   };
 
   const handleGetStart = async () => {
-    await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
-    router.push('/auth/sign-up');
+    if (currentPage === 3) {
+      handleSkip();
+    } else {
+      setCurrentPage((prev) => prev + 1);
+      pagerViewRef.current?.setPage(currentPage + 1);
+    }
   };
 
   useEffect(() => {
@@ -48,7 +52,7 @@ const OnBoarding = () => {
         setCurrentPage(0);
         pagerViewRef.current?.setPage(0);
       }
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [currentPage]);
 
@@ -84,7 +88,7 @@ const OnBoarding = () => {
             {React.createElement(onBoardingMapping[Number(item)])}
             <View style={styles.onboardingContainer}>
               <Logo />
-              <Text style={styles.description}>
+              <Text style={styles.description} adjustsFontSizeToFit>
                 <Trans
                   i18nKey={`on_boarding.title_${item}`}
                   components={{ bold: <Text style={{ ...Styles.font.bold }} /> }}

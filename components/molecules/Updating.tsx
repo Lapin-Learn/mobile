@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Linking, Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import { firestore } from '~/lib/services';
@@ -22,11 +22,18 @@ type VersionProps = {
   force: boolean;
 };
 
+const appStoreLinks: Record<Platform['OS'], string> = {
+  android: 'https://play.google.com/store/apps/details?id=com.datn.lapinlearn',
+  ios: 'https://apps.apple.com/vn/app/lapinlearn/id6739158736',
+  windows: '',
+  macos: '',
+  web: '',
+};
+
 export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible: (visible: boolean) => void }) => {
   const [appInfo, setAppInfo] = useState<AppInfo>();
   const [releaseVersion, setReleaseVersion] = useState<VersionProps>();
   const { t } = useTranslation();
-  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     const fetchAppInfo = async () => {
@@ -74,11 +81,7 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   };
 
   const handleUpdate = () => {
-    if (Platform.OS === 'android') {
-      Linking.openURL('https://play.google.com/store/apps/details?id=com.datn.lapinlearn');
-    } else {
-      Alert.alert('Update', 'Comming soon ...', [{ text: 'OK' }]);
-    }
+    Linking.openURL(appStoreLinks[Platform.OS]);
   };
 
   if (releaseVersion?.force === undefined) return null;
