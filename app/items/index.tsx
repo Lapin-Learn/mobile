@@ -1,23 +1,20 @@
-import { router } from 'expo-router';
-import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import InventoryIcon from '~/assets/images/items/Inventory.svg';
 import InventoryActiveIcon from '~/assets/images/items/InventoryActive.svg';
 import ShopIcon from '~/assets/images/items/Shop.svg';
 import ShopActiveIcon from '~/assets/images/items/ShopActive.svg';
+import { HeaderSection } from '~/components/molecules/items/Header';
 import { Inventory } from '~/components/molecules/items/inventory/Inventory';
 import { Shop } from '~/components/molecules/items/shop/Shop';
-import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ShopModal } from '~/components/molecules/ShopModal';
-import Carrots from '~/components/molecules/track-bar/Carrots';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
-import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { ShopInventory, ShopInventoryMapping, useShopStore } from '~/hooks/zustand/useShopStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
 const ItemTabs = ({ isShop }: { isShop: boolean }) => {
@@ -25,69 +22,32 @@ const ItemTabs = ({ isShop }: { isShop: boolean }) => {
   const { setCurrentView } = useShopStore();
   return (
     <View style={styles.tabContainer}>
-      <Button
-        size='lg'
-        variant='link'
-        style={[styles.buttonContainer, isShop && { ...Styles.borderColor.orange[500] }]}
-        onPress={() => setCurrentView('shop')}>
-        {isShop ? <ShopActiveIcon /> : <ShopIcon />}
-        <Text style={[styles.buttonText, isShop && { ...Styles.color.orange[500] }]}>{t('shop.title')}</Text>
-      </Button>
-      <Button
-        size='lg'
-        variant='link'
-        style={[styles.buttonContainer, !isShop && { ...Styles.borderColor.orange[500] }]}
-        onPress={() => setCurrentView('inventory')}>
-        {!isShop ? <InventoryActiveIcon /> : <InventoryIcon />}
-        <Text style={[styles.buttonText, !isShop && { ...Styles.color.orange[500] }]}>{t('inventory.title')}</Text>
-      </Button>
-    </View>
-  );
-};
-
-const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
-  const { t } = useTranslation('item');
-  return (
-    <View style={{ height: 165 }}>
-      <NavigationBar
-        headerLeftShown
-        onHeaderLeftPress={() => (
-          <Pressable
-            style={{ width: 24 }}
-            onPress={() => {
-              if (router.canGoBack()) {
-                router.back();
-              } else {
-                router.dismiss();
-              }
-            }}>
-            <LucideMoveLeft color='white' />
-          </Pressable>
-        )}
-        headerRightShown
-        onHeaderRightPress={() => (
-          <Carrots
-            carrots={carrots}
-            size='base'
-            style={{
-              ...Styles.backgroundColor.blue[50],
-              paddingHorizontal: 20,
-              paddingVertical: 8,
-              borderRadius: 100,
-              shadowColor: '#005FA4',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.1,
-            }}
-            textStyle={{ ...Styles.font.bold, ...Styles.fontSize.subhead }}
-          />
-        )}>
-        <View style={{ paddingTop: 16 }}>
-          <Text style={{ ...Styles.font.bold, ...Styles.fontSize.streak, ...Styles.color.white }}>Shop</Text>
-          <Text style={{ ...Styles.font.semibold, ...Styles.fontSize.headline, ...Styles.color.white }}>
-            {t('shop.greetings')}
-          </Text>
-        </View>
-      </NavigationBar>
+      {[
+        {
+          isActive: isShop,
+          icon: ShopIcon,
+          activeIcon: ShopActiveIcon,
+          view: ShopInventoryMapping.view.shop,
+          title: ShopInventoryMapping.title.shop,
+        },
+        {
+          isActive: !isShop,
+          icon: InventoryIcon,
+          activeIcon: InventoryActiveIcon,
+          view: ShopInventoryMapping.view.inventory,
+          title: ShopInventoryMapping.title.inventory,
+        },
+      ].map(({ isActive, icon: Icon, activeIcon: ActiveIcon, view, title }, index) => (
+        <Button
+          key={index}
+          size='lg'
+          variant='link'
+          style={[styles.buttonContainer, isActive && { ...Styles.borderColor.orange[500] }]}
+          onPress={() => setCurrentView(view)}>
+          {isActive ? <ActiveIcon /> : <Icon />}
+          <Text style={[styles.buttonText, isActive && { ...Styles.color.orange[500] }]}>{t(title)}</Text>
+        </Button>
+      ))}
     </View>
   );
 };
@@ -106,8 +66,8 @@ const Items = () => {
         {/* TODO: add banner */}
         <HeaderSection carrots={data?.carrots} />
         <View style={[styles.itemView, { ...Styles.backgroundColor.background }]}>
-          <ItemTabs isShop={currentView === 'shop'} />
-          <View style={styles.itemView}>{currentView === 'shop' ? <Shop /> : <Inventory />}</View>
+          <ItemTabs isShop={currentView === ShopInventory.Shop} />
+          {currentView === ShopInventory.Shop ? <Shop /> : <Inventory />}
         </View>
       </PlatformView>
       <SafeAreaView style={{ flex: 0, ...Styles.backgroundColor.background }} />

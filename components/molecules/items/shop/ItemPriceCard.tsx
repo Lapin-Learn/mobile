@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Carrots from '~/components/molecules/track-bar/Carrots';
 import Styles from '~/constants/GlobalStyles';
-import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { ShopModalType, useShopStore } from '~/hooks/zustand/useShopStore';
 
 import { ItemCardProps } from './ItemCard';
 
@@ -30,7 +30,7 @@ const ItemPriceCard = (props: ItemPriceCardProps) => {
   const { openModal } = useShopStore();
 
   return (
-    <Pressable style={styles.itemPriceContainer} onPress={() => openModal({ ...props, type: 'buy' })}>
+    <Pressable style={styles.itemPriceContainer} onPress={() => openModal({ ...props, type: ShopModalType.Buy })}>
       {String(quantity) === popular && <PopularTag />}
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 4 }}>
         <Text style={{ ...Styles.fontSize.footnote }}>
