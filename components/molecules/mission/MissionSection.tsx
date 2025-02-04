@@ -89,10 +89,11 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
         <Section.Item style={styles.root}>
           <View style={styles.missionInfo}>
             <View style={{ height: 48, width: 48 }}>
+              {/* TODO: update new icon logic */}
               {item.interval === 'daily' ? (
-                <MissionIcon.Daily code={item.name} />
+                <MissionIcon.Daily code={item.missionId} />
               ) : (
-                <MissionIcon.Monthly code={item.name} />
+                <MissionIcon.Monthly code={item.missionId} />
               )}
             </View>
             <Section.Title

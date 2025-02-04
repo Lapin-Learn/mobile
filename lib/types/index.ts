@@ -176,16 +176,15 @@ export type IMilestone = {
 };
 
 export type IMission = {
-  interval: 'daily' | 'monthly';
-  name: string;
-  description: string;
+  interval: QuestType;
   rewards: number;
   current: number;
   quantity: number;
   requirements: number;
   category: MissionCategoryEnum;
-  missionId: string;
   status: MissionStatusEnum;
+  missionId: string;
+  questId: string;
 };
 
 export type IMissionReward = {
