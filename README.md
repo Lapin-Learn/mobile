@@ -48,17 +48,17 @@
 
 # Uncommon issues while starting the project
 
-I experience the bug while trying to run `npx expo run:ios --device`:
+I experienced this bug while trying to run `npx expo run:ios --device`:
 
 ```
 Error: EMFILE: too many open files, watch at FSEvent.FSWatcher._handle.onchange (node:internal/fs/watchers:207:21)
 ```
 
-Despite thousands times trying to reinstall the package and watchman, I still got the bug.
+Despite of thousands times trying to reinstall the package and watchman, I still got the bug.
 Here is the solution:
 
 ```
-brew install watchan # reinstall if need
+brew install watchman # reinstall if need
 watchman shutdown-server
 watchman watch .
 watchman watch-list | jq '.roots | length' # should return 1
