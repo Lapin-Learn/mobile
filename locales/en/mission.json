@@ -5,14 +5,20 @@
   },
   "month_mission": "{{month}}",
   "time_remaining": "{{time}} left",
-  "guildline": "Complete the monthly mission to receive rewards and badges!",
+  "guildline": "Complete the monthly mission to receive bonus carrots",
   "description": {
     "COMPLETE_LESSON": "Complete {{quantity}} lessons",
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE": "Complete {{quantity}} lessons with at least {{requirements}}% score",
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Complete {{quantity}} perfect lessons",
-    "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Practice {{requirements}} different skills",
-    "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Study for {{requirements}}",
-    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Study for {{requirements}} consecutive days",
-    "EXCEED_STREAK": "Study for {{requirements}} consecutive days"
+    "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Practice {{quantity}} different skills in daily lesson",
+    "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Study daily lessons for {{requirements}}",
+    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Study for {{quantity}} consecutive days",
+    "EXCEED_LEARNING_STREAK": "Study for {{quantity}} days",
+    "COMPLETE_LISTENING_SESSION": "Complete {{quantity}} listening simulated test",
+    "COMPLETE_READING_SESSION": "Complete {{quantity}} reading simulated test",
+    "COMPLETE_WRITING_SESSION": "Complete {{quantity}} writing simulated test",
+    "COMPLETE_SPEAKING_SESSION": "Complete {{quantity}} speaking simulated test",
+    "COMPLETE_DISTINCT_SKILL_SESSION": "Complete simulated tests with {{quantity}} distinct skill",
+    "COMPLETE_DISTINCT_SKILL_TEST_SESSION": "Complete {{quantity}} simulated tests"
   }
 }

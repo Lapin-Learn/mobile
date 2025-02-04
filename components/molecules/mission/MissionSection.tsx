@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Carrot from '~/assets/images/carrot.svg';
+import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import { default as MissionIcon } from '~/components/icons/MissionIcon';
 import { ProfileSection as Section } from '~/components/molecules/profile/ProfileSection';
 import { Progress } from '~/components/ui/Progress';
 import Styles from '~/constants/GlobalStyles';
+import { MissionStatusEnum } from '~/lib/enums';
 import { convertMissionNameCategory, formatRemainingToDateTime } from '~/lib/utils';
 
 import { MissionProps, MissionSectionProps } from './type';
@@ -81,7 +83,9 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
     const isLastItem = index === data.length - 1;
 
     return (
-      <View key={index} style={[progressValue >= 1 ? { ...Styles.backgroundColor.yellow[100] } : null]}>
+      <View
+        key={index}
+        style={[item.status === MissionStatusEnum.COMPLETED ? { ...Styles.backgroundColor.yellow[100] } : null]}>
         <Section.Item style={styles.root}>
           <View style={styles.missionInfo}>
             <View style={{ height: 48, width: 48 }}>
@@ -117,8 +121,14 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
             </Section.Title>
           </View>
           <View style={styles.reward}>
-            <Text style={styles.rewardText}>+{item.rewards}</Text>
-            <Carrot width={18} height={18} />
+            {item.status === MissionStatusEnum.RECEIVED ? (
+              <IconCheckmarkCircle width={24} height={24} />
+            ) : (
+              <>
+                <Text style={styles.rewardText}>+{item.rewards}</Text>
+                <Carrot width={18} height={18} />
+              </>
+            )}
           </View>
         </Section.Item>
         {!isLastItem && <View style={{ borderTopWidth: 1, ...Styles.borderColor.neutral[100] }} />}

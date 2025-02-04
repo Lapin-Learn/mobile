@@ -15,7 +15,7 @@ export function convertMissionNameCategory(item: IMission) {
       });
     case MissionCategoryEnum.TOTAL_DURATION_OF_LEARN_DAILY_LESSON:
       return t(`description.${item.category}`, {
-        requirements: formatLearningDuration(item.requirements),
+        requirements: formatLearningDuration(item.quantity * 60),
         ns: 'mission',
       });
     default:
