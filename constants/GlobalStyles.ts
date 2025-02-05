@@ -1,4 +1,8 @@
-const font: {
+import DeviceInfo from 'react-native-device-info';
+
+import { EXCEPTION_DEVICES } from '~/lib/exceptions';
+
+export const Font: {
   [key in 'normal' | 'italic' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'extralight' | 'black']: {
     fontFamily: string;
     fontStyle?: 'italic';
@@ -31,66 +35,52 @@ const font: {
   },
 };
 
-const fontSize = {
+export const FontSize = {
   'large-title': {
     fontSize: 34,
-    lineHeight: 51,
   },
   'title-1': {
     fontSize: 28,
-    lineHeight: 42,
   },
   'title-2': {
     fontSize: 22,
-    lineHeight: 33,
   },
   'title-3': {
     fontSize: 20,
-    lineHeight: 30,
   },
   'title-4': {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   headline: {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   body: {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   callout: {
     fontSize: 16,
-    lineHeight: 24,
   },
   subhead: {
     fontSize: 15,
-    lineHeight: 22.5,
   },
   footnote: {
     fontSize: 13,
-    lineHeight: 18,
   },
   'caption-1': {
     fontSize: 12,
-    lineHeight: 18,
   },
   'caption-2': {
     fontSize: 11,
-    lineHeight: 16.5,
   },
   streak: {
     fontSize: 64,
-    lineHeight: 64,
   },
   lg: {
     fontSize: 18,
-    lineHeight: 28,
   },
 };
 
-const iconSize = {
+export const IconSize = {
   sm: {
     width: 20,
     height: 20,
@@ -109,7 +99,7 @@ const iconSize = {
   },
 };
 
-const baseColors = {
+export const BaseColors = {
   orange: {
     50: '#fdefea',
     100: '#facdbc',
@@ -209,17 +199,15 @@ const baseColors = {
   onSurface: '#0F4910',
 };
 
-type BaseColors = typeof baseColors;
-
 type ColorStyle<T extends string> = {
-  [K in keyof BaseColors]: BaseColors[K] extends string
-    ? { [P in T]: BaseColors[K] }
-    : { [S in keyof BaseColors[K]]: { [P in T]: BaseColors[K][S] } };
+  [K in keyof typeof BaseColors]: (typeof BaseColors)[K] extends string
+    ? { [P in T]: (typeof BaseColors)[K] }
+    : { [S in keyof (typeof BaseColors)[K]]: { [P in T]: (typeof BaseColors)[K][S] } };
 };
 
 const createColorStyle = <T extends string>(style: T): ColorStyle<T> =>
   Object.fromEntries(
-    Object.entries(baseColors).map(([colorName, shades]) => [
+    Object.entries(BaseColors).map(([colorName, shades]) => [
       colorName,
       typeof shades === 'string'
         ? { [style]: shades }
@@ -227,27 +215,55 @@ const createColorStyle = <T extends string>(style: T): ColorStyle<T> =>
     ])
   ) as ColorStyle<T>;
 
-const color = createColorStyle('color');
-const backgroundColor = createColorStyle('backgroundColor');
-const borderColor = createColorStyle('borderColor');
+type FontSizeStyle = {
+  [K in keyof typeof FontSize]: (typeof FontSize)[K];
+};
+
+const createFontSizeStyle = <T extends string>(style: T, deviceName?: T): FontSizeStyle =>
+  Object.fromEntries(
+    Object.entries(FontSize).map(([sizeName, { fontSize }]) => {
+      if (deviceName && EXCEPTION_DEVICES.includes(deviceName)) {
+        return [
+          sizeName,
+          {
+            [style]: fontSize * 0.9,
+          },
+        ];
+      }
+      return [
+        sizeName,
+        {
+          [style]: fontSize,
+        },
+      ];
+    })
+  ) as FontSizeStyle;
 
 type StyleProps = {
-  fontSize: typeof fontSize;
-  font: typeof font;
-  color: typeof color;
-  backgroundColor: typeof backgroundColor;
-  borderColor: typeof borderColor;
-  iconSize: typeof iconSize;
+  fontSize: FontSizeStyle;
+  font: typeof Font;
+  color: ColorStyle<'color'>;
+  backgroundColor: ColorStyle<'backgroundColor'>;
+  borderColor: ColorStyle<'borderColor'>;
+  iconSize: typeof IconSize;
 };
 
-const Styles: StyleProps = {
-  font,
-  fontSize,
-  color,
-  backgroundColor,
-  borderColor,
-  iconSize,
+const Styles = () => {
+  const deviceName = DeviceInfo.getDeviceNameSync();
+  const color = createColorStyle('color');
+  const backgroundColor = createColorStyle('backgroundColor');
+  const borderColor = createColorStyle('borderColor');
+  const fontSize = createFontSizeStyle('fontSize', deviceName);
+
+  return {
+    font: Font,
+    fontSize,
+    color,
+    backgroundColor,
+    borderColor,
+    iconSize: IconSize,
+  } as StyleProps;
 };
 
-export { baseColors as Colors };
-export default Styles;
+export { BaseColors as Colors };
+export default Styles();

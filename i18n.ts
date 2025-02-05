@@ -8,14 +8,14 @@ import * as vi from '~/locales/vi';
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources: {
-    en: { translation: en.english, ...en },
-    vi: { translation: vi.vietnamese, ...vi },
+    en: { translation: en.common, ...en },
+    vi: { translation: vi.common, ...vi },
   },
   lng: Localization.getLocales()[0].languageCode ?? 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
-    format: function (value, format, lng) {
+    format: function (value, format) {
       if (format === 'lowercase') {
         return value.charAt(0).toLowerCase() + value.slice(1);
       }

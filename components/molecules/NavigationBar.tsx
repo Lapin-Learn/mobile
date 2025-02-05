@@ -1,12 +1,12 @@
 import { router } from 'expo-router';
 import { LucideMoveLeft, LucideProps } from 'lucide-react-native';
 import { ForwardRefExoticComponent } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 import Styles from '~/constants/GlobalStyles';
 
-export type NavigationBarProps = ViewProps & {
+type NavigationBarProps = ViewProps & {
   noBar?: boolean;
   title?: string;
   headerTitle?: string;
@@ -30,6 +30,14 @@ export const NavigationBar = ({
   displayStyle,
   children,
 }: NavigationBarProps) => {
+  const handleOnBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.dismiss();
+    }
+  };
+
   return (
     <View style={styles.container}>
       {noBar || (
@@ -37,24 +45,16 @@ export const NavigationBar = ({
           {displayStyle === 'center' ? (
             <>{headerLeftShown && onHeaderLeftPress ? onHeaderLeftPress() : <View style={styles.placeholder} />}</>
           ) : (
-            <>
-              {headerLeftShown &&
-                (onHeaderLeftPress ? (
-                  onHeaderLeftPress()
-                ) : (
-                  <Pressable
-                    style={styles.iconContainer}
-                    onPress={() => {
-                      if (router.canGoBack()) {
-                        router.back();
-                      } else {
-                        router.dismiss();
-                      }
-                    }}>
-                    <Icon color='black' />
-                  </Pressable>
-                ))}
-            </>
+            headerLeftShown &&
+            (onHeaderLeftPress ? (
+              onHeaderLeftPress()
+            ) : (
+              <Pressable style={styles.iconContainer} onPress={handleOnBack}>
+                <View>
+                  <Icon color='black' />
+                </View>
+              </Pressable>
+            ))
           )}
           {headerTitle && <Text style={styles.headerTitle}>{headerTitle}</Text>}
 
@@ -64,7 +64,9 @@ export const NavigationBar = ({
 
       {title && (
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
+            {title}
+          </Text>
         </View>
       )}
       {children}
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 44,
+    height: Dimensions.get('window').height * 0.05,
   },
   justifyCenter: {
     justifyContent: 'center',

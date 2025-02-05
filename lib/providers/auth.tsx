@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { ReactNode, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
@@ -10,13 +9,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     hydrate();
   }, []);
 
-  useEffect(() => {
-    if (status === 'isFirstLaunch') {
-      router.replace('/on-boarding');
-    }
+  // useEffect(() => {
+  //   if (status === 'isFirstLaunch') {
+  //     router.replace('/on-boarding');
+  //   }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [status]);
 
   return <>{children}</>;
 };

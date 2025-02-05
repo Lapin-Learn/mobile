@@ -22,8 +22,12 @@ const SelectTrigger = React.forwardRef<
     ref={ref}
     style={StyleSheet.flatten([selectTriggerStyles.root, props.disabled ? { opacity: 0.5 } : {}, style])}
     {...props}>
-    <>{children}</>
-    <ChevronDown size={20} color='#6b2020' />
+    {typeof children === 'function' ? null : React.isValidElement(children) ? (
+      children
+    ) : (
+      <SelectValue placeholder={typeof children === 'string' ? children : ''} />
+    )}
+    <ChevronDown size={16} color='#6b2020' />
   </SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
@@ -31,17 +35,16 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 const selectTriggerStyles = StyleSheet.create({
   root: {
     height: 48,
+    alignSelf: 'baseline',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 8,
     borderWidth: 1,
+    padding: 8,
     ...Styles.borderColor.border,
     ...Styles.color.background,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    fontSize: 14,
-    lineHeight: 20,
+    ...Styles.fontSize.footnote,
   },
 });
 

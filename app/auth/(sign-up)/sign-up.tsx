@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
@@ -55,7 +56,7 @@ const SignUp = () => {
       <View style={styles.content}>
         <Text style={styles.subtitle}>{t('signUp.subtitle')}</Text>
         <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
+          <View style={styles.gapY6}>
             <ControllerInput
               props={{ name: 'email', control }}
               label={t('signUp.emailLabel')}
@@ -117,6 +118,17 @@ const OtherSignIn = () => {
     <View style={otherSignInStyles.container}>
       {/* TODO: Sign up with Facebook */}
       {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
+      {Platform.OS === 'ios' && (
+        <AppleAuthentication.AppleAuthenticationButton
+          buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+          buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+          cornerRadius={8}
+          style={{ width: '100%', height: 50, margin: 'auto', paddingHorizontal: 20, paddingVertical: 8 }}
+          onPress={() => {
+            signInWithProvider.mutate(ProviderNameEnum.APPLE);
+          }}
+        />
+      )}
       <Button
         onPress={() => {
           signInWithProvider.mutate(ProviderNameEnum.GOOGLE);
@@ -131,62 +143,63 @@ const OtherSignIn = () => {
 };
 
 export default SignUp;
-
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
   content: {
-    width: '100%',
     flexGrow: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingBottom: 32,
+    marginBottom: 16,
   },
   subtitle: {
     width: '100%',
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
-    lineHeight: 21,
-    color: '#5c5c5c',
+    ...font.normal,
+    ...fontSize.callout,
+    ...color.neutral[500],
   },
   formContainer: {
-    gap: 80,
-  },
-  inputContainer: {
-    flexDirection: 'column',
-    gap: 16,
+    flexGrow: 1,
+    justifyContent: 'space-around',
   },
   gapY6: {
-    gap: 24,
+    gap: 16,
   },
-  flexColCenter: {
-    flexDirection: 'column',
+  flexCenter: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   flexRowCenter: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  forgotPassword: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 });
 
 const containers = StyleSheet.create({
-  otherSignIn: StyleSheet.flatten([styles.flexColCenter, styles.gapY6]),
-  doNotHaveAccount: StyleSheet.flatten([styles.flexRowCenter, { gap: 10 }]),
+  otherSignIn: {
+    ...styles.flexCenter,
+    ...styles.gapY6,
+  },
+  doNotHaveAccount: {
+    ...styles.flexCenter,
+    ...styles.flexRowCenter,
+    gap: 10,
+  },
 });
 
 const otherSignInStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 35,
+    ...styles.flexCenter,
+    width: '100%',
+    gap: 12,
   },
   googleButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...styles.flexCenter,
+    ...styles.flexRowCenter,
     gap: 8,
   },
 });

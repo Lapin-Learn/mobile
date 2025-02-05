@@ -4,6 +4,7 @@ import { FlatList, Text, View } from 'react-native';
 import InventoryEmpty from '~/assets/images/items/InventoryEmpty.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useInventory } from '~/hooks/react-query/useItem';
+import { ShopInventoryMapping } from '~/hooks/zustand/useShopStore';
 import { ItemEnum } from '~/lib/enums';
 
 import { Loading } from '../../Loading';
@@ -20,7 +21,7 @@ export const Inventory = () => {
       <View style={{ alignItems: 'center', gap: 24, paddingHorizontal: 48, paddingTop: 60 }}>
         <InventoryEmpty />
         <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
-          {t('inventory.empty')}
+          {t(ShopInventoryMapping.empty.inventory)}
         </Text>
       </View>
     );

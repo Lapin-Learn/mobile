@@ -5,14 +5,20 @@
   },
   "month_mission": "{{month}}",
   "time_remaining": "Còn {{time}}",
-  "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được phần thưởng và huy hiệu nhé!",
+  "guildline": "Hãy hoàn thành nhiệm vụ tháng để nhận được cà rốt nhé!",
   "description": {
     "COMPLETE_LESSON": "Hoàn thành {{quantity}} bài học",
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE": "Hoàn thành {{quantity}} bài học với ít nhất {{requirements}}% điểm số",
     "COMPLETE_LESSON_WITH_PERCENTAGE_SCORE_PERFECT": "Hoàn thành {{quantity}} bài học hoàn hảo",
-    "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Luyện tập {{requirements}} kỹ năng khác nhau",
-    "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Học trong {{requirements}}",
-    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Học liên tiếp {{requirements}} ngày",
-    "EXCEED_STREAK": "Học liên tiếp {{requirements}} ngày"
+    "COMPLETE_LESSON_WITH_DIFFERENT_SKILLS": "Luyện tập {{quantity}} kỹ năng khác nhau trong bài học hàng ngày",
+    "TOTAL_DURATION_OF_LEARN_DAILY_LESSON": "Học bài học hàng ngày trong {{requirements}}",
+    "EXCEED_LEARNING_STREAK_WITHOUT_BREAK": "Học liên tiếp {{quantity}} ngày",
+    "EXCEED_LEARNING_STREAK": "Học trong {{quantity}} ngày",
+    "COMPLETE_LISTENING_SESSION": "Hoàn thành {{quantity}} bài thi thử Listening",
+    "COMPLETE_READING_SESSION": "Hoàn thành {{quantity}} bài thi thử Reading",
+    "COMPLETE_WRITING_SESSION": "Hoàn thành {{quantity}} bài thi thử Writing",
+    "COMPLETE_SPEAKING_SESSION": "Hoàn thành {{quantity}} bài thi thử Speaking",
+    "COMPLETE_DISTINCT_SKILL_SESSION": "Hoàn thành thi thử {{quantity}} kĩ năng bất kì",
+    "COMPLETE_DISTINCT_SKILL_TEST_SESSION": "Hoàn thành {{quantity}} lượt thi thử bất kỳ"
   }
 }

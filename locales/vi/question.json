@@ -1,13 +1,24 @@
 {
   "general": {
     "check": "Kiểm tra",
-    "correct": ["Chính xác!", "Tốt lắm!", "Rất tốt!"],
-    "incorrect": ["Chưa chính xác!", "Thử lại nhé!", "Sai rồi!"],
+    "correct": [
+      "Chính xác!",
+      "Tốt lắm!",
+      "Rất tốt!"
+    ],
+    "incorrect": [
+      "Chưa chính xác!",
+      "Thử lại nhé!",
+      "Sai rồi!"
+    ],
     "explanation": "Xem giải thích",
     "correctAnswer": "Câu trả lời đúng là:",
     "continue": "Tiếp tục",
     "noQuestionFound": "Không có câu hỏi",
     "unsupportedQuestionType": "Loại câu hỏi không được hỗ trợ"
+  },
+  "instruction": {
+    "empty": "Chưa có lý thuyết cho phần này"
   },
   "explanation": {
     "title": "Giải thích",

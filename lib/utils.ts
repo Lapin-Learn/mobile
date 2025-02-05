@@ -15,7 +15,7 @@ export function convertMissionNameCategory(item: IMission) {
       });
     case MissionCategoryEnum.TOTAL_DURATION_OF_LEARN_DAILY_LESSON:
       return t(`description.${item.category}`, {
-        requirements: formatLearningDuration(item.requirements),
+        requirements: formatLearningDuration(item.quantity * 60),
         ns: 'mission',
       });
     default:
@@ -79,7 +79,15 @@ export const formatNumber = (num: number) => {
   }
 };
 
-export const convertSecondsToMinutes = (seconds: number): string => {
+export const convertSecondsToMinutesHours = (seconds: number): string => {
+  if (seconds >= 86400) {
+    return formatUnit(Math.floor(seconds / 86400), 'day');
+  }
+
+  if (seconds >= 3600) {
+    return formatUnit(Math.floor(seconds / 3600), 'hour');
+  }
+
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;

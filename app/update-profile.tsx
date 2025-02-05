@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router, useFocusEffect } from 'expo-router';
 import { LogOut } from 'lucide-react-native';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
@@ -9,28 +9,29 @@ import { AvoidSoftInput } from 'react-native-avoid-softinput';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
+import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
 import Styles from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
-import { useUpdateUserProfile } from '~/hooks/react-query/useUser';
+import { useUpdateUserProfile, useUserProfile } from '~/hooks/react-query/useUser';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
-  username: z.string().min(3, 'error.username.min').max(20, 'error.username.max'),
+  username: z.string().min(3, 'error.username.min').max(30, 'error.username.max'),
   fullName: z.string().min(1, 'error.fullname.min').max(30, 'error.fullname.max'),
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'error.dob_min' })
-    .max(new Date(), { message: `error.dob_max|${new Date().getFullYear()}` }),
-  gender: z.nativeEnum(GenderEnum),
+    .max(new Date(), { message: `error.dob_max|${new Date().getFullYear()}` })
+    .optional(),
+  gender: z.nativeEnum(GenderEnum).optional(),
 });
 
 type FormField = z.infer<typeof schema>;
-
 const UpdateProfile = () => {
   const { t } = useTranslation('profile');
   const signOut = useSignOut();
@@ -38,11 +39,25 @@ const UpdateProfile = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<FormField>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      username: '',
+      fullName: '',
+      dob: undefined,
+    },
   });
 
   const updateUserProfileMutation = useUpdateUserProfile();
+  const { data: profile, isLoading } = useUserProfile();
+
+  useEffect(() => {
+    if (profile) {
+      setValue('username', profile.username);
+    }
+  }, [profile]);
+
   const onSubmit = (data: FormField) => {
     updateUserProfileMutation.mutate(data, {
       onSuccess: () => {
@@ -61,6 +76,10 @@ const UpdateProfile = () => {
     };
   }, []);
   useFocusEffect(onFocusEffect);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <PlatformView>
@@ -84,6 +103,7 @@ const UpdateProfile = () => {
             label={t('profile.username')}
             placeholder={t('placeholder.username')}
             error={errors.username}
+            required
           />
 
           <ControllerInput
@@ -91,6 +111,7 @@ const UpdateProfile = () => {
             label={t('profile.fullname')}
             placeholder={t('placeholder.fullname')}
             error={errors.fullName}
+            required
           />
 
           <ControllerInput

@@ -1,13 +1,15 @@
 import { router } from 'expo-router';
 import { LucideX } from 'lucide-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, useWindowDimensions, View } from 'react-native';
-import HTML from 'react-native-render-html';
+import { Text, View } from 'react-native';
+import { WebView } from 'react-native-webview';
 
+import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
-import Styles from '~/constants/GlobalStyles';
+import { default as GlobalStyles, default as Styles } from '~/constants/GlobalStyles';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
@@ -33,14 +35,14 @@ import { GLOBAL_STYLES } from '~/lib/constants';
 
 const Explanation = () => {
   const { t } = useTranslation('question');
-  const windowWidth = useWindowDimensions().width;
+  const [webViewLoading, setWebViewLoading] = useState(true);
 
   const {
     state: { currentQuestion },
   } = useDailyLessonQuestionStore();
 
   const formattedExplanation = `
-    <div style="font-size: 17px; line-height: 25.5px;">
+    <div style="font-size: 48px;">
       ${currentQuestion?.explanation || ''}
     </div>`;
 
@@ -56,26 +58,39 @@ const Explanation = () => {
 
   return (
     <PlatformView>
-      <ScrollView>
-        <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
-        <View
-          style={{
-            margin: 16,
-            marginBottom: 80,
-            flexDirection: 'column',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}>
-          <View style={{ gap: 36 }}>
-            <View style={{ gap: 12 }}>
-              <View>
-                <HTML source={{ html: formattedExplanation }} contentWidth={windowWidth} />
-              </View>
-            </View>
-            {/* <AnswerField answers={answer} /> */}
-          </View>
+      <NavigationBar headerLeftShown icon={LucideX} headerTitle={t('explanation.title')} />
+
+      {webViewLoading && (
+        <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <Loading />
         </View>
-      </ScrollView>
+      )}
+
+      <View
+        style={{
+          margin: 16,
+          flexDirection: 'column',
+          flexGrow: 1,
+          justifyContent: 'space-between',
+        }}>
+        <WebView
+          onLoad={() => {
+            setWebViewLoading(true);
+          }}
+          onLoadEnd={() => {
+            setWebViewLoading(false);
+          }}
+          // just Android
+          textZoom={100}
+          setDisplayZoomControls={true}
+          originWhitelist={['*']}
+          source={{ html: formattedExplanation }}
+          style={{ ...GlobalStyles.backgroundColor.transparent, marginTop: 16 }}
+        />
+
+        {/* <AnswerField answers={answer} /> */}
+      </View>
+
       <View
         style={{
           position: 'absolute',

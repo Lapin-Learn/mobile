@@ -1,3 +1,4 @@
+import uniqBy from 'lodash.uniqby';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -8,6 +9,7 @@ import Styles from '~/constants/GlobalStyles';
 import { useMissions } from '~/hooks/react-query/useMission';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { IMissionMilestone } from '~/lib/types';
+import { parseMission } from '~/services/axios/mission';
 
 import { Loading } from '../Loading';
 import { MissionSection } from '../mission/MissionSection';
@@ -17,26 +19,33 @@ export const MissionMilestone = ({ current, handleNextMilestone }: MilestoneProp
   const { t } = useTranslation('milestone');
   const { data: missions = [], isLoading } = useMissions();
 
-  const milestone = (current.newValue as IMissionMilestone[]).map((d) => {
-    const { name, rewards, description, requirements, category } = d.mission.quest;
-    return {
-      name,
-      interval: d.mission.type,
-      rewards,
-      current: d.current,
-      quantity: d.mission.quantity,
-      description,
-      requirements,
-      category,
-    };
-  });
+  const milestone =
+    (current.newValue as IMissionMilestone[]).map((d) => {
+      const { rewards, requirements, category, quantity } = d.mission.quest;
+      return parseMission({
+        interval: d.mission.type,
+        rewards,
+        current: d.current,
+        quantity: quantity,
+        requirements,
+        category,
+        missionId: d.missionId,
+        status: d.status,
+        questId: d.mission.quest.id,
+      });
+    }) ?? [];
 
   if (isLoading) {
     return <Loading />;
   }
 
-  const dailyMissions = missions?.filter((mission) => mission.interval === 'daily');
-  const monthlyMission = milestone?.find((mission) => mission.interval === 'monthly');
+  const combinedMissions = uniqBy(
+    [...milestone.filter((m) => m.interval === 'daily'), ...(missions ?? [])],
+    'missionId'
+  );
+
+  const dailyMissions = combinedMissions.filter((mission) => mission.interval === 'daily');
+  const monthlyMission = combinedMissions.find((mission) => mission.interval === 'monthly');
 
   return (
     <PlatformView

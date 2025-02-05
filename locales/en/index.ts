@@ -1,5 +1,5 @@
 import auth from './auth.json';
-import english from './english.json';
+import common from './common.json';
 import item from './item.json';
 import lesson from './lesson.json';
 import milestone from './milestone.json';
@@ -8,4 +8,4 @@ import profile from './profile.json';
 import question from './question.json';
 import validation from './validation.json';
 
-export { auth, english, item, lesson, milestone, mission, profile, question, validation };
+export { auth, common, item, lesson, milestone, mission, profile, question, validation };

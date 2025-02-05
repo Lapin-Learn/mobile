@@ -1,8 +1,9 @@
+import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { default as Styles } from '~/constants/GlobalStyles';
-import { useShopStore } from '~/hooks/zustand/useShopStore';
+import { ShopModalType, useShopStore } from '~/hooks/zustand/useShopStore';
 import { ItemEnum } from '~/lib/enums';
 
 export type ItemCardProps = {
@@ -32,11 +33,19 @@ export const Item = (props: ItemCardProps) => {
       onPress={() =>
         openModal({
           ...props,
-          type: 'use',
+          type: ShopModalType.Use,
         })
       }>
-      <View style={{ paddingVertical: 17.25 }}>
-        <Image source={{ uri: props.image }} style={{ width: 80, height: 80, objectFit: 'contain' }} />
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: props.image }}
+          style={styles.image}
+          shouldRasterizeIOS
+          contentFit='contain'
+          contentPosition='center'
+          transition={500}
+          priority='high'
+        />
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
         <Text style={{ ...Styles.fontSize.subhead, ...Styles.font.semibold, textAlign: 'center' }}>
@@ -51,6 +60,13 @@ export const Item = (props: ItemCardProps) => {
 };
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    paddingVertical: 17.25,
+  },
+  image: {
+    width: 80,
+    height: 80,
+  },
   itemView: {
     justifyContent: 'center',
     alignItems: 'center',
