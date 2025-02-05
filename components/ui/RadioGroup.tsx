@@ -44,7 +44,7 @@ export { RadioGroup, RadioGroupItem };
 const styles = StyleSheet.create({
   radioGroupRoot: {
     flexDirection: 'column',
-    gap: 8,
+    gap: 16,
   },
   radioGroupItem: {
     height: 16,

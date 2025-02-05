@@ -43,7 +43,7 @@ Progress.displayName = ProgressPrimitive.Root.displayName;
 const progressStyles = StyleSheet.create({
   root: {
     position: 'relative',
-    height: 8,
+    height: 12,
     overflow: 'hidden',
     flexGrow: 1,
     borderRadius: 999,
