@@ -12,7 +12,7 @@ import Carrots from '../track-bar/Carrots';
 export const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
   const { t } = useTranslation('item');
   return (
-    <View style={{ height: 165 }}>
+    <View style={{ flexShrink: 1, paddingBottom: 16 }}>
       <NavigationBar
         headerLeftShown
         onHeaderLeftPress={() => (

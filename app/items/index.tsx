@@ -20,24 +20,26 @@ import { GLOBAL_STYLES } from '~/lib/constants';
 const ItemTabs = ({ isShop }: { isShop: boolean }) => {
   const { t } = useTranslation('item');
   const { setCurrentView } = useShopStore();
+  const ShopInventoryTabs = [
+    {
+      isActive: isShop,
+      icon: ShopIcon,
+      activeIcon: ShopActiveIcon,
+      view: ShopInventoryMapping.view.shop,
+      title: ShopInventoryMapping.title.shop,
+    },
+    {
+      isActive: !isShop,
+      icon: InventoryIcon,
+      activeIcon: InventoryActiveIcon,
+      view: ShopInventoryMapping.view.inventory,
+      title: ShopInventoryMapping.title.inventory,
+    },
+  ];
+
   return (
     <View style={styles.tabContainer}>
-      {[
-        {
-          isActive: isShop,
-          icon: ShopIcon,
-          activeIcon: ShopActiveIcon,
-          view: ShopInventoryMapping.view.shop,
-          title: ShopInventoryMapping.title.shop,
-        },
-        {
-          isActive: !isShop,
-          icon: InventoryIcon,
-          activeIcon: InventoryActiveIcon,
-          view: ShopInventoryMapping.view.inventory,
-          title: ShopInventoryMapping.title.inventory,
-        },
-      ].map(({ isActive, icon: Icon, activeIcon: ActiveIcon, view, title }, index) => (
+      {ShopInventoryTabs.map(({ isActive, icon: Icon, activeIcon: ActiveIcon, view, title }, index) => (
         <Button
           key={index}
           size='lg'
