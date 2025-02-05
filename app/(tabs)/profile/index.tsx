@@ -13,7 +13,7 @@ import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { Colors } from '~/constants/Colors';
-import Styles from '~/constants/GlobalStyles';
+import { default as GlobalStyles, default as Styles } from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import {
   useCreatePreSignedUrl,
@@ -165,7 +165,7 @@ const Index = () => {
                 )}
               </View>
               <Button variant='link' style={styles.avatarButton} onPress={handleChangeAvatar}>
-                <Camera size={16} color={Colors.light['orange-500']} />
+                <Camera size={16} {...GlobalStyles.color.neutral[400]} />
               </Button>
             </View>
             <LongName {...profileData[0]} />
