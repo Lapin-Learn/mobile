@@ -58,7 +58,7 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<stri
   const [, lessonId] = queryKey;
 
   try {
-    const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/lessons/${lessonId}/questions`);
+    const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
     return response;
   } catch (error) {
     console.error('Error fetching questions:', error);
@@ -68,7 +68,7 @@ export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<stri
 
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
   try {
-    const response = await api.post<ILessonResult>(`/lessons/completion`, { body: params });
+    const response = await api.post<ILessonResult>(`/daily-lessons/completion`, { body: params });
     return response;
   } catch (error) {
     console.error('Error confirming lesson completion:', error);
