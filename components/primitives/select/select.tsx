@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   BackHandler,
   Pressable,
+  StyleSheet,
   Text,
   View,
   type GestureResponderEvent,
@@ -158,12 +159,12 @@ const Trigger = React.forwardRef<SelectTriggerRef, SlottablePressableProps>(
 Trigger.displayName = 'TriggerNativeSelect';
 
 const Value = React.forwardRef<TextRef, SlottableTextProps & SelectValueProps>(
-  ({ asChild, placeholder, ...props }, ref) => {
+  ({ asChild, placeholder, style, ...props }, ref) => {
     const { value } = useRootContext();
     const Component = asChild ? Slot.Text : Text;
     const placeholderStyle = value?.value ? {} : { color: '#929292' };
     return (
-      <Component ref={ref} style={placeholderStyle} {...props}>
+      <Component ref={ref} style={StyleSheet.flatten([style, placeholderStyle])} {...props}>
         {value?.label ?? placeholder}
       </Component>
     );

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import MatchingItem from '~/components/molecules/MatchingItem';
 import { Button } from '~/components/ui/Button';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/Select';
 import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
@@ -12,13 +12,17 @@ import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 type MatchingProps = MatchingContent & {
   onAnswer: (answer: Answer) => void;
   result: Answer;
+  textColumnKey?: 'columnA' | 'columnB';
 };
 
-const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps) => {
+const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 'columnA' }: MatchingProps) => {
   const [selected, setSelected] = useState<PairAnswer[]>([]);
   const [correctness, setCorrectness] = useState<boolean[]>([]);
   const [isChecking, setIsChecking] = useState(false);
   const { t } = useTranslation('question');
+
+  const textColumn = textColumnKey === 'columnA' ? columnA : columnB;
+  const selectColumn = textColumnKey === 'columnA' ? columnB : columnA;
 
   const isNotAnswered = result.numberOfCorrect === 0 && result.totalOfQuestions === 0;
   const answerRecord = answer.reduce<Record<string, string>>((acc, pair) => {
@@ -67,63 +71,39 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result }: MatchingProps)
     <>
       <ScrollView>
         <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
-          {columnB.options.map((option, index) => (
-            <View key={option}>
-              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <View
+          {textColumn.options.map((label, index) => (
+            <View key={label} style={{ flexDirection: 'row', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
+              <View
+                style={[
+                  styles.circle,
+                  correctness.length
+                    ? correctness[index]
+                      ? { ...Styles.backgroundColor.green[500] }
+                      : { ...Styles.backgroundColor.red[500] }
+                    : {},
+                  { marginRight: 4 },
+                ]}>
+                <Text
                   style={[
-                    styles.circle,
+                    styles.text,
                     correctness.length
                       ? correctness[index]
-                        ? { ...Styles.backgroundColor.green[500] }
-                        : { ...Styles.backgroundColor.red[500] }
+                        ? { ...Styles.color.green[50] }
+                        : { ...Styles.color.red[50] }
                       : {},
                   ]}>
-                  <Text
-                    style={[
-                      styles.text,
-                      correctness.length
-                        ? correctness[index]
-                          ? { ...Styles.color.green[50] }
-                          : { ...Styles.color.red[50] }
-                        : {},
-                    ]}>
-                    {index + 1}
-                  </Text>
-                </View>
-                <Select
-                  onValueChange={(value) => value && handleSelect(value.value, option)}
-                  style={{
-                    maxWidth: '50%',
-                    minWidth: '20%',
-                  }}>
-                  <SelectTrigger disabled={correctness.length !== 0}>
-                    <SelectValue placeholder={columnA.title} style={{ ...Styles.fontSize.body }} />
-                  </SelectTrigger>
-                  <SelectContent
-                    style={{
-                      width: '80%',
-                    }}>
-                    <SelectGroup>
-                      {columnA.options.map((item) => (
-                        <SelectItem key={item} label={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {option.split(' ').map((word, id) => (
-                  <Text key={`${word}-${id}`} style={{ ...Styles.fontSize.body }}>
-                    {word}
-                  </Text>
-                ))}
-              </View>
-              {correctness.length !== 0 && (
-                <Text style={{ ...Styles.font.bold }}>
-                  {t('general.correctAnswer')} {answerRecord[option]}
+                  {index + 1}
                 </Text>
-              )}
+              </View>
+              <MatchingItem
+                showAnswerRecord={correctness.length !== 0}
+                answerRecord={answerRecord[label]}
+                selectPlaceholder={columnB.title}
+                label={label}
+                options={selectColumn.options}
+                onSelect={handleSelect}
+                direction={textColumnKey === 'columnA' ? 'ltr' : 'rtl'}
+              />
             </View>
           ))}
         </View>
@@ -143,16 +123,16 @@ export default Matching;
 
 const styles = StyleSheet.create({
   circle: {
-    borderRadius: 16,
-    width: 28,
-    height: 28,
+    borderRadius: 39,
+    width: 30,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    ...Styles.backgroundColor.blue[500],
+    ...Styles.backgroundColor.blue[100],
   },
   text: {
     ...Styles.font.bold,
-    ...Styles.fontSize.body,
-    ...Styles.color.blue[50],
+    ...Styles.fontSize['caption-1'],
+    ...Styles.color.blue[900],
   },
 });
