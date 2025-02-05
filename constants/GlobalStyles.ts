@@ -38,59 +38,45 @@ export const Font: {
 export const FontSize = {
   'large-title': {
     fontSize: 34,
-    lineHeight: 51,
   },
   'title-1': {
     fontSize: 28,
-    lineHeight: 42,
   },
   'title-2': {
     fontSize: 22,
-    lineHeight: 33,
   },
   'title-3': {
     fontSize: 20,
-    lineHeight: 30,
   },
   'title-4': {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   headline: {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   body: {
     fontSize: 17,
-    lineHeight: 25.5,
   },
   callout: {
     fontSize: 16,
-    lineHeight: 24,
   },
   subhead: {
     fontSize: 15,
-    lineHeight: 22.5,
   },
   footnote: {
     fontSize: 13,
-    lineHeight: 18,
   },
   'caption-1': {
     fontSize: 12,
-    lineHeight: 18,
   },
   'caption-2': {
     fontSize: 11,
-    lineHeight: 16.5,
   },
   streak: {
     fontSize: 64,
-    lineHeight: 64,
   },
   lg: {
     fontSize: 18,
-    lineHeight: 28,
   },
 };
 
@@ -235,11 +221,21 @@ type FontSizeStyle = {
 
 const createFontSizeStyle = <T extends string>(style: T, deviceName?: T): FontSizeStyle =>
   Object.fromEntries(
-    Object.entries(FontSize).map(([sizeName, { fontSize, lineHeight }]) => {
+    Object.entries(FontSize).map(([sizeName, { fontSize }]) => {
       if (deviceName && EXCEPTION_DEVICES.includes(deviceName)) {
-        return [sizeName, { [style]: fontSize * 0.9, lineHeight: lineHeight * 0.9 }];
+        return [
+          sizeName,
+          {
+            [style]: fontSize * 0.9,
+          },
+        ];
       }
-      return [sizeName, { [style]: fontSize, lineHeight }];
+      return [
+        sizeName,
+        {
+          [style]: fontSize,
+        },
+      ];
     })
   ) as FontSizeStyle;
 

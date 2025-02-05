@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { LucideMoveRight } from 'lucide-react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -12,16 +12,31 @@ import First from '~/assets/images/on-boarding/first.svg';
 import Fourth from '~/assets/images/on-boarding/fourth.svg';
 import Second from '~/assets/images/on-boarding/second.svg';
 import Third from '~/assets/images/on-boarding/third.svg';
+import { OnBoardingRive } from '~/components/molecules/rive/OnBoarding';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { FIRST_LAUNCH } from '~/services';
 
-const onBoardingMapping: Record<number, React.FC> = {
-  1: First,
-  2: Second,
-  3: Third,
-  4: Fourth,
+const onBoardingMapping: Record<number, { url?: string; stateMachineName?: string; fallback: React.FC }> = {
+  1: {
+    fallback: First,
+  },
+  2: {
+    url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/rive%2Fhero_banner.riv?alt=media&token=be7d21eb-ee98-4658-bb2f-c828e4faaf0c',
+    stateMachineName: 'main',
+    fallback: Second,
+  },
+  3: {
+    url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/rive%2Flevelup_introduce?alt=media&token=5b035384-e2ce-48da-8f1c-22719334958a',
+    stateMachineName: 'main',
+    fallback: Third,
+  },
+  4: {
+    url: 'https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/rive%2Fshop_introduce?alt=media&token=d6a5ec5b-ab61-468d-93fe-8fdc0825fce9',
+    stateMachineName: 'main',
+    fallback: Fourth,
+  },
 };
 
 const OnBoarding = () => {
@@ -31,12 +46,16 @@ const OnBoarding = () => {
 
   const handleSkip = async () => {
     await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
-    router.push('/auth/sign-in');
+    router.replace('/auth/sign-in');
   };
 
   const handleGetStart = async () => {
-    await AsyncStorage.setItem(FIRST_LAUNCH, 'false');
-    router.push('/auth/sign-up');
+    if (currentPage === 3) {
+      handleSkip();
+    } else {
+      setCurrentPage((prev) => prev + 1);
+      pagerViewRef.current?.setPage(currentPage + 1);
+    }
   };
 
   useEffect(() => {
@@ -48,7 +67,7 @@ const OnBoarding = () => {
         setCurrentPage(0);
         pagerViewRef.current?.setPage(0);
       }
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [currentPage]);
 
@@ -79,20 +98,31 @@ const OnBoarding = () => {
         onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
         keyboardDismissMode='on-drag'
         orientation='horizontal'>
-        {Object.keys(onBoardingMapping).map((item) => (
-          <View key={item} style={{ justifyContent: 'center', alignItems: 'center', padding: 16 }}>
-            {React.createElement(onBoardingMapping[Number(item)])}
-            <View style={styles.onboardingContainer}>
-              <Logo />
-              <Text style={styles.description}>
-                <Trans
-                  i18nKey={`on_boarding.title_${item}`}
-                  components={{ bold: <Text style={{ ...Styles.font.bold }} /> }}
-                />
-              </Text>
+        {Object.keys(onBoardingMapping).map((key) => {
+          const { url, stateMachineName, fallback } = onBoardingMapping[Number(key)];
+          return (
+            <View key={key} style={{ justifyContent: 'center', alignItems: 'center', padding: 16 }}>
+              <OnBoardingRive
+                url={url}
+                fallback={fallback}
+                stateMachineName={stateMachineName}
+                style={{
+                  width: '100%',
+                  transform: key === '2' ? [{ scale: 1 }] : [{ scale: 1.25 }],
+                }}
+              />
+              <View style={styles.onboardingContainer}>
+                <Logo />
+                <Text style={styles.description} adjustsFontSizeToFit>
+                  <Trans
+                    i18nKey={`on_boarding.title_${key}`}
+                    components={{ bold: <Text style={{ ...Styles.font.bold }} /> }}
+                  />
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </PagerView>
       <View style={[styles.buttonContainer, styles.widthFull]}>
         <Button style={styles.skipButton} onPress={handleSkip}>

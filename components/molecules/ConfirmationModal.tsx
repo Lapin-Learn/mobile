@@ -10,7 +10,7 @@ type ConfirmationModalContentProps = {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  isPending: boolean;
+  isPending?: boolean;
   confirmAction?: () => void;
   cancelAction?: () => void;
 };

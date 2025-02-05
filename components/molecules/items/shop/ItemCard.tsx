@@ -1,5 +1,6 @@
+import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { ItemEnum } from '~/lib/enums';
@@ -22,7 +23,16 @@ export const ItemCard = (props: ItemCardProps) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Image source={{ uri: image }} width={64} style={{ objectFit: 'contain' }} />
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: image }}
+          style={styles.image}
+          contentFit='contain'
+          contentPosition='center'
+          transition={500}
+          priority='high'
+        />
+      </View>
       <View style={{ flexGrow: 1, flexShrink: 1 }}>
         <View>
           <Text style={styles.itemNameText}>{t(`shop.items.${name}.name`)}</Text>
@@ -42,12 +52,21 @@ export const ItemCard = (props: ItemCardProps) => {
 };
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    width: 64,
+    height: '100%',
+  },
+  image: {
+    width: '100%',
+    flex: 1,
+  },
   itemContainer: {
     flexDirection: 'row',
     gap: 16,
     padding: 16,
     borderWidth: 1,
     borderRadius: 8,
+    alignItems: 'center',
     ...Styles.borderColor.neutral[100],
   },
   itemNameText: {

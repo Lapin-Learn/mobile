@@ -5,7 +5,7 @@ import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ConfirmationModal } from '~/components/molecules/ConfirmationModal';
 import { Loading } from '~/components/molecules/Loading';
@@ -24,6 +24,7 @@ import {
   useUserProfile,
 } from '~/hooks/react-query/useUser';
 import { useToast } from '~/hooks/useToast';
+import { firestore } from '~/lib/services';
 import { IPresignedUrl } from '~/lib/types';
 
 const settingsData = [
@@ -64,6 +65,7 @@ const Index = () => {
   const [image, setImage] = useState('https://via.placeholder.com/48');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toast = useToast();
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false);
 
   const handleEdit = () => {
     router.push('/edit-profile' as Href);
@@ -74,6 +76,21 @@ const Index = () => {
       setImage(data.avatar.url);
     }
   }, [data]);
+
+  useEffect(() => {
+    const fetchAppInfo = async () => {
+      await firestore
+        .collection('Screen')
+        .doc('profile')
+        .get()
+        .then((doc) => {
+          const screen = doc.data();
+          setShowDeleteAccount(screen?.showDeleteAccount);
+        });
+    };
+
+    fetchAppInfo();
+  }, []);
 
   const handleChangeAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -175,7 +192,7 @@ const Index = () => {
             </ProfileSection.Group>
           </ProfileSection>
 
-          {Platform.OS === 'ios' && (
+          {showDeleteAccount && (
             <>
               {isModalVisible && (
                 <ConfirmationModal

@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import CarrotIcon from '~/assets/images/carrot.svg';
@@ -16,7 +16,7 @@ import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useMilestoneStore } from '~/hooks/zustand/useMilestoneStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
-import { convertSecondsToMinutes } from '~/lib/utils';
+import { convertSecondsToMinutesHours, formatNumber } from '~/lib/utils';
 
 export type LessonResultProps = {
   percent: number;
@@ -52,6 +52,33 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
     }
   };
 
+  const renderItem = ({ key }: { key: string }) => {
+    const { Component, label } = tickerComponents[key];
+
+    return (
+      <View style={styles.tickerItem}>
+        <Text style={Styles.fontSize.subhead}>{t(label)}</Text>
+        <View style={styles.tickerItemContent}>
+          <Component width={24} height={24} />
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            ellipsizeMode='tail'
+            style={StyleSheet.flatten([font.bold, fontSize['title-3']])}>
+            {key === 'timer' ? convertSecondsToMinutesHours(data[key] as number) : formatNumber(data[key] as number)}
+          </Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            ellipsizeMode='tail'
+            style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
+            {key === 'exp' ? 'xp' : ''}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.fullSize}>
@@ -75,25 +102,38 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
               </Text>
             </View>
             <View style={styles.tickerContainer}>
-              <View style={styles.tickerRow}>
-                {Object.keys(tickerComponents).map((key) => {
+              <FlatList
+                data={Object.keys(tickerComponents)}
+                renderItem={({ item }) => renderItem({ key: item })}
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={true}
+                keyExtractor={(item) => item}
+                numColumns={3}
+                columnWrapperStyle={styles.tickerRow}
+              />
+              {/* {Object.keys(tickerComponents).map((key) => {
                   const { Component, label } = tickerComponents[key];
                   return (
                     <View key={key} style={styles.tickerItem}>
                       <Text style={Styles.fontSize.subhead}>{t(label)}</Text>
                       <View style={styles.tickerItemContent}>
                         <Component width={24} height={24} />
-                        <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
-                          {key === 'timer' ? convertSecondsToMinutes(data[key] as number) : (data[key] as number)}
+                        <Text
+                          adjustsFontSizeToFit
+                          numberOfLines={1}
+                          style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
+                          {key === 'timer' ? convertSecondsToMinutesHours(30000 as number) : (3000000 as number)}
                         </Text>
-                        <Text style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
+                        <Text
+                          adjustsFontSizeToFit
+                          numberOfLines={1}
+                          style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
                           {key === 'exp' ? 'xp' : ''}
                         </Text>
                       </View>
                     </View>
                   );
-                })}
-              </View>
+                })} */}
               <Button size='lg' onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
@@ -125,7 +165,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     backgroundColor: '#f9f7f7',
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 32,
     paddingTop: 60,
   },
   progressContainer: {
@@ -151,6 +191,6 @@ const styles = StyleSheet.create({
   tickerItemContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 2,
   },
 });
