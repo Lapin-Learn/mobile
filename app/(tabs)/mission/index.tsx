@@ -5,7 +5,6 @@ import { AppState, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MissionIcon from '~/components/icons/MissionIcon';
 import { Loading } from '~/components/molecules/Loading';
 import { MissionSection } from '~/components/molecules/mission/MissionSection';
-import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
 import { useMissions } from '~/hooks/react-query/useMission';
@@ -32,7 +31,6 @@ const Mission = () => {
 
   return (
     <PlatformView style={{ ...Styles.backgroundColor.blue[100], paddingBottom: 0 }}>
-      <NavigationBar headerTitle='Mission' displayStyle='center' />
       <View style={styles.headerContainer}>
         <View style={styles.headerLeft}>
           <View style={StyleSheet.flatten([styles.monthMissionContainer, Styles.backgroundColor.blue[50]])}>

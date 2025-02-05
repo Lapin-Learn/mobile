@@ -6,7 +6,7 @@ import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 import Styles from '~/constants/GlobalStyles';
 
-export type NavigationBarProps = ViewProps & {
+type NavigationBarProps = ViewProps & {
   noBar?: boolean;
   title?: string;
   headerTitle?: string;
@@ -30,6 +30,14 @@ export const NavigationBar = ({
   displayStyle,
   children,
 }: NavigationBarProps) => {
+  const handleOnBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.dismiss();
+    }
+  };
+
   return (
     <View style={styles.container}>
       {noBar || (
@@ -37,24 +45,16 @@ export const NavigationBar = ({
           {displayStyle === 'center' ? (
             <>{headerLeftShown && onHeaderLeftPress ? onHeaderLeftPress() : <View style={styles.placeholder} />}</>
           ) : (
-            <>
-              {headerLeftShown &&
-                (onHeaderLeftPress ? (
-                  onHeaderLeftPress()
-                ) : (
-                  <Pressable
-                    style={styles.iconContainer}
-                    onPress={() => {
-                      if (router.canGoBack()) {
-                        router.back();
-                      } else {
-                        router.dismiss();
-                      }
-                    }}>
-                    <Icon color='black' />
-                  </Pressable>
-                ))}
-            </>
+            headerLeftShown &&
+            (onHeaderLeftPress ? (
+              onHeaderLeftPress()
+            ) : (
+              <Pressable style={styles.iconContainer} onPress={handleOnBack}>
+                <View>
+                  <Icon color='black' />
+                </View>
+              </Pressable>
+            ))
           )}
           {headerTitle && <Text style={styles.headerTitle}>{headerTitle}</Text>}
 

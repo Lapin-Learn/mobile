@@ -9,7 +9,6 @@ import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from '
 
 import { ConfirmationModal } from '~/components/molecules/ConfirmationModal';
 import { Loading } from '~/components/molecules/Loading';
-import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
@@ -137,7 +136,6 @@ const Index = () => {
 
   return (
     <PlatformView>
-      <NavigationBar headerLeftShown={false} />
       <ScrollView>
         <View style={styles.root}>
           <View style={styles.avatarSection}>

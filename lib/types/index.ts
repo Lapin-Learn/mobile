@@ -5,6 +5,7 @@ import {
   ItemEnum,
   MilestonesEnum,
   MissionCategoryEnum,
+  MissionStatusEnum,
   RandomGiftTypeEnum,
   RankEnum,
   SkillEnum,
@@ -151,10 +152,22 @@ export type IMissionMilestone = {
   mission: {
     id: string;
     quantity: number;
-    quest: Omit<IMission, 'interval'>;
-    type: 'daily' | 'monthly';
+    quest: Quest;
+    type: QuestType;
   };
   missionId: string;
+  status: MissionStatusEnum;
+};
+
+export type QuestType = 'daily' | 'monthly';
+
+export type Quest = {
+  id: string;
+  requirements: number;
+  quantity: number;
+  rewards: number;
+  type: QuestType;
+  category: MissionCategoryEnum;
 };
 
 export type IMilestone = {
@@ -163,14 +176,15 @@ export type IMilestone = {
 };
 
 export type IMission = {
-  interval: 'daily' | 'monthly';
-  name: string;
-  description: string;
+  interval: QuestType;
   rewards: number;
   current: number;
   quantity: number;
   requirements: number;
   category: MissionCategoryEnum;
+  status: MissionStatusEnum;
+  missionId: string;
+  questId: string;
 };
 
 export type IMissionReward = {
