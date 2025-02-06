@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     ...Styles.font.normal,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.callout,
     lineHeight: 28,
   },
   question: {
     ...Styles.font.semibold,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.callout,
     marginHorizontal: 16,
   },
 });

@@ -71,7 +71,7 @@ const Exercise = () => {
         <NavigationBar title={capitalizeFirstLetter(exerciseId)} headerLeftShown />
         <View style={containers.main}>
           <FlatList
-            data={questionTypes}
+            data={questionTypes.filter((qt) => qt.lessons > 0)}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <Pressable

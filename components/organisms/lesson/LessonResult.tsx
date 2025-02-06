@@ -111,29 +111,6 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
                 numColumns={3}
                 columnWrapperStyle={styles.tickerRow}
               />
-              {/* {Object.keys(tickerComponents).map((key) => {
-                  const { Component, label } = tickerComponents[key];
-                  return (
-                    <View key={key} style={styles.tickerItem}>
-                      <Text style={Styles.fontSize.subhead}>{t(label)}</Text>
-                      <View style={styles.tickerItemContent}>
-                        <Component width={24} height={24} />
-                        <Text
-                          adjustsFontSizeToFit
-                          numberOfLines={1}
-                          style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
-                          {key === 'timer' ? convertSecondsToMinutesHours(30000 as number) : (3000000 as number)}
-                        </Text>
-                        <Text
-                          adjustsFontSizeToFit
-                          numberOfLines={1}
-                          style={StyleSheet.flatten([font.medium, fontSize['title-4']])}>
-                          {key === 'exp' ? 'xp' : ''}
-                        </Text>
-                      </View>
-                    </View>
-                  );
-                })} */}
               <Button size='lg' onPress={handleNextMilestone}>
                 <Text style={GLOBAL_STYLES.textButton}>{t('after.receive-reward')}</Text>
               </Button>
@@ -165,7 +142,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     backgroundColor: '#f9f7f7',
     paddingHorizontal: 16,
-    paddingBottom: 32,
+    paddingBottom: 44,
     paddingTop: 60,
   },
   progressContainer: {

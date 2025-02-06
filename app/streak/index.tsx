@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   recordStreakCaption: {
     ...Styles.font.semibold,
-    ...Styles.fontSize['caption-1'],
+    ...Styles.fontSize.callout,
     color: Styles.color.dark.color,
     width: '100%',
     flexWrap: 'wrap',
