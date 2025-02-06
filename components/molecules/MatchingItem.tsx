@@ -49,14 +49,20 @@ const MatchingItem = ({
         style={{
           gap: 4,
           flexWrap: 'wrap',
+          width: '100%',
+          flexGrow: 1,
+          flexBasis: 'auto',
+          flexShrink: 1,
           alignItems: 'center',
-          flexDirection: direction === 'rtl' ? 'row-reverse' : 'row',
+          flexDirection: 'row',
         }}>
-        <BreakableText text={label} />
+        {direction === 'ltr' && <BreakableText text={label} />}
+
         <Select
           onValueChange={handleSelect}
           style={{
-            margin: 8,
+            marginRight: direction === 'rtl' ? 8 : 0,
+            marginLeft: direction === 'ltr' ? 8 : 0,
           }}>
           <SelectTrigger disabled={showAnswerRecord} style={{ minWidth: 150, backgroundColor: 'white' }}>
             <SelectValue placeholder={selectPlaceholder} style={{ ...Styles.fontSize.callout }} />
@@ -71,6 +77,7 @@ const MatchingItem = ({
             </SelectGroup>
           </SelectContent>
         </Select>
+        {direction === 'rtl' && <BreakableText text={label} />}
       </View>
       {showAnswerRecord && <Text>{answerRecord}</Text>}
     </>

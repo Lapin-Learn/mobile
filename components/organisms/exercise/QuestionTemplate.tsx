@@ -1,6 +1,6 @@
 import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 
 import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
@@ -71,10 +71,11 @@ const QuestionTemplate = () => {
           onPress={handleBack}>
           <LucideMoveLeft color='black' />
         </Pressable>
-        <Progress value={(currentQuestionIndex / totalQuestion) * 100} />
-        <Text>
-          {currentQuestionIndex}/{totalQuestion}
-        </Text>
+        <Progress
+          value={(currentQuestionIndex / totalQuestion) * 100}
+          label={`${currentQuestionIndex}/${totalQuestion}`}
+          style={{ height: 16 }}
+        />
       </View>
       {/* For Speaking */}
       <>

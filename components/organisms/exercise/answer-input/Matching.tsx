@@ -12,7 +12,6 @@ import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 type MatchingProps = MatchingContent & {
   onAnswer: (answer: Answer) => void;
   result: Answer;
-  textColumnKey?: 'columnA' | 'columnB';
 };
 
 const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 'columnA' }: MatchingProps) => {
@@ -72,7 +71,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
       <ScrollView>
         <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           {textColumn.options.map((label, index) => (
-            <View key={label} style={{ flexDirection: 'row', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
+            <View key={label} style={{ flexDirection: 'row', gap: 4, alignItems: 'baseline', width: '100%' }}>
               <View
                 style={[
                   styles.circle,
@@ -81,7 +80,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
                       ? { ...Styles.backgroundColor.green[500] }
                       : { ...Styles.backgroundColor.red[500] }
                     : {},
-                  { marginRight: 4 },
+                  { marginRight: 8 },
                 ]}>
                 <Text
                   style={[

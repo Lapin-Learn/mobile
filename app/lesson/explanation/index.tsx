@@ -9,29 +9,9 @@ import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
-import { default as GlobalStyles, default as Styles } from '~/constants/GlobalStyles';
+import { default as GlobalStyles } from '~/constants/GlobalStyles';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
-
-// TODO: extract to a separate component
-// const MultipleChoiceAnswer = ({ answers }: { answers: string[] }) => {
-//   if (answers.length === 0) return <View></View>;
-//   if (answers.length === 1) {
-//     return (
-//       <View>
-//         <ChoiceButton label={answers[0]} onPress={() => {}} />
-//       </View>
-//     );
-//   }
-
-//   return (
-//     <View>
-//       {answers.map((item, index) => (
-//         <ChoiceCheckBox key={index} label={item} checked={true} onPress={() => {}} onCheckedChange={() => {}} />
-//       ))}
-//     </View>
-//   );
-// }
 
 const Explanation = () => {
   const { t } = useTranslation('question');
@@ -97,13 +77,13 @@ const Explanation = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          ...Styles.backgroundColor.white,
+          ...GlobalStyles.backgroundColor.white,
           padding: 16,
           paddingBottom: 40,
         }}>
         <Button
           style={{
-            ...Styles.backgroundColor.neutral[900],
+            ...GlobalStyles.backgroundColor.neutral[900],
           }}
           onPress={() => {
             if (router.canGoBack()) {
