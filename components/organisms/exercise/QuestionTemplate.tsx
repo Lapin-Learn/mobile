@@ -60,10 +60,22 @@ const QuestionTemplate = () => {
     <PlatformView
       style={{ paddingBottom: currentQuestion?.contentType === ContentTypeEnum.FILL_IN_THE_BLANK ? 24 : 0 }}>
       <View style={styles.progress}>
-        <Pressable style={{ width: 24 }} onPress={handleBack}>
+        <Pressable
+          style={{
+            width: 48,
+            height: 48,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={handleBack}>
           <LucideMoveLeft color='black' />
         </Pressable>
-        <Progress value={((currentQuestionIndex + 1) / totalQuestion) * 100} />
+        <Progress
+          value={(currentQuestionIndex / totalQuestion) * 100}
+          label={`${currentQuestionIndex}/${totalQuestion}`}
+          style={{ height: 16 }}
+        />
       </View>
       {/* For Speaking */}
       <>
@@ -74,7 +86,7 @@ const QuestionTemplate = () => {
             {currentQuestion && (
               <View style={styles.currentQuestion}>
                 <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
-                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
+                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 8, paddingBottom: showAnswerModal ? 64 : 0 }}>
                   <AnswerInput
                     onAnswer={answerQuestion}
                     result={learnerAnswers[currentQuestionIndex]}
@@ -109,12 +121,11 @@ const QuestionTemplate = () => {
 
 const styles = StyleSheet.create({
   progress: {
-    marginHorizontal: 16,
+    marginHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
-    paddingHorizontal: 8,
+    gap: 8,
   },
   currentQuestion: {
     position: 'relative',

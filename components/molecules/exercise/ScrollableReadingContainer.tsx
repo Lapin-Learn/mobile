@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
@@ -16,6 +17,7 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
   const scrollViewHeight = useSharedValue(defaultHeight);
   const contentHeightRef = useSharedValue(0);
   const panOffset = useSharedValue(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const pan = Gesture.Pan()
     .onBegin(() => {
@@ -52,7 +54,14 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
       </Animated.View>
 
       <GestureDetector gesture={pan}>
-        <Animated.View style={styles.dragHandlerContainer}>
+        <Animated.View
+          style={[styles.dragHandlerContainer, isDragging ? { backgroundColor: Styles.color.neutral[200].color } : {}]}
+          onTouchStart={() => {
+            setIsDragging(true);
+          }}
+          onTouchCancel={() => {
+            setIsDragging(false);
+          }}>
           <View style={styles.dragHandler} />
         </Animated.View>
       </GestureDetector>

@@ -40,6 +40,7 @@ export type MatchingContent = {
     options: string[];
   };
   answer: PairAnswer[];
+  textColumnKey?: Column;
 };
 
 type MatchingQuestion = BaseQuestion & {

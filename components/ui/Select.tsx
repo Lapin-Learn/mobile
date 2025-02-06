@@ -27,7 +27,7 @@ const SelectTrigger = React.forwardRef<
     ) : (
       <SelectValue placeholder={typeof children === 'string' ? children : ''} />
     )}
-    <ChevronDown size={16} color='#6b2020' />
+    <ChevronDown size={16} color='#6b2020' style={{ marginLeft: 8 }} />
   </SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
@@ -76,17 +76,18 @@ const selectContentStyles = StyleSheet.create({
     zIndex: 50,
     maxHeight: 240,
     minWidth: 200,
-    borderRadius: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 8,
-    borderWidth: 1,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    overflow: 'hidden',
+    marginTop: 2,
+    width: '80%',
     backgroundColor: 'white',
     ...Styles.borderColor.border,
+    borderWidth: 1,
+    borderRadius: 8,
+    shadowColor: '#acacac',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 3,
   },
 });
 
@@ -139,15 +140,14 @@ SelectItem.displayName = SelectPrimitive.Item.displayName;
 const selectItemStyles = StyleSheet.create({
   root: {
     position: 'relative',
-
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 4,
-    paddingVertical: 6,
-    paddingLeft: 32,
-    paddingRight: 4,
-    backgroundColor: 'white',
+    paddingVertical: 10,
+    paddingLeft: 30,
+    paddingRight: 2,
+    borderBottomColor: '#f0f0f0',
+    borderBottomWidth: 1,
   },
   text: {
     ...Styles.font.medium,
