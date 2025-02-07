@@ -13,6 +13,7 @@ import { default as GlobalStyles } from '~/constants/GlobalStyles';
 import { bottomScreenGap } from '~/constants/Padding';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { formatHtmlContent } from '~/lib/utils';
 
 const Explanation = () => {
   const { t } = useTranslation('question');
@@ -21,22 +22,6 @@ const Explanation = () => {
   const {
     state: { currentQuestion },
   } = useDailyLessonQuestionStore();
-
-  const injectedStyle = `
-  <head>
-    <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-      * {
-      font-family: 'Inter', sans-serif !important;
-      }
-    </style>
-  </head>`;
-
-  const formattedExplanation = `
-  ${injectedStyle}
-    <div style="font-size: 36px;">
-      ${currentQuestion?.explanation || ''}
-    </div>`;
 
   // TODO: refactor this to compatible with new hook useLesson
   // const AnswerField = ({ answers }: { answers: string[] }) => {
@@ -76,7 +61,7 @@ const Explanation = () => {
           textZoom={100}
           setDisplayZoomControls={true}
           originWhitelist={['*']}
-          source={{ html: formattedExplanation }}
+          source={{ html: formatHtmlContent(currentQuestion?.explanation) }}
           style={{ ...GlobalStyles.backgroundColor.transparent, marginTop: 16 }}
         />
 
