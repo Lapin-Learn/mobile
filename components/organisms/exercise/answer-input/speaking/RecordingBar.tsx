@@ -1,9 +1,11 @@
 import { Audio } from 'expo-av';
-import { Mic, Pause, Play, RotateCcw, Send } from 'lucide-react-native';
+import { Pause, Play, RotateCcw } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import Send from '~/assets/images/send.svg';
+import SpeakingFilled from '~/assets/images/skills/speaking-filled.svg';
 import { RiveWave } from '~/components/molecules/rive/Wave';
 import Styles from '~/constants/GlobalStyles';
 import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
@@ -113,27 +115,31 @@ export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
       <Component
         style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
         onPress={stopRecording}>
-        {uri && !recording && <IconComponent icon={RotateCcw} onPress={handleReplay} disabled={evaluate.isPending} />}
+        {uri && !recording && (
+          <IconComponent onPress={handleReplay} disabled={evaluate.isPending}>
+            <RotateCcw size={24} color={Styles.color.orange[700].color} />
+          </IconComponent>
+        )}
         {status?.isRecording ? (
-          <>
-            <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
-          </>
+          <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
         ) : (
           <IconComponent
             name={uri ? 'Send' : 'Mic'}
-            icon={uri ? Send : Mic}
-            size={48}
+            style={{ padding: 24 }}
             color={Styles.color.white.color}
             onPress={uri ? sendRecording : startRecording}
-            disabled={status?.isRecording || evaluate.isPending}
-          />
+            disabled={status?.isRecording || evaluate.isPending}>
+            {uri ? <Send /> : <SpeakingFilled />}
+          </IconComponent>
         )}
         {!status?.isRecording && uri && (
-          <IconComponent
-            icon={soundType === SpeakingSoundType.ANSWER ? Pause : Play}
-            onPress={handlePlaySound}
-            disabled={evaluate.isPending}
-          />
+          <IconComponent onPress={handlePlaySound} disabled={evaluate.isPending}>
+            {soundType === SpeakingSoundType.ANSWER ? (
+              <Pause color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
+            ) : (
+              <Play color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
+            )}
+          </IconComponent>
         )}
       </Component>
     </>

@@ -18,6 +18,15 @@ import { capitalizeFirstLetter } from '~/lib/utils';
 const { font, fontSize, color } = Styles;
 
 type QuestionTypeCardProps = Pick<IQuestionType, 'name' | 'progress' | 'imageId' | 'bandScoreRequires'>;
+
+const getBadgeColor = (bandScore: BandScoreEnum) => {
+  const defaultList = [BandScoreEnum.PRE_IELTS, BandScoreEnum.BAND_4_5, BandScoreEnum.BAND_5_0];
+  if (defaultList.includes(bandScore)) {
+    return 'blue';
+  }
+  return 'secondary';
+};
+
 const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: QuestionTypeCardProps) => {
   const { bandScore, totalLearningXP } = progress || { bandScore: 'pre_ielts', totalLearningXP: 0 };
   const curReq = bandScoreRequires.find((req) => req.bandScore === bandScore);
@@ -27,8 +36,8 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
     <View style={card.wrapper}>
       <View style={card.container}>
         <Image style={card.image} source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
-        <Badge>
-          <Text style={StyleSheet.flatten([badgeTextStyles.root, badgeTextStyles.default])}>
+        <Badge variant={getBadgeColor(bandScore)}>
+          <Text style={StyleSheet.flatten([badgeTextStyles.root, badgeTextStyles[getBadgeColor(bandScore)]])}>
             {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
           </Text>
         </Badge>

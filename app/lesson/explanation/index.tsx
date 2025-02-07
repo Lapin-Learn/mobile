@@ -10,8 +10,10 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as GlobalStyles } from '~/constants/GlobalStyles';
+import { bottomScreenGap } from '~/constants/Padding';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { formatHtmlContent } from '~/lib/utils';
 
 const Explanation = () => {
   const { t } = useTranslation('question');
@@ -20,11 +22,6 @@ const Explanation = () => {
   const {
     state: { currentQuestion },
   } = useDailyLessonQuestionStore();
-
-  const formattedExplanation = `
-    <div style="font-size: 48px;">
-      ${currentQuestion?.explanation || ''}
-    </div>`;
 
   // TODO: refactor this to compatible with new hook useLesson
   // const AnswerField = ({ answers }: { answers: string[] }) => {
@@ -48,7 +45,7 @@ const Explanation = () => {
 
       <View
         style={{
-          margin: 16,
+          marginHorizontal: 16,
           flexDirection: 'column',
           flexGrow: 1,
           justifyContent: 'space-between',
@@ -64,7 +61,7 @@ const Explanation = () => {
           textZoom={100}
           setDisplayZoomControls={true}
           originWhitelist={['*']}
-          source={{ html: formattedExplanation }}
+          source={{ html: formatHtmlContent(currentQuestion?.explanation) }}
           style={{ ...GlobalStyles.backgroundColor.transparent, marginTop: 16 }}
         />
 
@@ -73,13 +70,8 @@ const Explanation = () => {
 
       <View
         style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          ...GlobalStyles.backgroundColor.white,
           padding: 16,
-          paddingBottom: 40,
+          paddingBottom: bottomScreenGap,
         }}>
         <Button
           style={{

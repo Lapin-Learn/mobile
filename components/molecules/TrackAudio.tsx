@@ -127,7 +127,11 @@ export const TrackAudio = ({ url, checked }: TrackAudioProps) => {
         onPress={() =>
           setCurrentState(repeat ? State.Repeat : currentState === State.Playing ? State.Paused : State.Playing)
         }>
-        <Component style={{ height: 24, width: 24 }} color='black' />
+        <Component
+          color={Styles.color.orange[700].color}
+          size={20}
+          fill={!repeat ? Styles.color.orange[700].color : 'none'}
+        />
       </TouchableOpacity>
     );
   };
@@ -155,15 +159,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    columnGap: 16,
-    borderRadius: 12,
+    columnGap: 8,
+    borderRadius: 10,
     borderWidth: 1,
-    ...Styles.borderColor.neutral[200],
-    padding: 16,
+    ...Styles.borderColor.border,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
   },
   time: {
-    ...Styles.fontSize.body,
-    ...Styles.font.semibold,
+    ...Styles.fontSize.subhead,
+    ...Styles.font.medium,
+    ...Styles.color.neutral[600],
     textAlign: 'center',
   },
 });

@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import Styles from '~/constants/GlobalStyles';
-import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/types/questions';
 
 import ReadingContainer from '../../molecules/exercise/ScrollableReadingContainer';
@@ -24,13 +23,22 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
         <GestureHandlerRootView style={{ position: 'relative' }}>
           <ReadingContainer>
             <Text style={styles.paragraph}>{data.content.paragraph}</Text>
+            {data.imageId && data.image && (
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={{
+                    uri: data.image.url,
+                  }}
+                  resizeMode='cover'
+                  style={{ width: '80%', height: 300, objectFit: 'contain' }}
+                />
+              </View>
+            )}
           </ReadingContainer>
         </GestureHandlerRootView>
       )}
-      {(data.contentType === ContentTypeEnum.MULTIPLE_CHOICE ||
-        data.contentType === ContentTypeEnum.FILL_IN_THE_BLANK) && (
-        <Text style={styles.question}>{data.content.question}</Text>
-      )}
+
+      <Text style={styles.question}>{data.content.question}</Text>
     </View>
   );
 };
@@ -42,8 +50,8 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     ...Styles.font.normal,
-    ...Styles.fontSize.callout,
-    lineHeight: 28,
+    ...Styles.fontSize.subhead,
+    lineHeight: 22,
   },
   question: {
     ...Styles.font.semibold,

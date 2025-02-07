@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import { Camera, ChevronRight, LogOut } from 'lucide-react-native';
+import { Camera, LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,6 @@ import { Loading } from '~/components/molecules/Loading';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
-import { Colors } from '~/constants/Colors';
 import { default as Styles } from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
 import {
@@ -214,7 +213,6 @@ const Index = () => {
                   data={settingsData
                     .filter((item) => item.label === 'settings.delete_account.title')
                     .map((item) => ({ label: t(item.label), action: () => setIsModalVisible(true) }))}
-                  rightIcon={ChevronRight}
                 />
               </ProfileSection>
             </>
@@ -226,14 +224,19 @@ const Index = () => {
               textStyle={{ ...Styles.fontSize['title-4'] }}
             />
             <ProfileSection.List
-              data={termsData.map((item) => ({ label: t(item.label, { ns: 'translation' }), action: item.action }))}
-              rightIcon={ChevronRight}
+              data={[
+                ...termsData.map((item) => ({ label: t(item.label, { ns: 'translation' }), action: item.action })),
+                {
+                  label: t('sign_out'),
+                  action: () => signOut.mutate(),
+                  rightIcon: LogOut,
+                  style: {
+                    ...Styles.color.red['500'],
+                  },
+                },
+              ]}
             />
           </ProfileSection>
-          <Button onPress={() => signOut.mutate()} variant='link' style={styles.buttonSignOut}>
-            <Text style={styles.buttonSignOutText}>{t('sign_out')}</Text>
-            <LogOut size={24} color={Colors.light['orange-500']} />
-          </Button>
         </View>
       </ScrollView>
     </PlatformView>
