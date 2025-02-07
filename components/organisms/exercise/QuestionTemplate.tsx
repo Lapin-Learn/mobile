@@ -86,7 +86,7 @@ const QuestionTemplate = () => {
             {currentQuestion && (
               <View style={styles.currentQuestion}>
                 <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
-                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 8, paddingBottom: showAnswerModal ? 64 : 0 }}>
+                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
                   <AnswerInput
                     onAnswer={answerQuestion}
                     result={learnerAnswers[currentQuestionIndex]}

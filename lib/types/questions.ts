@@ -62,9 +62,9 @@ type FillInTheBlankQuestion = BaseQuestion & {
   content: QuestionCard & FillInTheBlankContent;
 };
 
-type PronunciationQuestion = BaseQuestion & {
+type PronounciationQuestion = BaseQuestion & {
   contentType: ContentTypeEnum.PRONUNCIATION;
   content: QuestionCard;
 };
 
-export type IQuestion = MultipleChoiceQuestion | MatchingQuestion | FillInTheBlankQuestion | PronunciationQuestion;
+export type IQuestion = MultipleChoiceQuestion | MatchingQuestion | FillInTheBlankQuestion | PronounciationQuestion;

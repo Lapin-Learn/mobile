@@ -56,14 +56,9 @@ type ILessonQuestionsResponse = {
 
 export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, lessonId] = queryKey;
-
-  try {
-    const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
-    return response;
-  } catch (error) {
-    console.error('Error fetching questions:', error);
-    throw error;
-  }
+  const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
+  console.log(response);
+  return response;
 };
 
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {

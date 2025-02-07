@@ -47,7 +47,7 @@ const MatchingItem = ({
     <>
       <View
         style={{
-          gap: 4,
+          gap: 6,
           flexWrap: 'wrap',
           width: '100%',
           flexGrow: 1,
@@ -58,12 +58,7 @@ const MatchingItem = ({
         }}>
         {direction === 'ltr' && <BreakableText text={label} />}
 
-        <Select
-          onValueChange={handleSelect}
-          style={{
-            marginRight: direction === 'rtl' ? 8 : 0,
-            marginLeft: direction === 'ltr' ? 8 : 0,
-          }}>
+        <Select onValueChange={handleSelect}>
           <SelectTrigger disabled={showAnswerRecord} style={{ minWidth: 150, backgroundColor: 'white' }}>
             <SelectValue placeholder={selectPlaceholder} style={{ ...Styles.fontSize.callout }} />
           </SelectTrigger>
