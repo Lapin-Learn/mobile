@@ -57,7 +57,6 @@ type ILessonQuestionsResponse = {
 export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, lessonId] = queryKey;
   const response = await api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
-  console.log(response);
   return response;
 };
 
