@@ -76,6 +76,7 @@ const QuestionTemplate = () => {
           label={`${currentQuestionIndex}/${totalQuestion}`}
           style={{ height: 16 }}
         />
+        <View style={{ width: 2 }} />
       </View>
       {/* For Speaking */}
       <>

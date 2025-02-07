@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    overflow: 'hidden',
     borderRadius: 999,
     position: 'relative',
     ...Styles.backgroundColor.neutral[100],
@@ -135,6 +134,8 @@ const styles = StyleSheet.create({
     height: 14,
     width: 14,
     borderRadius: 999,
+    borderWidth: 0.5,
+    ...Styles.borderColor.neutral[300],
     ...Styles.backgroundColor.background,
   },
 });

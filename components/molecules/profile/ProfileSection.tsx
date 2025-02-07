@@ -18,7 +18,7 @@ const ProfileSection: FC<ProfileProps> & {
 } = ({ children, style, ...props }: ProfileProps) => {
   return (
     <ProfileContext.Provider value={{}}>
-      <View style={StyleSheet.flatten([{ flexDirection: 'column', width: '100%', gap: 8 }, style])} {...props}>
+      <View style={StyleSheet.flatten([{ flexDirection: 'column', width: '100%', gap: 12 }, style])} {...props}>
         {children}
       </View>
     </ProfileContext.Provider>
@@ -41,7 +41,7 @@ const titleStyles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    ...Styles.font.bold,
+    ...Styles.font.semibold,
     ...Styles.fontSize['title-4'],
     ...Styles.color.dark,
   },
@@ -66,11 +66,12 @@ const ListItem: FC<{
   label: string;
   onPress: () => void;
   rightIcon?: ForwardRefExoticComponent<LucideProps>;
-}> = ({ label, onPress, rightIcon: Icon = ChevronRight }) => (
+  style?: StyleProps;
+}> = ({ label, onPress, rightIcon: Icon = ChevronRight, style }) => (
   <Item style={{ ...Styles.borderColor.neutral[100], padding: 16 }}>
     <TouchableOpacity onPress={onPress} style={listItemStyles.root}>
-      <Text style={listItemStyles.label}>{label}</Text>
-      <Icon size={24} color='#737373' />
+      <Text style={[listItemStyles.label, style]}>{label}</Text>
+      <Icon size={20} color='#737373' />
     </TouchableOpacity>
   </Item>
 );
@@ -84,20 +85,24 @@ const listItemStyles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    ...Styles.font.semibold,
-    ...Styles.fontSize.body,
+    ...Styles.font.medium,
+    ...Styles.fontSize.callout,
   },
 });
 const List: FC<
   ProfileProps & {
-    data?: { label: string; action: () => void }[];
-    rightIcon?: ForwardRefExoticComponent<LucideProps>;
+    data?: {
+      label: string;
+      action: () => void;
+      rightIcon?: ForwardRefExoticComponent<LucideProps>;
+      style?: StyleProps;
+    }[];
   }
-> = ({ data, rightIcon, ...props }) => (
+> = ({ data, ...props }) => (
   <Group style={props.style}>
     {data?.map((item, index) => (
       <View key={index}>
-        <ListItem label={item.label} onPress={item.action} rightIcon={rightIcon} />
+        <ListItem label={item.label} onPress={item.action} rightIcon={item.rightIcon} style={item.style} />
         {index === data.length - 1 || (
           <View
             style={{
