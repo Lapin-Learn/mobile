@@ -197,6 +197,7 @@ export const BaseColors = {
   black: '#000000',
   transparent: 'transparent',
   onSurface: '#0F4910',
+  orangeSecondary: '#FCE3B4',
 };
 
 type ColorStyle<T extends string> = {
