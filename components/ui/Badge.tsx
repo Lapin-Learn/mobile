@@ -50,7 +50,7 @@ const badgeStyles = StyleSheet.create({
 
 export const badgeTextStyles = StyleSheet.create({
   root: {
-    ...Styles.font.bold,
+    ...Styles.font.semibold,
     ...Styles.fontSize.subhead,
   },
   default: {

@@ -30,10 +30,24 @@ const Instruction = () => {
     toast.show({ type: 'error', text1: 'Failed to load instruction' });
   }
 
+  const injectedStyle = `
+  <head>
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+      * {
+      font-family: 'Inter', sans-serif !important;
+      }
+    </style>
+  </head>`;
+
   const formattedExplanation = `
-  <div style="font-size: 32px;">
-    ${instruction?.content || ''}
-  </div>`;
+      ${injectedStyle}
+      <body>
+        <div style="font-size: 36px;">
+          ${instruction?.content || ''}
+        </div>
+      </body>
+  `;
 
   return (
     <PlatformView>
@@ -56,7 +70,8 @@ const Instruction = () => {
           setDisplayZoomControls={true}
           originWhitelist={['*']}
           source={{ html: formattedExplanation }}
-          style={{ ...GlobalStyles.backgroundColor.transparent, margin: 16, marginBottom: 0 }}
+          style={{ ...GlobalStyles.backgroundColor.transparent, marginHorizontal: 16, marginBottom: 0 }}
+          useWebKit={true}
         />
       ) : (
         <Text>{t('instruction.empty')}</Text>

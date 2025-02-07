@@ -2,7 +2,6 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import Styles from '~/constants/GlobalStyles';
-import { ContentTypeEnum } from '~/lib/enums';
 import { IQuestion } from '~/lib/types/questions';
 
 import ReadingContainer from '../../molecules/exercise/ScrollableReadingContainer';
@@ -39,10 +38,7 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
         </GestureHandlerRootView>
       )}
 
-      {(data.contentType === ContentTypeEnum.MULTIPLE_CHOICE ||
-        data.contentType === ContentTypeEnum.FILL_IN_THE_BLANK) && (
-        <Text style={styles.question}>{data.content.question}</Text>
-      )}
+      <Text style={styles.question}>{data.content.question}</Text>
     </View>
   );
 };

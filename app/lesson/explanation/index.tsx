@@ -10,6 +10,7 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as GlobalStyles } from '~/constants/GlobalStyles';
+import { bottomScreenGap } from '~/constants/Padding';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
@@ -21,8 +22,19 @@ const Explanation = () => {
     state: { currentQuestion },
   } = useDailyLessonQuestionStore();
 
+  const injectedStyle = `
+  <head>
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+      * {
+      font-family: 'Inter', sans-serif !important;
+      }
+    </style>
+  </head>`;
+
   const formattedExplanation = `
-    <div style="font-size: 48px;">
+  ${injectedStyle}
+    <div style="font-size: 36px;">
       ${currentQuestion?.explanation || ''}
     </div>`;
 
@@ -48,7 +60,7 @@ const Explanation = () => {
 
       <View
         style={{
-          margin: 16,
+          marginHorizontal: 16,
           flexDirection: 'column',
           flexGrow: 1,
           justifyContent: 'space-between',
@@ -73,13 +85,8 @@ const Explanation = () => {
 
       <View
         style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          ...GlobalStyles.backgroundColor.white,
           padding: 16,
-          paddingBottom: 40,
+          paddingBottom: bottomScreenGap,
         }}>
         <Button
           style={{
