@@ -68,8 +68,8 @@ const ListItem: FC<{
   rightIcon?: ForwardRefExoticComponent<LucideProps>;
   style?: StyleProps;
 }> = ({ label, onPress, rightIcon: Icon = ChevronRight, style }) => (
-  <Item style={{ ...Styles.borderColor.neutral[100], padding: 16 }}>
-    <TouchableOpacity onPress={onPress} style={listItemStyles.root}>
+  <Item style={{ ...Styles.borderColor.neutral[100] }}>
+    <TouchableOpacity onPress={onPress} style={[listItemStyles.root, { padding: 16 }]}>
       <Text style={[listItemStyles.label, style]}>{label}</Text>
       <Icon size={20} color='#737373' />
     </TouchableOpacity>
