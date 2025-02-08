@@ -7,9 +7,10 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ConfirmationModal } from '~/components/molecules/ConfirmationModal';
 import { Loading } from '~/components/molecules/Loading';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
+import { ChangeLanguageModal } from '~/components/organisms/modals/ChangeLanguageModal';
+import { ConfirmationModal } from '~/components/organisms/modals/ConfirmationModal';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as Styles } from '~/constants/GlobalStyles';
@@ -25,16 +26,6 @@ import {
 import { useToast } from '~/hooks/useToast';
 import { firestore } from '~/lib/services';
 import { IPresignedUrl } from '~/lib/types';
-
-const settingsData = [
-  {
-    label: 'settings.custom_settings',
-    action: () => {},
-  },
-  { label: 'settings.notifications', action: () => {} },
-  { label: 'settings.social_accounts', action: () => {} },
-  { label: 'settings.delete_account.title', action: () => {} },
-];
 
 const termsData = [
   {
@@ -65,6 +56,25 @@ const Index = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toast = useToast();
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+  const [showChangeLanguage, setShowChangeLanguage] = useState(false);
+
+  const settingsData = [
+    {
+      label: t('settings.change_language.title'),
+      visible: true,
+      action: () => setShowChangeLanguage(true),
+    },
+    { label: t('settings.delete_account.title'), action: () => setIsModalVisible(true), visible: showDeleteAccount },
+    {
+      label: t('sign_out'),
+      action: () => signOut.mutate(),
+      rightIcon: LogOut,
+      style: {
+        ...Styles.color.red['500'],
+      },
+      visible: true,
+    },
+  ];
 
   const handleEdit = () => {
     router.push('/edit-profile' as Href);
@@ -76,20 +86,13 @@ const Index = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    const fetchAppInfo = async () => {
-      await firestore
-        .collection('Screen')
-        .doc('profile')
-        .get()
-        .then((doc) => {
-          const screen = doc.data();
-          setShowDeleteAccount(screen?.showDeleteAccount);
-        });
-    };
-
-    fetchAppInfo();
-  }, []);
+  firestore
+    .collection('Screen')
+    .doc('profile')
+    .onSnapshot((docSnapshot) => {
+      const showDeleteAccount = docSnapshot.data()?.showDeleteAccount;
+      setShowDeleteAccount(showDeleteAccount);
+    });
 
   const handleChangeAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -191,33 +194,6 @@ const Index = () => {
             </ProfileSection.Group>
           </ProfileSection>
 
-          {showDeleteAccount && (
-            <>
-              {isModalVisible && (
-                <ConfirmationModal
-                  visible={isModalVisible}
-                  setVisible={setIsModalVisible}
-                  content={{
-                    title: t('settings.delete_account.title'),
-                    message: t('settings.delete_account.description'),
-                    confirmText: t('settings.delete_account.delete_button'),
-                    isPending: deleteAccount.isPending,
-                    confirmAction: handleDeleteAccount,
-                    cancelAction: () => setIsModalVisible(false),
-                  }}
-                />
-              )}
-              <ProfileSection>
-                <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] }} />
-                <ProfileSection.List
-                  data={settingsData
-                    .filter((item) => item.label === 'settings.delete_account.title')
-                    .map((item) => ({ label: t(item.label), action: () => setIsModalVisible(true) }))}
-                />
-              </ProfileSection>
-            </>
-          )}
-
           <ProfileSection>
             <ProfileSection.Title
               label={t('terms.title', { ns: 'translation' })}
@@ -226,16 +202,28 @@ const Index = () => {
             <ProfileSection.List
               data={[
                 ...termsData.map((item) => ({ label: t(item.label, { ns: 'translation' }), action: item.action })),
-                {
-                  label: t('sign_out'),
-                  action: () => signOut.mutate(),
-                  rightIcon: LogOut,
-                  style: {
-                    ...Styles.color.red['500'],
-                  },
-                },
               ]}
             />
+          </ProfileSection>
+
+          {isModalVisible && showDeleteAccount && (
+            <ConfirmationModal
+              visible={isModalVisible}
+              setVisible={setIsModalVisible}
+              content={{
+                title: t('settings.delete_account.title'),
+                message: t('settings.delete_account.description'),
+                confirmText: t('settings.delete_account.delete_button'),
+                isPending: deleteAccount.isPending,
+                confirmAction: handleDeleteAccount,
+                cancelAction: () => setIsModalVisible(false),
+              }}
+            />
+          )}
+          <ChangeLanguageModal onClose={setShowChangeLanguage} showModal={showChangeLanguage} />
+          <ProfileSection>
+            <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] }} />
+            <ProfileSection.List data={settingsData.filter((data) => data.visible)} />
           </ProfileSection>
         </View>
       </ScrollView>
@@ -295,7 +283,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     padding: 16,
-    ...Styles.borderColor.neutral[100],
+    ...Styles.borderColor.border,
+    ...Styles.backgroundColor.white,
   },
   root: {
     gap: 40,

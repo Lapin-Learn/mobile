@@ -52,7 +52,7 @@ const Group: FC<ProfileProps> = ({ children, style }) => (
     style={StyleSheet.flatten([
       {
         borderWidth: 1,
-        ...Styles.borderColor.neutral[100],
+        ...Styles.borderColor.border,
         overflow: 'hidden',
         borderRadius: 8,
       },
@@ -68,7 +68,7 @@ const ListItem: FC<{
   rightIcon?: ForwardRefExoticComponent<LucideProps>;
   style?: StyleProps;
 }> = ({ label, onPress, rightIcon: Icon = ChevronRight, style }) => (
-  <Item style={{ ...Styles.borderColor.neutral[100] }}>
+  <Item style={{ ...Styles.borderColor.border }}>
     <TouchableOpacity onPress={onPress} style={[listItemStyles.root, { padding: 16 }]}>
       <Text style={[listItemStyles.label, style]}>{label}</Text>
       <Icon size={20} color='#737373' />
@@ -79,10 +79,10 @@ const ListItem: FC<{
 const listItemStyles = StyleSheet.create({
   root: {
     width: '100%',
-
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    ...Styles.backgroundColor.white,
   },
   label: {
     ...Styles.font.medium,

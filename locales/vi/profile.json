@@ -42,6 +42,11 @@
       "title": "Xóa tài khoản",
       "description": "Xóa tài khoản của bạn? Hành động này không thể hoàn tác.",
       "delete_button": "Xóa"
+    },
+    "change_language": {
+      "title": "Đổi ngôn ngữ",
+      "en": "Tiếng Anh",
+      "vi": "Tiếng Việt"
     }
   },
   "sign_out": "Đăng xuất",

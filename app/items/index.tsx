@@ -9,7 +9,7 @@ import ShopActiveIcon from '~/assets/images/items/ShopActive.svg';
 import { HeaderSection } from '~/components/molecules/items/Header';
 import { Inventory } from '~/components/molecules/items/inventory/Inventory';
 import { Shop } from '~/components/molecules/items/shop/Shop';
-import { ShopModal } from '~/components/molecules/ShopModal';
+import { ShopModal } from '~/components/organisms/modals/ShopModal';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';

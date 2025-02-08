@@ -37,10 +37,15 @@ Label.propTypes = {
 export { Label };
 
 const styles = StyleSheet.create({
-  labelRoot: {},
+  labelRoot: {
+    width: '100%',
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+  },
   labelText: {
-    ...Styles.fontSize.body,
-    ...Styles.font.medium,
+    ...Styles.fontSize.callout,
+    ...Styles.font.normal,
     ...Styles.color.neutral[900],
   },
   labelTextDisabled: {

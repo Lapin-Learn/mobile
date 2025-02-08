@@ -42,6 +42,11 @@
       "title": "Delete Account",
       "description": "Are you sure you want to delete your account? This action cannot be undone.",
       "delete_button": "Delete"
+    },
+    "change_language": {
+      "title": "Change Language",
+      "en": "English",
+      "vi": "Vietnamese"
     }
   },
   "sign_out": "Sign Out",

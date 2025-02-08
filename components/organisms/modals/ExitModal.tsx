@@ -6,7 +6,7 @@ import { Modal, StyleSheet, Text, View } from 'react-native';
 import Styles from '~/constants/GlobalStyles';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
-import { Button } from '../ui/Button';
+import { Button } from '../../ui/Button';
 
 type ExitModalProps = {
   onClose: () => void;

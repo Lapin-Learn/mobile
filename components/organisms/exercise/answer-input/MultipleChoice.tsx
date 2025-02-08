@@ -66,6 +66,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
         {answer.length === 1 ? (
           <RadioGroup
             value={options[selected[0]]}
+            style={{ gap: 0 }}
             onValueChange={(value) => setSelected([options.findIndex((option) => option === value)])}>
             {options.map((option, index) => (
               <ChoiceButton
