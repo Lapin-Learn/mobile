@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
+import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
-
-import { Button } from '../ui/Button';
 
 type ConfirmationModalContentProps = {
   title: string;

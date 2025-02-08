@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
+import { GLOBAL_STYLES } from '~/lib/constants';
 
-import { Button } from '../ui/Button';
+import { Button } from '../../ui/Button';
 
 type ExitModalProps = {
   onClose: () => void;
@@ -26,8 +27,9 @@ export const ExitModal = ({ onClose }: ExitModalProps) => {
   };
 
   return (
-    <Modal animationType='fade' transparent={true} visible={showModal} onRequestClose={handleContinue}>
-      <View style={styles.modalBackground}>
+    <>
+      {showModal && <View style={GLOBAL_STYLES.modalBackground} />}
+      <Modal animationType='slide' transparent={true} visible={showModal} onRequestClose={handleContinue}>
         <View style={styles.modalContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{t('quit_lesson.title')}</Text>
@@ -42,8 +44,8 @@ export const ExitModal = ({ onClose }: ExitModalProps) => {
             </Button>
           </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 

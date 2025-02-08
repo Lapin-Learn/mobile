@@ -39,7 +39,6 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
     setCorrectness(correctness);
     onAnswer(statistic);
   };
-
   useEffect(() => {
     if (isNotAnswered) {
       setSelected([]);
@@ -71,9 +70,14 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
       <ScrollView>
         <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
           {textColumn.options.map((label, index) => (
-            <View key={label} style={{ flexDirection: 'row', gap: 4, alignItems: 'baseline', width: '100%' }}>
+            <View
+              key={label}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
               <View
-                style={[
+                style={StyleSheet.flatten([
                   styles.circle,
                   correctness.length
                     ? correctness[index]
@@ -81,7 +85,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
                       : { ...Styles.backgroundColor.red[500] }
                     : {},
                   { marginRight: 8 },
-                ]}>
+                ])}>
                 <Text
                   style={[
                     styles.text,
@@ -97,7 +101,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
               <MatchingItem
                 showAnswerRecord={correctness.length !== 0}
                 answerRecord={answerRecord[label]}
-                selectPlaceholder={columnB.title}
+                selectPlaceholder={selectColumn.title}
                 label={label}
                 options={selectColumn.options}
                 onSelect={handleSelect}
@@ -123,8 +127,10 @@ export default Matching;
 const styles = StyleSheet.create({
   circle: {
     borderRadius: 39,
-    width: 30,
     height: 30,
+    width: 30,
+    aspectRatio: 1,
+    marginRight: 8,
     justifyContent: 'center',
     alignItems: 'center',
     ...Styles.backgroundColor.blue[100],

@@ -55,7 +55,7 @@ export const GLOBAL_STYLES = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 40,
+    paddingBottom: 48,
     marginHorizontal: 16,
   },
   textButton: {

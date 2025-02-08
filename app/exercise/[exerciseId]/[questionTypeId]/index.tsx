@@ -139,7 +139,9 @@ const QuestionTypeScreen = () => {
         </View>
         <View style={styles.pagerViewContainer}>
           {isComingSoon ? (
-            <Text style={{ ...Styles.fontSize['title-1'] }}>{t('questionType.comingSoon')}</Text>
+            <Text style={{ ...Styles.fontSize['title-1'], ...Styles.font.semibold }}>
+              {t('questionType.comingSoon')}
+            </Text>
           ) : lessons?.lessons.length ? (
             <PagerView
               style={styles.pagerView}

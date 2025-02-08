@@ -10,6 +10,7 @@ import GlobalStyles from '~/constants/GlobalStyles';
 import { useInstruction } from '~/hooks/react-query/useDailyLesson';
 import { useToast } from '~/hooks/useToast';
 import { useDailyLessonStore } from '~/hooks/zustand';
+import { formatHtmlContent } from '~/lib/utils';
 
 const Instruction = () => {
   const { currentQuestionType } = useDailyLessonStore();
@@ -29,11 +30,6 @@ const Instruction = () => {
   if (isError) {
     toast.show({ type: 'error', text1: 'Failed to load instruction' });
   }
-
-  const formattedExplanation = `
-  <div style="font-size: 32px;">
-    ${instruction?.content || ''}
-  </div>`;
 
   return (
     <PlatformView>
@@ -55,8 +51,9 @@ const Instruction = () => {
           // just Android
           setDisplayZoomControls={true}
           originWhitelist={['*']}
-          source={{ html: formattedExplanation }}
-          style={{ ...GlobalStyles.backgroundColor.transparent, margin: 16, marginBottom: 0 }}
+          source={{ html: formatHtmlContent(instruction?.content) }}
+          style={{ ...GlobalStyles.backgroundColor.transparent, marginHorizontal: 16, marginBottom: 0 }}
+          useWebKit={true}
         />
       ) : (
         <Text>{t('instruction.empty')}</Text>

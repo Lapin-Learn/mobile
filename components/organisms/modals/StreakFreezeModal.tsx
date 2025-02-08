@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Image, Modal, StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useBuyShopItem, useInventory, useShop, useUseInventoryItem } from '~/hooks/react-query/useItem';
 import { useStreaks } from '~/hooks/react-query/useStreak';
@@ -12,8 +13,6 @@ import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { ItemEnum, RandomGiftTypeEnum } from '~/lib/enums';
 import { IGameProfile, IInventory, IShop } from '~/lib/types';
-
-import { Button } from '../ui/Button';
 
 const isAvailable = (dates: string[]) => {
   const today = new Date();

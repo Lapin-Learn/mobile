@@ -7,7 +7,7 @@ import { SlottableViewProps } from '../primitives/types';
 import { TextClassContext } from './Text';
 
 type BadgeProps = SlottableViewProps & {
-  variant?: 'default' | 'secondary' | 'destructive' | 'outline';
+  variant?: 'default' | 'secondary' | 'destructive' | 'outline' | 'blue' | 'secondary';
 };
 
 const Badge = ({ variant = 'default', asChild, style, ...props }: BadgeProps) => {
@@ -34,33 +34,40 @@ const badgeStyles = StyleSheet.create({
   },
   secondary: {
     borderColor: 'transparent',
-    backgroundColor: Styles.color.secondary.color,
+    backgroundColor: Styles.color.orangeSecondary.color,
   },
   destructive: {
     borderColor: 'transparent',
     backgroundColor: Styles.color.destructive.color,
+  },
+  blue: {
+    borderColor: 'transparent',
+    backgroundColor: '#D8EFFF',
+    color: Styles.color.blue[600].color,
   },
   outline: {},
 });
 
 export const badgeTextStyles = StyleSheet.create({
   root: {
-    ...Styles.font.bold,
+    ...Styles.font.semibold,
     ...Styles.fontSize.subhead,
   },
   default: {
     ...Styles.color.orange[500],
   },
-  secondary: {
-    ...Styles.color.foreground,
-  },
   destructive: {
-    ...Styles.color.destructive,
+    ...Styles.color.white,
   },
   outline: {
     ...Styles.color.foreground,
   },
+  blue: {
+    ...Styles.color.blue[600],
+  },
+  secondary: {
+    ...Styles.color.orange[700],
+  },
 });
-
 export { Badge };
 export type { BadgeProps };

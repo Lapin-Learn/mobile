@@ -116,3 +116,21 @@ export const maskEmail = (email: string) => {
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const formatHtmlContent = (content?: string | null) => {
+  const injectedStyle = `
+  <head>
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+      * {
+      font-family: 'Inter', sans-serif !important;
+      }
+    </style>
+  </head>`;
+
+  return `
+  ${injectedStyle}
+    <div style="font-size: 36px;">
+      ${content ?? ''}
+    </div>`;
+};

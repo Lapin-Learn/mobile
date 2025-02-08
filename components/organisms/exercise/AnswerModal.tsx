@@ -8,6 +8,7 @@ import IconCrossCircle from '~/assets/images/cross-circle.svg';
 import { CustomModal } from '~/components/molecules/Modal';
 import { ProgressCircle } from '~/components/molecules/ProgressCircle';
 import Styles from '~/constants/GlobalStyles';
+import { bottomScreenGap } from '~/constants/Padding';
 import { GLOBAL_STYLES } from '~/lib/constants';
 
 import { Button } from '../../ui/Button';
@@ -77,7 +78,6 @@ const NormalTypeContent = ({
   type,
   randomEncourage,
   setShowModal,
-  ...props
 }: Pick<AnswerModalProps, 'type'> & { randomEncourage: number; setShowModal?: (value: boolean) => void }) => {
   const { t } = useTranslation('question');
   return (
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     gap: 16,
     paddingTop: 16,
-    paddingBottom: 40,
+    paddingBottom: 32 + bottomScreenGap,
     paddingHorizontal: 16,
   },
   textContainer: {

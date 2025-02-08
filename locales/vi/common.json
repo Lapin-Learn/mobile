@@ -33,7 +33,7 @@
     "noLessonFound": "Không tìm thấy bài học",
     "practiceBtn": "Luyện tập",
     "jumpNextBtn": "Thử thách nâng band",
-    "comingSoon": "Sắp ra mắt ..."
+    "comingSoon": "Sắp ra mắt..."
   },
   "streak": {
     "days": "Ngày Streak",
@@ -51,15 +51,7 @@
     "year": "năm"
   },
   "calendar": {
-    "days_of_week": [
-      "CN",
-      "T2",
-      "T3",
-      "T4",
-      "T5",
-      "T6",
-      "T7"
-    ],
+    "days_of_week": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
     "months": [
       "Tháng Một",
       "Tháng Hai",

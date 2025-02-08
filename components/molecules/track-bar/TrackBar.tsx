@@ -21,7 +21,7 @@ const TrackBar = ({ data }: TrackBarProps) => {
       style={[
         styles.root,
         {
-          paddingVertical: (height % 8) + 4,
+          paddingVertical: Math.max((height % 8) + 4, 16),
         },
       ]}>
       <Pressable onPress={() => router.push('/streak' as Href)}>

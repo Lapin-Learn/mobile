@@ -25,7 +25,7 @@ export const useLessonQuestions = ({ lessonId }: { lessonId: string }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.lessonQuestions, lessonId],
     queryFn: getLessonQuestions,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 };
 

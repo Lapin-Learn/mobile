@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    ...Styles.borderColor.neutral[900],
+    ...Styles.borderColor.neutral[200],
   },
   radioGroupItemDisabled: {
     opacity: 0.5,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   radioGroupIndicatorView: {
     height: 10,
     width: 10,
-    ...Styles.backgroundColor.neutral[900],
+    ...Styles.backgroundColor.blue[500],
     borderRadius: 50,
   },
 });

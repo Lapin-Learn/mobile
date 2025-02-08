@@ -21,7 +21,7 @@ const BreakableText = ({ text }: { text: string }) => {
   return (
     <>
       {text.split(' ').map((word, id) => (
-        <Text key={`${word}-${id}`} style={{ ...Styles.fontSize['callout'] }}>
+        <Text key={`${word}-${id}`} style={{ ...Styles.fontSize['callout'] }} adjustsFontSizeToFit numberOfLines={2}>
           {word}
         </Text>
       ))}
@@ -58,14 +58,14 @@ const MatchingItem = ({
         }}>
         {direction === 'ltr' && <BreakableText text={label} />}
 
-        <Select
-          onValueChange={handleSelect}
-          style={{
-            marginRight: direction === 'rtl' ? 8 : 0,
-            marginLeft: direction === 'ltr' ? 8 : 0,
-          }}>
+        <Select onValueChange={handleSelect}>
           <SelectTrigger disabled={showAnswerRecord} style={{ minWidth: 150, backgroundColor: 'white' }}>
-            <SelectValue placeholder={selectPlaceholder} style={{ ...Styles.fontSize.callout }} />
+            <SelectValue
+              placeholder={selectPlaceholder}
+              style={{ ...Styles.fontSize.callout, maxWidth: 200 }}
+              ellipsizeMode='tail'
+              numberOfLines={1}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

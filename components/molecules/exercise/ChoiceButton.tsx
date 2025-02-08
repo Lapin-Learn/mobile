@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { Label } from '~/components/ui/Label';
 import { RadioGroupItem } from '~/components/ui/RadioGroup';
@@ -11,7 +11,7 @@ type ChoiceButtonProps = {
 };
 const ChoiceButton = ({ variant, label, onLabelPress }: ChoiceButtonProps) => {
   return (
-    <View style={buttonStyles.root}>
+    <Pressable style={buttonStyles.root} onPress={onLabelPress}>
       <RadioGroupItem
         aria-labelledby={`label-for-${label}`}
         value={label}
@@ -21,7 +21,7 @@ const ChoiceButton = ({ variant, label, onLabelPress }: ChoiceButtonProps) => {
       <Label nativeID={`label-for-${label}`} onPress={onLabelPress} style={variant && textStyles[variant]}>
         {label}
       </Label>
-    </View>
+    </Pressable>
   );
 };
 
@@ -47,6 +47,7 @@ const indicatorStyles = StyleSheet.create({
 
 const textStyles = StyleSheet.create({
   correct: {
+    ...Styles.font.normal,
     ...Styles.color.green[400],
   },
   incorrect: {
@@ -59,6 +60,7 @@ const buttonStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     alignItems: 'center',
+    paddingVertical: 6,
   },
 });
 

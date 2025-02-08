@@ -2,8 +2,8 @@ import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 
-import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
+import { ExitModal } from '~/components/organisms/modals/ExitModal';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';
@@ -76,6 +76,7 @@ const QuestionTemplate = () => {
           label={`${currentQuestionIndex}/${totalQuestion}`}
           style={{ height: 16 }}
         />
+        <View style={{ width: 2 }} />
       </View>
       {/* For Speaking */}
       <>
@@ -86,7 +87,7 @@ const QuestionTemplate = () => {
             {currentQuestion && (
               <View style={styles.currentQuestion}>
                 <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
-                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 8, paddingBottom: showAnswerModal ? 64 : 0 }}>
+                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
                   <AnswerInput
                     onAnswer={answerQuestion}
                     result={learnerAnswers[currentQuestionIndex]}

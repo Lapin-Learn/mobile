@@ -33,7 +33,7 @@
     "noLessonFound": "No lesson found",
     "practiceBtn": "Start now",
     "jumpNextBtn": "Jump to next band",
-    "comingSoon": "Coming soon ..."
+    "comingSoon": "Coming soon..."
   },
   "streak": {
     "days": "Streak Days",
@@ -51,15 +51,7 @@
     "year": "year"
   },
   "calendar": {
-    "days_of_week": [
-      "SU",
-      "MO",
-      "TU",
-      "WE",
-      "TH",
-      "FR",
-      "SA"
-    ],
+    "days_of_week": ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
     "months": [
       "January",
       "February",
