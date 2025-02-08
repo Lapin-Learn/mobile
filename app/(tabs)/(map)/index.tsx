@@ -3,15 +3,15 @@ import 'react-native-reanimated';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, Platform, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Loading } from '~/components/molecules/Loading';
-import { Region } from '~/components/molecules/map/Region';
+import { SkillCard } from '~/components/molecules/map/SkillCard';
 import { Welcome } from '~/components/molecules/map/Welcome';
-import { StreakFreezeModal } from '~/components/molecules/StreakFreezeModal';
 import TrackBar from '~/components/molecules/track-bar/TrackBar';
 import { Updating } from '~/components/molecules/Updating';
+import { StreakFreezeModal } from '~/components/organisms/modals/StreakFreezeModal';
 import PlatformView from '~/components/templates/PlatformView';
 import { Text } from '~/components/ui/Text';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -41,14 +41,31 @@ const Index = () => {
           marginBottom: 0,
           justifyContent: 'flex-start',
         }}>
-        <Welcome />
+        <View style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <Welcome />
+          <TrackBar data={data} />
+        </View>
         <View
           style={{
-            flex: 1,
-            justifyContent: 'space-around',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '100%',
           }}>
-          <TrackBar data={data} />
-          <Map />
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              flexGrow: 1,
+              flexShrink: 1,
+              flexBasis: 'auto',
+            }}>
+            <SkillGrid />
+          </View>
+          <View style={{ height: Platform.OS === 'ios' ? 140 : 100, backgroundColor: 'black', width: '100%' }} />
         </View>
         <View style={{ height: bottom * 1.5 }} />
       </PlatformView>
@@ -57,7 +74,7 @@ const Index = () => {
   );
 };
 
-const Map = () => {
+const SkillGrid = () => {
   return (
     <FlatList
       style={{ flexGrow: 0 }}
@@ -66,7 +83,7 @@ const Map = () => {
       numColumns={2}
       scrollEnabled={false}
       data={Object.values(SkillEnum)}
-      renderItem={({ item }) => <Region name={item} />}
+      renderItem={({ item }) => <SkillCard name={item} />}
     />
   );
 };

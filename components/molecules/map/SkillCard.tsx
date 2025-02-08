@@ -9,18 +9,18 @@ import Styles from '~/constants/GlobalStyles';
 import { SkillEnum } from '~/lib/enums';
 import { capitalizeFirstLetter } from '~/lib/utils';
 
-type RegionProps = {
+type SkillCardProps = {
   name: SkillEnum;
 };
 
-const regionMapping: Record<SkillEnum, any> = {
+const skillMapping: Record<SkillEnum, any> = {
   reading: Reading,
   listening: Listening,
   speaking: Speaking,
   writing: Writing,
 };
 
-export const Region = ({ name }: RegionProps) => {
+export const SkillCard = ({ name }: SkillCardProps) => {
   const height = Dimensions.get('window').height;
   const handleExercise = () => {
     return router.push(`/exercise/${name}`);
@@ -33,7 +33,7 @@ export const Region = ({ name }: RegionProps) => {
         ...Styles.backgroundColor.neutral[50],
       }}>
       <Pressable onPress={handleExercise}>
-        <Image resizeMode='cover' source={regionMapping[name]} />
+        <Image resizeMode='cover' source={skillMapping[name]} />
 
         <View style={{ padding: (height % 8) + 8 }}>
           <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>

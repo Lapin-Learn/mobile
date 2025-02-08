@@ -2,8 +2,8 @@ import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 
-import { ExitModal } from '~/components/molecules/ExitModal';
 import { Loading } from '~/components/molecules/Loading';
+import { ExitModal } from '~/components/organisms/modals/ExitModal';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
 import { ContentTypeEnum } from '~/lib/enums';

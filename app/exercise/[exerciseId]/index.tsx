@@ -11,6 +11,7 @@ import { Progress } from '~/components/ui/Progress';
 import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
+import { bandscoreMappings } from '~/lib/constants/labelMappings';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
 import { capitalizeFirstLetter } from '~/lib/utils';
@@ -38,7 +39,7 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
         <Image style={card.image} source={{ uri: imageId || 'https://via.placeholder.com/48' }} />
         <Badge variant={getBadgeColor(bandScore)}>
           <Text style={StyleSheet.flatten([badgeTextStyles.root, badgeTextStyles[getBadgeColor(bandScore)]])}>
-            {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
+            {bandscoreMappings[bandScore]}
           </Text>
         </Badge>
       </View>

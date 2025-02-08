@@ -6,7 +6,7 @@ import DeviceInfo from 'react-native-device-info';
 import { firestore } from '~/lib/services';
 import { getTurnOffUpdatePopupAsync, setTurnOffUpdatePopupAsync } from '~/services';
 
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '../organisms/modals/ConfirmationModal';
 
 type AppInfo = {
   uniqueId: string;

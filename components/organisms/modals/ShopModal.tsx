@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Trans, useTranslation } from 'react-i18next';
 import { Image, Modal, StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useBuyShopItem, useUseInventoryItem } from '~/hooks/react-query/useItem';
 import { useToast } from '~/hooks/useToast';
@@ -9,8 +10,6 @@ import { useRewardStore } from '~/hooks/zustand/useRewardStore';
 import { useShopStore } from '~/hooks/zustand/useShopStore';
 import { RandomGiftTypeEnum } from '~/lib/enums';
 import { IBucket, IReward } from '~/lib/types';
-
-import { Button } from '../ui/Button';
 
 export const ShopModal = () => {
   const { t } = useTranslation('item');
@@ -129,8 +128,8 @@ const styles = StyleSheet.create({
     gap: 32,
     padding: 16,
     ...Styles.backgroundColor.white,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     paddingTop: 40,
   },
   textContainer: {
