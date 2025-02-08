@@ -6,6 +6,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import BandScoreSelect from '~/components/molecules/BandScoreSelect';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
@@ -96,19 +97,26 @@ const QuestionTypeScreen = () => {
     ref.current?.setPage(currentLesson?.order || 1);
   };
 
-  const isComingSoon =
-    bandScore === BandScoreEnum.BAND_6_0 ||
-    bandScore === BandScoreEnum.BAND_6_5 ||
-    bandScore === BandScoreEnum.BAND_7_0;
+  const isComingSoon = [BandScoreEnum.BAND_6_0, BandScoreEnum.BAND_6_5, BandScoreEnum.BAND_7_0].includes(
+    bandScore as BandScoreEnum
+  );
 
   return (
     <SafeAreaView>
-      <NavigationBar headerLeftShown />
+      <NavigationBar
+        headerLeftShown
+        headerRightShown
+        onHeaderRightPress={() =>
+          BandScoreSelect({
+            value: bandScore,
+          })
+        }
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.image}
-            source={{ uri: currentQuestionType?.image?.url || 'https://via.placeholder.com/40' }}
+            source={{ uri: currentQuestionType?.image?.url ?? 'https://via.placeholder.com/40' }}
           />
           <View style={styles.headerTextContainer}>
             <Text
@@ -121,7 +129,8 @@ const QuestionTypeScreen = () => {
               {currentQuestionType?.name}
             </Text>
             <Text style={[Styles.font.medium, Styles.fontSize['title-4'], Styles.color.supportingText]}>
-              {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`} |{' '}
+              {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
+              &nbsp;&nbsp;|&nbsp;&nbsp;
               {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
             </Text>
           </View>
@@ -171,9 +180,6 @@ const QuestionTypeScreen = () => {
             </Button>
           )}
           {/* TODO: Jump to next band */}
-          {/* <Button size='lg' style={{}} ='bg-neutral-900'>
-            <UIText>{t('questionType.jumpNextBtn')}</UIText>
-          </Button> */}
         </View>
       </View>
     </SafeAreaView>
@@ -230,6 +236,7 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     alignItems: 'center',
+    gap: 8,
   },
   button: {
     width: 'auto',

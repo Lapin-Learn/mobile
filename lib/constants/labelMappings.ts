@@ -1,6 +1,6 @@
 import { BandScoreEnum } from '../enums';
 
-const bandscoreMappings = {
+const bandscoreMappings: Record<string, string> = {
   [BandScoreEnum.PRE_IELTS]: 'Pre IELTS',
   [BandScoreEnum.BAND_4_5]: 'Band 4.5',
   [BandScoreEnum.BAND_5_0]: 'Band 5.0',
