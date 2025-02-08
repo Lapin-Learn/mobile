@@ -1,6 +1,7 @@
 import { ParamListBase, RouteProp } from '@react-navigation/native';
 import { SplashScreen, Tabs } from 'expo-router';
 import { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
@@ -11,15 +12,15 @@ import IconProfileTab from '~/assets/images/tab-profile.svg';
 import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useAuth } from '~/hooks/zustand';
-import { capitalizeFirstLetter } from '~/lib/utils';
 
 type ActiveTabIconProps = { name: string; icon: React.FC<SvgProps>; focused: boolean };
 
 const ActiveTabIcon = ({ name, icon: Icon, focused }: ActiveTabIconProps) => {
+  const { t } = useTranslation();
   return (
     <View style={[styles.container, focused ? styles.active : {}]}>
       <Icon fill={focused ? Styles.color.orange[500].color : Styles.color.neutral[200].color} />
-      <Text style={styles.text}>{capitalizeFirstLetter(name)}</Text>
+      <Text style={styles.text}>{t(`tabs.${name}`)}</Text>
     </View>
   );
 };
