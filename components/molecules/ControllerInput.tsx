@@ -85,5 +85,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 8,
   },
-  label: { ...Styles.fontSize.body, ...Styles.color.neutral[900] },
+  label: { ...Styles.fontSize.subhead, ...Styles.color.neutral[900] },
 });

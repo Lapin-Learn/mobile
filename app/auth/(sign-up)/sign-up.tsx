@@ -116,14 +116,19 @@ const OtherSignIn = () => {
 
   return (
     <View style={otherSignInStyles.container}>
-      {/* TODO: Sign up with Facebook */}
-      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
       {Platform.OS === 'ios' && (
         <AppleAuthentication.AppleAuthenticationButton
           buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
           buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
           cornerRadius={8}
-          style={{ width: '100%', height: 50, margin: 'auto', paddingHorizontal: 20, paddingVertical: 8 }}
+          style={{
+            width: '100%',
+            height: 50,
+            margin: 'auto',
+            paddingHorizontal: 20,
+            paddingVertical: 8,
+            ...Styles.fontSize.subhead,
+          }}
           onPress={() => {
             signInWithProvider.mutate(ProviderNameEnum.APPLE);
           }}

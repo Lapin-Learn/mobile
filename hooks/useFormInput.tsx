@@ -86,8 +86,7 @@ export const useFormInput = <T,>({
                         flexDirection: 'row-reverse',
                         paddingVertical: 4,
                         borderBottomWidth: 1,
-                        borderBottomColor: '#00000011',
-
+                        borderBottomColor: Styles.color.border.color,
                         ...Styles.backgroundColor.background,
                       }}>
                       <Button
