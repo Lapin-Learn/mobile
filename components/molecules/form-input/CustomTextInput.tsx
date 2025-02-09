@@ -7,7 +7,7 @@ const CustomTextInput = ({ style, ...props }: TextInputProps) => {
     <TextInput
       style={StyleSheet.flatten([
         styles.root,
-        !props.editable && Platform.OS === 'ios'
+        props.editable === false && Platform.OS === 'ios'
           ? {
               backgroundColor: '#F8F8F8',
             }
