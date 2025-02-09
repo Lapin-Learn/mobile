@@ -70,8 +70,6 @@ export const GLOBAL_STYLES = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: '#00000033',
-    height: '100%',
-    width: '100%',
     zIndex: 10,
   },
 });

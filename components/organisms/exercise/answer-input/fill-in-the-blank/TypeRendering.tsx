@@ -1,46 +1,10 @@
-import { ControllerRenderProps } from 'react-hook-form';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { default as TextRenderer } from '~/components/molecules/BreakableText';
 import Styles from '~/constants/GlobalStyles';
 import { FillInTheBlankContentType } from '~/lib/types/questions';
 
-import FillInTheBlankInput from './FillInTheBlankInput';
-
-type FieldState = ControllerRenderProps<{ answer: string[] }, 'answer'>;
-
-const TextRenderer = ({ text }: { text: string }) => {
-  if (text.charAt(0) === ' ') {
-    text = text.slice(1);
-  }
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-      <Text key={`text-${text}`} allowFontScaling style={styles.textInput}>
-        {text}
-      </Text>
-    </View>
-  );
-};
-
-type BlankRendererProps = {
-  index: number;
-  fieldState: FieldState;
-  onTextChange: (text: string, index: number, field: FieldState) => void;
-  correctAnswer: string;
-  isAnswerCorrect: boolean | null;
-};
-
-const BlankRenderer = ({ index, fieldState, onTextChange, correctAnswer, isAnswerCorrect }: BlankRendererProps) => {
-  return (
-    <FillInTheBlankInput
-      key={`blank-${index}`}
-      index={index}
-      field={fieldState}
-      onChange={onTextChange}
-      answer={correctAnswer}
-      isCorrect={isAnswerCorrect}
-    />
-  );
-};
+import BlankRenderer, { type FieldState } from './BlankRenderer';
 
 type ParagraphRendererProps = {
   elements: FillInTheBlankContentType[];
@@ -145,7 +109,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 'auto',
     ...Styles.font.normal,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.callout,
     ...Styles.color.black,
   },
   spacer: {

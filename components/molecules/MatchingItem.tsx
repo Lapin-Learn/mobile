@@ -1,11 +1,12 @@
 import { MoveRight } from 'lucide-react-native';
 import { useState } from 'react';
-import { Text, TextStyle, View } from 'react-native';
+import { TextStyle, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { getTextColorCorrectness } from '~/lib/utils/colorUtils';
 
 import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/Select';
+import BreakableText from './BreakableText';
 
 type MatchingItemProps = {
   showAnswerRecord?: boolean;
@@ -19,22 +20,6 @@ type MatchingItemProps = {
    */
   direction?: 'ltr' | 'rtl';
   correctness?: boolean | null;
-};
-
-const BreakableText = ({ text, style }: { text: string; style?: TextStyle }) => {
-  return (
-    <>
-      {text.split(' ').map((word, id) => (
-        <Text
-          key={`${word}-${id}`}
-          style={[{ ...Styles.fontSize['callout'] }, style]}
-          adjustsFontSizeToFit
-          numberOfLines={2}>
-          {word}
-        </Text>
-      ))}
-    </>
-  );
 };
 
 const AnswerRecord = ({

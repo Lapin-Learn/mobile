@@ -6,7 +6,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import BandScoreSelect from '~/components/molecules/BandScoreSelect';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
@@ -106,11 +105,12 @@ const QuestionTypeScreen = () => {
       <NavigationBar
         headerLeftShown
         headerRightShown
-        onHeaderRightPress={() =>
-          BandScoreSelect({
-            value: bandScore,
-          })
-        }
+        // TODO: allow go to other bands
+        // onHeaderRightPress={() =>
+        //   BandScoreSelect({
+        //     value: bandScore,
+        //   })
+        // }
       />
       <View style={styles.container}>
         <View style={styles.header}>
