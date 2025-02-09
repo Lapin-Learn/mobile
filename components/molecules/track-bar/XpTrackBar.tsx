@@ -6,8 +6,8 @@ import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import RankIcon from '~/components/icons/RankIcon';
 import PlatformView from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
-import { bottomScreenGap } from '~/constants/Padding';
 import { rankLevelMappings } from '~/lib/constants/labelMappings';
+import { bottomScreenGap } from '~/lib/constants/padding';
 import { RankEnum } from '~/lib/enums';
 import { formatNumber } from '~/lib/utils';
 

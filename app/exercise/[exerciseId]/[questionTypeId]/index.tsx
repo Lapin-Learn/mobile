@@ -14,6 +14,7 @@ import { Text as UIText } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonStore } from '~/hooks/zustand';
+import { bottomButtonToScreen } from '~/lib/constants/padding';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { ILesson, IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   footer: {
-    marginBottom: 72,
+    marginBottom: bottomButtonToScreen,
     gap: 16,
   },
 });

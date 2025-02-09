@@ -12,9 +12,9 @@ import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
-import { bottomScreenGap } from '~/constants/Padding';
 import { useUpdateUserProfile, useUserProfile } from '~/hooks/react-query/useUser';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { bottomScreenGap } from '~/lib/constants/padding';
 import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({

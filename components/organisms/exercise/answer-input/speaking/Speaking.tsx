@@ -3,7 +3,6 @@ import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
-import Volumn from '~/assets/images/volumn.svg';
 import { RiveSound } from '~/components/molecules/rive/Sound';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
 import { Button } from '~/components/ui/Button';
@@ -19,7 +18,7 @@ type SpeakingProps = {
   onAnswer: (answer: Answer) => void;
 };
 
-const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
+const Speaking = ({ data, onAnswer }: SpeakingProps) => {
   const navigation = useNavigation();
   const evaluate = useSpeakingEvaluation();
 
@@ -105,19 +104,28 @@ const Speaking = ({ data, onAnswer, ...props }: SpeakingProps) => {
       <View style={{ flexGrow: 1, justifyContent: 'center', padding: 32 }}>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'center',
+            alignItems: 'center',
             gap: 12,
           }}>
-          <View style={{ width: 30, height: 30, margin: 1.5 }}>
-            {soundType === SpeakingSoundType.QUESTION ? (
-              <RiveSound />
-            ) : (
-              <Button variant='ghost' style={{ width: null, height: null }} disabled={evaluate.isPending}>
-                <Volumn color={Styles.color.blue[500].color} onPress={() => setSoundType(SpeakingSoundType.QUESTION)} />
+          {data?.audio?.url && (
+            <View style={{ width: 60, height: 60, margin: 4 }}>
+              <Button
+                onPress={() => setSoundType(SpeakingSoundType.QUESTION)}
+                size='icon'
+                style={{
+                  backgroundColor: '#00000000',
+                  paddingVertical: 0,
+                  paddingHorizontal: 0,
+                  height: '100%',
+                  width: '100%',
+                }}>
+                <RiveSound isPlaying={soundType === SpeakingSoundType.QUESTION} />
+                <View style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: '#FFFFFF00' }} />
               </Button>
-            )}
-          </View>
+            </View>
+          )}
 
           <View
             style={{
@@ -145,6 +153,7 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
             ...Styles.font.semibold,
             ...Styles.fontSize['title-2'],
             ...Styles.color.dark,
+            textAlign: 'center',
           }}>
           {question}
         </Text>
@@ -166,7 +175,6 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
       return (
         <Text key={index} style={{ color, ...additionalStyles }}>
           {word}
-          <Text> </Text>
         </Text>
       );
     });
