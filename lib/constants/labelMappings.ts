@@ -1,4 +1,4 @@
-import { BandScoreEnum } from '../enums';
+import { BandScoreEnum, RankEnum } from '../enums';
 
 const bandscoreMappings: Record<string, string> = {
   [BandScoreEnum.PRE_IELTS]: 'Pre IELTS',
@@ -10,4 +10,13 @@ const bandscoreMappings: Record<string, string> = {
   [BandScoreEnum.BAND_7_0]: 'Band 7.0',
 };
 
-export { bandscoreMappings };
+const rankLevelMappings: Record<RankEnum, string> = {
+  [RankEnum.BRONZE]: '1-9',
+  [RankEnum.SILVER]: '10-19',
+  [RankEnum.GOLD]: '20-49',
+  [RankEnum.PLATINUM]: '50-99',
+  [RankEnum.DIAMOND]: '100-149',
+  [RankEnum.MASTER]: '150++',
+};
+
+export { bandscoreMappings, rankLevelMappings };

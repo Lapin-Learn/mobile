@@ -8,6 +8,7 @@ import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
+import { getBackgroundColorCorrectness } from '~/lib/utils/colorUtils';
 
 type MatchingProps = MatchingContent & {
   onAnswer: (answer: Answer) => void;
@@ -79,11 +80,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
               <View
                 style={StyleSheet.flatten([
                   styles.circle,
-                  correctness.length
-                    ? correctness[index]
-                      ? { ...Styles.backgroundColor.green[500] }
-                      : { ...Styles.backgroundColor.red[500] }
-                    : {},
+                  correctness.length ? getBackgroundColorCorrectness(correctness[index]) : {},
                   { marginRight: 8 },
                 ])}>
                 <Text
@@ -106,6 +103,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
                 options={selectColumn.options}
                 onSelect={handleSelect}
                 direction={textColumnKey === 'columnA' ? 'ltr' : 'rtl'}
+                correctness={correctness[index]}
               />
             </View>
           ))}
