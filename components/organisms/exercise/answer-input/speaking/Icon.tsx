@@ -10,7 +10,7 @@ type IconComponentProps = {
   size?: number;
 } & LucideProps;
 
-export const IconComponent = ({ children, size = 24, ...props }: IconComponentProps) => {
+export const IconComponent = ({ children, ...props }: IconComponentProps) => {
   return (
     <Button
       variant='ghost'

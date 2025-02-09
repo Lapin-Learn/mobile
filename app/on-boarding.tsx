@@ -67,7 +67,7 @@ const OnBoarding = () => {
         setCurrentPage(0);
         pagerViewRef.current?.setPage(0);
       }
-    }, 5000);
+    }, 8000);
     return () => clearInterval(interval);
   }, [currentPage]);
 
@@ -103,6 +103,7 @@ const OnBoarding = () => {
           return (
             <View key={key} style={{ justifyContent: 'center', alignItems: 'center', padding: 16 }}>
               <OnBoardingRive
+                key={key}
                 url={url}
                 fallback={fallback}
                 stateMachineName={stateMachineName}
@@ -110,6 +111,7 @@ const OnBoarding = () => {
                   width: '100%',
                   transform: key === '2' ? [{ scale: 1 }] : [{ scale: 1.25 }],
                 }}
+                isPlaying={currentPage === Number(key) - 1}
               />
               <View style={styles.onboardingContainer}>
                 <Logo />

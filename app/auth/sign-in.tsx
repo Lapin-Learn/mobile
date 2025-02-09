@@ -87,11 +87,11 @@ const SignIn = () => {
           </View>
 
           <View style={containers.doNotHaveAccount}>
-            <Text style={StyleSheet.flatten([font.normal, fontSize.footnote, color.neutral[900]])}>
+            <Text style={StyleSheet.flatten([font.normal, fontSize.subhead, color.neutral[900]])}>
               {t('signIn.noAccount')}
             </Text>
             <Link push href='/auth/sign-up'>
-              <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.orange[500]])}>
                 {t('signIn.signUp')}
               </Text>
             </Link>

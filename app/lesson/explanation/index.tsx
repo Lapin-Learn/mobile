@@ -10,9 +10,9 @@ import { NavigationBar } from '~/components/molecules/NavigationBar';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as GlobalStyles } from '~/constants/GlobalStyles';
-import { bottomScreenGap } from '~/constants/Padding';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { bottomScreenGap } from '~/lib/constants/padding';
 import { formatHtmlContent } from '~/lib/utils';
 
 const Explanation = () => {

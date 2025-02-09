@@ -6,6 +6,7 @@ import { Loading } from '~/components/molecules/Loading';
 import { ExitModal } from '~/components/organisms/modals/ExitModal';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
+import { bottomScreenGap } from '~/lib/constants/padding';
 import { ContentTypeEnum } from '~/lib/enums';
 import { getAccurateIPA } from '~/lib/utils';
 
@@ -87,7 +88,13 @@ const QuestionTemplate = () => {
             {currentQuestion && (
               <View style={styles.currentQuestion}>
                 <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
-                <View style={{ flex: 1, flexGrow: 1, paddingHorizontal: 16, paddingBottom: showAnswerModal ? 64 : 0 }}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexGrow: 1,
+                    paddingHorizontal: 16,
+                    paddingBottom: showAnswerModal ? 120 : bottomScreenGap,
+                  }}>
                   <AnswerInput
                     onAnswer={answerQuestion}
                     result={learnerAnswers[currentQuestionIndex]}

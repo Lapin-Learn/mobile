@@ -77,5 +77,10 @@
     "message": "A new version of the app is ready. Please update to continue.",
     "button": "Update",
     "cancel": "Cancel"
+  },
+  "tabs": {
+    "lessons": "Lessons",
+    "mission": "Missions",
+    "profile": "Profile"
   }
 }
