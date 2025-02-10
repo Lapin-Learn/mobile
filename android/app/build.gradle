@@ -115,8 +115,13 @@ android {
         applicationId 'com.datn.lapinlearn'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+<<<<<<< Updated upstream
         versionCode 1000204
         versionName "1.0.6"
+=======
+        versionCode 1000205
+        versionName "1.0.7"
+>>>>>>> Stashed changes
     }
     signingConfigs {
         debug {
