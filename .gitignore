@@ -33,7 +33,7 @@ web-build/
 
 #google-service
 google-services.json
-GoogleService-Info.plist
+GoogleService-Info.*
 
 #idea
 /.idea
