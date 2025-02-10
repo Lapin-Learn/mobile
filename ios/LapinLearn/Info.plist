@@ -21,7 +21,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.6</string>
+    <string>1.0.7</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -36,7 +36,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.googleusercontent.apps.319449614288-kuesn9t52ephnefeo5kafpsu6j0r4g5u</string>
+          <string>com.googleusercontent.apps.88939496817-674iklo91ofrsecs2bungrdvavgt26uu</string>
         </array>
       </dict>
       <dict>
@@ -73,11 +73,6 @@
     <string>Allow $(PRODUCT_NAME) to access your photos</string>
     <key>NSUserActivityTypes</key>
     <array>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

@@ -1,7 +1,7 @@
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { RiveSound } from '~/components/molecules/rive/Sound';
 import { RecordBar } from '~/components/organisms/exercise/answer-input/speaking/RecordingBar';
@@ -12,6 +12,8 @@ import { Answer, SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureAudioSession } from '~/lib/config';
 import { IQuestion } from '~/lib/types/questions';
 import { getAccurateIPA } from '~/lib/utils';
+
+import { getColorForValue } from './helpers';
 
 type SpeakingProps = {
   data?: IQuestion;
@@ -144,58 +146,45 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
   const { result } = useSpeakingStore();
   if (!result)
     return (
-      <View
-        style={{
-          flexShrink: 1,
-        }}>
-        <Text
-          style={{
-            ...Styles.font.semibold,
-            ...Styles.fontSize['title-2'],
+      <Text
+        style={[
+          styles.rootText,
+          {
             ...Styles.color.dark,
-            textAlign: 'center',
-          }}>
-          {question}
-        </Text>
-      </View>
+          },
+        ]}>
+        {question}
+      </Text>
     );
 
-  const getColorForValue = (value: number) => {
-    if (value === 2) return 'green';
-    if (value === 1) return 'orange';
-    return 'red';
-  };
-
-  const renderTextWithColors = (text: string, correctLetters: number[], additionalStyles?: object) => {
+  const renderTextWithColors = (text: string, correctLetters: number[]) => {
     const words = text.split(' ');
 
-    return words.map((word, index) => {
-      const color = getColorForValue(correctLetters[index]);
-
-      return (
-        <Text key={index} style={{ color, ...additionalStyles }}>
-          {word}
-        </Text>
-      );
-    });
+    return words.map((word, index) => (
+      <Text key={index} style={{ color: getColorForValue(correctLetters[index]) }}>
+        {word}&nbsp;
+      </Text>
+    ));
   };
 
   return (
     <>
       <Text
-        style={{
-          ...Styles.font.semibold,
-          ...Styles.fontSize['title-2'],
-          ...Styles.color.dark,
-        }}>
+        style={[
+          styles.rootText,
+          {
+            ...Styles.color.dark,
+          },
+        ]}>
         {renderTextWithColors(result.original_transcript, result.correct_letters)}
       </Text>
-
       <Text
-        style={{
-          ...Styles.font.normal,
-          ...Styles.fontSize['title-2'],
-        }}>
+        style={[
+          styles.rootText,
+          {
+            opacity: 0.5,
+          },
+        ]}>
         {renderTextWithColors(result.original_ipa_transcript, result.correct_letters)}
       </Text>
     </>
@@ -203,3 +192,11 @@ const TranscriptDisplay = ({ question }: { question: string }) => {
 };
 
 export default Speaking;
+
+const styles = StyleSheet.create({
+  rootText: {
+    ...Styles.font.medium,
+    ...Styles.fontSize['title-3'],
+    textAlign: 'center',
+  },
+});
