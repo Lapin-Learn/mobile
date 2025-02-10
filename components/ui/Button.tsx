@@ -42,8 +42,8 @@ const buttonStyles = StyleSheet.create({
     margin: 'auto',
     paddingVertical: 6,
     paddingHorizontal: 20,
-    borderWidth: 2,
-    ...Styles.borderColor.neutral[100],
+    borderWidth: 1.5,
+    ...Styles.borderColor.border,
   },
   secondary: {
     ...Styles.backgroundColor.secondary,
