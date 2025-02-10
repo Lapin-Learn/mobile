@@ -221,7 +221,7 @@ const Index = () => {
             />
           )}
           <ChangeLanguageModal onClose={setShowChangeLanguage} showModal={showChangeLanguage} />
-          <ProfileSection>
+          <ProfileSection style={{ marginBottom: 32 }}>
             <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] }} />
             <ProfileSection.List data={settingsData.filter((data) => data.visible)} />
           </ProfileSection>
@@ -287,13 +287,12 @@ const styles = StyleSheet.create({
     ...Styles.backgroundColor.white,
   },
   root: {
-    gap: 40,
-    padding: 16,
-    paddingTop: 0,
+    gap: 24,
+    paddingHorizontal: 16,
   },
   avatar: {
-    height: 88,
-    width: 88,
+    height: 96,
+    width: 96,
     borderRadius: 999,
     overflow: 'hidden',
   },
@@ -309,18 +308,18 @@ const styles = StyleSheet.create({
   avatarButton: {
     position: 'absolute',
     margin: 0,
-    height: 24,
-    width: 24,
+    height: 32,
+    width: 32,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 999,
     backgroundColor: 'white',
-    padding: 0,
   },
   avatarSection: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 24,
   },
   buttonSignOut: {
     flexDirection: 'row',
