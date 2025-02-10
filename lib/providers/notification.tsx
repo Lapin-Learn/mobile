@@ -7,7 +7,7 @@ import { AppState, AppStateStatus, Platform } from 'react-native';
 
 import { QUERY_KEYS } from '../constants';
 import { IAccountIdentifer } from '../types';
-import { requestPermission } from '../utils/permissions';
+import { requestPermission, requestPermissionIOS } from '../utils/permissions';
 
 type NotificationResponse = Notifications.NotificationResponse;
 
@@ -19,8 +19,9 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     if (account) {
       if (Platform.OS === 'android') {
         await requestPermission();
+      } else if (Platform.OS === 'ios') {
+        await requestPermissionIOS();
       }
-      // TODO: Handle iOS notification permissions
     }
   };
 
