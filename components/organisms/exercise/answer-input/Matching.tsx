@@ -59,7 +59,8 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   }, [selected]);
 
   const handleSelect = (selection: string, label: string) => {
-    setSelected((prev) => [...prev, { [textColumnKey]: [label], [selectColumnKey]: [selection] } as PairAnswer]);
+    const filtered = selected.filter((pair) => pair[textColumnKey][0] !== label);
+    setSelected([...filtered, { [textColumnKey]: [label], [selectColumnKey]: [selection] } as PairAnswer]);
   };
 
   return (
