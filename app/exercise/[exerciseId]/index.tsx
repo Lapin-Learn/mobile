@@ -43,7 +43,7 @@ const QuestionTypeCard = ({ name, progress, imageId, bandScoreRequires }: Questi
           </Text>
         </Badge>
       </View>
-      <Text style={StyleSheet.flatten([font.semibold, fontSize['title-2'], color.neutral[900]])}>{name}</Text>
+      <Text style={StyleSheet.flatten([font.semibold, fontSize['title-2']])}>{name}</Text>
       <View style={card.textWrapper}>
         <View style={card.textContainer}>
           <Text style={texts.supportingText}>{t('questionTypes.experience')}</Text>
@@ -139,8 +139,9 @@ const texts = StyleSheet.create({
 const card = StyleSheet.create({
   wrapper: {
     borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#cccccc',
+    borderWidth: 1.5,
+    ...Styles.borderColor.border,
+    backgroundColor: 'white',
     padding: 16,
     gap: 8,
   },
@@ -156,6 +157,7 @@ const card = StyleSheet.create({
   },
   textWrapper: {
     gap: 8,
+    marginTop: 4,
   },
   textContainer: {
     flexDirection: 'row',

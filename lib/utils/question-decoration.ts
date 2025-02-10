@@ -1,6 +1,6 @@
 import { MultipleChoiceDecoration, QuestionCardDecoration } from '~/lib/types/question-style';
 
-const getQuestionCardDecoration = (paragraph: string): QuestionCardDecoration => {
+const getQuestionCardDecoration = (paragraph: string = ''): QuestionCardDecoration => {
   if (paragraph.length > 400) {
     return { isScrollable: true };
   }

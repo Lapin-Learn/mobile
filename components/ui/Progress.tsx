@@ -21,10 +21,16 @@ type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Roo
 
 const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
   // eslint-disable-next-line react/prop-types
-  ({ style, label, value, indicatorStyle = {}, ...props }, ref) => {
+  ({ style, label, value = 0, indicatorStyle = {}, ...props }, ref) => {
     return (
       <ProgressPrimitive.Root ref={ref} style={StyleSheet.flatten([progressStyles.root, style])} {...props}>
-        <Indicator value={value} style={indicatorStyle} />
+        <Indicator
+          value={value}
+          style={StyleSheet.flatten([
+            indicatorStyle,
+            (value ?? 0) < 50 && { backgroundColor: Styles.color.orange[300].color },
+          ])}
+        />
         <View style={progressStyles.view}>
           <Text
             style={StyleSheet.flatten([
@@ -47,7 +53,7 @@ const progressStyles = StyleSheet.create({
     overflow: 'hidden',
     flexGrow: 1,
     borderRadius: 999,
-    backgroundColor: Styles.color.neutral[100].color,
+    backgroundColor: '#dbdbdb',
   },
   text: {
     ...Styles.font.medium,

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Styles.font.bold,
-    ...Styles.fontSize['large-title'],
+    ...Styles.fontSize['title-1'],
     ...Styles.color.orange[900],
   },
 });

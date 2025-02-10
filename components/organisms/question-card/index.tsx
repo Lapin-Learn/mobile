@@ -19,8 +19,9 @@ const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
 
   const renderParagraph = () => {
     const decoration = getQuestionCardDecoration(data.content.paragraph);
+    const paragraphLength = data.content.paragraph?.length ?? 0;
 
-    if (hasAudio || data.content.paragraph.length === 0) return null;
+    if (hasAudio || paragraphLength === 0) return null;
     if (decoration.isScrollable || hasImage) {
       return (
         <GestureHandlerRootView style={{ position: 'relative' }}>

@@ -33,7 +33,8 @@ const buttonStyles = StyleSheet.create({
   root: {
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 12,
+    justifyContent: 'center',
+    height: 50,
     borderWidth: 1,
     borderRadius: 8,
     marginVertical: 6,
