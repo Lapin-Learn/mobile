@@ -14,7 +14,7 @@ type MatchingItemProps = {
   label: string;
   options: string[];
   selectPlaceholder: string;
-  onSelect: (value: string, option: string) => void;
+  onSelect: (selection: string, label: string) => void;
   /**
    * The direction of the text and the Select component.
    */
