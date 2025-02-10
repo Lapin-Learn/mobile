@@ -57,7 +57,7 @@ export type IUserProfile = {
   email: string;
   role: string;
   fullName: string | null;
-  dob: Date | null;
+  dob: Date | null | string;
   gender: GenderEnum | null;
   createdAt: string;
   learnerProfile: ILearnerProfile;

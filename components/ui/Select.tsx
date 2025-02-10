@@ -16,8 +16,10 @@ const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ children, style, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    hideIcon?: boolean;
+  }
+>(({ children, style, hideIcon = false, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     style={StyleSheet.flatten([selectTriggerStyles.root, props.disabled ? { opacity: 0.5 } : {}, style])}
@@ -27,7 +29,7 @@ const SelectTrigger = React.forwardRef<
     ) : (
       <SelectValue placeholder={typeof children === 'string' ? children : ''} />
     )}
-    <ChevronDown size={16} color='#6b2020' style={{ marginLeft: 8 }} />
+    {!hideIcon && <ChevronDown size={16} color='#6b2020' style={{ marginLeft: 8 }} />}
   </SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
@@ -51,7 +53,7 @@ const selectTriggerStyles = StyleSheet.create({
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { portalHost?: string }
->(({ children, position = 'popper', portalHost, ...props }, ref) => {
+>(({ children, position = 'popper', portalHost, style, ...props }, ref) => {
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
       <SelectPrimitive.Overlay style={Platform.OS !== 'web' ? StyleSheet.absoluteFill : undefined}>
@@ -59,7 +61,7 @@ const SelectContent = React.forwardRef<
           <SelectPrimitive.Content
             ref={ref}
             position={position}
-            style={StyleSheet.flatten([selectContentStyles.root, props.style])}
+            style={StyleSheet.flatten([selectContentStyles.root, style])}
             {...props}>
             {children}
           </SelectPrimitive.Content>

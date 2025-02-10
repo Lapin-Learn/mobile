@@ -37,7 +37,6 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
     ],
     indexText: [
       styles.indexText,
-      styles.text,
       isCorrect === null
         ? hasText
           ? styles.indexTextWithText
@@ -128,49 +127,30 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   indexCircle: {
-    height: 32,
-    width: 32,
+    height: 30,
+    width: 30,
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: {
-    ...Styles.fontSize.body,
-  },
-  indexCircleWithoutText: {
-    ...Styles.backgroundColor.blue[100],
-  },
-  indexCircleWithText: {
-    ...Styles.backgroundColor.blue[600],
-  },
-  indexCircleWithCorrect: {
-    ...Styles.backgroundColor.green[400],
-  },
-  indexCircleWithIncorrect: {
-    ...Styles.backgroundColor.red[400],
-  },
+  text: Styles.fontSize.callout,
+  indexCircleWithoutText: Styles.backgroundColor.blue[100],
+  indexCircleWithText: Styles.backgroundColor.blue[500],
+  indexCircleWithCorrect: Styles.backgroundColor.green[400],
+  indexCircleWithIncorrect: Styles.backgroundColor.red[400],
   indexText: {
     textAlign: 'center',
     ...Styles.font.bold,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize['caption-1'],
   },
-  indexTextWithText: {
-    ...Styles.color.blue[50],
-  },
-  indexTextWithoutText: {
-    ...Styles.color.blue[600],
-  },
-  indexTextWithCorrect: {
-    ...Styles.color.green[50],
-  },
-  indexTextWithIncorrect: {
-    ...Styles.color.red[50],
-  },
+  indexTextWithText: Styles.color.blue[50],
+  indexTextWithoutText: Styles.color.blue[900],
+  indexTextWithCorrect: Styles.color.green[50],
+  indexTextWithIncorrect: Styles.color.red[50],
   input: {
     borderBottomWidth: 1,
     textAlign: 'center',
-    paddingTop: 1,
-    ...Styles.font.normal,
+    paddingTop: 2,
   },
   inputWidth: {
     width: 140,
@@ -192,7 +172,7 @@ const styles = StyleSheet.create({
   },
   inputUnfocusedWithoutText: {
     ...Styles.color.neutral[300],
-    borderBottomColor: Colors.neutral[300],
+    borderBottomColor: Colors.neutral[200],
   },
   inputCorrect: {
     ...Styles.color.green[600],

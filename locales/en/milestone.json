@@ -6,7 +6,8 @@
     "gold": "Gold",
     "platinum": "Platinum",
     "diamond": "Diamond",
-    "master": "Master"
+    "master": "Master",
+    "encouragement": "The rank battle never ends, accumulate a lot of experience points from daily lessons and practice tests to quickly level up!"
   },
   "level": {
     "xp": "XP"

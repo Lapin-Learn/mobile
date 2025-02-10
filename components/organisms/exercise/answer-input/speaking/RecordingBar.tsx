@@ -2,7 +2,7 @@ import { Audio } from 'expo-av';
 import { Pause, Play, RotateCcw } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Dimensions, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Send from '~/assets/images/send.svg';
 import SpeakingFilled from '~/assets/images/skills/speaking-filled.svg';
@@ -11,7 +11,7 @@ import Styles from '~/constants/GlobalStyles';
 import { useSpeakingEvaluation } from '~/hooks/react-query/useDailyLesson';
 import { SpeakingSoundType, useSpeakingStore } from '~/hooks/zustand';
 import { configureRecordSession, recordingOptions } from '~/lib/config';
-import { GLOBAL_STYLES } from '~/lib/constants';
+import { bottomButtonToScreen } from '~/lib/constants/padding';
 import { deleteUri } from '~/lib/utils/fileSystem';
 
 import { IconComponent } from './Icon';
@@ -26,7 +26,6 @@ export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
   const { recording, status, uri, soundType, setResult, setRecord, stopRecord, setUri, setSoundType, initState } =
     useSpeakingStore();
   const { t } = useTranslation('question');
-  const { height } = Dimensions.get('window');
 
   useEffect(() => {
     return () => {
@@ -110,55 +109,46 @@ export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
   const Component = status?.isRecording ? Pressable : View;
 
   return (
-    <>
-      {status?.isRecording && <RecordingRiveWave />}
-      <Component
-        style={[GLOBAL_STYLES.checkButtonView, styles.containerRecord, { height: height * 0.15 }]}
-        onPress={stopRecording}>
-        {uri && !recording && (
-          <IconComponent onPress={handleReplay} disabled={evaluate.isPending}>
-            <RotateCcw size={24} color={Styles.color.orange[700].color} />
-          </IconComponent>
-        )}
+    <Component style={styles.containerRecord} onPress={stopRecording}>
+      {uri && !recording && (
+        <IconComponent onPress={handleReplay} disabled={evaluate.isPending}>
+          <RotateCcw size={24} color={Styles.color.orange[700].color} />
+        </IconComponent>
+      )}
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: 96,
+        }}>
         {status?.isRecording ? (
-          <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+          <>
+            <RiveWave style={styles.rive} />
+            <Text style={styles.textRecording}>{t('recording.recorded')}</Text>
+          </>
         ) : (
           <IconComponent
             name={uri ? 'Send' : 'Mic'}
-            style={{ padding: 24 }}
+            style={{ height: 80, width: 80, aspectRatio: 1 }}
             color={Styles.color.white.color}
             onPress={uri ? sendRecording : startRecording}
             disabled={status?.isRecording || evaluate.isPending}>
             {uri ? <Send /> : <SpeakingFilled />}
           </IconComponent>
         )}
-        {!status?.isRecording && uri && (
-          <IconComponent onPress={handlePlaySound} disabled={evaluate.isPending}>
-            {soundType === SpeakingSoundType.ANSWER ? (
-              <Pause color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
-            ) : (
-              <Play color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
-            )}
-          </IconComponent>
-        )}
-      </Component>
-    </>
-  );
-};
-
-const RecordingRiveWave = () => {
-  return (
-    <View
-      style={{
-        width: 500,
-        height: 200,
-        zIndex: -1,
-        bottom: 0,
-        transform: [{ translateY: -25 }],
-        position: 'absolute',
-      }}>
-      <RiveWave />
-    </View>
+      </View>
+      {!status?.isRecording && uri && (
+        <IconComponent onPress={handlePlaySound} disabled={evaluate.isPending}>
+          {soundType === SpeakingSoundType.ANSWER ? (
+            <Pause color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
+          ) : (
+            <Play color={Styles.color.orange[700].color} fill={Styles.color.orange[700].color} size={24} />
+          )}
+        </IconComponent>
+      )}
+    </Component>
   );
 };
 
@@ -168,11 +158,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 32,
-    paddingBottom: Platform.OS === 'ios' ? 0 : 40,
+    paddingVertical: bottomButtonToScreen,
+    position: 'relative',
   },
   textRecording: {
     ...Styles.color.neutral[300],
     ...Styles.font.bold,
     ...Styles.fontSize.body,
+  },
+  rive: {
+    width: 300,
+    zIndex: -1,
+    bottom: 0,
+    top: 0,
+    position: 'absolute',
+    opacity: 0.3,
   },
 });

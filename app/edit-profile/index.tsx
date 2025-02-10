@@ -14,6 +14,7 @@ import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useUpdateUserProfile, useUserProfile } from '~/hooks/react-query/useUser';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { bottomScreenGap } from '~/lib/constants/padding';
 import { GenderEnum } from '~/lib/enums';
 
 const schema = z.object({
@@ -39,6 +40,7 @@ const UpdateProfile = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm<FormField>({
     defaultValues: {
       username: data?.username || '',
@@ -67,10 +69,20 @@ const UpdateProfile = () => {
     const updatedData = {
       fullName: data.fullName?.trim().replace(/\s+/g, ' '),
       username: data.username.trim().replace(/\s+/g, ' '),
-      dob: data.dob,
+      dob: data.dob ? new Date(data.dob) : '',
       gender: data.gender as GenderEnum,
     };
-    updateUserProfileMutation.mutate(updatedData);
+    updateUserProfileMutation.mutate(updatedData, {
+      onSuccess: (returnData) => {
+        reset({
+          username: returnData?.username ?? '',
+          email: returnData?.email ?? '',
+          fullName: returnData?.fullName ?? '',
+          dob: returnData?.dob ? new Date(returnData.dob) : new Date(),
+          gender: returnData?.gender ?? GenderEnum.MALE,
+        });
+      },
+    });
   };
 
   return (
@@ -154,15 +166,13 @@ const UpdateProfile = () => {
             style={styles.controllerInput}
           />
         </View>
-        <View>
-          <Button
-            size='lg'
-            onPress={handleSubmit(onSubmit)}
-            disabled={!isFormChanged || updateUserProfileMutation.isPending}
-            style={{ width: '100%' }}>
-            <Text style={GLOBAL_STYLES.textButton}>{t('profile.update')}</Text>
-          </Button>
-        </View>
+        <Button
+          size='lg'
+          onPress={handleSubmit(onSubmit)}
+          disabled={!isFormChanged || updateUserProfileMutation.isPending}
+          style={{ width: '100%' }}>
+          <Text style={GLOBAL_STYLES.textButton}>{t('profile.update')}</Text>
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
     height: '100%',
     gap: 24,
     justifyContent: 'space-between',
-    paddingBottom: 24,
+    paddingBottom: bottomScreenGap,
   },
   form: {
     flexDirection: 'column',

@@ -39,7 +39,7 @@ export const NavigationBar = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {noBar || (
         <View style={[styles.navBar, displayStyle === 'center' ? styles.justifyCenter : styles.justifyBetween]}>
           {displayStyle === 'center' ? (
@@ -50,9 +50,7 @@ export const NavigationBar = ({
               onHeaderLeftPress()
             ) : (
               <Pressable style={styles.iconContainer} onPress={handleOnBack}>
-                <View>
-                  <Icon color='black' />
-                </View>
+                <Icon color='black' />
               </Pressable>
             ))
           )}
@@ -75,13 +73,11 @@ export const NavigationBar = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16,
-  },
   navBar: {
     flexDirection: 'row',
     alignItems: 'center',
     height: Dimensions.get('window').height * 0.05,
+    paddingEnd: 16,
   },
   justifyCenter: {
     justifyContent: 'center',
@@ -90,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconContainer: {
-    width: 24,
+    padding: 16,
   },
   headerTitle: {
     color: 'black',
@@ -104,6 +100,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     width: 'auto',
     alignItems: 'flex-start',
+    marginHorizontal: 16,
   },
   title: {
     ...Styles.font.bold,

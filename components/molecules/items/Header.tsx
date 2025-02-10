@@ -17,7 +17,7 @@ export const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
         headerLeftShown
         onHeaderLeftPress={() => (
           <Pressable
-            style={{ width: 24 }}
+            style={{ padding: 16 }}
             onPress={() => {
               if (router.canGoBack()) {
                 router.back();
@@ -45,7 +45,7 @@ export const HeaderSection = ({ carrots = 0 }: { carrots?: number }) => {
             textStyle={{ ...Styles.font.bold, ...Styles.fontSize.subhead }}
           />
         )}>
-        <View style={{ paddingTop: 16 }}>
+        <View style={{ paddingTop: 16, paddingStart: 16 }}>
           <Text style={{ ...Styles.font.bold, ...Styles.fontSize.streak, ...Styles.color.white }}>
             {t(ShopInventoryMapping.title.shop)}
           </Text>

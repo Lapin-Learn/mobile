@@ -77,5 +77,10 @@
     "message": "Một phiên bản mới của ứng dụng đã sẵn sàng. Vui lòng cập nhật để tiếp tục.",
     "button": "Cập nhật",
     "cancel": "Hủy"
+  },
+  "tabs": {
+    "lessons": "Bài học",
+    "mission": "Nhiệm vụ",
+    "profile": "Tài khoản"
   }
 }

@@ -8,6 +8,7 @@ import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
+import { getBackgroundColorCorrectness } from '~/lib/utils/colorUtils';
 
 type MatchingProps = MatchingContent & {
   onAnswer: (answer: Answer) => void;
@@ -23,14 +24,16 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   const textColumn = textColumnKey === 'columnA' ? columnA : columnB;
   const selectColumn = textColumnKey === 'columnA' ? columnB : columnA;
 
+  const selectColumnKey = textColumnKey === 'columnA' ? 'columnB' : 'columnA';
+
   const isNotAnswered = result.numberOfCorrect === 0 && result.totalOfQuestions === 0;
   const answerRecord = answer.reduce<Record<string, string>>((acc, pair) => {
-    acc[pair.columnB[0]] = pair.columnA[0];
+    acc[pair[textColumnKey][0]] = pair[selectColumnKey][0];
     return acc;
   }, {});
 
   const answerQuestion = () => {
-    const correctness = selected.map((pair) => answerRecord[pair.columnB[0]] === pair.columnA[0]);
+    const correctness = selected.map((pair) => answerRecord[pair[textColumnKey][0]] === pair[selectColumnKey][0]);
     const statistic = {
       numberOfCorrect: correctness.filter((item) => item === true).length,
       totalOfQuestions: selected.length,
@@ -39,6 +42,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
     setCorrectness(correctness);
     onAnswer(statistic);
   };
+
   useEffect(() => {
     if (isNotAnswered) {
       setSelected([]);
@@ -54,15 +58,8 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
     }
   }, [selected]);
 
-  const handleSelect = (a: string, b: string) => {
-    const isBSelected = selected.some((pair) => pair.columnB.includes(b));
-
-    if (isBSelected) {
-      const filtered = selected.filter((pair) => !pair.columnB.includes(b));
-      setSelected([...filtered, { columnA: [a], columnB: [b] }]);
-    } else {
-      setSelected((prev) => [...prev, { columnA: [a], columnB: [b] }]);
-    }
+  const handleSelect = (selection: string, label: string) => {
+    setSelected((prev) => [...prev, { [textColumnKey]: [label], [selectColumnKey]: [selection] } as PairAnswer]);
   };
 
   return (
@@ -79,11 +76,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
               <View
                 style={StyleSheet.flatten([
                   styles.circle,
-                  correctness.length
-                    ? correctness[index]
-                      ? { ...Styles.backgroundColor.green[500] }
-                      : { ...Styles.backgroundColor.red[500] }
-                    : {},
+                  correctness.length ? getBackgroundColorCorrectness(correctness[index]) : {},
                   { marginRight: 8 },
                 ])}>
                 <Text
@@ -106,6 +99,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
                 options={selectColumn.options}
                 onSelect={handleSelect}
                 direction={textColumnKey === 'columnA' ? 'ltr' : 'rtl'}
+                correctness={correctness[index]}
               />
             </View>
           ))}

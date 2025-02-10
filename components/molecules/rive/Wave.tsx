@@ -1,13 +1,16 @@
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Rive, { Fit } from 'rive-react-native';
 
-export function RiveWave() {
+export function RiveWave({ style }: { style?: StyleProp<ViewStyle> }) {
   return (
-    <Rive
-      url='https://uilztdvkyvgjgeqd.public.blob.vercel-storage.com/Wave-QgPdR3YFYZoIxKhuaOqQZspE2Pc05k.riv'
-      artboardName='Artboard'
-      stateMachineName='State Machine 1'
-      fit={Fit.Cover}
-      style={{ width: '100%', height: '100%' }}
-    />
+    <View style={style ?? {}}>
+      <Rive
+        url='https://firebasestorage.googleapis.com/v0/b/lapin-learn.appspot.com/o/rive%2Fwave.riv?alt=media&token=cb15d9e7-7874-4baa-905b-c01479502e1a'
+        artboardName='sound'
+        stateMachineName='main'
+        fit={Fit.Cover}
+        style={{ width: '100%', height: '100%' }}
+      />
+    </View>
   );
 }

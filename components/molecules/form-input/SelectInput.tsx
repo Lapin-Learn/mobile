@@ -1,16 +1,8 @@
-import { StyleProp, StyleSheet, TextStyle, View } from 'react-native';
+import { StyleProp, StyleSheet, TextStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Option } from '~/components/primitives/select';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from '~/components/ui/Select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/Select';
 import Styles from '~/constants/GlobalStyles';
 
 type SelectProps = {
@@ -37,11 +29,8 @@ const SelectInput = ({ defaultValue, onValueChange, options, placeholder, style 
       </SelectTrigger>
       <SelectContent insets={contentInsets} style={styles.content}>
         <SelectGroup>
-          {options.map((item, index) => (
-            <View key={item.value}>
-              <SelectItem value={item.value} label={item.label} />
-              {index < options.length - 1 && <SelectSeparator style={{ marginVertical: 4 }} />}
-            </View>
+          {options.map((item) => (
+            <SelectItem value={item.value} key={item.value} label={item.label} />
           ))}
         </SelectGroup>
       </SelectContent>
@@ -54,7 +43,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 8,
     borderWidth: 1,
-    ...Styles.borderColor.neutral[200],
+    ...Styles.borderColor.border,
     backgroundColor: 'white',
     padding: 12,
   },
@@ -62,7 +51,7 @@ const styles = StyleSheet.create({
     ...Styles.fontSize.subhead,
     ...Styles.font.medium,
   },
-  content: { width: '100%', backgroundColor: 'white', borderRadius: 8, paddingVertical: 4 },
+  content: { width: '100%' },
 });
 
 export default SelectInput;
