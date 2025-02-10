@@ -1,66 +1,57 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
-import { Label } from '~/components/ui/Label';
-import { RadioGroupItem } from '~/components/ui/RadioGroup';
 import Styles from '~/constants/GlobalStyles';
 
 type ChoiceButtonProps = {
-  variant?: 'correct' | 'incorrect';
+  variant?: 'correct' | 'incorrect' | 'selected' | 'default';
   label: string;
   onLabelPress?: () => void;
 };
 const ChoiceButton = ({ variant, label, onLabelPress }: ChoiceButtonProps) => {
   return (
-    <Pressable style={buttonStyles.root} onPress={onLabelPress}>
-      <RadioGroupItem
-        aria-labelledby={`label-for-${label}`}
-        value={label}
-        style={variant && radioStyles[variant]}
-        indicatorStyle={variant && indicatorStyles[variant]}
-      />
-      <Label nativeID={`label-for-${label}`} onPress={onLabelPress} style={variant && textStyles[variant]}>
-        {label}
-      </Label>
+    <Pressable style={StyleSheet.flatten([buttonStyles.root, variant && buttonStyles[variant]])} onPress={onLabelPress}>
+      <Text style={variant && textStyles[variant]}>{label}</Text>
     </Pressable>
   );
 };
 
-const radioStyles = StyleSheet.create({
-  correct: {
-    ...Styles.borderColor.green[400],
-  },
-  incorrect: {
-    ...Styles.borderColor.red[400],
-  },
-});
-
-const indicatorStyles = StyleSheet.create({
-  correct: {
-    ...Styles.backgroundColor.green[400],
-    borderRadius: 50,
-  },
-  incorrect: {
-    ...Styles.backgroundColor.red[500],
-    borderRadius: 50,
-  },
-});
-
 const textStyles = StyleSheet.create({
   correct: {
     ...Styles.font.normal,
-    ...Styles.color.green[400],
+    ...Styles.color.green[700],
   },
   incorrect: {
-    ...Styles.color.red[400],
+    ...Styles.color.red[700],
   },
+  selected: {
+    ...Styles.color.blue[900],
+  },
+  default: {},
 });
 
 const buttonStyles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
-    gap: 8,
+    flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 6,
+    padding: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginVertical: 6,
+  },
+  selected: {
+    ...Styles.backgroundColor.blue[50],
+    ...Styles.borderColor.blue[600],
+  },
+  incorrect: {
+    ...Styles.backgroundColor.red[50],
+    ...Styles.borderColor.red[600],
+  },
+  correct: {
+    ...Styles.backgroundColor.green[50],
+    ...Styles.borderColor.green[600],
+  },
+  default: {
+    ...Styles.borderColor.neutral[100],
   },
 });
 

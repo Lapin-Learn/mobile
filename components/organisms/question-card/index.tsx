@@ -3,41 +3,59 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import Styles from '~/constants/GlobalStyles';
 import { IQuestion } from '~/lib/types/questions';
+import { getQuestionCardDecoration } from '~/lib/utils/question-decoration';
 
-import ReadingContainer from '../../molecules/exercise/ScrollableReadingContainer';
+import ScrollableReadingContainer from '../../molecules/exercise/ScrollableReadingContainer';
 import { TrackAudio } from '../../molecules/TrackAudio';
 
 type QuestionCardProps = {
   data: IQuestion;
   isPaused?: boolean;
 };
+
 const QuestionCard = ({ data, isPaused = false }: QuestionCardProps) => {
-  return (
-    <View style={styles.root}>
-      {data.audioId && (
-        <View style={{ paddingHorizontal: 16 }}>
-          <TrackAudio url={data.audio?.url} checked={isPaused} />
-        </View>
-      )}
-      {!data.audioId && data.content.paragraph && (
+  const hasImage = data.imageId && data.image;
+  const hasAudio = data.audioId && data.audio;
+
+  const renderParagraph = () => {
+    const decoration = getQuestionCardDecoration(data.content.paragraph);
+
+    if (hasAudio || data.content.paragraph.length === 0) return null;
+    if (decoration.isScrollable || hasImage) {
+      return (
         <GestureHandlerRootView style={{ position: 'relative' }}>
-          <ReadingContainer>
+          <ScrollableReadingContainer>
             <Text style={styles.paragraph}>{data.content.paragraph}</Text>
-            {data.imageId && data.image && (
+            {hasImage && (
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={{
-                    uri: data.image.url,
+                    uri: data.image?.url,
                   }}
                   resizeMode='cover'
                   style={{ width: '80%', height: 300, objectFit: 'contain' }}
                 />
               </View>
             )}
-          </ReadingContainer>
+          </ScrollableReadingContainer>
         </GestureHandlerRootView>
-      )}
+      );
+    }
+    return (
+      <View style={{ marginHorizontal: 16 }}>
+        <Text style={styles.paragraph}>{data.content.paragraph}</Text>
+      </View>
+    );
+  };
 
+  return (
+    <View style={styles.root}>
+      {hasAudio && (
+        <View style={{ paddingHorizontal: 16 }}>
+          <TrackAudio url={data.audio?.url} checked={isPaused} />
+        </View>
+      )}
+      {renderParagraph()}
       <Text style={styles.question}>{data.content.question}</Text>
     </View>
   );
