@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   tickerContainer: {
     width: '100%',
-    gap: 24,
+    gap: 16,
   },
   tickerRow: {
     flexDirection: 'row',
@@ -163,7 +163,9 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     backgroundColor: '#efefef',
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    gap: 6,
   },
   tickerItemContent: {
     flexDirection: 'row',

@@ -33,7 +33,7 @@ export const useInstruction = ({ questionTypeId }: { questionTypeId: string }) =
   return useQuery({
     queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.instruction, questionTypeId],
     queryFn: getInstruction,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 };
 

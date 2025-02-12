@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react-native';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 
@@ -41,19 +41,18 @@ type ChoiceCheckBoxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimiti
 const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, ChoiceCheckBoxProps>(
   ({ variant = 'default', label, checked = false, onPress, ...props }, ref) => {
     return (
-      <View style={styles.root}>
+      <Pressable style={styles.root} onPress={onPress}>
         <CheckboxPrimitive.Root
           ref={ref}
           style={StyleSheet.flatten([choiceButtonStyles.root, choiceButtonStyles[variant]])}
           checked={checked}
-          onPress={onPress}
           {...props}>
           <CheckboxPrimitive.Indicator style={styles.indicator}>
             <Check size={20} color='black' />
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
         <Text style={styles.text}>{label}</Text>
-      </View>
+      </Pressable>
     );
   }
 );
@@ -61,7 +60,6 @@ const ChoiceCheckBox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitiv
 const styles = StyleSheet.create({
   root: {
     marginBottom: 12,
-
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...Styles.font.normal,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.callout,
     flexWrap: 'wrap',
   },
   indicator: {
