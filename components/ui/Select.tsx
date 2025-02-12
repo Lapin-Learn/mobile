@@ -57,7 +57,16 @@ const SelectContent = React.forwardRef<
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
       <SelectPrimitive.Overlay style={Platform.OS !== 'web' ? StyleSheet.absoluteFill : undefined}>
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={{
+            shadowColor: '#acacac',
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.5,
+            shadowRadius: 8,
+            elevation: 3,
+          }}>
           <SelectPrimitive.Content
             ref={ref}
             position={position}
@@ -85,11 +94,6 @@ const selectContentStyles = StyleSheet.create({
     ...Styles.borderColor.border,
     borderWidth: 1,
     borderRadius: 8,
-    shadowColor: '#acacac',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.8,
-    shadowRadius: 8,
-    elevation: 3,
   },
 });
 

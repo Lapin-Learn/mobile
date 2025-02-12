@@ -61,15 +61,29 @@ export const Updating = ({ visible, setVisible }: { visible: boolean; setVisible
   useEffect(() => {
     const checkUpdatePopup = async () => {
       const turnOffUpdatePopup = await getTurnOffUpdatePopupAsync();
-      if (appInfo && releaseVersion && appInfo.appVersion !== releaseVersion.version)
-        if (releaseVersion.force) {
-          setVisible(true);
-          return;
-        } else {
-          if (turnOffUpdatePopup === null) {
-            setVisible(true);
+      if (appInfo && releaseVersion && appInfo.appVersion !== releaseVersion.version) {
+        const appVersions = appInfo.appVersion.split('.');
+        const releaseVersions = releaseVersion.version.split('.');
+        let shouldVisible = false;
+        for (let i = 0; i < appVersions.length; i++) {
+          if (parseInt(appVersions[i]) < parseInt(releaseVersions[i])) {
+            shouldVisible = true;
+            break;
+          } else if (parseInt(appVersions[i]) > parseInt(releaseVersions[i])) {
+            break;
           }
         }
+        if (shouldVisible) {
+          if (releaseVersion.force) {
+            setVisible(true);
+            return;
+          } else {
+            if (turnOffUpdatePopup === null) {
+              setVisible(true);
+            }
+          }
+        }
+      }
     };
 
     checkUpdatePopup();

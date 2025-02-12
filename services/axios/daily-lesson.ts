@@ -15,7 +15,7 @@ type LessonCompletionParams = {
 export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, , skill] = queryKey;
 
-  return await api.get<IQuestionType[]>(`daily-lessons/question-types`, {
+  return await api.get<IQuestionType[]>('daily-lessons/question-types', {
     searchParams: { skill },
   });
 };
@@ -26,9 +26,11 @@ type ILessonsResponse = {
 };
 
 export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) => {
-  const [, , questionTypeId] = queryKey;
+  const [, , questionTypeId, bandScore] = queryKey;
 
-  return await api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`);
+  return await api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`, {
+    searchParams: { band: bandScore },
+  });
 };
 
 type ILessonQuestionsResponse = {

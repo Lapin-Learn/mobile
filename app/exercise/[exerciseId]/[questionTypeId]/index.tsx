@@ -1,78 +1,70 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { LucidePlay } from 'lucide-react-native';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import PagerView from 'react-native-pager-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import LessonCard from '~/components/molecules/LessonCard';
-import { Loading } from '~/components/molecules/Loading';
+import BandScoreSelect from '~/components/molecules/BandScoreSelect';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import LessonList from '~/components/organisms/lesson-list';
 import { Button } from '~/components/ui/Button';
-import { Text as UIText } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonStore } from '~/hooks/zustand';
-import { bottomButtonToScreen } from '~/lib/constants/padding';
+import { bandscoreMappings } from '~/lib/constants/labelMappings';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { ILesson, IQuestionType } from '~/lib/types';
+import { IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
 
+const checkAvailable = (bandScore: BandScoreEnum, currentBandScore: BandScoreEnum) => {
+  const bandScoreList = Object.values(BandScoreEnum);
+  const currentIndex = bandScoreList.indexOf(currentBandScore);
+  const targetIndex = bandScoreList.indexOf(bandScore);
+  return currentIndex >= targetIndex;
+};
+
 const QuestionTypeScreen = () => {
-  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: SkillEnum; questionTypeId: string }>();
+  const { exerciseId, questionTypeId, bandScore } = useLocalSearchParams<{
+    exerciseId: SkillEnum;
+    questionTypeId: string;
+    bandScore?: BandScoreEnum;
+  }>();
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
   const { setCurrentQuestionType } = useDailyLessonStore();
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
 
-  const { bandScore } = currentQuestionType?.progress || { bandScore: 'pre_ielts' };
-  const { data: lessons, isLoading: lessonsLoading } = useListLessons({ questionTypeId });
+  const { bandScore: currentBandScore } = currentQuestionType?.progress ?? { bandScore: BandScoreEnum.PRE_IELTS };
   const { t } = useTranslation('translation');
-
-  const ref = useRef<PagerView>(null);
-  const [currentLesson, setCurrentLesson] = useState<ILesson | undefined>(
-    lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0]
-  );
-
-  useEffect(() => {
-    const lesson = lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0];
-    setCurrentLesson(lesson);
-    ref.current?.setPage((lesson?.order || 1) - 1);
-  }, [lessons]);
 
   useEffect(() => {
     setCurrentQuestionType(currentQuestionType ?? null);
   }, [currentQuestionType, setCurrentQuestionType]);
 
-  if (lessonsLoading) {
-    return <Loading />;
-  }
-
-  const handlePrev = () => {
-    ref.current?.setPage((currentLesson?.order || 1) - 2);
-  };
-
-  const handleNext = () => {
-    ref.current?.setPage(currentLesson?.order || 1);
-  };
-
   const isComingSoon = [BandScoreEnum.BAND_6_0, BandScoreEnum.BAND_6_5, BandScoreEnum.BAND_7_0].includes(
-    bandScore as BandScoreEnum
+    currentBandScore as BandScoreEnum
   );
+
+  const isAvailable = checkAvailable(bandScore as BandScoreEnum, currentBandScore);
+
+  const { data: lessons } = useListLessons({
+    questionTypeId,
+    bandScore: bandScore ?? currentBandScore,
+    enabled: isAvailable,
+  });
 
   return (
     <SafeAreaView>
       <NavigationBar
         headerLeftShown
         headerRightShown
-        // TODO: allow go to other bands
-        // onHeaderRightPress={() =>
-        //   BandScoreSelect({
-        //     value: bandScore,
-        //   })
-        // }
+        onHeaderRightPress={() =>
+          BandScoreSelect({
+            value: bandScore ?? currentBandScore,
+          })
+        }
       />
       <View style={styles.container}>
         <View style={styles.header}>
@@ -91,12 +83,16 @@ const QuestionTypeScreen = () => {
               {currentQuestionType?.name}
             </Text>
             <Text style={[Styles.font.medium, Styles.fontSize['title-4'], Styles.color.supportingText]}>
-              {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
-              &nbsp;&nbsp;|&nbsp;&nbsp;
-              {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
+              {bandscoreMappings[bandScore ?? currentBandScore]}
+              {isAvailable && (
+                <>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration ?? 0)}
+                </>
+              )}
             </Text>
           </View>
-          {currentQuestionType?.instructions?.length ? (
+          {currentQuestionType?.instructions?.length && isAvailable ? (
             <Button
               variant='secondary'
               size='lg'
@@ -109,47 +105,21 @@ const QuestionTypeScreen = () => {
             </Button>
           ) : null}
         </View>
-        <View style={styles.pagerViewContainer}>
-          {isComingSoon ? (
-            <Text style={{ ...Styles.fontSize['title-1'], ...Styles.font.semibold }}>
-              {t('questionType.comingSoon')}
-            </Text>
-          ) : lessons?.lessons.length ? (
-            <PagerView
-              style={styles.pagerView}
-              initialPage={(currentLesson?.order || 1) - 1}
-              pageMargin={16}
-              orientation='horizontal'
-              onPageSelected={(e) => setCurrentLesson(lessons.lessons[e.nativeEvent.position])}
-              ref={ref}>
-              {lessons.lessons.map((lesson) => (
-                <View style={styles.pagerViewItem} key={lesson.id}>
-                  <LessonCard
-                    t={t}
-                    item={lesson}
-                    lessons={lessons.lessons}
-                    handlePrev={handlePrev}
-                    handleNext={handleNext}
-                  />
-                </View>
-              ))}
-            </PagerView>
-          ) : (
-            <Text>{t('questionType.noLessonFound')}</Text>
-          )}
-        </View>
-
-        <View style={styles.footer}>
-          {!isComingSoon && (
-            <Button
-              size='lg'
-              onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)}
-              disabled={!currentLesson}>
-              <UIText>{t('questionType.practiceBtn')}</UIText>
-            </Button>
-          )}
-          {/* TODO: Jump to next band */}
-        </View>
+        {isComingSoon ? (
+          <View style={styles.pagerViewContainer}>
+            <Text style={styles.supportingText}>{t('questionType.comingSoon')}</Text>
+          </View>
+        ) : !isAvailable ? (
+          <View style={styles.pagerViewContainer}>
+            <Text style={styles.supportingText}>{t('questionType.unavailable')}</Text>
+          </View>
+        ) : (
+          <LessonList
+            questionTypeId={questionTypeId}
+            bandScore={bandScore ?? currentBandScore}
+            available={isAvailable}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -181,22 +151,12 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 16,
   },
+  supportingText: { ...Styles.fontSize['title-4'], ...Styles.font.medium, textAlign: 'center', width: 300 },
   pagerViewContainer: {
     flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  pagerView: {
-    flex: 1,
-    height: '100%',
-  },
-  pagerViewItem: {
-    justifyContent: 'center',
-  },
-  footer: {
-    marginBottom: bottomButtonToScreen,
-    gap: 16,
   },
 });
 

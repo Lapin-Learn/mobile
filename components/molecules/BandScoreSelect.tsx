@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { BookOpenText } from 'lucide-react-native';
 import { ScrollView } from 'react-native';
 
@@ -16,6 +17,9 @@ const BandScoreSelect = ({ value }: BandScoreSelectProps) => {
       value={{
         label: bandscoreMappings[value],
         value,
+      }}
+      onValueChange={(value) => {
+        router.setParams({ bandScore: value?.value });
       }}>
       <SelectTrigger style={{ borderWidth: 0 }} hideIcon>
         <BookOpenText size={24} color={Styles.color.neutral[300].color} />
