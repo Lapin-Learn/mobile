@@ -35,7 +35,12 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
           <Text
             style={StyleSheet.flatten([
               progressStyles.text,
-              { color: value && value < 50 ? Styles.color.neutral[500].color : Styles.color.neutral[50].color },
+              {
+                color:
+                  (value || value === 0) && value < 50
+                    ? Styles.color.neutral[500].color
+                    : Styles.color.neutral[50].color,
+              },
             ])}>
             {label}
           </Text>
