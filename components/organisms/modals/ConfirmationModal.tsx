@@ -61,13 +61,6 @@ export const ConfirmationModal = ({
               <Text style={styles.title}>{content.title}</Text>
               <Text style={styles.message}>{content.message}</Text>
               <View style={styles.buttonContainer}>
-                {content.confirmAction && (
-                  <Button style={styles.button} onPress={content.confirmAction} disabled={content.isPending}>
-                    <Text style={styles.buttonText}>
-                      {content.confirmText ? content.confirmText : t('update.button')}
-                    </Text>
-                  </Button>
-                )}
                 {content.cancelAction && (
                   <Button
                     style={[styles.button, styles.cancelButton]}
@@ -75,6 +68,13 @@ export const ConfirmationModal = ({
                     disabled={content.isPending}>
                     <Text style={[styles.buttonText, styles.cancelButtonText]}>
                       {content.cancelText ? content.cancelText : t('update.cancel')}
+                    </Text>
+                  </Button>
+                )}
+                {content.confirmAction && (
+                  <Button style={styles.button} onPress={content.confirmAction} disabled={content.isPending}>
+                    <Text style={styles.buttonText}>
+                      {content.confirmText ? content.confirmText : t('update.button')}
                     </Text>
                   </Button>
                 )}
@@ -101,12 +101,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...Styles.font.bold,
-    ...Styles.fontSize['title-2'],
+    ...Styles.font.semibold,
+    ...Styles.fontSize['title-4'],
     marginBottom: 10,
   },
   message: {
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.subhead,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    marginTop: 20,
   },
   button: {
     flex: 1,
@@ -127,8 +128,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    ...Styles.font.bold,
-    ...Styles.fontSize['title-4'],
+    ...Styles.font.semibold,
+    ...Styles.fontSize.callout,
     ...Styles.color.white,
   },
   cancelButtonText: {

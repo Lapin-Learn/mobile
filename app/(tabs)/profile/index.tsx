@@ -213,10 +213,11 @@ const Index = () => {
               content={{
                 title: t('settings.delete_account.title'),
                 message: t('settings.delete_account.description'),
-                confirmText: t('settings.delete_account.delete_button'),
+                cancelText: t('settings.delete_account.delete_button'),
+                confirmText: t('settings.delete_account.cancel_button'),
                 isPending: deleteAccount.isPending,
-                confirmAction: handleDeleteAccount,
-                cancelAction: () => setIsModalVisible(false),
+                cancelAction: handleDeleteAccount,
+                confirmAction: () => setIsModalVisible(false),
               }}
             />
           )}
