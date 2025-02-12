@@ -35,6 +35,7 @@ loadLanguage().then((language) => {
     },
     lng: language,
     fallbackLng: 'en',
+    defaultNS: 'translation',
     interpolation: {
       escapeValue: false,
       format: function (value, format) {
