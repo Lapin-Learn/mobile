@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 
 import Listening from '~/assets/images/map/listening.jpg';
 import Reading from '~/assets/images/map/reading.jpg';
@@ -26,21 +26,20 @@ export const SkillCard = ({ name }: SkillCardProps) => {
     return router.push(`/exercise/${name}`);
   };
   return (
-    <View
+    <TouchableOpacity
       style={{
         borderRadius: 16,
         overflow: 'hidden',
         ...Styles.backgroundColor.neutral[50],
-      }}>
-      <Pressable onPress={handleExercise}>
-        <Image resizeMode='cover' source={skillMapping[name]} />
+      }}
+      onPress={handleExercise}>
+      <Image resizeMode='cover' source={skillMapping[name]} />
 
-        <View style={{ padding: (height % 8) + 8 }}>
-          <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>
-            {capitalizeFirstLetter(name)}
-          </Text>
-        </View>
-      </Pressable>
-    </View>
+      <View style={{ padding: (height % 8) + 8 }}>
+        <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>
+          {capitalizeFirstLetter(name)}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };

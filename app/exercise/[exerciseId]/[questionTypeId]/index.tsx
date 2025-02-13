@@ -1,117 +1,70 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { BookMarked, ChevronLeft, ChevronRight, LucidePlay } from 'lucide-react-native';
-import { useEffect, useRef, useState } from 'react';
+import { LucidePlay } from 'lucide-react-native';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import PagerView from 'react-native-pager-view';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Loading } from '~/components/molecules/Loading';
+import BandScoreSelect from '~/components/molecules/BandScoreSelect';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
+import LessonList from '~/components/organisms/lesson-list';
 import { Button } from '~/components/ui/Button';
-import { Progress } from '~/components/ui/Progress';
-import { Text as UIText } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonStore } from '~/hooks/zustand';
-import { bottomButtonToScreen } from '~/lib/constants/padding';
+import { bandscoreMappings } from '~/lib/constants/labelMappings';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { ILesson, IQuestionType } from '~/lib/types';
+import { IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
 
-type CardProps = {
-  t: (key: string) => string;
-  item: ILesson;
-  lessons: ILesson[];
-  handlePrev: () => void;
-  handleNext: () => void;
-};
-
-const Card = ({ t, item, lessons, handlePrev, handleNext }: CardProps) => {
-  return (
-    <View style={[styles.card, Styles.backgroundColor.neutral[50]]}>
-      <View style={styles.cardHeader}>
-        <TouchableOpacity onPress={handlePrev} disabled={item.order === 1}>
-          <ChevronLeft size={24} color={item.order === 1 ? 'grey' : 'black'} />
-        </TouchableOpacity>
-        <Text style={[Styles.font.semibold, Styles.fontSize['title-3']]}>
-          {item.order}/{lessons.length}
-        </Text>
-        <TouchableOpacity onPress={handleNext} disabled={item.order === lessons.length}>
-          <ChevronRight size={24} color={item.order === lessons.length ? 'grey' : 'black'} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.cardContent}>
-        <View style={[styles.bookmark, Styles.backgroundColor.white]}>
-          <BookMarked size={24} color='black' />
-        </View>
-        <Text style={[styles.cardTitle, Styles.font.bold, Styles.fontSize['title-1']]}>{item.name}</Text>
-      </View>
-      <View style={styles.progressContainer}>
-        <View style={styles.progressBar}>
-          <Progress value={(item.xp / 50) * 100} />
-        </View>
-        <Text style={[Styles.font.medium, Styles.fontSize.subhead, Styles.color.supportingText]}>
-          {t('questionTypes.xp')} {item.xp}/50
-        </Text>
-      </View>
-    </View>
-  );
+const checkAvailable = (bandScore: BandScoreEnum, currentBandScore: BandScoreEnum) => {
+  const bandScoreList = Object.values(BandScoreEnum);
+  const currentIndex = bandScoreList.indexOf(currentBandScore);
+  const targetIndex = bandScoreList.indexOf(bandScore);
+  return currentIndex >= targetIndex;
 };
 
 const QuestionTypeScreen = () => {
-  const { exerciseId, questionTypeId } = useLocalSearchParams<{ exerciseId: SkillEnum; questionTypeId: string }>();
+  const { exerciseId, questionTypeId, bandScore } = useLocalSearchParams<{
+    exerciseId: SkillEnum;
+    questionTypeId: string;
+    bandScore?: BandScoreEnum;
+  }>();
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
   const { setCurrentQuestionType } = useDailyLessonStore();
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
-  const { bandScore } = currentQuestionType?.progress || { bandScore: 'pre_ielts' };
-  const { data: lessons, isLoading: lessonsLoading } = useListLessons({ questionTypeId });
+
+  const { bandScore: currentBandScore } = currentQuestionType?.progress ?? { bandScore: BandScoreEnum.PRE_IELTS };
   const { t } = useTranslation('translation');
-
-  const ref = useRef<PagerView>(null);
-  const [currentLesson, setCurrentLesson] = useState<ILesson | undefined>(
-    lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0]
-  );
-
-  useEffect(() => {
-    const lesson = lessons?.lessons.find((l) => l.isCurrent) || lessons?.lessons[0];
-    setCurrentLesson(lesson);
-    ref.current?.setPage((lesson?.order || 1) - 1);
-  }, [lessons]);
 
   useEffect(() => {
     setCurrentQuestionType(currentQuestionType ?? null);
   }, [currentQuestionType, setCurrentQuestionType]);
 
-  if (lessonsLoading) {
-    return <Loading />;
-  }
-
-  const handlePrev = () => {
-    ref.current?.setPage((currentLesson?.order || 1) - 2);
-  };
-
-  const handleNext = () => {
-    ref.current?.setPage(currentLesson?.order || 1);
-  };
-
   const isComingSoon = [BandScoreEnum.BAND_6_0, BandScoreEnum.BAND_6_5, BandScoreEnum.BAND_7_0].includes(
-    bandScore as BandScoreEnum
+    currentBandScore as BandScoreEnum
   );
+
+  const isAvailable = checkAvailable(bandScore as BandScoreEnum, currentBandScore);
+
+  const { data: lessons } = useListLessons({
+    questionTypeId,
+    bandScore: bandScore ?? currentBandScore,
+    enabled: isAvailable,
+  });
 
   return (
     <SafeAreaView>
       <NavigationBar
         headerLeftShown
         headerRightShown
-        // TODO: allow go to other bands
-        // onHeaderRightPress={() =>
-        //   BandScoreSelect({
-        //     value: bandScore,
-        //   })
-        // }
+        onHeaderRightPress={() =>
+          BandScoreSelect({
+            value: bandScore ?? currentBandScore,
+          })
+        }
       />
       <View style={styles.container}>
         <View style={styles.header}>
@@ -130,96 +83,49 @@ const QuestionTypeScreen = () => {
               {currentQuestionType?.name}
             </Text>
             <Text style={[Styles.font.medium, Styles.fontSize['title-4'], Styles.color.supportingText]}>
-              {bandScore === BandScoreEnum.PRE_IELTS ? BandScoreEnum.PRE_IELTS.toUpperCase() : `Band ${bandScore}`}
-              &nbsp;&nbsp;|&nbsp;&nbsp;
-              {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration || 0)}
+              {bandscoreMappings[bandScore ?? currentBandScore]}
+              {isAvailable && (
+                <>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  {t('questionType.totalLearnedTime')} {formatLearningDuration(lessons?.totalLearningDuration ?? 0)}
+                </>
+              )}
             </Text>
           </View>
-
-          <Button
-            variant='secondary'
-            size='md'
-            style={styles.button}
-            onPress={() => {
-              router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
-            }}>
-            <LucidePlay size={12} color='black' fill='black' />
-            <Text style={[Styles.font.semibold, Styles.fontSize.subhead]}>{t('questionType.theoryPractice')}</Text>
-          </Button>
-        </View>
-        <View style={styles.pagerViewContainer}>
-          {isComingSoon ? (
-            <Text style={{ ...Styles.fontSize['title-1'], ...Styles.font.semibold }}>
-              {t('questionType.comingSoon')}
-            </Text>
-          ) : lessons?.lessons.length ? (
-            <PagerView
-              style={styles.pagerView}
-              initialPage={(currentLesson?.order || 1) - 1}
-              pageMargin={16}
-              orientation='horizontal'
-              onPageSelected={(e) => setCurrentLesson(lessons.lessons[e.nativeEvent.position])}
-              ref={ref}>
-              {lessons.lessons.map((lesson) => (
-                <View style={styles.pagerViewItem} key={lesson.id}>
-                  <Card t={t} item={lesson} lessons={lessons.lessons} handlePrev={handlePrev} handleNext={handleNext} />
-                </View>
-              ))}
-            </PagerView>
-          ) : (
-            <Text>{t('questionType.noLessonFound')}</Text>
-          )}
-        </View>
-
-        <View style={styles.footer}>
-          {!isComingSoon && (
+          {currentQuestionType?.instructions?.length && isAvailable ? (
             <Button
+              variant='secondary'
               size='lg'
-              onPress={() => router.push(`/lesson/${currentLesson?.id || 0}`)}
-              disabled={!currentLesson}>
-              <UIText>{t('questionType.practiceBtn')}</UIText>
+              style={styles.button}
+              onPress={() => {
+                router.push(`/exercise/${exerciseId}/${questionTypeId}/instruction`);
+              }}>
+              <LucidePlay size={12} color='black' fill='black' />
+              <Text style={[Styles.font.semibold, Styles.fontSize.subhead]}>{t('questionType.theoryPractice')}</Text>
             </Button>
-          )}
-          {/* TODO: Jump to next band */}
+          ) : null}
         </View>
+        {isComingSoon ? (
+          <View style={styles.pagerViewContainer}>
+            <Text style={styles.supportingText}>{t('questionType.comingSoon')}</Text>
+          </View>
+        ) : !isAvailable ? (
+          <View style={styles.pagerViewContainer}>
+            <Text style={styles.supportingText}>{t('questionType.unavailable')}</Text>
+          </View>
+        ) : (
+          <LessonList
+            questionTypeId={questionTypeId}
+            bandScore={bandScore ?? currentBandScore}
+            available={isAvailable}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    width: '100%',
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    gap: 8,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  cardContent: {
-    gap: 8,
-  },
-  bookmark: {
-    width: 48,
-    height: 48,
-    borderRadius: 100,
-    padding: 12,
-  },
-  cardTitle: {
-    zIndex: 10,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-  },
-  progressBar: {
-    height: 8,
-    flexGrow: 1,
-  },
   container: {
     height: '100%',
     justifyContent: 'space-between',
@@ -245,22 +151,12 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 16,
   },
+  supportingText: { ...Styles.fontSize['title-4'], ...Styles.font.medium, textAlign: 'center', width: 300 },
   pagerViewContainer: {
     flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  pagerView: {
-    flex: 1,
-    height: '100%',
-  },
-  pagerViewItem: {
-    justifyContent: 'center',
-  },
-  footer: {
-    marginBottom: bottomButtonToScreen,
-    gap: 16,
   },
 });
 

@@ -71,6 +71,9 @@ export const useSignIn = () => {
     onError: (error) => {
       const errMes = AUTH_ERRORS[error.message];
       toast.show({ type: 'error', text1: errMes ? t(`error.${errMes}`) : t('error.undefined') });
+      if (error.message === AUTH_ERRORS.EMAIL_NOT_FOUND) {
+        router.push('/auth/sign-in');
+      }
     },
   });
 };

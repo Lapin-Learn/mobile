@@ -11,10 +11,10 @@ import { ContentTypeEnum } from '~/lib/enums';
 import { getAccurateIPA } from '~/lib/utils';
 
 import PlatformView from '../../templates/PlatformView';
+import QuestionCard from '../question-card';
 import AnswerInput from './answer-input/AnswerInput';
 import Speaking from './answer-input/speaking/Speaking';
 import AnswerModal from './AnswerModal';
-import QuestionCard from './QuestionCard';
 
 const QuestionTemplate = () => {
   const {

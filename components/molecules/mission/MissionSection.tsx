@@ -110,7 +110,8 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
               <View style={{ width: '100%' }}>
                 <Progress
                   style={{
-                    height: 16,
+                    height: 14,
+                    marginTop: 6,
                   }}
                   indicatorStyle={{
                     ...Styles.backgroundColor.orange[400],
@@ -123,7 +124,7 @@ export const ListMissions = ({ data = [] }: { data?: MissionProps[] }) => {
           </View>
           <View style={styles.reward}>
             {item.status === MissionStatusEnum.RECEIVED ? (
-              <IconCheckmarkCircle width={24} height={24} />
+              <IconCheckmarkCircle width={24} height={24} opacity={0.5} />
             ) : (
               <>
                 <Text style={styles.rewardText}>+{item.rewards}</Text>

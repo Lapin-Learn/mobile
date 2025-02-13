@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '~/lib/constants';
-import { SkillEnum } from '~/lib/enums';
+import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
 import { evaluateSpeaking } from '~/services/axios/speaking-service';
 
@@ -14,10 +14,19 @@ export const useQuestionTypes = ({ skill }: { skill: SkillEnum }) => {
   });
 };
 
-export const useListLessons = ({ questionTypeId }: { questionTypeId: string }) => {
+export const useListLessons = ({
+  questionTypeId,
+  bandScore,
+  enabled,
+}: {
+  questionTypeId: string;
+  bandScore: BandScoreEnum;
+  enabled: boolean;
+}) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.detail, questionTypeId],
+    queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.detail, questionTypeId, bandScore],
     queryFn: getLessons,
+    enabled,
   });
 };
 
@@ -33,7 +42,7 @@ export const useInstruction = ({ questionTypeId }: { questionTypeId: string }) =
   return useQuery({
     queryKey: [QUERY_KEYS.questionTypes, QUERY_KEYS.instruction, questionTypeId],
     queryFn: getInstruction,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 };
 

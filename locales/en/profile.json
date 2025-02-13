@@ -41,7 +41,8 @@
     "delete_account": {
       "title": "Delete Account",
       "description": "Are you sure you want to delete your account? This action cannot be undone.",
-      "delete_button": "Delete"
+      "delete_button": "Delete",
+      "cancel_button": "Cancel"
     },
     "change_language": {
       "title": "Change Language",

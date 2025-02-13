@@ -33,7 +33,8 @@
     "noLessonFound": "No lesson found",
     "practiceBtn": "Start now",
     "jumpNextBtn": "Jump to next band",
-    "comingSoon": "Coming soon..."
+    "comingSoon": "Coming soon...",
+    "unavailable": "Complete the previous lessons to unlock this band score"
   },
   "streak": {
     "days": "Streak Days",

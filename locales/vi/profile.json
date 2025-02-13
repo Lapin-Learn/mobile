@@ -41,7 +41,8 @@
     "delete_account": {
       "title": "Xóa tài khoản",
       "description": "Xóa tài khoản của bạn? Hành động này không thể hoàn tác.",
-      "delete_button": "Xóa"
+      "delete_button": "Xóa",
+      "cancel_button": "Hủy"
     },
     "change_language": {
       "title": "Đổi ngôn ngữ",

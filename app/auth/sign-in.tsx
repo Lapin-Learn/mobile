@@ -79,7 +79,7 @@ const SignIn = () => {
               <Text style={GLOBAL_STYLES.textButton}>{t('signIn.signIn')}</Text>
             </Button>
             <View style={containers.otherSignIn}>
-              <Text style={StyleSheet.flatten([font.medium, fontSize.subhead, color.supportingText])}>
+              <Text style={StyleSheet.flatten([font.medium, fontSize.callout, color.supportingText])}>
                 {t('signIn.orSignInWith')}
               </Text>
               <OtherSignIn />
@@ -108,8 +108,6 @@ const OtherSignIn = () => {
 
   return (
     <View style={otherSignInStyles.container}>
-      {/* TODO: Sign up with Facebook */}
-      {/* <IconPressable Icon={LogoFacebook} onPress={() => Alert.alert('Coming soon')} /> */}
       {Platform.OS === 'ios' && (
         <AppleAuthentication.AppleAuthenticationButton
           buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
