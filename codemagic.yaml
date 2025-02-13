@@ -8,13 +8,14 @@ workflows:
         environment:
           groups: 
             - IOS
+            - ANDROID
           ios_signing:
             distribution_type: app_store # or: ad_hoc | development | enterprise
             bundle_identifier: com.datn.lapinlearn
           vars:
             XCODE_WORKSPACE: "LapinLearn.xcworkspace" # <-- Put the name of your Xcode workspace here
             XCODE_SCHEME: "LapinLearn" # <-- Put the name of your Xcode scheme here
-            APP_ID: 6739158736 # <-- Put the app id number here. This is found in App Store Connect > App > General > App Information
+            APP_ID: $APP_ID # <-- Put the app id number here. This is found in App Store Connect > App > General > App Information
           node: v19.7.0
           xcode: latest
           cocoapods: default
@@ -41,8 +42,12 @@ workflows:
             script: |
               # Information about getting the latest build version can be found here: https://docs.codemagic.io/knowledge-codemagic/build-versioning/#app-store-or-testflight-latest-build-number
               cd $CM_BUILD_DIR/ios
-              LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
-              agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+              LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
+              IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
+              MINOR=$((MINOR + 1))
+              NEW_VERSION="${MAJOR}.${MINOR}.1"
+              agvtool new-version -all "$NEW_VERSION"
+              echo "Updated version to $NEW_VERSION"
           - name: Build ipa for distribution
             script: |
               xcode-project build-ipa \
