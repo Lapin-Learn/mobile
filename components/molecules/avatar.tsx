@@ -1,32 +1,24 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Skeleton } from 'moti/skeleton';
 import { useState } from 'react';
-import { Image, PermissionsAndroid, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useGetUserAvatar, useUploadAvatar } from '~/hooks/react-query/useUser';
-
-export const requestPermission = async () => {
-  const isGrantedNotification = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES);
-
-  if (!isGrantedNotification) {
-    const permissionAppGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES);
-    if (permissionAppGranted !== PermissionsAndroid.RESULTS.GRANTED) {
-      throw new Error('Permission denied');
-    }
-  }
-};
+import { useToast } from '~/hooks/useToast';
 
 const Avatar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isChangingAvatar, setIsChangingAvatar] = useState(false);
   const { data: avatar, isFetching, isSuccess } = useGetUserAvatar();
   const { mutate: uploadAvatar } = useUploadAvatar();
+  const toast = useToast();
+  const { t } = useTranslation('error');
 
   const handleChangeAvatar = async () => {
     if (isChangingAvatar) return;
     setIsChangingAvatar(true);
-    await requestPermission();
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -37,8 +29,24 @@ const Avatar = () => {
     });
 
     if (!result.canceled) {
+      const base64String = result.assets[0].base64 || '';
+      const byteLength =
+        base64String.length * (3 / 4) - (base64String.endsWith('==') ? 2 : base64String.endsWith('=') ? 1 : 0);
+
+      if (byteLength > 2 * 1024 * 1024) {
+        toast.show({
+          type: 'error',
+          text1: t('EXCEED_MAX_FILE_SIZE.title'),
+          text2: t('EXCEED_MAX_FILE_SIZE.description', {
+            size: '2MB',
+          }),
+        });
+        setIsChangingAvatar(false);
+        return;
+      }
+
       const arrBuffer = new Uint8Array(
-        atob(result.assets[0].base64 || '')
+        atob(base64String)
           .split('')
           .map((c) => c.charCodeAt(0))
       ).buffer;
@@ -55,6 +63,7 @@ const Avatar = () => {
         }
       );
     }
+    setIsChangingAvatar(false);
   };
 
   return (
