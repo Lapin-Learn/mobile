@@ -1,0 +1,6 @@
+{
+  "EXCEED_MAX_FILE_SIZE": {
+    "title": "File size is too large",
+    "description": "Please select file < {{size}}"
+  }
+}
