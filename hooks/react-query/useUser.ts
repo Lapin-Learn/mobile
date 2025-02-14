@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import useStreakWidget from '~/hooks/useStreakWidget';
 import { QUERY_KEYS } from '~/lib/constants';
-import { IAccountIdentifer, IUserProfile } from '~/lib/types';
+import { IAccountIdentifer, IPresignedUrl, IUserProfile } from '~/lib/types';
 import {
   changePassword,
-  createPreSignedUrl,
-  createUpdatePreSignedUrl,
+  createPresignedUrl,
+  createUpdatePresignedUrl,
   deleteAccount,
   getAccountIdentifier,
   getGameProfile,
@@ -30,6 +30,7 @@ export const useAccountIdentifier = () => {
 
   return accountIdentifier;
 };
+
 export const useUserProfile = () => {
   const toast = useToast();
   const signOut = useSignOut();
@@ -51,6 +52,17 @@ export const useUserProfile = () => {
   return userProfile;
 };
 
+export const useGetUserAvatar = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.profile.user, 'avatar'],
+    queryFn: async () => {
+      const data = await getUserProfile();
+      return data.avatar;
+    },
+    staleTime: Infinity,
+  });
+};
+
 export const useUpdateUserProfile = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -68,21 +80,45 @@ export const useUpdateUserProfile = () => {
   });
 };
 
-export const useCreatePreSignedUrl = () => {
+export const useCreatePresignedUrl = () => {
   return useMutation({
-    mutationFn: createPreSignedUrl,
+    mutationFn: createPresignedUrl,
   });
 };
 
 export const useUploadAvatar = () => {
+  const createPresignedUrl = useCreatePresignedUrl();
+  const createUpdatePresignedUrl = useCreateUpdatePresignedUrl();
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: uploadAvatar,
+    mutationFn: async ({ file, filename, avatarId }: { file: ArrayBuffer; avatarId?: string; filename?: string }) => {
+      let presignedUrl: IPresignedUrl = { id: '', url: '' };
+      if (!avatarId) {
+        presignedUrl = await createPresignedUrl.mutateAsync({ name: filename || 'test.jpg' });
+        await uploadAvatar({ presignedUrl, file });
+        return updateUserProfile({ avatarId: presignedUrl.id });
+      } else {
+        presignedUrl = await createUpdatePresignedUrl.mutateAsync({
+          name: filename ?? 'avatar.jpg',
+          uuid: avatarId,
+        });
+        return uploadAvatar({ presignedUrl, file });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile.user, 'avatar'] });
+    },
+    onError: (error) => {
+      toast.show({ type: 'error', text1: error.message });
+    },
   });
 };
 
-export const useCreateUpdatePreSignedUrl = () => {
+export const useCreateUpdatePresignedUrl = () => {
   return useMutation({
-    mutationFn: createUpdatePreSignedUrl,
+    mutationFn: createUpdatePresignedUrl,
   });
 };
 
