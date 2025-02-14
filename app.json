@@ -40,7 +40,8 @@
       "permissions": [
         "android.permissions.READ_MEDIA_AUDIO",
         "android.permissions.ACCESS_NETWORK_STATE",
-        "android.permissions.POST_NOTIFICATIONS"
+        "android.permissions.POST_NOTIFICATIONS",
+        "android.permissions.READ_MEDIA_IMAGES"
       ],
       "package": "com.datn.lapinlearn",
       "versionCode": 1000207

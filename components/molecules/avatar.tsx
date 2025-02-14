@@ -1,10 +1,21 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Skeleton } from 'moti/skeleton';
 import { useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, PermissionsAndroid, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useGetUserAvatar, useUploadAvatar } from '~/hooks/react-query/useUser';
+
+export const requestPermission = async () => {
+  const isGrantedNotification = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES);
+
+  if (!isGrantedNotification) {
+    const permissionAppGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES);
+    if (permissionAppGranted !== PermissionsAndroid.RESULTS.GRANTED) {
+      throw new Error('Permission denied');
+    }
+  }
+};
 
 const Avatar = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +26,8 @@ const Avatar = () => {
   const handleChangeAvatar = async () => {
     if (isChangingAvatar) return;
     setIsChangingAvatar(true);
+    await requestPermission();
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
