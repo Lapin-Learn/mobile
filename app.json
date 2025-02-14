@@ -3,7 +3,7 @@
     "owner": "lapinlearn",
     "name": "LapinLearn",
     "slug": "lapinlearn",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "lapinlearn",
@@ -40,10 +40,11 @@
       "permissions": [
         "android.permissions.READ_MEDIA_AUDIO",
         "android.permissions.ACCESS_NETWORK_STATE",
-        "android.permissions.POST_NOTIFICATIONS"
+        "android.permissions.POST_NOTIFICATIONS",
+        "android.permissions.READ_MEDIA_IMAGES"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000206
+      "versionCode": 1000208
     },
     "web": {
       "bundler": "metro",

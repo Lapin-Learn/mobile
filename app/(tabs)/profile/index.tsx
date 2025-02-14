@@ -1,13 +1,12 @@
-import * as ImagePicker from 'expo-image-picker';
 import { Href, router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import { Camera, LogOut } from 'lucide-react-native';
+import { LogOut } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { Loading } from '~/components/molecules/Loading';
+import Avatar from '~/components/molecules/avatar';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import { ChangeLanguageModal } from '~/components/organisms/modals/ChangeLanguageModal';
 import { ConfirmationModal } from '~/components/organisms/modals/ConfirmationModal';
@@ -15,17 +14,8 @@ import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as Styles } from '~/constants/GlobalStyles';
 import { useSignOut } from '~/hooks/react-query/useAuth';
-import {
-  useCreatePreSignedUrl,
-  useCreateUpdatePreSignedUrl,
-  useDeleteAccount,
-  useUpdateUserProfile,
-  useUploadAvatar,
-  useUserProfile,
-} from '~/hooks/react-query/useUser';
-import { useToast } from '~/hooks/useToast';
+import { useDeleteAccount, useUserProfile } from '~/hooks/react-query/useUser';
 import { firestore } from '~/lib/services';
-import { IPresignedUrl } from '~/lib/types';
 
 const termsData = [
   {
@@ -46,15 +36,8 @@ const Index = () => {
   const { t } = useTranslation('profile');
   const { data, isFetching, error } = useUserProfile();
   const signOut = useSignOut();
-  const createPreSignedUrl = useCreatePreSignedUrl();
-  const uploadAvatar = useUploadAvatar();
-  const updateUserProfile = useUpdateUserProfile();
-  const createUpdatePreSignedUrl = useCreateUpdatePreSignedUrl();
   const deleteAccount = useDeleteAccount();
-  const [isAvatarChanged, setIsAvatarChanged] = useState(false);
-  const [image, setImage] = useState('https://via.placeholder.com/48');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const toast = useToast();
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
   const [showChangeLanguage, setShowChangeLanguage] = useState(false);
 
@@ -80,12 +63,6 @@ const Index = () => {
     router.push('/edit-profile' as Href);
   };
 
-  useEffect(() => {
-    if (data?.avatar) {
-      setImage(data.avatar.url);
-    }
-  }, [data]);
-
   firestore
     .collection('Screen')
     .doc('profile')
@@ -94,60 +71,18 @@ const Index = () => {
       setShowDeleteAccount(showDeleteAccount);
     });
 
-  const handleChangeAvatar = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      base64: true,
-    });
-
-    if (!result.canceled) {
-      setIsAvatarChanged(true);
-
-      const arrBuffer = new Uint8Array(
-        atob(result.assets[0].base64 || '')
-          .split('')
-          .map((c) => c.charCodeAt(0))
-      ).buffer;
-
-      try {
-        let presignedUrl: IPresignedUrl = { id: '', url: '' };
-        if (!data?.avatar) {
-          presignedUrl = await createPreSignedUrl.mutateAsync({ name: result.assets[0].fileName || 'test.jpg' });
-        } else {
-          presignedUrl = await createUpdatePreSignedUrl.mutateAsync({
-            name: result.assets[0].fileName || 'test.jpg',
-            uuid: data.avatar.id || '',
-          });
-        }
-        await uploadAvatar.mutateAsync({ presignedUrl, file: arrBuffer }).then(async () => {
-          await updateUserProfile.mutateAsync({ avatarId: presignedUrl.id });
-          setIsAvatarChanged(false);
-          setImage(result.assets[0].uri);
-        });
-      } catch (error) {
-        console.error(error);
-        setIsAvatarChanged(false);
-        toast.show({ type: 'error', text1: 'Failed to upload avatar' });
-      }
-    }
-  };
-
-  if (isFetching) {
-    return <Loading />;
-  }
+  const profileData = useMemo(
+    () => [
+      { label: 'profile.fullname', value: data?.fullName ?? '--' },
+      { label: 'profile.username', value: data?.username ?? '--' },
+      { label: 'profile.email', value: data?.email ?? '--' },
+    ],
+    [data]
+  );
 
   if (error) {
     return <Text>{error.message}</Text>;
   }
-
-  const profileData = [
-    { label: 'profile.fullname', value: data?.fullName ?? data?.username ?? 'default' },
-    { label: 'profile.username', value: data?.username ?? 'default' },
-    { label: 'profile.email', value: data?.email ?? 'default' },
-  ];
 
   const handleDeleteAccount = () => {
     deleteAccount.mutate();
@@ -158,34 +93,34 @@ const Index = () => {
       <ScrollView>
         <View style={styles.root}>
           <View style={styles.avatarSection}>
-            <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-              <View style={styles.avatar}>
-                {isAvatarChanged ? (
-                  <Skeleton width='100%' height='100%' colorMode='light' />
-                ) : (
-                  <Image style={{ width: '100%', height: '100%' }} source={{ uri: image }} />
-                )}
-              </View>
-              <Button variant='link' style={styles.avatarButton} onPress={handleChangeAvatar}>
-                <Camera size={16} {...Styles.color.neutral[400]} />
-              </Button>
-            </View>
-            <LongName {...profileData[0]} />
-            <Text style={styles.email}>{profileData[2].value}</Text>
+            <Avatar />
+            {isFetching ? (
+              <>
+                <Skeleton height={33} width={200} colorMode='light' />
+                <Skeleton height={20} width={240} colorMode='light' />
+              </>
+            ) : (
+              <>
+                <LongName {...profileData[0]} />
+                <Text style={styles.email}>{profileData[2].value}</Text>
+              </>
+            )}
           </View>
 
           <ProfileSection>
             <ProfileSection.Title label={t('profile.basic_info')} textStyle={{ ...Styles.fontSize['title-4'] }}>
-              <Button variant='link' size='sm' onPress={handleEdit} style={{ width: 'auto' }}>
-                <Text
-                  style={{
-                    ...Styles.font.normal,
-                    ...Styles.fontSize.subhead,
-                    ...Styles.color.orange['500'],
-                  }}>
-                  {t('profile.edit')}
-                </Text>
-              </Button>
+              {!isFetching && (
+                <Button variant='link' size='sm' onPress={handleEdit} style={{ width: 'auto' }}>
+                  <Text
+                    style={{
+                      ...Styles.font.normal,
+                      ...Styles.fontSize.subhead,
+                      ...Styles.color.orange['500'],
+                    }}>
+                    {t('profile.edit')}
+                  </Text>
+                </Button>
+              )}
             </ProfileSection.Title>
             <ProfileSection.Group style={styles.profileGroup}>
               {profileData.map((item, index) => (
@@ -299,12 +234,12 @@ const styles = StyleSheet.create({
   },
   username: {
     ...Styles.font.bold,
-    ...Styles.fontSize['title-1'],
+    ...Styles.fontSize['title-2'],
     ...Styles.color.dark,
   },
   email: {
     ...Styles.color.supportingText,
-    ...Styles.fontSize.body,
+    ...Styles.fontSize.callout,
   },
   avatarButton: {
     position: 'absolute',
@@ -321,6 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 24,
+    gap: 8,
   },
   buttonSignOut: {
     flexDirection: 'row',

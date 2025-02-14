@@ -85,7 +85,7 @@ const FillInTheBlankInput = ({ index, field, onChange, answer, isCorrect, ...res
             inputRef.current?.focus();
           }}>
           <View style={styleForBlank.indexCircle}>
-            <Text style={styleForBlank.indexText}>{index}</Text>
+            <Text style={styleForBlank.indexText}>{index + 1}</Text>
           </View>
         </Pressable>
         {isCorrect !== null ? (

@@ -10,14 +10,13 @@ type ChoiceButtonProps = {
 const ChoiceButton = ({ variant, label, onLabelPress }: ChoiceButtonProps) => {
   return (
     <Pressable style={StyleSheet.flatten([buttonStyles.root, variant && buttonStyles[variant]])} onPress={onLabelPress}>
-      <Text style={variant && textStyles[variant]}>{label}</Text>
+      <Text style={[textStyles.default, variant && textStyles[variant]]}>{label}</Text>
     </Pressable>
   );
 };
 
 const textStyles = StyleSheet.create({
   correct: {
-    ...Styles.font.normal,
     ...Styles.color.green[700],
   },
   incorrect: {
@@ -26,7 +25,9 @@ const textStyles = StyleSheet.create({
   selected: {
     ...Styles.color.blue[900],
   },
-  default: {},
+  default: {
+    ...Styles.font.normal,
+  },
 });
 
 const buttonStyles = StyleSheet.create({
@@ -35,7 +36,7 @@ const buttonStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 8,
     marginVertical: 6,
   },
