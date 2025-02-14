@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { SubmitHandler, useController, useForm } from 'react-hook-form';
+import { useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
@@ -12,6 +12,7 @@ import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { GLOBAL_STYLES } from '~/lib/constants';
 import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/questions';
 
+import checkingFunctionAnswers from './helper';
 import FillInTheBlankContentRenderer from './TypeRendering';
 
 type FillInTheBlankProps = FillInTheBlankContent & {
@@ -38,7 +39,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   });
 
   type FormField = z.infer<typeof schema>;
-  const { control, handleSubmit, reset } = useForm<FormField>({
+  const { control, reset } = useForm<FormField>({
     defaultValues: { answer: Array(blankContent.length).fill('') },
     resolver: zodResolver(schema),
   });
@@ -68,7 +69,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   const answerQuestion = () => {
     const numberOfCorrect = field.value.reduce((acc, value, index) => {
-      return value === blankContent[index] ? acc + 1 : acc;
+      return checkingFunctionAnswers(value, blankContent[index] ?? '') ? acc + 1 : acc;
     }, 0);
     onAnswer({
       numberOfCorrect: numberOfCorrect,
@@ -89,8 +90,6 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
     field.onChange(newAnswer);
   };
 
-  const onSubmit: SubmitHandler<FormField> = () => answerQuestion();
-
   return (
     <>
       <ScrollView style={[{ flex: 1 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
@@ -103,7 +102,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
       </ScrollView>
       {isChecking && (
         <View style={[GLOBAL_STYLES.checkButtonView]}>
-          <Button variant='black' size='lg' onPress={handleSubmit(onSubmit)}>
+          <Button variant='black' size='lg' onPress={answerQuestion}>
             <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
         </View>

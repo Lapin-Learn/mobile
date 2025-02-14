@@ -5,6 +5,7 @@ import Styles from '~/constants/GlobalStyles';
 import { FillInTheBlankContentType } from '~/lib/types/questions';
 
 import BlankRenderer, { type FieldState } from './BlankRenderer';
+import checkingFunctionAnswers from './helper';
 
 type ParagraphRendererProps = {
   elements: FillInTheBlankContentType[];
@@ -29,11 +30,11 @@ const ParagraphRenderer = ({
       return (
         <BlankRenderer
           key={`blank-${blankCounter.current}`}
-          index={blankCounter.current}
+          index={blankIndex}
           fieldState={fieldState}
           onTextChange={onTextChange}
           correctAnswer={element.text}
-          isAnswerCorrect={hasSubmission ? fieldState.value[blankIndex] === element.text : null}
+          isAnswerCorrect={hasSubmission ? checkingFunctionAnswers(fieldState.value[blankIndex], element.text) : null}
         />
       );
     } else if (element.type === 'break') {
@@ -85,7 +86,9 @@ const FillInTheBlankContentRenderer = ({
               fieldState={fieldState}
               onTextChange={onTextChange}
               correctAnswer={element.text}
-              isAnswerCorrect={hasSubmission ? fieldState.value[blankIndex] === element.text : null}
+              isAnswerCorrect={
+                hasSubmission ? checkingFunctionAnswers(fieldState.value[blankIndex], element.text) : null
+              }
             />
           );
         } else if (element.type === 'break') {
