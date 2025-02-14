@@ -63,6 +63,7 @@ const Avatar = () => {
         }
       );
     }
+    setIsChangingAvatar(false);
   };
 
   return (
