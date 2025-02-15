@@ -30,7 +30,15 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
 
   return (
     <>
-      <Pressable style={styles.root} onPress={() => setOpen(true)}>
+      <Pressable
+        style={[
+          styles.root,
+          {
+            paddingHorizontal: 4,
+            paddingVertical: 6,
+          },
+        ]}
+        onPress={() => setOpen(true)}>
         <View style={StyleSheet.flatten([styles.root, { gap: 6 }])}>
           <RankIcon name={rank} {...Styles.iconSize.base} />
           <View style={{ width: 120 }}>
