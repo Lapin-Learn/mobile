@@ -3,9 +3,10 @@ import { SvgProps } from 'react-native-svg';
 import StreakDefault from '~/assets/images/streaks/streak_default.svg';
 import StreakDone from '~/assets/images/streaks/streak_done.svg';
 import StreakMiss from '~/assets/images/streaks/streak_miss.svg';
+import StreakFreeze from '~/assets/images/streaks/streak_freeze.svg'
 
 type StreakIconProps = {
-  variant: 'done' | 'miss' | 'neutral';
+  variant: 'done' | 'miss' | 'neutral' | 'freeze';
 } & SvgProps;
 
 const StreakIcon = ({ variant, ...props }: StreakIconProps) => {
@@ -16,6 +17,8 @@ const StreakIcon = ({ variant, ...props }: StreakIconProps) => {
       return <StreakMiss {...props} />;
     case 'neutral':
       return <StreakDefault {...props} />;
+    case 'freeze':
+      return <StreakFreeze {...props} />
   }
 };
 
