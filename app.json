@@ -3,7 +3,7 @@
     "owner": "lapinlearn",
     "name": "LapinLearn",
     "slug": "lapinlearn",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "lapinlearn",
@@ -44,7 +44,7 @@
         "android.permissions.READ_MEDIA_IMAGES"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000208
+      "versionCode": 1000209
     },
     "web": {
       "bundler": "metro",
