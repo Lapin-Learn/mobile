@@ -31,11 +31,15 @@ export const SkillCard = ({ name }: SkillCardProps) => {
         borderRadius: 16,
         overflow: 'hidden',
         ...Styles.backgroundColor.neutral[50],
+        width: '100%',
+        flex: 1,
       }}
       onPress={handleExercise}>
-      <Image resizeMode='cover' source={skillMapping[name]} />
+      <View style={{ width: '100%', aspectRatio: 1 }}>
+        <Image resizeMethod='scale' source={skillMapping[name]} style={{ width: '100%', height: '100%' }} />
+      </View>
 
-      <View style={{ padding: (height % 8) + 8 }}>
+      <View style={{ padding: (height % 8) + 8, minHeight: 20 }}>
         <Text style={{ ...Styles.font.semibold, ...Styles.fontSize['title-3'], ...Styles.color.black }}>
           {capitalizeFirstLetter(name)}
         </Text>

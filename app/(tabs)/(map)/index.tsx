@@ -59,6 +59,7 @@ const Index = () => {
               alignItems: 'center',
               justifyContent: 'center',
               height: '100%',
+              width: '100%',
               flexGrow: 1,
               flexShrink: 1,
               flexBasis: 'auto',
@@ -77,7 +78,7 @@ const Index = () => {
 const SkillGrid = () => {
   return (
     <FlatList
-      style={{ flexGrow: 0 }}
+      style={{ flexGrow: 0, width: '100%' }}
       contentContainerStyle={{ justifyContent: 'center', gap: 16 }}
       columnWrapperStyle={{ justifyContent: 'center', gap: 16 }}
       numColumns={2}
