@@ -1,5 +1,5 @@
 import { Href, router } from 'expo-router';
-import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -13,7 +13,6 @@ type TrackBarProps = {
 };
 
 const TrackBar = ({ data }: TrackBarProps) => {
-  const { height } = Dimensions.get('window');
   if (!data) return null;
 
   return (
@@ -21,7 +20,7 @@ const TrackBar = ({ data }: TrackBarProps) => {
       style={[
         styles.root,
         {
-          paddingVertical: Math.max((height % 8) + 4, 0),
+          paddingVertical: 8,
         },
       ]}>
       <TouchableOpacity onPress={() => router.push('/streak' as Href)} style={styles.touchableSection}>
@@ -51,7 +50,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   touchableSection: {
-    padding: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
   },
 });
 export default TrackBar;
