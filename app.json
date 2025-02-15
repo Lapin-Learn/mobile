@@ -45,7 +45,7 @@
         "android.permissions.READ_MEDIA_IMAGES"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000208
+      "versionCode": 1000209
     },
     "web": {
       "bundler": "metro",
