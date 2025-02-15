@@ -1,0 +1,6 @@
+{
+  "EXCEED_MAX_FILE_SIZE": {
+    "title": "File quá lớn",
+    "description": "Vui lòng chọn file nhỏ hơn {{size}}"
+  }
+}
