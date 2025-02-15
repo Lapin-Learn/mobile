@@ -111,7 +111,6 @@ const OnBoarding = () => {
                   width: '100%',
                   transform: key === '2' ? [{ scale: 1 }] : [{ scale: 1.25 }],
                 }}
-                isPlaying={currentPage === Number(key) - 1}
               />
               <View style={styles.onboardingContainer}>
                 <Logo />
