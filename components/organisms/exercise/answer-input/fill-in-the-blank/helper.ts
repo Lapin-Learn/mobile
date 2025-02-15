@@ -11,7 +11,7 @@ const checkingFunctionAnswers = (
   keyAnswer: string,
   strategies: AnswerTypeEnum = AnswerTypeEnum.EXACT
 ) => {
-  switch (strategies[0]) {
+  switch (strategies) {
     case AnswerTypeEnum.EXACT:
       return _.trim(userAnswer.toLowerCase()) === _.trim(keyAnswer.toLowerCase());
 
