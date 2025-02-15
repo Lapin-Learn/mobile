@@ -29,7 +29,8 @@
         "CFBundleAllowMixedLocalizations": true,
         "ExpoLocalization_supportsRTL": false
       },
-      "bundleIdentifier": "com.datn.lapinlearn"
+      "bundleIdentifier": "com.datn.lapinlearn",
+      "buildNumber": "10203"
     },
     "android": {
       "adaptiveIcon": {
