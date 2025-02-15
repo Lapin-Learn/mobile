@@ -1,5 +1,5 @@
 import { Href, router } from 'expo-router';
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import Styles from '~/constants/GlobalStyles';
 import { useGameProfile } from '~/hooks/react-query/useUser';
@@ -13,7 +13,6 @@ type TrackBarProps = {
 };
 
 const TrackBar = ({ data }: TrackBarProps) => {
-  const { height } = Dimensions.get('window');
   if (!data) return null;
 
   return (
@@ -21,15 +20,20 @@ const TrackBar = ({ data }: TrackBarProps) => {
       style={[
         styles.root,
         {
-          paddingVertical: Math.max((height % 8) + 4, 16),
+          paddingVertical: 8,
         },
       ]}>
-      <Pressable onPress={() => router.push('/streak' as Href)}>
+      <TouchableOpacity onPress={() => router.push('/streak' as Href)} style={styles.touchableSection}>
         <Streak streak={data.streak} />
-      </Pressable>
-      <Pressable onPress={() => router.push('/items' as Href)}>
-        <Carrots carrots={data.carrots} size='base' textStyle={{ ...Styles.color.orange[400] }} />
-      </Pressable>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push('/items' as Href)}>
+        <Carrots
+          carrots={data.carrots}
+          size='base'
+          textStyle={{ ...Styles.color.orange[400] }}
+          style={styles.touchableSection}
+        />
+      </TouchableOpacity>
       <XpTrackBar level={data.level.id} currentXp={data.xp} levelXp={data.level.xp} rank={data.rank} />
     </View>
   );
@@ -41,9 +45,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 24,
+    gap: 8,
     ...Styles.backgroundColor.white,
     borderRadius: 100,
+  },
+  touchableSection: {
+    paddingVertical: 6,
+    paddingHorizontal: 4,
   },
 });
 export default TrackBar;

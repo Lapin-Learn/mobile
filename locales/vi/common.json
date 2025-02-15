@@ -33,7 +33,8 @@
     "noLessonFound": "Không tìm thấy bài học",
     "practiceBtn": "Luyện tập",
     "jumpNextBtn": "Thử thách nâng band",
-    "comingSoon": "Sắp ra mắt..."
+    "comingSoon": "Sắp ra mắt...",
+    "unavailable": "Hoàn thành các bài học trước để mở khóa band điểm này"
   },
   "streak": {
     "days": "Ngày Streak",

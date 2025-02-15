@@ -7,9 +7,7 @@ import { SvgProps } from 'react-native-svg';
 
 import IconMapTab from '~/assets/images/tab-lessons.svg';
 import IconMissionTab from '~/assets/images/tab-mission.svg';
-import IconPracticeTab from '~/assets/images/tab-practice.svg';
 import IconProfileTab from '~/assets/images/tab-profile.svg';
-import IconVocabularyTab from '~/assets/images/tab-vocabulary.svg';
 import Styles from '~/constants/GlobalStyles';
 import { useAuth } from '~/hooks/zustand';
 
@@ -54,10 +52,8 @@ const TabsLayout = () => {
         ],
         tabBarIcon: ({ focused }: { focused: boolean }) => {
           const iconMapping: { [key: string]: React.FC<SvgProps> } = {
-            practice: IconPracticeTab,
             mission: IconMissionTab,
             '(map)': IconMapTab,
-            vocabulary: IconVocabularyTab,
             profile: IconProfileTab,
           };
 
@@ -74,10 +70,8 @@ const TabsLayout = () => {
           );
         },
       })}>
-      <Tabs.Screen name='practice' options={{ href: null }} />
       <Tabs.Screen name='(map)' />
       <Tabs.Screen name='mission' />
-      <Tabs.Screen name='vocabulary' options={{ href: null }} />
       <Tabs.Screen name='profile' />
     </Tabs>
   );
