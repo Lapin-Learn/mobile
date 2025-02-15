@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import UnlockLesson from '~/assets/images/unlock-lesson.svg';
 import BandScoreSelect from '~/components/molecules/BandScoreSelect';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import LessonList from '~/components/organisms/lesson-list';
@@ -106,11 +107,13 @@ const QuestionTypeScreen = () => {
           ) : null}
         </View>
         {isComingSoon ? (
-          <View style={styles.pagerViewContainer}>
+          <View style={styles.placeholderContainer}>
+            <UnlockLesson width={120} height={120} />
             <Text style={styles.supportingText}>{t('questionType.comingSoon')}</Text>
           </View>
         ) : !isAvailable ? (
-          <View style={styles.pagerViewContainer}>
+          <View style={styles.placeholderContainer}>
+            <UnlockLesson width={120} height={120} />
             <Text style={styles.supportingText}>{t('questionType.unavailable')}</Text>
           </View>
         ) : (
@@ -157,6 +160,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  placeholderContainer: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 40,
   },
 });
 
