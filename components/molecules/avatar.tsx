@@ -33,12 +33,12 @@ const Avatar = () => {
       const byteLength =
         base64String.length * (3 / 4) - (base64String.endsWith('==') ? 2 : base64String.endsWith('=') ? 1 : 0);
 
-      if (byteLength > 2 * 1024 * 1024) {
+      if (byteLength > 3 * 1024 * 1024) {
         toast.show({
           type: 'error',
           text1: t('EXCEED_MAX_FILE_SIZE.title'),
           text2: t('EXCEED_MAX_FILE_SIZE.description', {
-            size: '2MB',
+            size: '3MB',
           }),
         });
         setIsChangingAvatar(false);
@@ -70,7 +70,6 @@ const Avatar = () => {
     <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
       <TouchableOpacity style={styles.avatar} onPress={handleChangeAvatar} disabled={isLoading}>
         <Skeleton width='100%' height='100%' colorMode='light' />
-        {/* No avatar yet */}
         {isSuccess && !avatar && !isChangingAvatar ? (
           <View style={[styles.absoluteFill, { ...Styles.backgroundColor.neutral['100'] }]} />
         ) : avatar && !isFetching && !isChangingAvatar ? (
