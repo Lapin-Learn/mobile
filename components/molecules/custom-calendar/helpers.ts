@@ -1,5 +1,8 @@
 import { addDays, isBefore, isSameDay, subDays } from 'date-fns';
 
+import { ActionNameEnum } from '~/lib/enums';
+import { IStreakHistory } from '~/lib/types';
+
 const getDaysInMonth = (month: number, year: number) => {
   return new Date(year, month + 1, 0).getDate();
 };
@@ -90,4 +93,15 @@ const parseActiveDays = (originalDays: DayProps[], activeDays: Date[] = []) => {
   }
   return newDays;
 };
-export { generateCalendar, parseActiveDays };
+
+const getFreezeDays = (days: IStreakHistory[]) =>
+  days
+    .filter((day) => day.actionName === ActionNameEnum.FREEZE_STREAK)
+    .map((day) => {
+      const date = new Date(day.date);
+      date.setDate(date.getDate() - 1);
+
+      return date.toDateString();
+    });
+
+export { generateCalendar, getFreezeDays, parseActiveDays };

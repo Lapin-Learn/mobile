@@ -1,14 +1,8 @@
+import { getFreezeDays } from '~/components/molecules/custom-calendar/helpers';
 import { IStreakHistory } from '~/lib/types';
-import { ActionNameEnum } from '~/lib/enums';
 
 const formatDate = (date: Date) => {
   return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
-};
-
-const getFreezeDays = (days: IStreakHistory[]) => {
-  return days
-    .filter((day) => day.actionName === ActionNameEnum.DAILY_STREAK)
-    .map((day) => new Date(day.date).toDateString());
 };
 
 const getCurrentWeekBooleanObject = (doneRecords: IStreakHistory[], dayNames: string[]) => {
@@ -17,7 +11,7 @@ const getCurrentWeekBooleanObject = (doneRecords: IStreakHistory[], dayNames: st
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(currentDate.getDate() - currentDay); // Set to the start of the week (Sunday)
 
-  const weekBooleanObject: Record<string, boolean | "freeze" | undefined> = {};
+  const weekBooleanObject: Record<string, boolean | 'freeze' | undefined> = {};
   const freezeDays = getFreezeDays(doneRecords);
   const doneRecordsSet = new Set(doneRecords.map((record) => formatDate(new Date(record.date))));
 
@@ -29,7 +23,7 @@ const getCurrentWeekBooleanObject = (doneRecords: IStreakHistory[], dayNames: st
       weekBooleanObject[dayNames[i]] = undefined;
     } else {
       weekBooleanObject[dayNames[i]] = freezeDays.includes(weekDate.toDateString())
-        ? "freeze"
+        ? 'freeze'
         : doneRecordsSet.has(formattedDate);
     }
   }

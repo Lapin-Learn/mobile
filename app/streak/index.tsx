@@ -1,9 +1,11 @@
 import { startOfMonth, subMonths } from 'date-fns';
 import LottieView from 'lottie-react-native';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 import CustomCalendar from '~/components/molecules/custom-calendar';
+import { getFreezeDays } from '~/components/molecules/custom-calendar/helpers';
 import { Loading } from '~/components/molecules/Loading';
 import { NavigationBar } from '~/components/molecules/NavigationBar';
 import { TargetStreak } from '~/components/molecules/TargetStreak';
@@ -25,15 +27,13 @@ export const generateTarget = (days: number) => {
     columns.push({ value: base * i, active: false });
   }
 
-  const scaledColumns = columns.map((column) => {
+  return columns.map((column) => {
     const value = column.value * (max / 100);
     return {
       value: value,
       active: value <= days,
     };
   });
-
-  return scaledColumns;
 };
 
 const Streak = () => {
@@ -46,6 +46,9 @@ const Streak = () => {
       ? 'broken'
       : 'extended';
   const isLongestStreak = data?.streak.current === data?.streak.record;
+
+  const freezeDays = useMemo(() => getFreezeDays(streakDays || []), [streakDays]);
+
   if (isFetching) return <Loading />;
 
   return (
@@ -85,7 +88,7 @@ const Streak = () => {
       </View>
       <View style={styles.streakHistorySection}>
         <Text style={styles.streakHistoryHeader}>{t('streak.schedule')}</Text>
-        <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} />
+        <CustomCalendar activeDays={(streakDays ?? []).map((day) => new Date(day.date))} freezeDays={freezeDays} />
       </View>
     </PlatformView>
   );
