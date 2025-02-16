@@ -9,12 +9,12 @@ import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { IStreakHistory } from '~/lib/types';
 
 import PlatformView from '../../templates/PlatformView';
 import { Loading } from '../Loading';
 import { getCurrentWeekBooleanObject } from './helpers';
 import { MilestoneProps } from './type';
-import { IStreakHistory } from '~/lib/types';
 
 const WeekRecord = ({ streakRecords }: { streakRecords: IStreakHistory[] }) => {
   const { t, i18n } = useTranslation();
@@ -28,15 +28,15 @@ const WeekRecord = ({ streakRecords }: { streakRecords: IStreakHistory[] }) => {
         <View key={index} style={weekRecordStyles.view}>
           <Text style={weekRecordStyles.text}>{i18n.language === 'en' ? date[0] : date}</Text>
           {weekMap[date] ? (
-            weekMap[date] === "freeze" ? (
-              <StreakIcon variant="freeze" />
+            weekMap[date] === 'freeze' ? (
+              <StreakIcon variant='freeze' />
             ) : (
-              <StreakIcon variant="done" />
+              <StreakIcon variant='done' />
             )
           ) : weekMap[date] === false ? (
-            <StreakIcon variant="miss" />
+            <StreakIcon variant='miss' />
           ) : (
-            <StreakIcon variant="neutral" />
+            <StreakIcon variant='neutral' />
           )}
         </View>
       ))}
