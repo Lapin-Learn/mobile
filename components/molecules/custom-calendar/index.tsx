@@ -14,9 +14,10 @@ const LIMIT_QUERY = subMonths(new Date(), 12); // Limit to 12 months
 type CustomCalendarProps = {
   onChangeMonth?: (date: Date) => void;
   activeDays?: Date[];
+  freezeDays: string[];
 };
 
-const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
+const CustomCalendar = ({ activeDays = [], freezeDays }: CustomCalendarProps) => {
   const { t } = useTranslation();
   const DAYS_OF_WEEK: string[] = (t('calendar.days_of_week', { returnObjects: true }) as string[]) ?? [];
   const MONTHS: string[] = (t('calendar.months', { returnObjects: true }) as string[]) ?? [];
@@ -60,6 +61,7 @@ const CustomCalendar = ({ activeDays = [] }: CustomCalendarProps) => {
             key={item.key}
             active={item.active}
             today={isSameDay(new Date(), item.day)}
+            freeze={freezeDays.includes(item.day.toDateString())}
           />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}

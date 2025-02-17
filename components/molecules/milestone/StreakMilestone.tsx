@@ -9,13 +9,14 @@ import { Text } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
 import { useStreaks } from '~/hooks/react-query/useStreak';
 import { GLOBAL_STYLES } from '~/lib/constants';
+import { IStreakHistory } from '~/lib/types';
 
 import PlatformView from '../../templates/PlatformView';
 import { Loading } from '../Loading';
 import { getCurrentWeekBooleanObject } from './helpers';
 import { MilestoneProps } from './type';
 
-const WeekRecord = ({ streakRecords }: { streakRecords: string[] }) => {
+const WeekRecord = ({ streakRecords }: { streakRecords: IStreakHistory[] }) => {
   const { t, i18n } = useTranslation();
 
   const DAYS_OF_WEEK: string[] = (t('calendar.days_of_week', { returnObjects: true }) as string[]) ?? [];
@@ -27,7 +28,11 @@ const WeekRecord = ({ streakRecords }: { streakRecords: string[] }) => {
         <View key={index} style={weekRecordStyles.view}>
           <Text style={weekRecordStyles.text}>{i18n.language === 'en' ? date[0] : date}</Text>
           {weekMap[date] ? (
-            <StreakIcon variant='done' />
+            weekMap[date] === 'freeze' ? (
+              <StreakIcon variant='freeze' />
+            ) : (
+              <StreakIcon variant='done' />
+            )
           ) : weekMap[date] === false ? (
             <StreakIcon variant='miss' />
           ) : (
@@ -61,10 +66,10 @@ export const StreakMilestone = ({ current, handleNextMilestone }: MilestoneProps
   const { t } = useTranslation('milestone');
   const { data, isPending } = useStreaks({});
 
-  const [streakRecords, setStreakRecords] = useState<string[]>([]);
+  const [streakRecords, setStreakRecords] = useState<IStreakHistory[]>([]);
 
   useEffect(() => {
-    setStreakRecords(data?.map((d) => d.date) ?? []);
+    setStreakRecords(data ?? []);
   }, [data]);
 
   if (isPending) {
