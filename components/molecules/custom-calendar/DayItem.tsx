@@ -18,23 +18,25 @@ const DayItem = ({ day, outside = false, active = 'default', today = false, free
           !['first', 'single', 'default'].includes(active as string) ? styles.activeBackground : {},
         ])}
       />
-      <View
-        style={StyleSheet.flatten([
-          containerDayVariantStyles.root,
-          today ? styles.today : {},
-          containerDayVariantStyles[active],
-          freeze ? styles.freeze : {},
-        ])}>
-        <Text
+      <View style={freeze ? styles.activeBackground : {}}>
+        <View
           style={StyleSheet.flatten([
-            textDayVariantsStyles.root,
-            today ? textDayVariantsStyles.today : {},
-            textDayVariantsStyles[active === 'default' ? 'default' : 'active'],
-            textDayVariantsStyles[outside ? 'outside' : 'inside'],
-            freeze ? textDayVariantsStyles.freeze : {},
+            containerDayVariantStyles.root,
+            today ? styles.today : {},
+            containerDayVariantStyles[active],
+            freeze ? styles.freeze : {},
           ])}>
-          {day}
-        </Text>
+          <Text
+            style={StyleSheet.flatten([
+              textDayVariantsStyles.root,
+              today ? textDayVariantsStyles.today : {},
+              textDayVariantsStyles[active === 'default' ? 'default' : 'active'],
+              textDayVariantsStyles[outside ? 'outside' : 'inside'],
+              freeze ? textDayVariantsStyles.freeze : {},
+            ])}>
+            {day}
+          </Text>
+        </View>
       </View>
       <View
         style={StyleSheet.flatten([
