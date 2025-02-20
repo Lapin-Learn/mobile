@@ -13,7 +13,7 @@ const ButtonCheck = ({ handleCheckAnswer, content }: ButtonCheckProps) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[GLOBAL_STYLES.checkButtonView, { marginBottom: insets?.bottom || 28 }]}>
+    <View style={[GLOBAL_STYLES.checkButtonView, { marginBottom: insets?.bottom ?? 32 }]}>
       <Button variant='black' size='lg' onPress={handleCheckAnswer}>
         <Text style={GLOBAL_STYLES.textButton}>{content}</Text>
       </Button>
