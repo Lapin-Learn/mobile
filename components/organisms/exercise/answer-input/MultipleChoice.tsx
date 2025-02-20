@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import ChoiceRadio from '~/components/molecules/exercise/ChoiceRadio';
-import { Button } from '~/components/ui/Button';
 import { RadioGroup } from '~/components/ui/RadioGroup';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
-import { GLOBAL_STYLES } from '~/lib/constants';
 import { MultipleChoiceContent } from '~/lib/types/questions';
 import { getMultipleChoiceDecoration } from '~/lib/utils/question-decoration';
+
+import ButtonCheck from '../ButtonCheck';
 
 type MultipleChoiceProps = MultipleChoiceContent & {
   onAnswer: (answer: Answer) => void;
@@ -116,11 +116,9 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
         )}
       </ScrollView>
       {isChecking && (
-        <View style={GLOBAL_STYLES.checkButtonView}>
-          <Button variant='black' size='lg' onPress={answerQuestion}>
-            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
-          </Button>
-        </View>
+        <>
+          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
+        </>
       )}
     </>
   );

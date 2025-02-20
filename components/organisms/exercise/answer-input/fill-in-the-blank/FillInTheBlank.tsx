@@ -3,16 +3,14 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
-import { Button } from '~/components/ui/Button';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
-import { GLOBAL_STYLES } from '~/lib/constants';
 import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/questions';
 
+import ButtonCheck from '../../ButtonCheck';
 import checkingFunctionAnswers from './helper';
 import FillInTheBlankContentRenderer from './TypeRendering';
 
@@ -38,7 +36,6 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   const schema = z.object({
     answer: z.array(z.string()).length(blankContent.length),
   });
-  const insets = useSafeAreaInsets();
 
   type FormField = z.infer<typeof schema>;
   const { control, reset } = useForm<FormField>({
@@ -94,7 +91,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
 
   return (
     <>
-      <ScrollView style={[{ flex: 1 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
+      <ScrollView style={[{ flex: 1 }]}>
         <FillInTheBlankContentRenderer
           content={content}
           fieldState={field}
@@ -103,11 +100,9 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
         />
       </ScrollView>
       {isChecking && (
-        <View style={[GLOBAL_STYLES.checkButtonView, { marginBottom: insets?.bottom || 32 }]}>
-          <Button variant='black' size='lg' onPress={answerQuestion}>
-            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
-          </Button>
-        </View>
+        <>
+          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
+        </>
       )}
     </>
   );
