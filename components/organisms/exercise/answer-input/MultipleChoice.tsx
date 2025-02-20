@@ -22,7 +22,6 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
   const [selected, setSelected] = useState<number[]>([]);
   const [isChecking, setIsChecking] = useState(false);
   const isNotAnswered = result.numberOfCorrect === 0 && result.totalOfQuestions === 0;
-
   const answerQuestion = () => {
     const isCorrect = selected.every((index) => answer.includes(index));
     onAnswer({

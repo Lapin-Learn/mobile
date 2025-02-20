@@ -89,7 +89,7 @@ const Index = () => {
   };
 
   return (
-    <PlatformView>
+    <PlatformView style={{ paddingBottom: 0 }}>
       <ScrollView>
         <View style={styles.root}>
           <View style={styles.avatarSection}>

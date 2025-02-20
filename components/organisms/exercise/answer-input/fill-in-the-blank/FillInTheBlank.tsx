@@ -5,6 +5,7 @@ import { useController, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
 import { Button } from '~/components/ui/Button';
@@ -37,6 +38,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
   const schema = z.object({
     answer: z.array(z.string()).length(blankContent.length),
   });
+  const insets = useSafeAreaInsets();
 
   type FormField = z.infer<typeof schema>;
   const { control, reset } = useForm<FormField>({
@@ -101,7 +103,7 @@ const FillInTheBlank = ({ content, onAnswer, result }: FillInTheBlankProps) => {
         />
       </ScrollView>
       {isChecking && (
-        <View style={[GLOBAL_STYLES.checkButtonView]}>
+        <View style={[GLOBAL_STYLES.checkButtonView, { marginBottom: insets?.bottom || 32 }]}>
           <Button variant='black' size='lg' onPress={answerQuestion}>
             <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
           </Button>
