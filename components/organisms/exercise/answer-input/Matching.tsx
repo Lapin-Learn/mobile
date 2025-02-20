@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MatchingItem from '~/components/molecules/MatchingItem';
-import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
-import { GLOBAL_STYLES } from '~/lib/constants';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 import { getBackgroundColorCorrectness } from '~/lib/utils/colorUtils';
+
+import ButtonCheck from '../ButtonCheck';
 
 type MatchingProps = MatchingContent & {
   onAnswer: (answer: Answer) => void;
@@ -107,11 +107,9 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
         </View>
       </ScrollView>
       {isChecking && (
-        <View style={GLOBAL_STYLES.checkButtonView}>
-          <Button variant='black' size='lg' onPress={answerQuestion}>
-            <Text style={GLOBAL_STYLES.textButton}>{t('general.check')}</Text>
-          </Button>
-        </View>
+        <>
+          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
+        </>
       )}
     </>
   );
