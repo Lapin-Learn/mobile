@@ -7,8 +7,9 @@ export type DayItemProps = {
   active?: 'default' | 'single' | 'last' | 'middle' | 'first';
   day: number;
   today?: boolean;
+  freeze: boolean;
 };
-const DayItem = ({ day, outside = false, active = 'default', today = false }: DayItemProps) => {
+const DayItem = ({ day, outside = false, active = 'default', today = false, freeze = false }: DayItemProps) => {
   return (
     <View style={StyleSheet.flatten([styles.container])}>
       <View
@@ -17,21 +18,25 @@ const DayItem = ({ day, outside = false, active = 'default', today = false }: Da
           !['first', 'single', 'default'].includes(active as string) ? styles.activeBackground : {},
         ])}
       />
-      <View
-        style={StyleSheet.flatten([
-          containerDayVariantStyles.root,
-          today ? styles.today : {},
-          containerDayVariantStyles[active],
-        ])}>
-        <Text
+      <View style={freeze ? styles.activeBackground : {}}>
+        <View
           style={StyleSheet.flatten([
-            textDayVariantsStyles.root,
-            today ? textDayVariantsStyles.today : {},
-            textDayVariantsStyles[active === 'default' ? 'default' : 'active'],
-            textDayVariantsStyles[outside ? 'outside' : 'inside'],
+            containerDayVariantStyles.root,
+            today ? styles.today : {},
+            containerDayVariantStyles[active],
+            freeze ? styles.freeze : {},
           ])}>
-          {day}
-        </Text>
+          <Text
+            style={StyleSheet.flatten([
+              textDayVariantsStyles.root,
+              today ? textDayVariantsStyles.today : {},
+              textDayVariantsStyles[active === 'default' ? 'default' : 'active'],
+              textDayVariantsStyles[outside ? 'outside' : 'inside'],
+              freeze ? textDayVariantsStyles.freeze : {},
+            ])}>
+            {day}
+          </Text>
+        </View>
       </View>
       <View
         style={StyleSheet.flatten([
@@ -63,6 +68,10 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     backgroundColor: Styles.color.neutral[200].color,
   },
+  freeze: {
+    borderRadius: 9999,
+    backgroundColor: Styles.color.blue[200].color,
+  },
 });
 
 const textDayVariantsStyles = StyleSheet.create({
@@ -84,6 +93,9 @@ const textDayVariantsStyles = StyleSheet.create({
   },
   today: {
     color: Styles.color.white.color,
+  },
+  freeze: {
+    color: Styles.color.blue[700].color,
   },
 });
 

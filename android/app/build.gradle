@@ -115,8 +115,8 @@ android {
         applicationId 'com.datn.lapinlearn'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1000209
-        versionName "1.2.3"
+        versionCode 1000210
+        versionName "1.2.4"
     }
     signingConfigs {
         debug {

@@ -134,3 +134,5 @@ export const formatHtmlContent = (content?: string | null) => {
       ${content ?? ''}
     </div>`;
 };
+
+export const getYesterday = (date: Date) => new Date(date.setDate(date.getDate() - 1));

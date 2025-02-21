@@ -66,7 +66,7 @@ const Index = () => {
             }}>
             <SkillGrid />
           </View>
-          <View style={{ height: Platform.OS === 'ios' ? 140 : 100, backgroundColor: 'black', width: '100%' }} />
+          <View style={{ height: Platform.OS === 'ios' ? 140 : 100, width: '100%' }} />
         </View>
         <View style={{ height: bottom * 1.5 }} />
       </PlatformView>

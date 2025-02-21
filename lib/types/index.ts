@@ -47,7 +47,7 @@ export type IStreak = {
 
 export type IStreakHistory = {
   date: string;
-  actionName: ActionNameEnum.DAILY_STREAK;
+  actionName: ActionNameEnum;
 };
 
 // User types
