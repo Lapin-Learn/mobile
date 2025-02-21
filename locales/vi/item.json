@@ -5,14 +5,14 @@
     "items": {
       "STREAK_FREEZE": {
         "name": "Streak Freeze",
-        "description": "Bảo vệ chuỗi streak tới 3 ngày"
+        "description": "Bảo vệ chuỗi ngày học liên tiếp của bạn"
       },
       "RANDOM_GIFT": {
         "name": "Túi Mù",
         "description": "Nhận phần thưởng với các quà tặng bất ngờ"
       },
       "ULTIMATE_TIME": {
-        "name": "Thời Gian Siêu Cấp",
+        "name": "Thời Gian Vàng",
         "description": "Nhân đôi điểm kinh nghiệm trong 15 phút"
       },
       "IDENTIFICATION": {
