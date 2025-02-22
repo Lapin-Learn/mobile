@@ -17,9 +17,8 @@ export const evaluateSpeaking = async (params: SpeakingEvaluation) => {
     } as unknown as Blob);
     formData.append('original', params.original);
 
-    const response = await api.postForm<ISpeakingService>(`api/ai/speech-evaluation`, {
+    const response = await api.postForm<ISpeakingService>(`/ai/speaking/speech-evaluation`, {
       body: formData,
-      baseURL: process.env.EXPO_PUBLIC_URL_ENDPOINT,
     });
     return response;
   } catch (error) {
