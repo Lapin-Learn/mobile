@@ -114,22 +114,6 @@ axiosImageInstance.interceptors.response.use(
   }
 );
 
-const axiosFormInstance = axios.create({
-  baseURL: '',
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
-
-axiosFormInstance.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
-  (error) => {
-    return Promise.reject(formatError(error));
-  }
-);
-
 class API {
   private async request<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
     try {
@@ -160,12 +144,16 @@ class API {
 
   private async formRequest<T>(endpoint: string, options: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await axiosFormInstance.request<T>({
+      const response = await axiosInstance.request<T>({
         url: endpoint,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
         ...options,
       });
 
-      return response.data;
+      const json = response.data as APIResponse<T>;
+      return json.data;
     } catch (error) {
       throw formatError(error);
     }
