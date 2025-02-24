@@ -5,7 +5,7 @@ import { StyleProps } from 'react-native-reanimated';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 
-type ConfirmationModalContentProps = {
+type DeleteAccountModalContentProps = {
   title: string;
   message: string;
   confirmText?: string;
@@ -17,14 +17,14 @@ type ConfirmationModalContentProps = {
   cancelStyle?: StyleProps;
 };
 
-type ConfirmationModalProps = {
+type DeleteAccountModalProps = {
   visible: boolean;
   type?: 'tooltip' | 'confirmation';
   setVisible: (visible: boolean) => void;
 };
 
 /**
- * ConfirmationModal component displays a modal with a title, message, and optional confirm and cancel buttons.
+ * DeleteAccountModal component displays a modal with a title, message, and optional confirm and cancel buttons.
  *
  * @param visible - Boolean indicating whether the modal is visible.
  * @param setVisible - Function to set the visibility of the modal.
@@ -41,12 +41,12 @@ type ConfirmationModalProps = {
  *
  * @returns A modal component with the specified content and actions.
  */
-export const ConfirmationModal = ({
+export const DeleteAccountModal = ({
   visible,
   setVisible,
   type = 'confirmation',
   content,
-}: ConfirmationModalProps & { content: ConfirmationModalContentProps }) => {
+}: DeleteAccountModalProps & { content: DeleteAccountModalContentProps }) => {
   const { t } = useTranslation();
 
   const TouchableView = ({ children, onPress }: { children: React.ReactNode; onPress: () => void }) => {
@@ -68,7 +68,7 @@ export const ConfirmationModal = ({
               <View style={styles.buttonContainer}>
                 {content.cancelAction && (
                   <Button
-                    style={[styles.button, styles.cancelButton]}
+                    style={StyleSheet.flatten([styles.button, styles.cancelButton])}
                     onPress={content.cancelAction}
                     disabled={content.isPending}>
                     <Text style={[styles.buttonText, styles.cancelButtonText]}>
@@ -77,7 +77,16 @@ export const ConfirmationModal = ({
                   </Button>
                 )}
                 {content.confirmAction && (
-                  <Button style={styles.button} onPress={content.confirmAction} disabled={content.isPending}>
+                  <Button
+                    style={[
+                      styles.button,
+                      {
+                        borderWidth: 1,
+                        ...Styles.borderColor.red[200],
+                      },
+                    ]}
+                    onPress={content.confirmAction}
+                    disabled={content.isPending}>
                     <Text style={styles.buttonText}>
                       {content.confirmText ? content.confirmText : t('update.button')}
                     </Text>
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 5,
-    backgroundColor: '#ee5d28',
+    backgroundColor: 'transparent',
     borderRadius: 5,
     alignItems: 'center',
   },
@@ -135,7 +144,7 @@ const styles = StyleSheet.create({
   buttonText: {
     ...Styles.font.semibold,
     ...Styles.fontSize.callout,
-    ...Styles.color.white,
+    ...Styles.color.red[500],
   },
   cancelButtonText: {
     ...Styles.color.black,
