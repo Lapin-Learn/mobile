@@ -59,6 +59,20 @@ const JumpBand = () => {
 
   if (isLoading) return <Loading />;
   if (isStarted) {
+    if (isCompleted && result)
+      return (
+        <View>
+          <LessonResult data={result} />
+        </View>
+      );
+
+    if (isPendingMutation) {
+      return (
+        <PlatformView>
+          <Loading />
+        </PlatformView>
+      );
+    }
     return (
       <View>
         {currentQuestion ? (
@@ -69,20 +83,6 @@ const JumpBand = () => {
           </View>
         )}
       </View>
-    );
-  }
-
-  if (isCompleted && result)
-    return (
-      <View>
-        <LessonResult data={result} />
-      </View>
-    );
-  if (isPendingMutation) {
-    return (
-      <PlatformView>
-        <Loading />
-      </PlatformView>
     );
   }
 

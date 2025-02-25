@@ -15,7 +15,6 @@ type MilestoneStore = MilestoneState & MilestoneActions;
 export const useMilestoneStore = create<MilestoneStore>((set) => ({
   milestones: [],
   setMilestones: (milestones: IMilestone[]) => {
-    const filteredMilestones = milestones.filter((milestone) => milestone.type !== 'band_score_question_type_up');
-    set({ milestones: filteredMilestones });
+    set({ milestones });
   },
 }));
