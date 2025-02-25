@@ -1,6 +1,6 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { Href, router, useLocalSearchParams } from 'expo-router';
 import { LucidePlay } from 'lucide-react-native';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,8 +12,10 @@ import LessonList from '~/components/organisms/lesson-list';
 import { Button } from '~/components/ui/Button';
 import Styles from '~/constants/GlobalStyles';
 import { useListLessons, useQuestionTypes } from '~/hooks/react-query/useDailyLesson';
-import { useDailyLessonStore } from '~/hooks/zustand';
+import { useCurrentQuestionTypeStore } from '~/hooks/zustand';
+import { GLOBAL_STYLES } from '~/lib/constants';
 import { bandscoreMappings } from '~/lib/constants/labelMappings';
+import { bottomButtonToScreen } from '~/lib/constants/padding';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
 import { IQuestionType } from '~/lib/types';
 import { formatLearningDuration } from '~/lib/utils';
@@ -32,7 +34,7 @@ const QuestionTypeScreen = () => {
     bandScore?: BandScoreEnum;
   }>();
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
-  const { setCurrentQuestionType } = useDailyLessonStore();
+  const { setCurrentQuestionType } = useCurrentQuestionTypeStore();
   const currentQuestionType = questionTypes?.find(
     (questionType: IQuestionType) => questionType.id === Number(questionTypeId)
   );
@@ -45,8 +47,13 @@ const QuestionTypeScreen = () => {
   }, [currentQuestionType, setCurrentQuestionType]);
 
   const isComingSoon = [BandScoreEnum.BAND_6_0, BandScoreEnum.BAND_6_5, BandScoreEnum.BAND_7_0].includes(
-    currentBandScore as BandScoreEnum
+    bandScore as BandScoreEnum
   );
+  const isAvailableJumpBand = useMemo(() => {
+    const currentIndex = Object.values(BandScoreEnum).findIndex((b) => b === currentBandScore);
+    const targetIndex = Object.values(BandScoreEnum).findIndex((b) => b === bandScore);
+    return targetIndex - 1 === currentIndex;
+  }, [currentBandScore, bandScore]);
 
   const isAvailable = checkAvailable(bandScore as BandScoreEnum, currentBandScore);
 
@@ -112,10 +119,23 @@ const QuestionTypeScreen = () => {
             <Text style={styles.supportingText}>{t('questionType.comingSoon')}</Text>
           </View>
         ) : !isAvailable ? (
-          <View style={styles.placeholderContainer}>
-            <UnlockLesson width={120} height={120} />
-            <Text style={styles.supportingText}>{t('questionType.unavailable')}</Text>
-          </View>
+          <>
+            <View style={styles.placeholderContainer}>
+              <UnlockLesson width={120} height={120} />
+              <Text style={styles.supportingText}>{t('questionType.unavailable')}</Text>
+            </View>
+
+            {isAvailableJumpBand && (
+              <View style={styles.footer}>
+                <Button
+                  variant='black'
+                  size='lg'
+                  onPress={() => router.push(`/exercise/${exerciseId}/${questionTypeId}/jump-band` as Href)}>
+                  <Text style={GLOBAL_STYLES.textButton}>Jump band</Text>
+                </Button>
+              </View>
+            )}
+          </>
         ) : (
           <LessonList
             questionTypeId={questionTypeId}
@@ -167,6 +187,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 40,
+  },
+  footer: {
+    marginBottom: bottomButtonToScreen,
+    gap: 16,
   },
 });
 

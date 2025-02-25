@@ -6,6 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Loading } from '~/components/molecules/Loading';
 import QuestionTemplate from '~/components/organisms/exercise/QuestionTemplate';
 import { LessonResult } from '~/components/organisms/lesson/LessonResult';
+import PlatformView from '~/components/templates/PlatformView';
 import { useLessonQuestions } from '~/hooks/react-query/useDailyLesson';
 import { useDailyLessonQuestionStore } from '~/hooks/zustand';
 
@@ -13,11 +14,18 @@ const Lesson = () => {
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
   const { data, isLoading, isSuccess } = useLessonQuestions({ lessonId });
   const {
-    state: { currentQuestion, isCompleted, result },
+    state: { currentQuestion, isCompleted, result, totalQuestion, currentQuestionIndex, isPendingMutation },
     clear,
     setQuestions,
+    mutation,
   } = useDailyLessonQuestionStore();
   const { t } = useTranslation('question');
+
+  useEffect(() => {
+    if (isCompleted && currentQuestionIndex === totalQuestion - 1) {
+      mutation();
+    }
+  }, [isCompleted]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -38,6 +46,13 @@ const Lesson = () => {
         <LessonResult data={result} />
       </View>
     );
+  if (isPendingMutation) {
+    return (
+      <PlatformView>
+        <Loading />
+      </PlatformView>
+    );
+  }
 
   return (
     <View>

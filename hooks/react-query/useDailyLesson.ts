@@ -2,7 +2,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_KEYS } from '~/lib/constants';
 import { BandScoreEnum, SkillEnum } from '~/lib/enums';
-import { confirmLessonCompletion, getInstruction, getLessonQuestions, getLessons, getQuestionTypes } from '~/services';
+import {
+  confirmLessonCompletion,
+  getInstruction,
+  getJumpBandQuestions,
+  getLessonQuestions,
+  getLessons,
+  getQuestionTypes,
+} from '~/services';
 import { evaluateSpeaking } from '~/services/axios/speaking-service';
 
 import { useMilestoneStore } from '../zustand/useMilestoneStore';
@@ -35,6 +42,15 @@ export const useLessonQuestions = ({ lessonId }: { lessonId: string }) => {
     queryKey: [QUERY_KEYS.lessonQuestions, lessonId],
     queryFn: getLessonQuestions,
     staleTime: 0,
+  });
+};
+
+export const useJumpBandQuestions = ({ questionTypeId }: { questionTypeId: string }) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.jumpBandQuestions, questionTypeId],
+    queryFn: getJumpBandQuestions,
+    staleTime: 0,
+    enabled: !!questionTypeId,
   });
 };
 
