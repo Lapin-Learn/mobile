@@ -9,7 +9,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Avatar from '~/components/molecules/avatar';
 import { ProfileSection } from '~/components/molecules/profile/ProfileSection';
 import { ChangeLanguageModal } from '~/components/organisms/modals/ChangeLanguageModal';
-import { ConfirmationModal } from '~/components/organisms/modals/ConfirmationModal';
+import { DeleteAccountModal } from '~/components/organisms/modals/DeleteAccountModal';
 import PlatformView from '~/components/templates/PlatformView';
 import { Button } from '~/components/ui/Button';
 import { default as Styles } from '~/constants/GlobalStyles';
@@ -142,17 +142,17 @@ const Index = () => {
           </ProfileSection>
 
           {isModalVisible && showDeleteAccount && (
-            <ConfirmationModal
+            <DeleteAccountModal
               visible={isModalVisible}
               setVisible={setIsModalVisible}
               content={{
                 title: t('settings.delete_account.title'),
                 message: t('settings.delete_account.description'),
-                cancelText: t('settings.delete_account.delete_button'),
-                confirmText: t('settings.delete_account.cancel_button'),
+                confirmText: t('settings.delete_account.delete_button'),
+                cancelText: t('settings.delete_account.cancel_button'),
                 isPending: deleteAccount.isPending,
-                cancelAction: handleDeleteAccount,
-                confirmAction: () => setIsModalVisible(false),
+                confirmAction: handleDeleteAccount,
+                cancelAction: () => setIsModalVisible(false),
               }}
             />
           )}
@@ -197,7 +197,7 @@ const LongName = ({ label, value }: { label: string; value: string }) => {
           </LongNamePressable>
         }
         {showTooltip && (
-          <ConfirmationModal
+          <DeleteAccountModal
             visible={showTooltip}
             setVisible={setShowTooltip}
             type='tooltip'
