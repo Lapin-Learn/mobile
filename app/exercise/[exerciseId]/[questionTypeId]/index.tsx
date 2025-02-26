@@ -131,7 +131,7 @@ const QuestionTypeScreen = () => {
                   variant='black'
                   size='lg'
                   onPress={() => router.push(`/exercise/${exerciseId}/${questionTypeId}/jump-band` as Href)}>
-                  <Text style={GLOBAL_STYLES.textButton}>Jump band</Text>
+                  <Text style={GLOBAL_STYLES.textButton}>{t('jump-band.title', { ns: 'lesson' })}</Text>
                 </Button>
               </View>
             )}

@@ -1,4 +1,6 @@
 {
+  "get_start": "Bắt đầu",
+  "go_back": "Quay lại",
   "on_boarding": {
     "title": "Sáng kiến giáo dục mới được tạo",
     "title_1": "Ứng dụng học IELTS với phương pháp thú vị hơn! Loại bỏ sự nhàm chán và khô khan của phương thức luyện thi truyền thống.",
@@ -6,7 +8,6 @@
     "title_3": "Cùng tích luỹ điểm kinh nghiệm qua các bài học và nhiệm vụ để <bold>được thăng cấp và thăng hạng</bold>, vị trí Cao thủ đang chờ bạn!",
     "title_4": "Với mỗi bài học hoàn thành, bạn sẽ được tặng Cà rốt, sử dụng Cà rốt để <bold>mua lượt chấm bài cùng AI</bold> tại cửa hàng LAPINLEARN nhé!",
     "description": "Chọn phương pháp giảng dạy phù hợp và phương pháp phù hợp với nội dung, mục tiêu học tập và yêu cầu của người tham gia.",
-    "get_start": "Bắt đầu",
     "skip": "Bỏ qua"
   },
   "map": {

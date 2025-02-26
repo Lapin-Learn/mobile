@@ -1,4 +1,6 @@
 {
+  "get_start": "Get Started",
+  "go_back": "Go Back",
   "on_boarding": {
     "title": "Newly Created Educational Initiative",
     "title_1": "A more interesting IELTS learning app! Eliminate the boredom and dryness of traditional exam preparation methods.",
@@ -6,7 +8,6 @@
     "title_3": "Accumulate experience points through lessons and tasks to be <bold>promoted and ranked up</bold>, the Master position is waiting for you!",
     "title_4": "For each completed lesson, you will be rewarded with Carrots, use Carrots to <bold>buy AI grading attempts</bold> at the LAPINLEARN store!",
     "description": "Select suitable teaching approaches and methods that align with the content, learning goals, and participants’ requirements.",
-    "get_start": "Get Started",
     "skip": "Skip"
   },
   "map": {

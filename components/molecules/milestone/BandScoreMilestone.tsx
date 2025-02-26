@@ -32,7 +32,11 @@ export const BandScoreMilestone = ({ current, handleNextMilestone }: MilestonePr
             height: 240,
           }}
         />
-        <Text style={styles.title}>Chúc mừng bạn đã nâng band thành công</Text>
+        <Text style={styles.title}>
+          {t('jump-band.congratulations', {
+            ns: 'lesson',
+          })}
+        </Text>
         <View style={styles.badge}>
           <Text style={styles.bandscoreBadge}>Band {milestone}</Text>
         </View>
