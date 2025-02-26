@@ -35,7 +35,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   const answerQuestion = () => {
     const correctness = selected.map((pair) => answerRecord[pair[textColumnKey][0]] === pair[selectColumnKey][0]);
     const statistic = {
-      numberOfCorrect: correctness.filter((item) => item === true).length,
+      numberOfCorrect: correctness.filter((item) => item).length,
       totalOfQuestions: selected.length,
     };
 
@@ -66,7 +66,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   return (
     <>
       <ScrollView>
-        <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
+        <View style={[{ gap: 16, marginBottom: 120 }]}>
           {textColumn.options.map((label, index) => (
             <View
               key={label}
@@ -106,11 +106,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
           ))}
         </View>
       </ScrollView>
-      {isChecking && (
-        <>
-          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
-        </>
-      )}
+      {isChecking && <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />}
     </>
   );
 };

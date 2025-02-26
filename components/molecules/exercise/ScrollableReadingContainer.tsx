@@ -72,24 +72,24 @@ const ScrollableReadingContainer = ({ children }: ReadingContainerProps) => {
 const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 0,
+    paddingBottom: 16,
     paddingHorizontal: 16,
   },
   dragHandlerContainer: {
     width: '100%',
-    height: 12,
-    marginVertical: 8,
+    height: 16,
     ...Styles.backgroundColor.neutral[100],
     opacity: 0.7,
   },
   dragHandler: {
     height: 4,
-    width: 40,
+    width: 60,
     borderRadius: 2,
     backgroundColor: 'white',
     position: 'absolute',
-    top: 4,
+    top: 6,
     left: '50%',
-    transform: [{ translateX: -20 }],
+    transform: [{ translateX: -30 }],
   },
 });
 
