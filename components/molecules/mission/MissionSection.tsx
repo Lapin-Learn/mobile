@@ -5,7 +5,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import Carrot from '~/assets/images/carrot.svg';
 import IconCheckmarkCircle from '~/assets/images/checkmark-circle.svg';
 import { default as MissionIcon } from '~/components/icons/MissionIcon';
-import { Loading } from '~/components/molecules/Loading';
 import { ProfileSection as Section } from '~/components/molecules/profile/ProfileSection';
 import { Progress } from '~/components/ui/Progress';
 import Styles from '~/constants/GlobalStyles';
@@ -14,12 +13,9 @@ import { convertMissionNameCategory, formatRemainingToDateTime } from '~/lib/uti
 
 import { MissionProps, MissionSectionProps } from './type';
 
-export const MissionSection = ({ title, timeRemaining, missions }: MissionSectionProps) => {
+export const MissionSection = ({ title = '', timeRemaining = 0, missions }: MissionSectionProps) => {
   const { t } = useTranslation('mission');
 
-  if (title === undefined || timeRemaining === undefined) {
-    return <Loading />;
-  }
   return (
     <Section style={{ paddingHorizontal: 16, paddingTop: 16 }}>
       {title && timeRemaining && (
