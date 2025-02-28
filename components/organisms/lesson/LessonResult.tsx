@@ -42,6 +42,7 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
 
   const randomEncourage = Math.random() * Number(t('after.encourages.length'));
+  const randomNegativeEncourage = Math.random() * Number(t('after.encourages_negative.length'));
 
   const handleNextMilestone = () => {
     setIsModalVisible(false);
@@ -51,6 +52,8 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
       router.back();
     }
   };
+
+  console.log(data.percent);
 
   const renderItem = ({ key }: { key: string }) => {
     const { Component, label } = tickerComponents[key];
@@ -98,7 +101,9 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
             <View style={styles.progressContainer}>
               <ProgressCircle size={160} progress={data.percent as number} showsText />
               <Text style={StyleSheet.flatten([font.bold, fontSize['title-2']])}>
-                {t(`after.encourages.${Math.floor(randomEncourage)}`)}
+                {t(
+                  `after.encourages${data.percent < 50 ? '_negative' : ''}.${Math.floor(data.percent < 50 ? randomNegativeEncourage : randomEncourage)}`
+                )}
               </Text>
             </View>
             <View style={styles.tickerContainer}>

@@ -7,17 +7,14 @@ import { ScrollView } from 'react-native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
 import { z } from 'zod';
 
-import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
+import { BaseAnswerInputProps } from '~/components/organisms/exercise/answer-input/AnswerInput';
 import { FillInTheBlankContent, FillInTheBlankContentType } from '~/lib/types/questions';
 
 import ButtonCheck from '../../ButtonCheck';
 import checkingFunctionAnswers from './helper';
 import FillInTheBlankContentRenderer from './TypeRendering';
 
-type FillInTheBlankProps = FillInTheBlankContent & {
-  onAnswer: (answer: Answer) => void;
-  result: Answer;
-};
+type FillInTheBlankProps = FillInTheBlankContent & BaseAnswerInputProps;
 
 const getBlankAnswer = (content: FillInTheBlankContentType[]): (string | undefined)[] => {
   return content.flatMap((item) => {

@@ -9,11 +9,11 @@
   },
   "after": {
     "encourages_negative": [
-      "Thử lại",
+      "Thử lại bạn nhé!",
       "Bạn có thể làm tốt hơn",
       "Bạn có thể làm được",
       "Đừng bỏ cuộc",
-      "Tiếp tục cố gắng",
+      "Hãy tiếp tục cố gắng",
       "Bạn gần đạt được rồi"
     ],
     "encourages": [

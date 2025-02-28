@@ -40,12 +40,7 @@ const Lesson = () => {
   }, [isSuccess, data, clear, setQuestions, lessonId]);
 
   if (isLoading || currentQuestion === null) return <Loading />;
-  if (isCompleted && result)
-    return (
-      <View>
-        <LessonResult data={result} />
-      </View>
-    );
+  if (isCompleted && result) return <LessonResult data={result} />;
   if (isPendingMutation) {
     return (
       <PlatformView>

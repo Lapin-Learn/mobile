@@ -3,17 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MatchingItem from '~/components/molecules/MatchingItem';
+import { BaseAnswerInputProps } from '~/components/organisms/exercise/answer-input/AnswerInput';
 import Styles from '~/constants/GlobalStyles';
-import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 import { getBackgroundColorCorrectness } from '~/lib/utils/colorUtils';
 
 import ButtonCheck from '../ButtonCheck';
 
-type MatchingProps = MatchingContent & {
-  onAnswer: (answer: Answer) => void;
-  result: Answer;
-};
+type MatchingProps = MatchingContent & BaseAnswerInputProps;
 
 const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 'columnA' }: MatchingProps) => {
   const [selected, setSelected] = useState<PairAnswer[]>([]);
