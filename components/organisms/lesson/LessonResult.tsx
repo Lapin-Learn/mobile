@@ -53,8 +53,6 @@ export const LessonResult = ({ data }: { data: LessonResultProps }) => {
     }
   };
 
-  console.log(data.percent);
-
   const renderItem = ({ key }: { key: string }) => {
     const { Component, label } = tickerComponents[key];
 
