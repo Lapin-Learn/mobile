@@ -13,8 +13,9 @@ import { convertMissionNameCategory, formatRemainingToDateTime } from '~/lib/uti
 
 import { MissionProps, MissionSectionProps } from './type';
 
-export const MissionSection = ({ title, timeRemaining, missions }: MissionSectionProps) => {
+export const MissionSection = ({ title = '', timeRemaining = 0, missions }: MissionSectionProps) => {
   const { t } = useTranslation('mission');
+
   return (
     <Section style={{ paddingHorizontal: 16, paddingTop: 16 }}>
       {title && timeRemaining && (

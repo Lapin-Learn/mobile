@@ -5,17 +5,14 @@ import { ScrollView } from 'react-native';
 import ChoiceButton from '~/components/molecules/exercise/ChoiceButton';
 import { ChoiceCheckBox } from '~/components/molecules/exercise/ChoiceCheckBox';
 import ChoiceRadio from '~/components/molecules/exercise/ChoiceRadio';
+import { BaseAnswerInputProps } from '~/components/organisms/exercise/answer-input/AnswerInput';
 import { RadioGroup } from '~/components/ui/RadioGroup';
-import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MultipleChoiceContent } from '~/lib/types/questions';
 import { getMultipleChoiceDecoration } from '~/lib/utils/question-decoration';
 
 import ButtonCheck from '../ButtonCheck';
 
-type MultipleChoiceProps = MultipleChoiceContent & {
-  onAnswer: (answer: Answer) => void;
-  result: Answer;
-};
+type MultipleChoiceProps = MultipleChoiceContent & BaseAnswerInputProps;
 
 const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoiceProps) => {
   const { t } = useTranslation('question');
@@ -115,11 +112,7 @@ const MultipleChoice = ({ options, answer, onAnswer, result }: MultipleChoicePro
           ))
         )}
       </ScrollView>
-      {isChecking && (
-        <>
-          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
-        </>
-      )}
+      {isChecking && <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />}
     </>
   );
 };

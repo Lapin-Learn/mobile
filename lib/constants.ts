@@ -29,6 +29,7 @@ export const QUERY_KEYS = {
   instruction: 'instruction',
   questions: 'questions',
   lessonQuestions: 'lessonQuestions',
+  jumpBandQuestions: 'jumpBandQuestions',
   missions: 'missions',
   shop: 'shop',
   inventory: 'inventory',
@@ -55,13 +56,17 @@ export const GLOBAL_STYLES = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 48,
     marginHorizontal: 16,
   },
   textButton: {
     ...Styles.font.semibold,
     ...Styles.fontSize.body,
     ...Styles.color.white,
+  },
+  textButtonGhost: {
+    ...Styles.font.semibold,
+    ...Styles.fontSize.body,
+    ...Styles.color.primary,
   },
   modalBackground: {
     position: 'absolute',

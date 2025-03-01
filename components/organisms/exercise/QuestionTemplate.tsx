@@ -2,7 +2,6 @@ import { LucideMoveLeft } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
 
-import { Loading } from '~/components/molecules/Loading';
 import { ExitModal } from '~/components/organisms/modals/ExitModal';
 import { Progress } from '~/components/ui/Progress';
 import { useDailyLessonQuestionStore, useSpeakingStore } from '~/hooks/zustand';
@@ -20,17 +19,10 @@ const QuestionTemplate = () => {
   const {
     nextQuestion,
     answerQuestion,
-    mutation,
-    state: { totalQuestion, learnerAnswers, isCompleted, currentQuestion, currentQuestionIndex, isPendingMutation },
+    state: { totalQuestion, learnerAnswers, currentQuestion, currentQuestionIndex },
   } = useDailyLessonQuestionStore();
   const { result, setResult } = useSpeakingStore();
   const [isExiting, setIsExiting] = useState(false);
-
-  useEffect(() => {
-    if (isCompleted && currentQuestionIndex === totalQuestion - 1) {
-      mutation();
-    }
-  }, [isCompleted]);
 
   useEffect(() => {
     const backAction = () => {
@@ -45,14 +37,6 @@ const QuestionTemplate = () => {
   const handleBack = () => {
     setIsExiting(true);
   };
-
-  if (isPendingMutation) {
-    return (
-      <PlatformView>
-        <Loading />
-      </PlatformView>
-    );
-  }
 
   const showAnswerModal = learnerAnswers[currentQuestionIndex].totalOfQuestions > 0;
   const { accCorrectLetters, accIncorrectLetters } = getAccurateIPA(result?.correct_letters ?? []);
@@ -80,49 +64,47 @@ const QuestionTemplate = () => {
         <View style={{ width: 2 }} />
       </View>
       {/* For Speaking */}
-      <>
-        {currentQuestion?.contentType === ContentTypeEnum.PRONUNCIATION ? (
-          <Speaking onAnswer={answerQuestion} data={currentQuestion} />
-        ) : (
-          <>
-            {currentQuestion && (
-              <View style={styles.currentQuestion}>
-                <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
-                <View
-                  style={{
-                    flex: 1,
-                    flexGrow: 1,
-                    paddingHorizontal: 16,
-                    paddingBottom: showAnswerModal ? 120 : bottomScreenGap,
-                  }}>
-                  <AnswerInput
-                    onAnswer={answerQuestion}
-                    result={learnerAnswers[currentQuestionIndex]}
-                    {...currentQuestion}
-                  />
-                </View>
+      {currentQuestion?.contentType === ContentTypeEnum.PRONUNCIATION ? (
+        <Speaking onAnswer={answerQuestion} data={currentQuestion} />
+      ) : (
+        <>
+          {currentQuestion && (
+            <View style={styles.currentQuestion}>
+              <QuestionCard data={currentQuestion} isPaused={showAnswerModal} />
+              <View
+                style={{
+                  flex: 1,
+                  flexGrow: 1,
+                  paddingHorizontal: 16,
+                  paddingBottom: showAnswerModal ? 120 : bottomScreenGap,
+                }}>
+                <AnswerInput
+                  onAnswer={answerQuestion}
+                  result={learnerAnswers[currentQuestionIndex]}
+                  {...currentQuestion}
+                />
               </View>
-            )}
-          </>
-        )}
-        {showAnswerModal && (
-          <AnswerModal
-            type={
-              learnerAnswers[currentQuestionIndex].numberOfCorrect /
-                learnerAnswers[currentQuestionIndex].totalOfQuestions >
-              0.5
-                ? 'correct'
-                : 'incorrect'
-            }
-            onPressContinue={() => {
-              nextQuestion();
-              setResult(undefined);
-            }}
-            percentage={accCorrectLetters / (accCorrectLetters + accIncorrectLetters)}
-          />
-        )}
-        {isExiting && <ExitModal onClose={() => setIsExiting(false)} />}
-      </>
+            </View>
+          )}
+        </>
+      )}
+      {showAnswerModal && (
+        <AnswerModal
+          type={
+            learnerAnswers[currentQuestionIndex].numberOfCorrect /
+              learnerAnswers[currentQuestionIndex].totalOfQuestions >
+            0.5
+              ? 'correct'
+              : 'incorrect'
+          }
+          onPressContinue={() => {
+            nextQuestion();
+            setResult(undefined);
+          }}
+          percentage={accCorrectLetters / (accCorrectLetters + accIncorrectLetters)}
+        />
+      )}
+      {isExiting && <ExitModal onClose={() => setIsExiting(false)} />}
     </PlatformView>
   );
 };

@@ -9,11 +9,11 @@ import PlatformView from '~/components/templates/PlatformView';
 import GlobalStyles from '~/constants/GlobalStyles';
 import { useInstruction } from '~/hooks/react-query/useDailyLesson';
 import { useToast } from '~/hooks/useToast';
-import { useDailyLessonStore } from '~/hooks/zustand';
+import { useCurrentQuestionTypeStore } from '~/hooks/zustand';
 import { formatHtmlContent } from '~/lib/utils';
 
 const Instruction = () => {
-  const { currentQuestionType } = useDailyLessonStore();
+  const { currentQuestionType } = useCurrentQuestionTypeStore();
   const toast = useToast();
   const { t } = useTranslation('question');
   const {

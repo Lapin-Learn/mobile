@@ -1,5 +1,5 @@
 export * from './useAuthStore';
+export * from './useCurrentQuestionTypeStore';
 export * from './useDailyLessonQuestionStore';
-export * from './useDailyLessonStore';
 export * from './useMilestoneStore';
 export * from './useSpeakingStore';

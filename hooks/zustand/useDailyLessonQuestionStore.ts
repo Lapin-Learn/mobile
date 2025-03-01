@@ -88,7 +88,7 @@ const useLessonStore = create<State & Action>((set, get) => ({
   },
 }));
 
-export const useDailyLessonQuestionStore = () => {
+export const useDailyLessonQuestionStore = (isJumpBand: boolean = false) => {
   const lessonCompletionMutation = useLessonCompletion();
   // const lessonSpeakingCompletionMutation = useLessonSpeakingCompletion();
   const {
@@ -135,6 +135,7 @@ export const useDailyLessonQuestionStore = () => {
         correctAnswers: statistic.numberOfCorrect,
         wrongAnswers: statistic.totalOfQuestions - statistic.numberOfCorrect,
         duration: getDuration(startTime),
+        isJumpBand,
       },
       {
         onSuccess: ({ bonusCarrot, bonusXP, correctAnswers, duration }) => {

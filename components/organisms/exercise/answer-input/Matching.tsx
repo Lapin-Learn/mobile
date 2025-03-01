@@ -3,17 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MatchingItem from '~/components/molecules/MatchingItem';
+import { BaseAnswerInputProps } from '~/components/organisms/exercise/answer-input/AnswerInput';
 import Styles from '~/constants/GlobalStyles';
-import { Answer } from '~/hooks/zustand/useDailyLessonQuestionStore';
 import { MatchingContent, PairAnswer } from '~/lib/types/questions';
 import { getBackgroundColorCorrectness } from '~/lib/utils/colorUtils';
 
 import ButtonCheck from '../ButtonCheck';
 
-type MatchingProps = MatchingContent & {
-  onAnswer: (answer: Answer) => void;
-  result: Answer;
-};
+type MatchingProps = MatchingContent & BaseAnswerInputProps;
 
 const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 'columnA' }: MatchingProps) => {
   const [selected, setSelected] = useState<PairAnswer[]>([]);
@@ -35,7 +32,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   const answerQuestion = () => {
     const correctness = selected.map((pair) => answerRecord[pair[textColumnKey][0]] === pair[selectColumnKey][0]);
     const statistic = {
-      numberOfCorrect: correctness.filter((item) => item === true).length,
+      numberOfCorrect: correctness.filter((item) => item).length,
       totalOfQuestions: selected.length,
     };
 
@@ -66,7 +63,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
   return (
     <>
       <ScrollView>
-        <View style={[{ gap: 16 }, isChecking ? { marginBottom: 88 } : { marginBottom: 40 }]}>
+        <View style={[{ gap: 16, marginBottom: 120 }]}>
           {textColumn.options.map((label, index) => (
             <View
               key={label}
@@ -106,11 +103,7 @@ const Matching = ({ answer, columnA, columnB, onAnswer, result, textColumnKey = 
           ))}
         </View>
       </ScrollView>
-      {isChecking && (
-        <>
-          <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />
-        </>
-      )}
+      {isChecking && <ButtonCheck handleCheckAnswer={answerQuestion} content={t('general.check')} />}
     </>
   );
 };

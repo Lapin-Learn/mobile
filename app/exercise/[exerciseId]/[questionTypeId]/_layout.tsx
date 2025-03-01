@@ -2,9 +2,10 @@ import { Stack } from 'expo-router';
 
 const Layout = () => {
   return (
-    <Stack>
-      <Stack.Screen name='index' options={{ headerShown: false }} />
-      <Stack.Screen name='instruction' options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='index' />
+      <Stack.Screen name='instruction' />
+      <Stack.Screen name='jump-band' />
     </Stack>
   );
 };
