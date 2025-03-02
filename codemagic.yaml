@@ -3,6 +3,10 @@ workflows:
         name: React Native iOS
         max_build_duration: 120
         instance_type: mac_mini_m2
+        cache:
+          cache_paths:
+          - ~/.gradle/caches
+          - ~/Library/Caches/CocoaPods
         integrations:
           app_store_connect: Appstore API Key
         environment:
@@ -38,16 +42,12 @@ workflows:
           - name: Set up code signing settings on Xcode project
             script: |
               xcode-project use-profiles --warn-only
-          - name: Increment build number
-            script: |
-              # Information about getting the latest build version can be found here: https://docs.codemagic.io/knowledge-codemagic/build-versioning/#app-store-or-testflight-latest-build-number
-              cd $CM_BUILD_DIR/ios
-              LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
-              IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
-              MINOR=$((MINOR + 1))
-              NEW_VERSION="${MAJOR}.${MINOR}.1"
-              agvtool new-version -all "$NEW_VERSION"
-              echo "Updated version to $NEW_VERSION"
+          - name: Get the latest build number
+            script: | 
+              LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number $APP_APPLE_ID)
+              cd ./ios # avgtool must run in the folder where xcodeproj file is located
+              agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+              echo "Updated build number to $(($LATEST_BUILD_NUMBER + 1))"
           - name: Build ipa for distribution
             script: |
               xcode-project build-ipa \
@@ -59,6 +59,12 @@ workflows:
           - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
           - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
+          slack:
+            channel: '#resources'
+            notify_on_build_start: true # To receive a notification when a build starts
+            notify:
+              success: false # To not receive a notification when a build succeeds
+              failure: false # To not receive a notification when a build fails
           email:
             recipients:
               - dophamthanhuy2842003@gmail.com
@@ -66,16 +72,4 @@ workflows:
             notify:
               success: true
               failure: false
-          app_store_connect:
-            auth: integration
-
-            # Configuration related to TestFlight (optional)
-            # Note: This action is performed during post-processing.
-            submit_to_testflight: true
-            # beta_groups: # Specify the names of beta tester groups that will get access to the build once it has passed beta review.
-            #   - group name 1
-            #   - group name 2
-
-            # Configuration related to App Store (optional)
-            # Note: This action is performed during post-processing.
-            submit_to_app_store: false
+          
