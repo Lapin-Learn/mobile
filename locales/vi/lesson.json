@@ -8,6 +8,14 @@
     ]
   },
   "after": {
+    "encourages_negative": [
+      "Thử lại bạn nhé!",
+      "Bạn có thể làm tốt hơn",
+      "Bạn có thể làm được",
+      "Đừng bỏ cuộc",
+      "Hãy tiếp tục cố gắng",
+      "Bạn gần đạt được rồi"
+    ],
     "encourages": [
       "Tuyệt vời",
       "Làm tốt lắm",
@@ -32,5 +40,11 @@
     "description": "Bạn chưa làm xong bài học này. Bạn có chắc chắn muốn thoát không?",
     "continue": "Tiếp tục làm bài",
     "quit": "Thoát"
+  },
+  "jump-band": {
+    "title": "Vượt band",
+    "guidance": "Để hoàn thành bài học vượt band, bạn phải đạt được trên <bold>90% số điểm</bold> trong bài kiểm tra này.",
+    "numberOfQuestions": "Bài học có <bold>{{questions}} câu hỏi.</bold>",
+    "congratulations": "Chúc mừng bạn dfasdfđã nâng band thành công!"
   }
 }

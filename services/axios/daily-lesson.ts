@@ -10,6 +10,7 @@ type LessonCompletionParams = {
   correctAnswers: number;
   wrongAnswers: number;
   duration: number;
+  isJumpBand?: boolean;
 };
 
 export const getQuestionTypes = async ({ queryKey }: QueryFunctionContext<string[]>) => {
@@ -28,7 +29,7 @@ type ILessonsResponse = {
 export const getLessons = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, , questionTypeId, bandScore] = queryKey;
 
-  return await api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`, {
+  return api.get<ILessonsResponse>(`/daily-lessons/question-types/${questionTypeId}/lessons`, {
     searchParams: { band: bandScore },
   });
 };
@@ -46,14 +47,24 @@ type ILessonQuestionsResponse = {
 
 export const getLessonQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [, lessonId] = queryKey;
-  return await api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
+  return api.get<ILessonQuestionsResponse>(`/daily-lessons/${lessonId}/questions`);
+};
+
+type IJumpBandQuestionsResponse = {
+  lastLessonId: number;
+  questions: IQuestion[];
+};
+
+export const getJumpBandQuestions = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+  const [, questionTypeId] = queryKey;
+  return api.get<IJumpBandQuestionsResponse>(`/daily-lessons/question-types/${questionTypeId}/band-upgrade-questions`);
 };
 
 export const confirmLessonCompletion = async (params: LessonCompletionParams) => {
-  return await api.post<ILessonResult>(`/daily-lessons/completion`, { body: params });
+  return api.post<ILessonResult>(`/daily-lessons/completion`, { body: params });
 };
 
 export const getInstruction = async ({ queryKey }: QueryFunctionContext<unknown[]>) => {
   const [, , questionTypeId] = queryKey;
-  return await api.get<IInstruction>(`/daily-lessons/question-types/${questionTypeId}/instruction`);
+  return api.get<IInstruction>(`/daily-lessons/question-types/${questionTypeId}/instruction`);
 };

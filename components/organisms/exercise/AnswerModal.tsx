@@ -79,7 +79,10 @@ const NormalTypeContent = ({
   type,
   randomEncourage,
   setShowModal,
-}: Pick<AnswerModalProps, 'type'> & { randomEncourage: number; setShowModal?: (value: boolean) => void }) => {
+}: Pick<AnswerModalProps, 'type'> & {
+  randomEncourage: number;
+  setShowModal?: (value: boolean) => void;
+}) => {
   const { t } = useTranslation('question');
   return (
     <View style={styles.textContainer}>
@@ -102,7 +105,10 @@ const NormalTypeContent = ({
         }}>
         <Text
           style={[
-            { textDecorationLine: 'underline' },
+            {
+              textDecorationLine: 'underline',
+              marginVertical: 8,
+            },
             Styles.font.normal,
             Styles.fontSize.subhead,
             type === 'correct' ? Styles.color.green[700] : Styles.color.red[700],

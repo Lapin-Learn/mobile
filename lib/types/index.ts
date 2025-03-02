@@ -105,6 +105,7 @@ export type IQuestionType = {
   bandScoreRequires: {
     bandScore: BandScoreEnum;
     requireXP: number;
+    jumpBandPercentage: number;
   }[];
   lessons: number;
   progress: {
@@ -172,7 +173,7 @@ export type Quest = {
 
 export type IMilestone = {
   type: MilestonesEnum;
-  newValue: ILevel | RankEnum | number | IMissionMilestone[];
+  newValue: ILevel | RankEnum | number | IMissionMilestone[] | string;
 };
 
 export type IMission = {

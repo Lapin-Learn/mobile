@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap',
     gap: 4,
+    paddingBottom: 120,
   },
   textInput: {
     height: 'auto',

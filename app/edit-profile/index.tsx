@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { subDays } from 'date-fns';
 import { Href, router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -25,7 +26,7 @@ const schema = z.object({
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'Invalid date' })
-    .max(new Date(), { message: 'Invalid date' })
+    .max(subDays(new Date(), 1), { message: 'Invalid date' })
     .optional(),
 });
 
@@ -43,11 +44,9 @@ const UpdateProfile = () => {
     reset,
   } = useForm<FormField>({
     defaultValues: {
-      username: data?.username || '',
-      email: data?.email || '',
-      fullName: data?.fullName || '',
-      dob: data?.dob ? new Date(data.dob) : new Date(),
-      gender: data?.gender || GenderEnum.MALE,
+      username: data?.username ?? '',
+      email: data?.email ?? '',
+      fullName: data?.fullName ?? '',
     },
     resolver: zodResolver(schema),
   });
@@ -69,8 +68,8 @@ const UpdateProfile = () => {
     const updatedData = {
       fullName: data.fullName?.trim().replace(/\s+/g, ' '),
       username: data.username.trim().replace(/\s+/g, ' '),
-      dob: data.dob ? new Date(data.dob) : '',
-      gender: data.gender as GenderEnum,
+      dob: data.dob ? new Date(data.dob) : undefined,
+      gender: data.gender ? (data.gender as GenderEnum) : undefined,
     };
     updateUserProfileMutation.mutate(updatedData, {
       onSuccess: (returnData) => {
@@ -78,9 +77,10 @@ const UpdateProfile = () => {
           username: returnData?.username ?? '',
           email: returnData?.email ?? '',
           fullName: returnData?.fullName ?? '',
-          dob: returnData?.dob ? new Date(returnData.dob) : new Date(),
-          gender: returnData?.gender ?? GenderEnum.MALE,
+          dob: returnData?.dob ? new Date(returnData.dob) : undefined,
+          gender: returnData?.gender ?? undefined,
         });
+        setIsFormChanged(false);
       },
     });
   };

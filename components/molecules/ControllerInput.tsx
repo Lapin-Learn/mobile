@@ -38,7 +38,7 @@ export const ControllerInput = <T,>({
               ...Styles.font.semibold,
               ...Styles.color.red[500],
             }}>
-            {'*'}
+            *
           </Text>
         )}
       </Text>

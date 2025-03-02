@@ -64,7 +64,6 @@ export const useSignIn = () => {
           email: variables.email,
           describe: 'sign in',
         });
-        toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
         router.replace('/');
       }
     },
@@ -80,7 +79,6 @@ export const useSignIn = () => {
 
 export const useSignInWithProvider = () => {
   const toast = useToast();
-  const { t } = useTranslation('auth');
   return useMutation({
     mutationFn: signInWithProvider,
     onSuccess: async (data) => {
@@ -88,7 +86,6 @@ export const useSignInWithProvider = () => {
         analytics.logLogin({
           method: 'google',
         });
-        toast.show({ type: 'success', text1: t('signIn.welcomeBack') });
         await setTokenAsync(data);
         router.replace('/');
       }

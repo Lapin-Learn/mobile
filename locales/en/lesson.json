@@ -8,6 +8,16 @@
     ]
   },
   "after": {
+    "encourages_negative": [
+      "Try again",
+      "You can do better",
+      "You can do it",
+      "Don't give up",
+      "Keep trying",
+      "You're almost there",
+      "You're getting there",
+      "You're getting closer"
+    ],
     "encourages": ["Great", "Good job", "Well done", "Keep it up", "You're doing great", "You're on the right track"],
     "receive-reward": "Receive reward",
     "Experience": "Experience",
@@ -25,5 +35,11 @@
     "description": "You haven't finished this lesson. Are you sure you want to quit?",
     "continue": "Continue lesson",
     "quit": "Quit"
+  },
+  "jump-band": {
+    "title": "Jump band",
+    "guidance": "To jump band, you must score above <bold>90% of the points</bold> in this test.",
+    "numberOfQuestions": "The lesson has <bold>{{questions}} questions.</bold>",
+    "congratulations": "Congratulations on successfully upgrading your band!"
   }
 }

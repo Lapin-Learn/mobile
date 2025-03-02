@@ -3,7 +3,7 @@
     "owner": "lapinlearn",
     "name": "LapinLearn",
     "slug": "lapinlearn",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "lapinlearn",
@@ -30,7 +30,7 @@
         "ExpoLocalization_supportsRTL": false
       },
       "bundleIdentifier": "com.datn.lapinlearn",
-      "buildNumber": "10205"
+      "buildNumber": "10206"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +45,7 @@
         "android.permissions.READ_MEDIA_IMAGES"
       ],
       "package": "com.datn.lapinlearn",
-      "versionCode": 1000211
+      "versionCode": 1000212
     },
     "web": {
       "bundler": "metro",

@@ -11,7 +11,7 @@ type DailyLessonActions = {
   setCurrentQuestionType: (currentQuestionType: DailyLessonState['currentQuestionType']) => void;
 };
 
-export const useDailyLessonStore = create<DailyLessonState & DailyLessonActions>((set) => ({
+export const useCurrentQuestionTypeStore = create<DailyLessonState & DailyLessonActions>((set) => ({
   exerciseId: null,
   currentQuestionType: {} as IQuestionType,
   setCurrentQuestionType: (currentQuestionType: DailyLessonState['currentQuestionType']) =>
