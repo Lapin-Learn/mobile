@@ -35,7 +35,23 @@ workflows:
               echo $GOOGLE_SERVICES_JSON | base64 --decode > ./google-services.json
           - name: Install npm dependencies
             script: |
-              npm install && npx expo prebuild
+              npm install
+          - name: Prebuild project
+            script: |
+              VERSION=$(grep -o '"version": *"[^"]*"' app.json | cut -d '"' -f 4)
+              BUILD_NUMBER=$(grep -o '"buildNumber": *"[^"]*"' app.json | cut -d '"' -f 4)
+              VERSION_CODE=$(grep -o '"versionCode": *[0-9]*' app.json | cut -d ' ' -f 2)
+              IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+              PATCH=$((PATCH + 1))
+              NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+              NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+              NEW_VERSION_CODE=$((VERSION_CODE + 1))
+              sed -i.bak -E "s/\"version\": \"$VERSION\"/\"version\": \"$NEW_VERSION\"/" app.json
+              sed -i.bak -E "s/\"buildNumber\": \"$BUILD_NUMBER\"/\"buildNumber\": \"$NEW_BUILD_NUMBER\"/" app.json
+              sed -i.bak -E "s/\"versionCode\": $VERSION_CODE/\"versionCode\": $NEW_VERSION_CODE/" app.json
+              rm app.json.bak
+              cat app.json
+              npx expo prebuild
           - name: Install CocoaPods dependencies
             script: |
               cd ios && pod install
