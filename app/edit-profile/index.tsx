@@ -25,8 +25,8 @@ const schema = z.object({
   fullName: z.string().optional(),
   dob: z
     .date()
-    .min(new Date('1900-01-01'), { message: 'Invalid date' })
-    .max(subDays(new Date(), 1), { message: 'Invalid date' })
+    .min(new Date('1900-01-01'), { message: 'error.dob_min' })
+    .max(subDays(new Date(), 1), { message: `error.dob_max|${subDays(new Date(), 1)}` })
     .optional(),
 });
 
@@ -47,6 +47,7 @@ const UpdateProfile = () => {
       username: data?.username ?? '',
       email: data?.email ?? '',
       fullName: data?.fullName ?? '',
+      dob: data?.dob ? new Date(data.dob) : undefined,
     },
     resolver: zodResolver(schema),
   });

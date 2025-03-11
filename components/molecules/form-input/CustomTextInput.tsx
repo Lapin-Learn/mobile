@@ -7,11 +7,10 @@ const CustomTextInput = ({ style, ...props }: TextInputProps) => {
     <TextInput
       style={StyleSheet.flatten([
         styles.root,
-        props.editable === false && Platform.OS === 'ios'
-          ? {
-              backgroundColor: '#F8F8F8',
-            }
-          : {},
+        props.editable === false &&
+          Platform.OS === 'ios' && {
+            backgroundColor: '#F8F8F8',
+          },
         style,
       ])}
       placeholderTextColor={Styles.color.neutral[300].color}

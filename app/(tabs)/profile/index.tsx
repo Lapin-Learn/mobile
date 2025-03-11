@@ -71,14 +71,14 @@ const Index = () => {
       setShowDeleteAccount(showDeleteAccount);
     });
 
-  const profileData = useMemo(
-    () => [
-      { label: 'profile.fullname', value: data?.fullName ?? '--' },
-      { label: 'profile.username', value: data?.username ?? '--' },
-      { label: 'profile.email', value: data?.email ?? '--' },
-    ],
-    [data]
-  );
+  const profileData = useMemo(() => {
+    const defaultValue = '--';
+    return [
+      { label: 'profile.fullname', value: data?.fullName || defaultValue },
+      { label: 'profile.username', value: data?.username || defaultValue },
+      { label: 'profile.email', value: data?.email || defaultValue },
+    ];
+  }, [data]);
 
   if (error) {
     return <Text>{error.message}</Text>;
@@ -185,6 +185,10 @@ const LongName = ({ label, value }: { label: string; value: string }) => {
       <>{children}</>
     );
   };
+
+  if (value.length === 0) {
+    return <Text style={styles.username}>{'--'}</Text>;
+  }
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
