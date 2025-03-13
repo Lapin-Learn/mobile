@@ -1,7 +1,7 @@
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import RankIcon from '~/components/icons/RankIcon';
 import PlatformView from '~/components/templates/PlatformView';
@@ -63,7 +63,7 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
       <Modal animationType='slide' transparent={true} visible={open} onRequestClose={handleClose}>
         <View style={trackBarStyles.modal}>
           <PlatformView>
-            <View
+            <ScrollView
               style={{
                 paddingHorizontal: 16,
                 height: '100%',
@@ -111,7 +111,9 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
                   </View>
                 </View>
                 <View style={trackBarStyles.column}>
-                  <Text style={[trackBarStyles.text, { marginBottom: 12 }]}>{t('rank.encouragement')}</Text>
+                  <Text style={[trackBarStyles.text, { marginBottom: 12 }]} adjustsFontSizeToFit numberOfLines={3}>
+                    {t('rank.encouragement')}
+                  </Text>
                   {Object.values(RankEnum).map((rank) => (
                     <View
                       key={rank}
@@ -132,7 +134,7 @@ const XpTrackBar = ({ level = 1, currentXp = 0, levelXp = 100, rank = RankEnum.B
                   ))}
                 </View>
               </View>
-            </View>
+            </ScrollView>
             <Pressable style={trackBarStyles.closeButton} onPress={handleClose}>
               <X color='gray' />
             </Pressable>

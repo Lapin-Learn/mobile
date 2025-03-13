@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { subDays } from 'date-fns';
 import { router, useFocusEffect } from 'expo-router';
 import { LogOut } from 'lucide-react-native';
 import { useCallback, useEffect } from 'react';
@@ -26,7 +27,7 @@ const schema = z.object({
   dob: z
     .date()
     .min(new Date('1900-01-01'), { message: 'error.dob_min' })
-    .max(new Date(), { message: `error.dob_max|${new Date().getFullYear()}` })
+    .max(subDays(new Date(), 1), { message: `error.dob_max|${subDays(new Date(), 1)}` })
     .optional(),
   gender: z.nativeEnum(GenderEnum).optional(),
 });
