@@ -4,6 +4,8 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
 
+import { AppStateHandler } from './AppStateHandler';
+
 export const AppStack = () => {
   const { status } = useAuth();
   const [loaded] = useFonts({
@@ -46,24 +48,24 @@ export const AppStack = () => {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name='index'
-        options={{
+    <>
+      <AppStateHandler />
+      <Stack
+        screenOptions={{
+          headerShown: false,
           animation: 'fade',
-        }}
-      />
-      <Stack.Screen name='on-boarding' />
-      <Stack.Screen name='update-profile' />
-      <Stack.Screen name='auth' options={{ animation: 'fade', animationTypeForReplace: 'push' }} />
-      <Stack.Screen name='(tabs)' options={{ animation: 'fade', animationTypeForReplace: 'push' }} />
-      <Stack.Screen name='edit-profile' />
-      <Stack.Screen name='firebaseauth' />
-      <Stack.Screen name='exercise' />
-      <Stack.Screen name='random' />
-      <Stack.Screen name='lesson' />
-      <Stack.Screen name='items' />
-      <Stack.Screen name='streak' />
-    </Stack>
+        }}>
+        <Stack.Screen name='on-boarding' />
+        <Stack.Screen name='update-profile' />
+        <Stack.Screen name='auth' options={{ animation: 'fade', animationTypeForReplace: 'push' }} />
+        <Stack.Screen name='(tabs)' options={{ animation: 'fade', animationTypeForReplace: 'push' }} />
+        <Stack.Screen name='edit-profile' />
+        <Stack.Screen name='firebaseauth' />
+        <Stack.Screen name='exercise' />
+        <Stack.Screen name='lesson' />
+        <Stack.Screen name='items' />
+        <Stack.Screen name='streak' />
+      </Stack>
+    </>
   );
 };

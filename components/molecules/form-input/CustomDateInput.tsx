@@ -39,59 +39,63 @@ const CustomDateInput = <T,>({ props, placeholder, ...inputProps }: CustomDateIn
       </View>
       {showDatePicker &&
         (Platform.OS === 'ios' ? (
-          <Modal animationType='none' transparent={true} visible={true}>
-            <View
+          <Modal
+            animationType='slide'
+            transparent={true}
+            visible={showDatePicker}
+            onRequestClose={() => setShowDatePicker(false)}>
+            <Pressable
               style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                width: '100%',
-                alignItems: 'center',
+                flex: 1,
+                backgroundColor: 'transparent',
                 justifyContent: 'flex-end',
-                shadowColor: 'black',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                ...Styles.backgroundColor.background,
-              }}>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row-reverse',
-                  paddingVertical: 4,
-                  borderBottomWidth: 1,
-                  borderBottomColor: Styles.color.border.color,
-                  ...Styles.backgroundColor.background,
-                }}>
-                <Button style={{ width: 'auto' }} variant='link' size='md' onPress={handleSelect}>
-                  <Text
+              }}
+              onPress={() => setShowDatePicker(false)}>
+              <Pressable>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    borderTopLeftRadius: 12,
+                    borderTopRightRadius: 12,
+                    paddingBottom: 20,
+                  }}>
+                  <View
                     style={{
-                      ...Styles.font.normal,
-                      ...Styles.fontSize['title-4'],
-                      ...Styles.color.blue[500],
+                      width: '100%',
+                      flexDirection: 'row-reverse',
+                      paddingVertical: 4,
+                      borderBottomWidth: 1,
+                      borderBottomColor: Styles.color.border.color,
+                      ...Styles.backgroundColor.background,
                     }}>
-                    {t('profile.done')}
-                  </Text>
-                </Button>
-              </View>
-              <View>
-                <DateTimePicker
-                  value={field.value ? new Date(field.value) : subDays(new Date(), 1)}
-                  mode='date'
-                  display='spinner'
-                  textColor='black'
-                  themeVariant='light'
-                  minimumDate={subDays(new Date(), 365 * 100)} // 100 years ago
-                  maximumDate={subDays(new Date(), 1)} // yesterday
-                  onChange={(_, selectedDate) => {
-                    setLocalValue(selectedDate);
-                  }}
-                />
-              </View>
-            </View>
+                    <Button style={{ width: 'auto' }} variant='link' size='md' onPress={handleSelect}>
+                      <Text
+                        style={{
+                          ...Styles.font.normal,
+                          ...Styles.fontSize['title-4'],
+                          ...Styles.color.blue[500],
+                        }}>
+                        {t('profile.done')}
+                      </Text>
+                    </Button>
+                  </View>
+                  <View>
+                    <DateTimePicker
+                      value={field.value ? new Date(field.value) : subDays(new Date(), 1)}
+                      mode='date'
+                      display='spinner'
+                      textColor='black'
+                      themeVariant='light'
+                      minimumDate={subDays(new Date(), 365 * 100)} // 100 years ago
+                      maximumDate={subDays(new Date(), 1)} // yesterday
+                      onChange={(_, selectedDate) => {
+                        setLocalValue(selectedDate);
+                      }}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+            </Pressable>
           </Modal>
         ) : (
           <DateTimePicker
