@@ -4,7 +4,7 @@ import { User } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import Styles from '~/constants/GlobalStyles';
@@ -19,7 +19,7 @@ const Avatar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isChangingAvatar, setIsChangingAvatar] = useState(false);
   const { data: avatar, isFetching, isSuccess } = useGetUserAvatar();
-  const { mutate: uploadAvatar } = useUploadAvatar();
+  const { mutateAsync: uploadAvatar } = useUploadAvatar();
   const toast = useToast();
   const { t } = useTranslation('error');
 
@@ -145,10 +145,8 @@ const Avatar = () => {
           </Animated.View>
         )}
 
-        {(isLoading || isChangingAvatar) && (
-          <Animated.View entering={FadeIn} exiting={FadeOut} style={[styles.absoluteFill, styles.loadingContainer]}>
-            <ActivityIndicator size='small' color={Styles.color.orange['500'].color} />
-          </Animated.View>
+        {isLoading && (
+          <Animated.View entering={FadeIn} exiting={FadeOut} style={[styles.absoluteFill, styles.loadingContainer]} />
         )}
       </TouchableOpacity>
     </View>
@@ -176,7 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     alignItems: 'center',
     justifyContent: 'center',
   },

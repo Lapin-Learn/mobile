@@ -38,7 +38,7 @@ export const generateTarget = (days: number) => {
 
 const Streak = () => {
   const { t } = useTranslation();
-  const { data, isFetching } = useGameProfile();
+  const { data, isLoading } = useGameProfile();
   const { data: streakDays } = useStreaks({ startDate: startOfMonth(subMonths(new Date(), 13)).toString() });
 
   const textStyle =
@@ -49,7 +49,7 @@ const Streak = () => {
 
   const freezeDays = useMemo(() => getFreezeDays(streakDays || []), [streakDays]);
 
-  if (isFetching) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <PlatformView style={styles.platformView}>

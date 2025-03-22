@@ -53,6 +53,10 @@ export const signOut = async () => {
 
   const isSignedIn = GoogleSignin.getCurrentUser() !== null;
   isSignedIn && (await GoogleSignin.revokeAccess());
+
+  if (auth().currentUser?.providerData.some((provider) => provider.providerId === 'apple.com')) {
+    await auth().signOut();
+  }
 };
 
 export const verify = async (params: VerifyParams) => {

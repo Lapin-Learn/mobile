@@ -100,7 +100,7 @@ const SignUp = () => {
             {t('signUp.alreadyHaveAccount')}
           </Text>
           <Link replace href='/auth/sign-in'>
-            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+            <Text style={StyleSheet.flatten([font.normal, fontSize.subhead, color.orange[500]])}>
               {t('signUp.signIn')}
             </Text>
           </Link>
@@ -141,7 +141,7 @@ const OtherSignIn = () => {
         variant='outline'
         style={otherSignInStyles.googleButton}>
         <IconPressable Icon={LogoGoogle} />
-        <Text>{t('signIn.continueWith', { name: 'Google' })}</Text>
+        <Text style={[font.medium, fontSize.callout, color.black]}>{t('signIn.continueWith', { name: 'Google' })}</Text>
       </Button>
     </View>
   );
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    marginBottom: 16,
   },
   subtitle: {
     width: '100%',
