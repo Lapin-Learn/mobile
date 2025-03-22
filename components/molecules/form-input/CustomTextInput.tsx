@@ -15,6 +15,8 @@ const CustomTextInput = ({ style, ...props }: TextInputProps) => {
       ])}
       placeholderTextColor={Styles.color.neutral[300].color}
       autoCapitalize='none'
+      returnKeyType='done'
+      blurOnSubmit={true}
       {...props}
     />
   );

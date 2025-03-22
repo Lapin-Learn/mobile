@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
 import { NavigationBar } from '~/components/molecules/NavigationBar';
@@ -94,7 +94,7 @@ const Verify = () => {
     <PlatformView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('verify.title')} headerLeftShown={true} />
-        <View style={styles.container}>
+        <View style={styles.container} onTouchStart={Keyboard.dismiss}>
           <View style={styles.instructionContainer}>
             <View style={styles.instructionTextContainer}>
               <Text
@@ -125,6 +125,8 @@ const Verify = () => {
                       textAlign='center'
                       allowFontScaling={false}
                       onBlur={field.onBlur}
+                      textContentType='oneTimeCode'
+                      autoComplete='one-time-code'
                       onChangeText={(text) => {
                         handleTextChange(text, i, field);
                       }}

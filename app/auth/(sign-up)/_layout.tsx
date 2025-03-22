@@ -1,5 +1,4 @@
-import { router, Stack } from 'expo-router';
-import { ChevronLeft } from 'lucide-react-native';
+import { Stack } from 'expo-router';
 
 const Layout = () => {
   return (
@@ -8,9 +7,6 @@ const Layout = () => {
         name='sign-up'
         options={{
           headerShown: false,
-          headerLeft: () => {
-            return <ChevronLeft size={24} onPress={() => router.back()} />;
-          },
         }}
       />
       <Stack.Screen

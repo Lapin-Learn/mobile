@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
         <NavigationBar title={t('forgotPassword.title')} headerLeftShown />
-        <View style={styles.container}>
+        <View style={styles.container} onTouchStart={Keyboard.dismiss}>
           <View style={styles.instructionContainer}>
             <View style={styles.instructionTextContainer}>
               <Text

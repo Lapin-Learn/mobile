@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import { ControllerInput } from '~/components/molecules/ControllerInput';
@@ -45,7 +45,7 @@ const ResetPassword = () => {
     <PlatformView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
         <NavigationBar title={t('resetPassword.title')} headerLeftShown={true} />
-        <View style={styles.container}>
+        <View style={styles.container} onTouchStart={Keyboard.dismiss}>
           <View style={styles.instructionContainer}>
             <View style={styles.instructionTextContainer}>
               <Text

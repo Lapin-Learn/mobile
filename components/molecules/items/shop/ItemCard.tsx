@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 import Styles from '~/constants/GlobalStyles';
 import { ItemEnum } from '~/lib/enums';
@@ -22,32 +23,32 @@ export const ItemCard = (props: ItemCardProps) => {
   const { name, image, price } = props;
 
   return (
-    <View style={styles.itemContainer}>
+    <Animated.View entering={FadeIn} style={styles.itemContainer}>
       <View style={styles.imageContainer}>
         <Image
           source={{ uri: image }}
           style={styles.image}
           contentFit='contain'
           contentPosition='center'
-          transition={500}
+          transition={800}
           priority='high'
         />
       </View>
       <View style={{ flexGrow: 1, flexShrink: 1 }}>
-        <View>
+        <Animated.View entering={FadeIn.delay(200)}>
           <Text style={styles.itemNameText}>{t(`shop.items.${name}.name`)}</Text>
           <Text style={styles.itemDescriptionText}>{t(`shop.items.${name}.description`)}</Text>
-        </View>
+        </Animated.View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={true}>
-          <View style={styles.itemPriceContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 16 }}>
+          <Animated.View entering={FadeIn.delay(200)} style={styles.itemPriceContainer}>
             {Object.entries(price).map(([key, value]) => (
               <ItemPriceCard key={key} amount={parseInt(key)} value={value} {...props} />
             ))}
-          </View>
+          </Animated.View>
         </ScrollView>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

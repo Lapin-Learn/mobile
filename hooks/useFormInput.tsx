@@ -38,9 +38,9 @@ export const useFormInput = <T,>({
       case 'password':
         return <PasswordInput placeholder={placeholder} {...inputProps} />;
       case 'number':
-        return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='numeric' />;
+        return <CustomTextInput placeholder={placeholder} keyboardType='numeric' {...inputProps} />;
       case 'email':
-        return <CustomTextInput placeholder={placeholder} {...inputProps} keyboardType='email-address' />;
+        return <CustomTextInput placeholder={placeholder} keyboardType='email-address' {...inputProps} />;
       case 'date':
         return <CustomDateInput placeholder={placeholder} props={props} {...inputProps} />;
       case 'select':

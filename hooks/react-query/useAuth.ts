@@ -122,14 +122,15 @@ export const useResendVerify = () => {
 
 export const useVerifySignUp = () => {
   const toast = useToast();
+  const { t } = useTranslation('auth');
   const createProfile = useCreateProfile();
   return useMutation({
     mutationFn: verify,
     onSuccess: async (data) => {
       createProfile.mutate(data.accessToken);
     },
-    onError: (error) => {
-      toast.show({ type: 'error', text1: error.message });
+    onError: () => {
+      toast.show({ type: 'error', text1: t('verify.invalidOtp') });
     },
   });
 };

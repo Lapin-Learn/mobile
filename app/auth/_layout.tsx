@@ -3,27 +3,36 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '~/hooks/zustand';
+import { crashlytics } from '~/lib/services';
 
 const AuthLayout = () => {
   const { status } = useAuth();
 
   const hideSplash = useCallback(async () => {
-    await SplashScreen.hideAsync();
-  }, []);
+    if (status !== 'idle') {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (error) {
+        crashlytics.recordError(error as Error);
+      }
+    }
+  }, [status]);
 
   useEffect(() => {
-    if (status !== 'idle') {
-      setTimeout(() => {
-        hideSplash();
-      }, 1000);
-    }
-  }, [hideSplash, status]);
+    const timer = setTimeout(hideSplash, 500);
+    return () => clearTimeout(timer);
+  }, [hideSplash]);
 
   return (
-    <Stack>
-      <Stack.Screen name='sign-in' options={{ headerShown: false }} />
-      <Stack.Screen name='(sign-up)' options={{ headerShown: false }} />
-      <Stack.Screen name='(forgot-password)' options={{ headerShown: false }} />
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+        animationDuration: 200,
+      }}>
+      <Stack.Screen name='sign-in' />
+      <Stack.Screen name='(sign-up)' />
+      <Stack.Screen name='(forgot-password)' />
     </Stack>
   );
 };

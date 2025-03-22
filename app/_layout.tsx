@@ -38,8 +38,6 @@ const RootLayout = () => {
   if (__DEV__) {
     crashlytics.setCrashlyticsCollectionEnabled(true);
     analytics.setAnalyticsCollectionEnabled(true);
-  } else {
-    // TODO: set up crashlytics and analytics for production
   }
 
   return (

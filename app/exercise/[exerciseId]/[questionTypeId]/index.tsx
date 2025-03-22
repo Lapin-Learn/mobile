@@ -33,6 +33,7 @@ const QuestionTypeScreen = () => {
     questionTypeId: string;
     bandScore?: BandScoreEnum;
   }>();
+
   const { data: questionTypes } = useQuestionTypes({ skill: exerciseId });
   const { setCurrentQuestionType } = useCurrentQuestionTypeStore();
   const currentQuestionType = questionTypes?.find(
@@ -41,6 +42,13 @@ const QuestionTypeScreen = () => {
 
   const { bandScore: currentBandScore } = currentQuestionType?.progress ?? { bandScore: BandScoreEnum.PRE_IELTS };
   const { t } = useTranslation('translation');
+
+  const isAvailable = checkAvailable(bandScore as BandScoreEnum, currentBandScore);
+  const { data: lessons } = useListLessons({
+    questionTypeId,
+    bandScore: bandScore ?? currentBandScore,
+    enabled: isAvailable,
+  });
 
   useEffect(() => {
     setCurrentQuestionType(currentQuestionType ?? null);
@@ -54,14 +62,6 @@ const QuestionTypeScreen = () => {
     const targetIndex = Object.values(BandScoreEnum).findIndex((b) => b === bandScore);
     return targetIndex - 1 === currentIndex;
   }, [currentBandScore, bandScore]);
-
-  const isAvailable = checkAvailable(bandScore as BandScoreEnum, currentBandScore);
-
-  const { data: lessons } = useListLessons({
-    questionTypeId,
-    bandScore: bandScore ?? currentBandScore,
-    enabled: isAvailable,
-  });
 
   return (
     <SafeAreaView>

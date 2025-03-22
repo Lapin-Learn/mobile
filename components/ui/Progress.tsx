@@ -5,8 +5,11 @@ import Animated, {
   StyleProps,
   interpolate,
   useAnimatedStyle,
-  useDerivedValue,
+  useSharedValue,
+  withDelay,
+  withSequence,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import Styles from '~/constants/GlobalStyles';
@@ -77,14 +80,23 @@ const progressStyles = StyleSheet.create({
 export { Progress };
 
 const Indicator = ({ value, style }: { value?: number | null; style: { [key: string]: string } }) => {
-  const progress = useDerivedValue(() => value ?? 0);
+  const progress = useSharedValue(0);
+
+  React.useEffect(() => {
+    progress.value = withSequence(
+      withDelay(300, withTiming(0, { duration: 0 })),
+      withSpring(value ?? 0, {
+        damping: 15,
+        stiffness: 100,
+      })
+    );
+  }, [value]);
 
   const indicator = useAnimatedStyle(() => {
     return {
-      width: withSpring(`${interpolate(progress.value, [0, 100], [1, 100], Extrapolation.CLAMP)}%`, {
-        overshootClamping: true,
-      }),
+      width: `${interpolate(progress.value, [0, 100], [1, 100], Extrapolation.CLAMP)}%`,
       height: '100%',
+      transform: [{ scale: interpolate(progress.value, [0, value ?? 0], [0.95, 1]) }],
       ...Styles.backgroundColor.orange[500],
       ...style,
     };
