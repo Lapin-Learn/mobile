@@ -13,6 +13,10 @@ const PasswordInput = ({ style, ...props }: TextInputProps) => {
         placeholderTextColor={Styles.color.neutral[300].color}
         {...props}
         secureTextEntry={!showPassword}
+        returnKeyType='done'
+        blurOnSubmit={true}
+        textContentType='oneTimeCode'
+        autoComplete='off'
       />
       <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.toggleButton}>
         {!showPassword ? <EyeIcon size={24} color='#b4b4b4' /> : <EyeOffIcon size={24} color='#b4b4b4' />}

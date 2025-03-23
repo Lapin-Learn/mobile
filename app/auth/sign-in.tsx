@@ -3,7 +3,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
@@ -39,14 +39,14 @@ const SignIn = () => {
   const signInMutation = useSignIn();
 
   const onSubmit = (data: SignInFormField) => {
+    Keyboard.dismiss();
     signInMutation.mutate(data);
   };
 
   return (
     <PlatformView>
       <NavigationBar title={t('signIn.welcomeBack')} />
-
-      <View style={styles.content}>
+      <View style={styles.content} onTouchStart={Keyboard.dismiss}>
         <Text style={styles.subtitle}>{t('signIn.enterDetails')}</Text>
         <View style={styles.formContainer}>
           <View style={styles.gapY6}>
@@ -55,6 +55,8 @@ const SignIn = () => {
               label={t('signIn.email')}
               placeholder={t('signIn.emailPlaceholder')}
               error={errors.email}
+              type='email'
+              blurOnSubmit={true}
             />
 
             <ControllerInput
@@ -63,6 +65,7 @@ const SignIn = () => {
               placeholder={t('signIn.passwordPlaceholder')}
               error={errors.password}
               type='password'
+              onSubmitEditing={handleSubmit(onSubmit)}
             />
 
             <View style={styles.forgotPassword}>
@@ -127,7 +130,7 @@ const OtherSignIn = () => {
         size='lg'
         style={otherSignInStyles.googleButton}>
         <IconPressable Icon={LogoGoogle} />
-        <Text>{t('signIn.continueWith', { name: 'Google' })}</Text>
+        <Text style={[font.medium, fontSize.callout, color.black]}>{t('signIn.continueWith', { name: 'Google' })}</Text>
       </Button>
     </View>
   );

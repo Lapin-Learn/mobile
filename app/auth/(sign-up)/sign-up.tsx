@@ -3,7 +3,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { Link } from 'expo-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native';
 import { z } from 'zod';
 
 import LogoGoogle from '~/assets/images/google.svg';
@@ -53,7 +53,7 @@ const SignUp = () => {
   return (
     <PlatformView>
       <NavigationBar title={t('signUp.title')} />
-      <View style={styles.content}>
+      <View style={styles.content} onTouchStart={Keyboard.dismiss}>
         <Text style={styles.subtitle}>{t('signUp.subtitle')}</Text>
         <View style={styles.formContainer}>
           <View style={styles.gapY6}>
@@ -100,7 +100,7 @@ const SignUp = () => {
             {t('signUp.alreadyHaveAccount')}
           </Text>
           <Link replace href='/auth/sign-in'>
-            <Text style={StyleSheet.flatten([font.medium, fontSize.footnote, color.orange[500]])}>
+            <Text style={StyleSheet.flatten([font.normal, fontSize.subhead, color.orange[500]])}>
               {t('signUp.signIn')}
             </Text>
           </Link>
@@ -141,7 +141,7 @@ const OtherSignIn = () => {
         variant='outline'
         style={otherSignInStyles.googleButton}>
         <IconPressable Icon={LogoGoogle} />
-        <Text>{t('signIn.continueWith', { name: 'Google' })}</Text>
+        <Text style={[font.medium, fontSize.callout, color.black]}>{t('signIn.continueWith', { name: 'Google' })}</Text>
       </Button>
     </View>
   );
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    marginBottom: 16,
   },
   subtitle: {
     width: '100%',
