@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { TextClassContext } from '~/components/ui/Text';
 import Styles from '~/constants/GlobalStyles';
@@ -113,25 +114,43 @@ const buttonTextSizeStyles = StyleSheet.create({
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'black';
   size?: 'default' | 'sm' | 'lg' | 'icon' | 'md';
+  disabled?: boolean;
+  style?: any;
 };
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-  // eslint-disable-next-line react/prop-types
   ({ style, variant = 'default', size = 'default', disabled = false, ...props }, ref) => {
+    const scale = useSharedValue(1);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ scale: scale.value }],
+    }));
+
     return (
       <TextClassContext.Provider
         value={StyleSheet.flatten([buttonTextStyles.root, buttonTextStyles[variant], buttonTextSizeStyles[size]])}>
-        <Pressable
-          style={StyleSheet.flatten([
-            buttonStyles.root,
-            buttonStyles[variant],
-            buttonSizeStyles[size],
-            disabled && buttonStyles.disabled,
-            style,
-          ])}
+        <AnimatedPressable
+          style={[
+            StyleSheet.flatten([
+              buttonStyles.root,
+              buttonStyles[variant],
+              buttonSizeStyles[size],
+              disabled && buttonStyles.disabled,
+              style,
+            ]),
+            animatedStyle,
+          ]}
           ref={ref}
           role='button'
           disabled={disabled}
+          onPressIn={() => {
+            scale.value = withSpring(0.95);
+          }}
+          onPressOut={() => {
+            scale.value = withSpring(1);
+          }}
           {...props}
         />
       </TextClassContext.Provider>
