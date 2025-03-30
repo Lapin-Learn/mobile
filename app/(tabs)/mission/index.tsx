@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AppState, StyleSheet, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { Loading } from '~/components/molecules/Loading';
@@ -13,21 +13,43 @@ const Mission = () => {
   const { t } = useTranslation('mission');
   const { data: missionData, isFetching } = useMissions();
 
-  const monthIndex = new Date().getMonth();
-  const NewDate = new Date().setHours(24, 0, 0, 0);
-  const NewMonth = new Date().setMonth(monthIndex + 1, 0);
+  const now = useMemo(() => new Date(), []);
+  const monthIndex = now.getMonth();
 
-  const remainingDailyTime = useCountdown(NewDate);
-  const remainingMonthlyTime = useCountdown(NewMonth);
+  const nextDay = useMemo(() => {
+    const date = new Date(now);
+    date.setDate(date.getDate() + 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }, [now]);
 
-  const monthMission = t('month_mission', {
-    month: (t('calendar.months', { returnObjects: true, ns: 'translation' }) as string[])[monthIndex],
-  });
+  const nextMonth = useMemo(() => {
+    const date = new Date(now);
+    date.setDate(1);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(0);
+    date.setHours(23, 59, 59, 999);
+    return date;
+  }, [now]);
+
+  const remainingDailyTime = useCountdown(nextDay.getTime());
+  const remainingMonthlyTime = useCountdown(nextMonth.getTime());
+
+  const dailyMissions = useMemo(() => missionData?.filter((item) => item.interval === 'daily') || [], [missionData]);
+  const monthlyMissions = useMemo(
+    () => missionData?.filter((item) => item.interval === 'monthly') || [],
+    [missionData]
+  );
+
+  const monthMission = useMemo(
+    () =>
+      t('month_mission', {
+        month: (t('calendar.months', { returnObjects: true, ns: 'translation' }) as string[])[monthIndex],
+      }),
+    [t, monthIndex]
+  );
 
   if (isFetching) return <Loading />;
-
-  const dailyMissions = missionData?.filter((item) => item.interval === 'daily') || [];
-  const monthlyMissions = missionData?.filter((item) => item.interval === 'monthly') || [];
 
   return (
     <PlatformView style={{ ...Styles.backgroundColor.blue[100], paddingBottom: 0 }}>
@@ -43,42 +65,41 @@ const Mission = () => {
         <MissionIcon.Month code={monthIndex + 1} />
       </View>
       <View style={styles.scrollViewContainer}>
-        <ScrollView>
-          {dailyMissions?.length > 0 && (
-            <MissionSection title={t('types.daily')} timeRemaining={remainingDailyTime} missions={dailyMissions} />
-          )}
-          {monthlyMissions?.length > 0 && (
-            <MissionSection
-              title={t('types.monthly')}
-              timeRemaining={remainingMonthlyTime}
-              missions={monthlyMissions}
-            />
-          )}
-        </ScrollView>
+        {dailyMissions.length > 0 && (
+          <MissionSection title={t('types.daily')} timeRemaining={remainingDailyTime} missions={dailyMissions} />
+        )}
+        {monthlyMissions.length > 0 && (
+          <MissionSection title={t('types.monthly')} timeRemaining={remainingMonthlyTime} missions={monthlyMissions} />
+        )}
       </View>
     </PlatformView>
   );
 };
 
 const useCountdown = (targetTime: number) => {
-  const [remainingTime, setRemainingTime] = useState(targetTime - new Date().getTime());
+  const calculateRemainingTime = () => Math.max(0, targetTime - new Date().getTime());
+
+  const [remainingTime, setRemainingTime] = useState(calculateRemainingTime);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      AppState.addEventListener('change', () => {
-        setRemainingTime(targetTime - new Date().getTime());
-      });
+    let isSubscribed = true;
 
-      setRemainingTime((prevTime) => {
-        if (prevTime <= 0) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prevTime - 1000;
-      });
-    }, 1000);
+    const updateRemainingTime = () => {
+      if (isSubscribed) {
+        setRemainingTime(calculateRemainingTime());
+      }
+    };
 
-    return () => clearInterval(interval);
+    const interval = setInterval(updateRemainingTime, 1000);
+    const subscription = AppState.addEventListener('change', updateRemainingTime);
+
+    updateRemainingTime();
+
+    return () => {
+      isSubscribed = false;
+      clearInterval(interval);
+      subscription.remove();
+    };
   }, [targetTime]);
 
   return remainingTime;

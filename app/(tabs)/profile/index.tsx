@@ -17,6 +17,11 @@ import { useSignOut } from '~/hooks/react-query/useAuth';
 import { useDeleteAccount, useUserProfile } from '~/hooks/react-query/useUser';
 import { firestore } from '~/lib/services';
 
+type ModalState = {
+  deleteAccount: boolean;
+  changeLanguage: boolean;
+};
+
 const termsData = [
   {
     label: 'terms.privacy_policy',
@@ -34,42 +39,55 @@ const termsData = [
 
 const Index = () => {
   const { t } = useTranslation('profile');
-  const { data, isFetching, error } = useUserProfile();
+  const { data, isFetching, error, refetch } = useUserProfile();
   const signOut = useSignOut();
   const deleteAccount = useDeleteAccount();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalState, setModalState] = useState<ModalState>({
+    deleteAccount: false,
+    changeLanguage: false,
+  });
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
-  const [showChangeLanguage, setShowChangeLanguage] = useState(false);
 
-  const settingsData = [
-    {
-      label: t('settings.change_language.title'),
-      visible: true,
-      action: () => setShowChangeLanguage(true),
-    },
-    { label: t('settings.delete_account.title'), action: () => setIsModalVisible(true), visible: showDeleteAccount },
-    {
-      label: t('sign_out'),
-      action: () => signOut.mutate(),
-      rightIcon: LogOut,
-      style: {
-        ...Styles.color.red['500'],
+  const settingsData = useMemo(
+    () => [
+      {
+        label: t('settings.change_language.title'),
+        visible: true,
+        action: () => setModalState((prev) => ({ ...prev, changeLanguage: true })),
       },
-      visible: true,
-    },
-  ];
+      {
+        label: t('settings.delete_account.title'),
+        action: () => setModalState((prev) => ({ ...prev, deleteAccount: true })),
+        visible: showDeleteAccount,
+      },
+      {
+        label: t('sign_out'),
+        action: () => signOut.mutate(),
+        rightIcon: LogOut,
+        style: {
+          ...Styles.color.red['500'],
+        },
+        visible: true,
+      },
+    ],
+    [t, showDeleteAccount]
+  );
 
   const handleEdit = () => {
     router.push('/edit-profile' as Href);
   };
 
-  firestore
-    .collection('Screen')
-    .doc('profile')
-    .onSnapshot((docSnapshot) => {
-      const showDeleteAccount = docSnapshot.data()?.showDeleteAccount;
-      setShowDeleteAccount(showDeleteAccount);
-    });
+  useEffect(() => {
+    const unsubscribe = firestore
+      .collection('Screen')
+      .doc('profile')
+      .onSnapshot((docSnapshot) => {
+        const showDeleteAccount = docSnapshot.data()?.showDeleteAccount;
+        setShowDeleteAccount(showDeleteAccount);
+      });
+
+    return () => unsubscribe();
+  }, []);
 
   const profileData = useMemo(() => {
     const defaultValue = '--';
@@ -81,11 +99,21 @@ const Index = () => {
   }, [data]);
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <PlatformView>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error.message}</Text>
+          <Button onPress={() => refetch()}>
+            <Text style={styles.retryText}>{'Retry'}</Text>
+          </Button>
+        </View>
+      </PlatformView>
+    );
   }
 
   const handleDeleteAccount = () => {
     deleteAccount.mutate();
+    setModalState((prev) => ({ ...prev, deleteAccount: false }));
   };
 
   return (
@@ -141,10 +169,10 @@ const Index = () => {
             />
           </ProfileSection>
 
-          {isModalVisible && showDeleteAccount && (
+          {modalState.deleteAccount && showDeleteAccount && (
             <DeleteAccountModal
-              visible={isModalVisible}
-              setVisible={setIsModalVisible}
+              visible={modalState.deleteAccount}
+              setVisible={(visible) => setModalState((prev) => ({ ...prev, deleteAccount: visible }))}
               content={{
                 title: t('settings.delete_account.title'),
                 message: t('settings.delete_account.description'),
@@ -152,11 +180,14 @@ const Index = () => {
                 cancelText: t('settings.delete_account.cancel_button'),
                 isPending: deleteAccount.isPending,
                 confirmAction: handleDeleteAccount,
-                cancelAction: () => setIsModalVisible(false),
+                cancelAction: () => setModalState((prev) => ({ ...prev, deleteAccount: false })),
               }}
             />
           )}
-          <ChangeLanguageModal onClose={setShowChangeLanguage} showModal={showChangeLanguage} />
+          <ChangeLanguageModal
+            onClose={(visible) => setModalState((prev) => ({ ...prev, changeLanguage: visible }))}
+            showModal={modalState.changeLanguage}
+          />
           <ProfileSection style={{ marginBottom: 32 }}>
             <ProfileSection.Title label={t('settings.title')} textStyle={{ ...Styles.fontSize['title-4'] }} />
             <ProfileSection.List data={settingsData.filter((data) => data.visible)} />
@@ -274,6 +305,24 @@ const styles = StyleSheet.create({
     ...Styles.color.orange['500'],
     ...Styles.font.bold,
     ...Styles.fontSize.body,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    gap: 16,
+  },
+  errorText: {
+    ...Styles.font.medium,
+    ...Styles.fontSize.body,
+    ...Styles.color.red[500],
+    textAlign: 'center',
+  },
+  retryText: {
+    ...Styles.font.medium,
+    ...Styles.fontSize.body,
+    ...Styles.color.white,
   },
 });
 export default Index;
