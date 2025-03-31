@@ -1,3 +1,5 @@
+import { addDays, endOfDay, endOfMonth, format, startOfDay, startOfTomorrow } from 'date-fns';
+import { enUS as en, vi } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppState, StyleSheet, Text, View } from 'react-native';
@@ -8,6 +10,8 @@ import { MissionSection } from '~/components/molecules/mission/MissionSection';
 import PlatformView from '~/components/templates/PlatformView';
 import Styles from '~/constants/GlobalStyles';
 import { useMissions } from '~/hooks/react-query/useMission';
+import i18n from '~/i18n';
+import { capitalizeFirstLetter } from '~/lib/utils';
 
 const Mission = () => {
   const { t } = useTranslation('mission');
@@ -16,21 +20,8 @@ const Mission = () => {
   const now = useMemo(() => new Date(), []);
   const monthIndex = now.getMonth();
 
-  const nextDay = useMemo(() => {
-    const date = new Date(now);
-    date.setDate(date.getDate() + 1);
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }, [now]);
-
-  const nextMonth = useMemo(() => {
-    const date = new Date(now);
-    date.setDate(1);
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(0);
-    date.setHours(23, 59, 59, 999);
-    return date;
-  }, [now]);
+  const nextDay = useMemo(() => startOfDay(addDays(startOfTomorrow(), 1)), [now]);
+  const nextMonth = useMemo(() => endOfDay(endOfMonth(now)), [now]);
 
   const remainingDailyTime = useCountdown(nextDay.getTime());
   const remainingMonthlyTime = useCountdown(nextMonth.getTime());
@@ -44,7 +35,7 @@ const Mission = () => {
   const monthMission = useMemo(
     () =>
       t('month_mission', {
-        month: (t('calendar.months', { returnObjects: true, ns: 'translation' }) as string[])[monthIndex],
+        month: capitalizeFirstLetter(format(now, 'MMMM', i18n.language === 'vi' ? { locale: vi } : { locale: en })),
       }),
     [t, monthIndex]
   );
