@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useMemo } from 'react';
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 
 import Listening from '~/assets/images/map/listening.jpg';
@@ -21,7 +22,7 @@ const skillMapping: Record<SkillEnum, any> = {
 };
 
 export const SkillCard = ({ name }: SkillCardProps) => {
-  const height = Dimensions.get('window').height;
+  const height = useMemo(() => Dimensions.get('window').height, []);
   const handleExercise = () => {
     return router.push(`/exercise/${name}`);
   };
@@ -34,7 +35,8 @@ export const SkillCard = ({ name }: SkillCardProps) => {
         width: '100%',
         flex: 1,
       }}
-      onPress={handleExercise}>
+      onPress={handleExercise}
+      activeOpacity={0.7}>
       <View style={{ width: '100%', aspectRatio: 1 }}>
         <Image resizeMethod='scale' source={skillMapping[name]} style={{ width: '100%', height: '100%' }} />
       </View>

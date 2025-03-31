@@ -1,8 +1,8 @@
 // components/molecules/useFormInput.ts
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { subDays } from 'date-fns';
-import { useState } from 'react';
-import { FieldValues, useController, UseControllerProps } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FieldValues, UseControllerProps, useController } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Modal, Platform, Pressable, Text, TextInputProps, View } from 'react-native';
 
@@ -21,9 +21,28 @@ const CustomDateInput = <T,>({ props, placeholder, ...inputProps }: CustomDateIn
   const [localValue, setLocalValue] = useState<Date | undefined>();
   const { t } = useTranslation('profile');
 
+  useEffect(() => {
+    if (field.value) {
+      setLocalValue(new Date(field.value));
+    }
+  }, [field.value]);
+
   const handleSelect = () => {
-    field.onChange(localValue);
+    if (localValue) {
+      field.onChange(localValue);
+      setShowDatePicker(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setLocalValue(field.value ? new Date(field.value) : undefined);
     setShowDatePicker(false);
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    if (selectedDate) {
+      setLocalValue(selectedDate);
+    }
   };
 
   return (
@@ -39,18 +58,14 @@ const CustomDateInput = <T,>({ props, placeholder, ...inputProps }: CustomDateIn
       </View>
       {showDatePicker &&
         (Platform.OS === 'ios' ? (
-          <Modal
-            animationType='slide'
-            transparent={true}
-            visible={showDatePicker}
-            onRequestClose={() => setShowDatePicker(false)}>
+          <Modal animationType='slide' transparent={true} visible={showDatePicker} onRequestClose={handleCancel}>
             <Pressable
               style={{
                 flex: 1,
-                backgroundColor: 'transparent',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
                 justifyContent: 'flex-end',
               }}
-              onPress={() => setShowDatePicker(false)}>
+              onPress={handleCancel}>
               <Pressable>
                 <View
                   style={{
@@ -62,8 +77,9 @@ const CustomDateInput = <T,>({ props, placeholder, ...inputProps }: CustomDateIn
                   <View
                     style={{
                       width: '100%',
-                      flexDirection: 'row-reverse',
-                      paddingVertical: 4,
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                      padding: 4,
                       borderBottomWidth: 1,
                       borderBottomColor: Styles.color.border.color,
                       ...Styles.backgroundColor.background,
@@ -81,16 +97,14 @@ const CustomDateInput = <T,>({ props, placeholder, ...inputProps }: CustomDateIn
                   </View>
                   <View>
                     <DateTimePicker
-                      value={field.value ? new Date(field.value) : subDays(new Date(), 1)}
+                      value={localValue || subDays(new Date(), 1)}
                       mode='date'
                       display='spinner'
                       textColor='black'
                       themeVariant='light'
                       minimumDate={subDays(new Date(), 365 * 100)} // 100 years ago
                       maximumDate={subDays(new Date(), 1)} // yesterday
-                      onChange={(_, selectedDate) => {
-                        setLocalValue(selectedDate);
-                      }}
+                      onChange={handleDateChange}
                     />
                   </View>
                 </View>
