@@ -1,4 +1,4 @@
-import { addDays, endOfDay, endOfMonth, format, startOfDay, startOfTomorrow } from 'date-fns';
+import { endOfDay, endOfMonth, format, startOfDay, startOfTomorrow } from 'date-fns';
 import { enUS as en, vi } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ const Mission = () => {
   const now = useMemo(() => new Date(), []);
   const monthIndex = now.getMonth();
 
-  const nextDay = useMemo(() => startOfDay(addDays(startOfTomorrow(), 1)), [now]);
+  const nextDay = useMemo(() => startOfDay(startOfTomorrow()), [now]);
   const nextMonth = useMemo(() => endOfDay(endOfMonth(now)), [now]);
 
   const remainingDailyTime = useCountdown(nextDay.getTime());
