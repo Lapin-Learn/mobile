@@ -41,30 +41,26 @@ export const RecordBar = ({ question, evaluate }: RecordBarProps) => {
   }, [soundType]);
 
   async function startRecording() {
-    try {
-      if (permissionResponse && !permissionResponse.granted) {
-        if (permissionResponse.canAskAgain) {
-          await requestPermission();
-        } else {
-          Alert.alert(t('recording.permission.title'), t('recording.permission.message'), [
-            {
-              text: t('recording.openSettings'),
-              onPress: () => Linking.openSettings(),
-            },
-            { text: t('recording.cancel'), style: 'cancel' },
-          ]);
-        }
+    if (permissionResponse && !permissionResponse.granted) {
+      if (permissionResponse.canAskAgain) {
+        await requestPermission();
+      } else {
+        Alert.alert(t('recording.permission.title'), t('recording.permission.message'), [
+          {
+            text: t('recording.openSettings'),
+            onPress: () => Linking.openSettings(),
+          },
+          { text: t('recording.cancel'), style: 'cancel' },
+        ]);
       }
-
-      await configureRecordSession();
-
-      if (uri) deleteUri(uri!);
-
-      const recordObject = await Audio.Recording.createAsync(recordingOptions);
-      setRecord({ recording: recordObject.recording, status: recordObject.status });
-    } catch (err) {
-      console.error('Failed to start recording', err);
     }
+
+    await configureRecordSession();
+
+    if (uri) deleteUri(uri!);
+
+    const recordObject = await Audio.Recording.createAsync(recordingOptions);
+    setRecord({ recording: recordObject.recording, status: recordObject.status });
   }
 
   async function stopRecording() {

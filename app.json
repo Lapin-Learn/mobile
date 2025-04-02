@@ -80,7 +80,16 @@
       [
         "expo-av",
         {
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone to record your voice and play audio for speaking practice.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera.",
+          "audioRecordingPermission": "Allow $(PRODUCT_NAME) to record audio.",
+          "imagePickerPermission": "Allow $(PRODUCT_NAME) to access your photos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "$(PRODUCT_NAME) would like to access your photos to upload your profile picture."
         }
       ],
       [

@@ -2,5 +2,17 @@
   "EXCEED_MAX_FILE_SIZE": {
     "title": "File quá lớn",
     "description": "Vui lòng chọn file nhỏ hơn {{size}}"
+  },
+  "PERMISSION_DENIED": {
+    "title": "Quyền truy cập bị từ chối",
+    "description": "Bạn cần chỉnh sửa quyền truy cập của ứng dụng trong cài đặt của thiết bị"
+  },
+  "UPLOAD_FAILED": {
+    "title": "Tải lên thất bại",
+    "description": "Có lỗi xảy ra trong quá trình tải lên. Vui lòng thử lại sau"
+  },
+  "UNKNOWN_ERROR": {
+    "title": "Lỗi không xác định",
+    "description": "Có lỗi xảy ra trong quá trình tải lên. Vui lòng thử lại sau"
   }
 }
