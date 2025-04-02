@@ -2,7 +2,7 @@ import { endOfDay, endOfMonth, format, startOfDay, startOfTomorrow } from 'date-
 import { enUS as en, vi } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, StyleSheet, Text, View } from 'react-native';
+import { AppState, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import MissionIcon from '~/components/icons/MissionIcon';
 import { Loading } from '~/components/molecules/Loading';
@@ -55,14 +55,20 @@ const Mission = () => {
         </View>
         <MissionIcon.Month code={monthIndex + 1} />
       </View>
-      <View style={styles.scrollViewContainer}>
-        {dailyMissions.length > 0 && (
-          <MissionSection title={t('types.daily')} timeRemaining={remainingDailyTime} missions={dailyMissions} />
-        )}
-        {monthlyMissions.length > 0 && (
-          <MissionSection title={t('types.monthly')} timeRemaining={remainingMonthlyTime} missions={monthlyMissions} />
-        )}
-      </View>
+      <ScrollView style={styles.scrollViewContainer}>
+        <View style={styles.scrollViewContainer}>
+          {dailyMissions.length > 0 && (
+            <MissionSection title={t('types.daily')} timeRemaining={remainingDailyTime} missions={dailyMissions} />
+          )}
+          {monthlyMissions.length > 0 && (
+            <MissionSection
+              title={t('types.monthly')}
+              timeRemaining={remainingMonthlyTime}
+              missions={monthlyMissions}
+            />
+          )}
+        </View>
+      </ScrollView>
     </PlatformView>
   );
 };

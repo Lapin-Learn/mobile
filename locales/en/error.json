@@ -2,5 +2,17 @@
   "EXCEED_MAX_FILE_SIZE": {
     "title": "File size is too large",
     "description": "Please select file < {{size}}"
+  },
+  "PERMISSION_DENIED": {
+    "title": "Permission Denied",
+    "description": "You need to edit the app's access permissions in the device settings"
+  },
+  "UPLOAD_FAILED": {
+    "title": "Upload Failed",
+    "description": "An error occurred during the upload process. Please try again later"
+  },
+  "UNKNOWN_ERROR": {
+    "title": "Unknown Error",
+    "description": "An error occurred during the upload process. Please try again later"
   }
 }
